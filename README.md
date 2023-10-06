@@ -1,5 +1,10 @@
 ### Willkommen im Projekt GovLearn!
 
+## IDE
+Wusstest du, dass du Intellij und alle JetBrain Produkte als Student kostenlos nutzen kannst?
+Mehr Informationen hier: https://www.jetbrains.com/de-de/lp/cpp-leaflet/students/ <br>
+Eine Alternative bietet Visual Studio Code: https://code.visualstudio.com/
+
 ## Docker Guide
 Um das Projekt GovLearn möglichst einfach auf verschiedenen Betriebssystemen zu entwickeln,
 wird Docker verwendet. Installiere die Docker Engine zunächst mit den folgenden Schritten: 
@@ -12,10 +17,10 @@ Dies ist eine Voraussetzung, um die Datenbank zu starten.
 Die Datenbank lässt sich ganz einfach mit Docker starten. 
 Öffne ein Terminal deiner Wahl und navigiere in das root Verzeichnis von GovLearn.
 Führe hier das Kommando `docker-compose up` aus. PostgreSQL wird gestartet und ist unter dem Port 5432 erreichbar.
-Anmeldedaten:
-User: `postgresUser`
-Passwort: `postgresPassword`
-Datenbank: `govlearn`;
+Anmeldedaten:<br>
+User: `postgresUser`<br>
+Passwort: `postgresPassword`<br>
+Datenbank: `govlearn`<br>
 Daten werden persistent lokal im Ordner postgres-data gespeichert.
 Sollte dieser bei dir fehlen, erstelle ihn im root Verzeichnis des Projekts.
 Um die Datenbank zurückzusetzen, kannst du alle Inhalte aus dem Ordner löschen.
@@ -42,4 +47,4 @@ Achte darauf, dass das Frontend nicht bereits gestartet ist oder ein anderes Pro
 
 Viel Erfolg & melde dich gerne bei Fragen bei mir.
 
-Jan 
+Jan
