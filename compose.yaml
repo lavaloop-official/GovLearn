@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    container_name: postgres-container
+    restart: "no"
+    environment:
+      POSTGRES_PASSWORD: postgresPassword
+      POSTGRES_USER: postgresUser
+      POSTGRES_DB: govlearn
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
