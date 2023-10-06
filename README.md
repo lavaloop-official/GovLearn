@@ -1,4 +1,3 @@
-# Readme GovLean
 ### Willkommen im Projekt GovLearn!
 
 ## Docker Guide
