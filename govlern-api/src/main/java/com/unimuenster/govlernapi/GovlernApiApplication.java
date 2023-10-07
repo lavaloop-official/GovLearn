@@ -10,4 +10,5 @@ public class GovlernApiApplication {
 		SpringApplication.run(GovlernApiApplication.class, args);
 	}
 
+
 }
