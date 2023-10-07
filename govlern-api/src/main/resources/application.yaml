@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/govlearn
+    username: postgresUser
+    password: postgresPassword
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+springdoc:
+  api-docs:
+    path: /api-path
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+server:
+  port: 8080
+  address: 0.0.0.0
