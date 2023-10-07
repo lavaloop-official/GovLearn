@@ -15,7 +15,7 @@ Dies ist eine Voraussetzung, um die Datenbank zu starten.
 
 ## PostgreSQL - Datenbank Guide
 Die Datenbank lässt sich ganz einfach mit Docker starten. 
-Öffne ein Terminal deiner Wahl und navigiere in das root Verzeichnis von GovLearn.
+Öffne ein Terminal deiner Wahl und navigiere in das Verzeichnis govlearn-api.
 Führe hier das Kommando `docker-compose up` aus. PostgreSQL wird gestartet und ist unter dem Port 5432 erreichbar.
 Anmeldedaten:<br>
 User: `postgresUser`<br>
@@ -27,23 +27,26 @@ Um die Datenbank zurückzusetzen, kannst du alle Inhalte aus dem Ordner löschen
 
 ## React - Frontend Guide
 Um mit React zu arbeiten, musst du die Node.js Runtime installieren. Sie ermöglicht das Ausführen von JavaScript.
-Lade sie hier herunter und installiere sie: https://nodejs.org/en/download .
+Lade sie hier herunter und installiere sie: https://nodejs.org/en/download.
 Wenn du dich mit JavaScript Entwicklung bereits auskennst, kannst du auch den Node Version Manager (nvm) verwenden.
 
 Nun bist du bereit mit der Frontendentwicklung zu beginnen. Starte ein Terminal und navigiere in den govlearn-client Ordner.
 Hier musst du vor dem ersten Start des Frontends zunächst `npm install` ausführen, um die Abhängigkeiten der App zu installieren.
-Nun kannst du React mit `npm run dev` starten. Wechsel in deinen Browser und gebe in der URL Zeile `localhost` ein.
+Nun kannst du React mit `npm run dev` starten. Wechsel in deinen Browser und gebe in der URL Zeile http://localhost ein.
 
-## Backend Guide
-Deine Meinung ist gefragt, es besteht die Möglichkeit Flask (Python), Spring Boot (Java) oder Express (JavaScript) zu verwenden.
+## Spring Boot - Backend Guide
+Damit du das Backend starten kannst, musst du erstmal Java 17 installieren. Eine Erklärung findest du hier https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-BCE568C9-93D3-49F4-9B0C-9DD4A3419792, wie auch in diversen YouTube Anleitungen.
+Lade zunächst alle Maven Abhängigkeiten herunter. Je nach IDE funktioniert es anders. Starte nun die Datenbank mit Docker, da Spring Boot ohne sie nicht lauffähig ist.
+Öffne den Ordner govlearn-api und navigiere zu GovlearnApiApplication.java. Hier kannst du in Intellij auf ausführen klicken. Die Swagger Dokumentation findest du im Browser unter http://localhost:8080/swagger-ui.html.
 
 ## Deployment
-Mit Docker kannst du das Frontend bereits deployen. Dazu musst du wieder mit dem Terminal nach govlearn-client
-navigieren und dort `docker build -t govlearn-frontend .` ausführen. 
+Mit Docker kannst du das Frontend und Backend bereits deployen. Dazu musst du wieder mit dem Terminal nach govlearn-client
+navigieren und dort `docker build -t govlearn-frontend .` ausführen.
+Navigiere ins Backend und führe dort `docker build -t govlearn-backend .` aus.
 Du hast nun einen Docker Container für das Frontend erstellt (im Container läuft der Webserver Nginx).
-Um den Container zu starten, verwende den Befehl `docker run -p 80:80 govlearn-frontend`.
-Damit ist das Frontend wie in der Entwicklung im Browser unter `localhost` erreichbar.
-Achte darauf, dass das Frontend nicht bereits gestartet ist oder ein anderes Program auf Port 80 läuft.
+Um die Container zu starten, gehe wieder ins root Verzeichnis und verwende den Befehl `docker compose -f compose-local.yaml up`.
+Damit sind das Frontend, Backend und Datenbank weiterhin unter den gleichen URLs wie in der Entwicklung erreichbar.
+Achte darauf, dass das keine anderen Programme auf den Ports 80, 8080 und 5432 laufen.
 
 Viel Erfolg & melde dich gerne bei Fragen bei mir.
 

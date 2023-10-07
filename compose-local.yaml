@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres
+    hostname: postgres
+    restart: "no"
+    environment:
+      POSTGRES_PASSWORD: postgresPassword
+      POSTGRES_USER: postgresUser
+      POSTGRES_DB: govlearn
+    volumes:
+      - govlearn-postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  backend:
+    image: govlearn-backend
+    hostname: backend
+    restart: "no"
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    links:
+      - db
+  frontend:
+    image: govlearn-frontend
+    hostname: frontend
+    restart: "no"
+    depends_on:
+      - backend
+    ports:
+      - 80:80
+    links:
+      - backend
+volumes:
+  govlearn-postgres:

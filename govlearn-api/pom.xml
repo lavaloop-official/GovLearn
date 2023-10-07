@@ -10,6 +10,7 @@
 	</parent>
 	<groupId>com.unimuenster</groupId>
 	<artifactId>govlearn-api</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>govlearn-api</name>
 	<description>govlearn-api</description>
@@ -80,6 +81,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>govlearn-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
