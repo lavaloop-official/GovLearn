@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bf2de79e-ff2f-4293-a8f2-f49c7102c880" name="Changes" comment="Added test container for lightning speed integration tests">
+      <change beforePath="$PROJECT_DIR$/govlearn-api/src/main/java/com/unimuenster/govlearnapi/GovlearnApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/govlearn-api/src/main/java/com/unimuenster/govlearnapi/GovlearnApiApplication.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="introduction" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">
+    <option name="context" value="default" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2WNrc6OnfewAo3jEU9HbNo8edGs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Star-Lord/Desktop/GovLearn&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Star-Lord\\Desktop\\GovLearn\\govlearn-client\\node_modules\\typescript\\lib&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Star-Lord\Desktop\GovLearn\govlearn-client" />
+      <recent name="C:\Users\Star-Lord\Desktop\GovLearn" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.unimuenster.govlearnapi" />
+      <recent name="com.unimuenster.govlearnapi.core" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.unimuenster.govlearnapi" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.GovlearnApiApplication">
+    <configuration name="GovlearnApiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.unimuenster.govlearnapi.GovlearnApiApplication" />
+      <module name="govlearn-api" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/govlearn-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.unimuenster.govlearnapi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in govlearn-api" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="govlearn-api" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GovlearnApiApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="govlearn-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.unimuenster.govlearnapi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.unimuenster.govlearnapi" />
+      <option name="MAIN_CLASS_NAME" value="com.unimuenster.govlearnapi.GovlearnApiApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.GovlearnApiApplication" />
+      <item itemvalue="JUnit.All in govlearn-api" />
+      <item itemvalue="JUnit.GovlearnApiApplicationTests" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GovlearnApiApplication" />
+        <item itemvalue="JUnit.All in govlearn-api" />
+        <item itemvalue="JUnit.GovlearnApiApplicationTests" />
+        <item itemvalue="Application.GovlearnApiApplication" />
+        <item itemvalue="Application.GovlearnApiApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bf2de79e-ff2f-4293-a8f2-f49c7102c880" name="Changes" comment="" />
+      <created>1696583954347</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696583954347</updated>
+      <workItem from="1696583955740" duration="5302000" />
+    </task>
+    <task id="LOCAL-00001" summary="Init React Frontend">
+      <created>1696584892314</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696584892314</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Dockerized frontend and added PostgreSQL">
+      <created>1696588236880</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696588236880</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Readme hinzugefügt">
+      <created>1696590044908</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696590044908</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Readme verändert">
+      <created>1696590118993</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696590118993</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Readme IDE">
+      <created>1696590570347</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696590570347</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Removed client">
+      <created>1697703958822</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697703958822</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated gitignore">
+      <created>1697704914927</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1697704914927</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Updated gitignore">
+      <created>1697704944694</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1697704944694</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updated gitignore">
+      <created>1697705025792</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705025792</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated idea folder">
+      <created>1697705048745</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705048745</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Refactored project">
+      <created>1697705310205</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705310205</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated gitignore">
+      <created>1697705790758</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705790758</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Updated gitignore">
+      <created>1697705853393</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705853393</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Updated gitignore">
+      <created>1697705864935</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1697705864935</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Refactored">
+      <created>1697706413711</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1697706413711</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Refactored">
+      <created>1697706441351</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1697706441351</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added sample course api">
+      <created>1697710736706</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1697710736706</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added application.yaml">
+      <created>1697710757775</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1697710757775</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added test container for lightning speed integration tests">
+      <created>1697711593361</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1697711593361</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Init React Frontend" />
+    <MESSAGE value="Dockerized frontend and added PostgreSQL" />
+    <MESSAGE value="Readme hinzugefügt" />
+    <MESSAGE value="Readme verändert" />
+    <MESSAGE value="Readme IDE" />
+    <MESSAGE value="Removed client" />
+    <MESSAGE value="Updated idea folder" />
+    <MESSAGE value="Refactored project" />
+    <MESSAGE value="Updated gitignore" />
+    <MESSAGE value="Refactored" />
+    <MESSAGE value="Added sample course api" />
+    <MESSAGE value="Added application.yaml" />
+    <MESSAGE value="Added test container for lightning speed integration tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added test container for lightning speed integration tests" />
+  </component>
+</project>
