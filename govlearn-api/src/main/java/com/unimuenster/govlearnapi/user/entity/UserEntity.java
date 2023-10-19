@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.user.entity;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,11 @@ public class UserEntity {
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")
     @ToString.Exclude
     private List<Token> tokens;
+
+    @OneToMany( fetch = FetchType.LAZY )
+    @ToString.Exclude
+    private List<Course> courses;
+
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
