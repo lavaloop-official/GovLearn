@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.core.entity;
+package com.unimuenster.govlearnapi.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.unimuenster.govlearnapi.core.config.security;
 
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

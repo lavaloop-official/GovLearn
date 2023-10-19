@@ -1,9 +1,9 @@
-package com.unimuenster.govlearnapi.core.user;
+package com.unimuenster.govlearnapi.user.service;
 
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
-import com.unimuenster.govlearnapi.core.repository.UserRepository;
-import com.unimuenster.govlearnapi.core.user.dto.TokenDTO;
-import com.unimuenster.govlearnapi.core.user.dto.UserDTO;
+import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.UserRepository;
+import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

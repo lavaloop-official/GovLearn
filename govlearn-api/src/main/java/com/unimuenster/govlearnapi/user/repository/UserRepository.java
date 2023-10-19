@@ -1,6 +1,6 @@
-package com.unimuenster.govlearnapi.core.repository;
+package com.unimuenster.govlearnapi.user.repository;
 
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {

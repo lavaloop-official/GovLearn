@@ -1,6 +1,6 @@
-package com.unimuenster.govlearnapi.core.entity;
+package com.unimuenster.govlearnapi.user.entity;
 
-import com.unimuenster.govlearnapi.core.user.dto.UserDTO;
+import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

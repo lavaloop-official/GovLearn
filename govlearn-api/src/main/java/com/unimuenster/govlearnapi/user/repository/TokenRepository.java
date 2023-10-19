@@ -1,7 +1,7 @@
-package com.unimuenster.govlearnapi.core.repository;
+package com.unimuenster.govlearnapi.user.repository;
 
 
-import com.unimuenster.govlearnapi.core.entity.Token;
+import com.unimuenster.govlearnapi.user.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.core.user.dto;
+package com.unimuenster.govlearnapi.user.service.dto;
 
 public record UserDTO(String email, String password) {
 }

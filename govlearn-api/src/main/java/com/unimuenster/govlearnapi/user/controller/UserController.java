@@ -1,13 +1,13 @@
-package com.unimuenster.govlearnapi.core.controller.user;
+package com.unimuenster.govlearnapi.user.controller;
 
-import com.unimuenster.govlearnapi.core.controller.responsewrapper.Message;
-import com.unimuenster.govlearnapi.core.controller.responsewrapper.Response;
-import com.unimuenster.govlearnapi.core.controller.user.wsto.RegisterWsTo;
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
-import com.unimuenster.govlearnapi.core.user.AuthenticationService;
-import com.unimuenster.govlearnapi.core.user.CustomUserCrudService;
-import com.unimuenster.govlearnapi.core.user.dto.TokenDTO;
-import com.unimuenster.govlearnapi.core.user.dto.UserDTO;
+import com.unimuenster.govlearnapi.common.responsewrapper.Message;
+import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.service.AuthenticationService;
+import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
+import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
+import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;

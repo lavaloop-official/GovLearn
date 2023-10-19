@@ -1,6 +1,6 @@
 package com.unimuenster.govlearnapi.core.config.security;
 
-import com.unimuenster.govlearnapi.core.repository.TokenRepository;
+import com.unimuenster.govlearnapi.user.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

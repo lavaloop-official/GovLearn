@@ -1,8 +1,8 @@
 package com.unimuenster.govlearnapi.core.config.security;
 
 
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
-import com.unimuenster.govlearnapi.core.repository.UserRepository;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

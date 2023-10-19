@@ -1,14 +1,14 @@
-package com.unimuenster.govlearnapi.core.user;
+package com.unimuenster.govlearnapi.user.service;
 
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
-import com.unimuenster.govlearnapi.core.entity.Token;
-import com.unimuenster.govlearnapi.core.entity.TokenType;
-import com.unimuenster.govlearnapi.core.entity.UserEntity;
-import com.unimuenster.govlearnapi.core.repository.TokenRepository;
-import com.unimuenster.govlearnapi.core.repository.UserRepository;
-import com.unimuenster.govlearnapi.core.user.dto.TokenDTO;
-import com.unimuenster.govlearnapi.core.user.dto.UserDTO;
+import com.unimuenster.govlearnapi.user.entity.Token;
+import com.unimuenster.govlearnapi.user.entity.TokenType;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.TokenRepository;
+import com.unimuenster.govlearnapi.user.repository.UserRepository;
+import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
+import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

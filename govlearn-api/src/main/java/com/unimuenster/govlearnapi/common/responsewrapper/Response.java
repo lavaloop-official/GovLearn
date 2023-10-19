@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.core.controller.responsewrapper;
+package com.unimuenster.govlearnapi.common.responsewrapper;
 
 import lombok.Getter;
 import lombok.Setter;

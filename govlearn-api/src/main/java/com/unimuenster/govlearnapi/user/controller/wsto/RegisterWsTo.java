@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.core.controller.user.wsto;
+package com.unimuenster.govlearnapi.user.controller.wsto;
 
 public record RegisterWsTo ( String email, String password){
 }

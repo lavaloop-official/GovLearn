@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.core.controller.user.wsto;
+package com.unimuenster.govlearnapi.user.controller.wsto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
