@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GovLearn.iml" filepath="$PROJECT_DIR$/.idea/GovLearn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/govlearn-api/govlearn-api.iml" filepath="$PROJECT_DIR$/govlearn-api/govlearn-api.iml" />
     </modules>
   </component>
 </project>
