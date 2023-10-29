@@ -39,7 +39,6 @@ public class CourseController {
     public ResponseEntity<Response> createCourse(
             @RequestBody CourseCreationWsTo courseCreationWsTo
     ){
-
         UserEntity currentUser = authenticationService.getCurrentUser();
 
         CourseCreationDTO courseCreationDTO = controllerCourseMapper.map(courseCreationWsTo);
