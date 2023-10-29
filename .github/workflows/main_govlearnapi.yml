@@ -3,6 +3,10 @@
 
 name: Build and deploy JAR app to Azure Web App - GovLearnAPI
 
+env:
+      APP_CONFIGURATION_CONNECTION_STRING: ${{secrets.APP_CONFIGURATION_CONNECTION_STRING}}
+
+
 on:
   push:
     branches:
@@ -22,13 +26,13 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -f ./govlearn-api/pom.xml
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/govlearn-api/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,5 +53,5 @@ jobs:
         with:
           app-name: 'GovLearnAPI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3D4F9472CA324F069FF4AD1D94DAC1F3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_05731B28249048F998F20838F69E4F2C }}
           package: '*.jar'

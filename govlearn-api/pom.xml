@@ -94,6 +94,7 @@
 
 	<build>
 		<finalName>govlearn-api</finalName>
+		<defaultGoal>install</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
