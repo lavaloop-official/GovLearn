@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'GovLearnAPI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_05731B28249048F998F20838F69E4F2C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3D4F9472CA324F069FF4AD1D94DAC1F3 }}
           package: '*.jar'
