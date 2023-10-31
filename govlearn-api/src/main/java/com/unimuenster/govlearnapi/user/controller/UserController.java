@@ -68,4 +68,16 @@ public class UserController {
 
         return ResponseEntity.ok( Response.of(true) );
     }
+
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Returns the users profil"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/users/profil")
+    public ResponseEntity<Response> getUserProfil() {
+
+        return ResponseEntity.ok(Response.of(customUserCrudService.UserProfil(), new Message(Message.SUCCESS)));
+    }
 }
