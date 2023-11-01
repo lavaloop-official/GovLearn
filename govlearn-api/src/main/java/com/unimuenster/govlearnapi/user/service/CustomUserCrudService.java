@@ -42,7 +42,6 @@ public class CustomUserCrudService {
         return null;
     }
 
-    @Transactional
     public UserWsTo UserProfil(){
 
         UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail());
