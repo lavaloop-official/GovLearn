@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class TagsService {
 
     private final TagRepository tagRepository;
-    private final ServiceTagMapper serviceCourseMapper;
+    private final ServiceTagMapper serviceTagMapper;
 
     public TagsDTO getTagsById(Long courseId){
         Optional<Tag> tagById = tagRepository.findById(courseId);
@@ -27,7 +27,7 @@ public class TagsService {
             throw new NotFoundException();
         }
 
-        TagsDTO map = serviceCourseMapper.map(
+        TagsDTO map = serviceTagMapper.map(
                 tagById.get()
         );
 
@@ -55,7 +55,7 @@ public class TagsService {
     private List<TagsDTO> mapTags(List<Tag> tags) {
         return tags
                 .stream()
-                .map(course -> serviceCourseMapper.map(course))
+                .map(course -> serviceTagMapper.map(course))
                 .collect(Collectors.toList());
     }
 }

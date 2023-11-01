@@ -37,7 +37,7 @@ public class TagsController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a course."
+            description = "Create a tag."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping()
@@ -53,20 +53,20 @@ public class TagsController {
     }
 
     @Operation(
-            description = "Get a list of all courses."
+            description = "Get a list of all tags."
     )
     @GetMapping()
     public ResponseEntity<Response> getTags() {
 
         List<TagsDTO> tags = tagsService.getTags();
 
-        List<TagWsTo> courseWsTos = controllerTagMapper.mapList(tags);
+        List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tags);
 
-        return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
+        return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
-            description = "Get a course by id."
+            description = "Get a tag by id."
     )
     @GetMapping("/{id}")
     public ResponseEntity<Response> getTagById(@PathVariable Long id) {
