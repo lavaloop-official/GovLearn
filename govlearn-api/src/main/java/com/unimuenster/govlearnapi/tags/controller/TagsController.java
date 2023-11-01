@@ -4,9 +4,9 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
-import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.service.TagsService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
@@ -108,4 +108,19 @@ public class TagsController {
         return ResponseEntity.ok( Response.of(true));
     }
 
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Create a tag."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/user")
+    public ResponseEntity<Response> removeTagFromUser(
+            @RequestBody DeleteTagFromUserWsTo deleteTagFromUserWsTo
+    ){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        tagsService.deleteTagFromUser(currentUser, deleteTagFromUserWsTo.tagId());
+
+        return ResponseEntity.ok( Response.of(true));
+    }
 }

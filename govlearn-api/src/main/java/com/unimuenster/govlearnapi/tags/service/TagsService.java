@@ -83,4 +83,10 @@ public class TagsService {
 
         entityManager.merge(currentUser);
     }
+
+    @Transactional
+    public void deleteTagFromUser(UserEntity currentUser, long tagId) {
+
+        tagRepository.deleteTagFromUser(currentUser.getId(), tagId);
+    }
 }
