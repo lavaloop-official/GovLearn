@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.user.service;
 
+import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -21,6 +22,12 @@ public class CustomUserCrudService {
 
     @Transactional
     public TokenDTO createNewUser(UserDTO userDTO){
+
+        boolean userExists = authenticationService.doesUserExist(userDTO.email());
+
+        if (userExists) {
+            throw new UserExistsException();
+        }
 
         String encode = passwordEncoder.encode(userDTO.password());
 

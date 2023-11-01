@@ -76,6 +76,12 @@ public class AuthenticationService {
         return byEmail;
     }
 
+    public boolean doesUserExist(String email) {
+        UserEntity byEmail = userRepository.findByEmail(email);
+
+        return ! notFound(byEmail);
+    }
+
     public UserEntity getCurrentUser(){
         String emailOfCurrentUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
