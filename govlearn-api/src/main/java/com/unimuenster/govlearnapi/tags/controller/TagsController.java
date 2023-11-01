@@ -2,12 +2,6 @@ package com.unimuenster.govlearnapi.tags.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.service.CourseService;
-import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
@@ -26,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -80,9 +75,20 @@ public class TagsController {
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
     }
 
-    @GetMapping("/tags/user/{id}")
-    public ResponseEntity<List<Tag>> getAllTagsbyUserId(@PathVariable(value = "userId") Long userId){
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Create a tag."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/user")
+    public ResponseEntity<Response> getAllTagsbyUserId(){
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
+        List<TagsDTO> tagsByUser = tagsService.getTagsByUser(currentUser.getId());
+
+        List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByUser);
+
+        return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
     }
 
 }

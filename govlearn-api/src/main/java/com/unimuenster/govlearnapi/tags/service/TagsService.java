@@ -33,6 +33,12 @@ public class TagsService {
 
         return map;
     }
+
+    public List<TagsDTO> getTagsByUser(Long userId) {
+        List<Tag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
+
+        return mapTags(allTagsByUserId);
+    }
     
     public void createTag(TagsCreationDTO tagsDTO) {
         
