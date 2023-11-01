@@ -30,6 +30,12 @@ public class Tag {
     },mappedBy = "tags")
     Set<UserEntity> users = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    },mappedBy = "tags")
+    Set<UserEntity> courses = new HashSet<>();
+
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
