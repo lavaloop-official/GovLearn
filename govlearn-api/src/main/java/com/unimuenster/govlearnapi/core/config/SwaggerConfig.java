@@ -15,7 +15,7 @@ public class SwaggerConfig {
                 .info(
                         new Info()
                                 .title("GovLearn API")
-                                .description("All kinds of stuff to mess around with.")
+                                .description("Logout via /api/v1/logout (POST request).")
                                 .version("1.0")
                 )
                 .components(
