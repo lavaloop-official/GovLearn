@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.tags.controller;
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
@@ -89,6 +90,22 @@ public class TagsController {
         List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByUser);
 
         return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Create a tag."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PostMapping("/user")
+    public ResponseEntity<Response> addTagToUser(
+            @RequestBody AddTagToUserWsTo addTagToUserWsTo
+    ){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        tagsService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
+
+        return ResponseEntity.ok( Response.of(true));
     }
 
 }

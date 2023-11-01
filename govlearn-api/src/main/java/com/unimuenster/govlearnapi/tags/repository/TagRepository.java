@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-    Optional<Tag> findById(Long courseId);
+    Optional<Tag> findById(Long tagId);
 
     @Query(value = """
       select u.tags from UserEntity u
