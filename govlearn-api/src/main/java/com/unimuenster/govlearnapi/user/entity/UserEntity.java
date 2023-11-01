@@ -1,14 +1,14 @@
 package com.unimuenster.govlearnapi.user.entity;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
@@ -27,6 +27,17 @@ public class UserEntity {
     @Column(nullable = true)
     protected boolean activated;
     protected Date createdAt;
+    @ManyToMany(fetch = FetchType.LAZY, cascade =
+            {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name= "user_tag",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    Set<Tag> tags = new HashSet<>();
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")
@@ -44,6 +55,19 @@ public class UserEntity {
 
     public UserDTO getDTO(){
         return new UserDTO(email, password);
+    }
+
+    public void addTag(Tag tag){
+        this.tags.add(tag);
+        tag.getUsers().add(this);
+    }
+
+    public void removeTag(long tagId){
+        Tag tag = this.tags.stream().filter(t -> t.getId() == tagId).findFirst().orElse(null);
+        if(tag != null){
+            this.tags.remove(tag);
+            tag.getUsers().remove(this);
+        }
     }
 
 }
