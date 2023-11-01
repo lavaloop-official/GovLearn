@@ -51,5 +51,3 @@ Achte darauf, dass das keine anderen Programme auf den Ports 80, 8080 und 5432 l
 Viel Erfolg & melde dich gerne bei Fragen bei mir.
 
 Jan
-
-push to main branch without request, test
