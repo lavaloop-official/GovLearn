@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.tags.repository;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +13,7 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
 
     Optional<Tag> findById(Long courseId);
 
+    List<Tag> findTagsByUserId(Long tagId);
     @Query(value = """
       select c from Tag c
       """)

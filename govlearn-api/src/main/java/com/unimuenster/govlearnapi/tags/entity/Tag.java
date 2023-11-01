@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,6 +23,13 @@ public class Tag {
     @Column(nullable = false)
     protected String category;
     protected Date createdAt;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    },mappedBy = "tags")
+    Set<UserEntity> users = new HashSet<>();
+
     @PrePersist
     private void onCreate() {
         createdAt = new Date();

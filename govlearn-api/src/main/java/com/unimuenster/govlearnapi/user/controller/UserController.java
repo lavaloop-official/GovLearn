@@ -66,4 +66,5 @@ public class UserController {
 
         return ResponseEntity.ok(Response.of(customUserCrudService.UserProfil(), new Message(Message.SUCCESS)));
     }
+
 }

@@ -11,6 +11,7 @@ import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
+import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.service.TagsService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
@@ -34,6 +35,7 @@ public class TagsController {
 
     private final ControllerTagMapper controllerTagMapper;
     private final TagsService tagsService;
+    private  final AuthenticationService authenticationService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -76,6 +78,11 @@ public class TagsController {
         TagWsTo map = controllerTagMapper.map(tagById);
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
+    }
+
+    @GetMapping("/tags/user/{id}")
+    public ResponseEntity<List<Tag>> getAllTagsbyUserId(@PathVariable(value = "userId") Long userId){
+
     }
 
 }
