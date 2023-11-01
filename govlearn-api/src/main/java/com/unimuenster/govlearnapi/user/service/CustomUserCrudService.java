@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.user.service;
 
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
@@ -39,5 +40,12 @@ public class CustomUserCrudService {
         }
 
         return null;
+    }
+
+    public UserWsTo UserProfil(){
+
+        UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail());
+
+        return userWsTo;
     }
 }

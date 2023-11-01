@@ -57,15 +57,13 @@ public class UserController {
 
 
     @Operation(
-            security = { @SecurityRequirement(name = "Authorization") },
-            description = "Allows the user to check, whether the auth-token is still valid and whether te user is a content-creator."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Returns the users profil"
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/users")
     public ResponseEntity<Response> getUser() {
-        UserEntity currentUser = authenticationService.getCurrentUser();
-        log.info(currentUser.getEmail());
 
-        return ResponseEntity.ok( Response.of(true) );
+        return ResponseEntity.ok(Response.of(customUserCrudService.UserProfil(), new Message(Message.SUCCESS)));
     }
 }

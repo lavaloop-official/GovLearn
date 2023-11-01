@@ -21,15 +21,5 @@ services:
       - 8080:8080
     links:
       - db
-  frontend:
-    image: govlearn-frontend
-    hostname: frontend
-    restart: "no"
-    depends_on:
-      - backend
-    ports:
-      - 80:80
-    links:
-      - backend
 volumes:
   govlearn-postgres:
