@@ -26,6 +26,11 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
       where u.id = :userId
       """)
     List<Tag> findAllTagsByUserId(@Param("userId") Long userId);
+    @Query(value = """
+select course.tags from Course course
+where course.id = :courseId
+""")
+    List<Tag> findAllTagsByCourseId(@Param("courseId")Long courseId);
 
     @Query(value = """
       select c from Tag c

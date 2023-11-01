@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,7 +35,7 @@ public class Tag {
             CascadeType.PERSIST,
             CascadeType.MERGE
     },mappedBy = "tags")
-    Set<UserEntity> courses = new HashSet<>();
+    Set<Course> courses = new HashSet<>();
 
     @PrePersist
     private void onCreate() {

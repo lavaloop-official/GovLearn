@@ -1,5 +1,8 @@
 package com.unimuenster.govlearnapi.tags.service;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
@@ -24,6 +27,9 @@ public class TagsService {
     private final TagRepository tagRepository;
     private final ServiceTagMapper serviceTagMapper;
     private final EntityManager entityManager;
+    private final CourseRepository courseRepository;
+    /** evtl. unsauber hier Kurs-Klassen aufzurufen, jedoch wusste ich nicht wie ich
+    von CourseDTO zu Course casten kann, was wohl nötig wäre um das zu umgehen **/
 
     public TagsDTO getTagsById(Long courseId){
         Optional<Tag> tagById = tagRepository.findById(courseId);
@@ -43,6 +49,12 @@ public class TagsService {
         List<Tag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
 
         return mapTags(allTagsByUserId);
+    }
+
+    public List<TagsDTO> getTagsByCourse(Long courseId) {
+        List<Tag> allTagsByCourseId = tagRepository.findAllTagsByCourseId(courseId);
+
+        return mapTags(allTagsByCourseId);
     }
     
     public void createTag(TagsCreationDTO tagsDTO) {
@@ -82,6 +94,20 @@ public class TagsService {
         currentUser.getTags().add(byId.get());
 
         entityManager.merge(currentUser);
+    }
+
+    @Transactional
+    public void addTagToCourse(long courseId, long tagId) {
+
+        Optional<Tag> tag = tagRepository.findById(tagId);
+        Optional<Course> course = courseRepository.findById(courseId);
+        if ( tag.isEmpty() || course.isEmpty() ){
+            throw new NotFoundException();
+        }
+
+        course.get().getTags().add(tag.get());
+
+        entityManager.merge(course.get());
     }
 
     @Transactional

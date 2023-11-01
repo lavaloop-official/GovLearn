@@ -1,15 +1,11 @@
 package com.unimuenster.govlearnapi.course.entity;
 
 import com.unimuenster.govlearnapi.tags.entity.Tag;
-import com.unimuenster.govlearnapi.user.entity.Token;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -29,6 +25,7 @@ public class Course {
     @ToString.Exclude
     private UserEntity creator;
     protected Date createdAt;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade =
             {
                     CascadeType.PERSIST,
@@ -44,5 +41,13 @@ public class Course {
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
+    }
+
+    public void removeTag(long tagId) {
+        Tag tag = this.tags.stream().filter(t -> t.getId() == tagId).findFirst().orElse(null);
+        if (tag != null) {
+            this.tags.remove(tag);
+            tag.getCourses().remove(this);
+        }
     }
 }

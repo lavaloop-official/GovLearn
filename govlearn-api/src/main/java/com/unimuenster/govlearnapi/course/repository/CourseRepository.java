@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
+    @Query(value = """
+select c from Course c where c.id = :courseId
+""")
     Optional<Course> findById(Long courseId);
 
     @Query(value = """

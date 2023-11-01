@@ -2,11 +2,13 @@ package com.unimuenster.govlearnapi.tags.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
+import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.service.CourseService;
+import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
-import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromUserWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.*;
 import com.unimuenster.govlearnapi.tags.service.TagsService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
@@ -31,7 +33,9 @@ public class TagsController {
 
     private final ControllerTagMapper controllerTagMapper;
     private final TagsService tagsService;
-    private  final AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+    private final CourseService courseService;
+    private final ControllerCourseMapper controllerCourseMapper;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -78,7 +82,7 @@ public class TagsController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a tag."
+            description = "Get all Tags of a user."
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/user")
@@ -94,7 +98,21 @@ public class TagsController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a tag."
+            description = "Get all Tags of a course."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<Response> getAllTagsbyCourseId(@PathVariable long id){
+        List<TagsDTO> tagsByCourse = tagsService.getTagsByCourse(id);
+
+        List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByCourse);
+
+        return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Add a tag to the user."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/user")
@@ -108,6 +126,22 @@ public class TagsController {
         return ResponseEntity.ok( Response.of(true));
     }
 
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Add a tag to the user."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PostMapping("/course/{id}")
+    public ResponseEntity<Response> addTagToCourse(
+            @RequestBody AddTagToCourseWsTo addTagToCourseWsTo
+    ){
+        CourseDTO courseDTO = courseService.getCourseById(addTagToCourseWsTo.courseId());
+        CourseWsTo course = controllerCourseMapper.map(courseDTO);
+
+        //TagsDTO tag = tagsService.getTagsById(addTagToCourseWsTo.tagId());
+        tagsService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
+        return ResponseEntity.ok( Response.of(true));
+    }
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Create a tag."
