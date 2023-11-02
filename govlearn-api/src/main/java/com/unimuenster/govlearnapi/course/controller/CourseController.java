@@ -8,6 +8,11 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
+import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
+import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.service.TagsService;
+import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +33,9 @@ public class CourseController {
 
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
+    private final ControllerTagMapper controllerTagMapper;
     private final AuthenticationService authenticationService;
+    private final TagsService tagsService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -72,6 +79,18 @@ public class CourseController {
         CourseWsTo map = controllerCourseMapper.map(courseById);
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+            description = "Get all courses with a tag."
+    )
+    @GetMapping("/courses/tag/{id}")
+    public ResponseEntity<Response> getAllCoursesByTagId(@PathVariable Long id){
+
+        List<CourseDTO> coursesDTO = courseService.getAllCoursesByTagId(id);
+        List<CourseWsTo> courses = controllerCourseMapper.mapList(coursesDTO);
+
+        return ResponseEntity.ok( Response.of(courses, new Message(Message.SUCCESS)));
     }
 
 }

@@ -7,6 +7,11 @@ import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
+import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
+import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
+import com.unimuenster.govlearnapi.tags.repository.TagRepository;
+import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,6 +55,13 @@ public class CourseService {
     public List<CourseDTO> getCourses() {
 
         List<Course> allCourses = courseRepository.findAllCourses();
+
+        return mapCourses(allCourses);
+    }
+
+    public List<CourseDTO> getAllCoursesByTagId(Long id) {
+
+        List<Course> allCourses = courseRepository.findAllCoursesByTagId(id);
 
         return mapCourses(allCourses);
     }

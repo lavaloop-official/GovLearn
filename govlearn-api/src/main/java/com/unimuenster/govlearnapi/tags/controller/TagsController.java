@@ -128,7 +128,7 @@ public class TagsController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Add a tag to the user."
+            description = "Add a tag to a course."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/course/{id}")
@@ -138,7 +138,6 @@ public class TagsController {
         CourseDTO courseDTO = courseService.getCourseById(addTagToCourseWsTo.courseId());
         CourseWsTo course = controllerCourseMapper.map(courseDTO);
 
-        //TagsDTO tag = tagsService.getTagsById(addTagToCourseWsTo.tagId());
         tagsService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
         return ResponseEntity.ok( Response.of(true));
     }
