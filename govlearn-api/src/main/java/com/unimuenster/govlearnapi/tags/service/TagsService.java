@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.service;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -114,5 +115,10 @@ public class TagsService {
     public void deleteTagFromUser(UserEntity currentUser, long tagId) {
 
         tagRepository.deleteTagFromUser(currentUser.getId(), tagId);
+    }
+
+    @Transactional
+    public void deleteTagFromCourse(CourseWsTo course, long tagId) {
+        tagRepository.deleteTagFromCourse(course.getId(), tagId);
     }
 }

@@ -143,7 +143,7 @@ public class TagsController {
     }
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a tag."
+            description = "remove tag from user."
     )
     @PreAuthorize("hasAuthority('user')")
     @DeleteMapping("/user")
@@ -153,6 +153,21 @@ public class TagsController {
         UserEntity currentUser = authenticationService.getCurrentUser();
 
         tagsService.deleteTagFromUser(currentUser, deleteTagFromUserWsTo.tagId());
+
+        return ResponseEntity.ok( Response.of(true));
+    }
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "remove tag from course."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/course")
+    public ResponseEntity<Response> removeTagFromCourse(
+            @RequestBody DeleteTagFromCourseWsTo deleteTagFromCourseWsTo
+    ){
+        CourseDTO courseDTO = courseService.getCourseById(deleteTagFromCourseWsTo.courseId());
+        CourseWsTo course = controllerCourseMapper.map(courseDTO);
+        tagsService.deleteTagFromCourse(course, deleteTagFromCourseWsTo.tagId());
 
         return ResponseEntity.ok( Response.of(true));
     }

@@ -36,4 +36,12 @@ where course.id = :courseId
       select c from Tag c
       """)
     List<Tag> findAllTags();
+
+    @Modifying
+    @Query(value = """
+      delete from course_tag
+      WHERE course_id = :courseId
+      AND tag_id = :tagId
+      """, nativeQuery = true)
+    void deleteTagFromCourse(Long courseId, long tagId);
 }
