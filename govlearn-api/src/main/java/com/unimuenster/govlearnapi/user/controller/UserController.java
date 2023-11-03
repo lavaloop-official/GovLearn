@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.user.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.user.controller.wsto.AuthenticationWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
@@ -48,9 +49,9 @@ public class UserController {
             description = "Receive an auth-token, to authenticate with other rest calls."
     )
     @Transactional
-    @GetMapping("/users/auth-token")
-    public ResponseEntity<Response<TokenDTO>> authenticate(String email, String password) {
-        UserDTO userDTO = new UserDTO(email, password);
+    @PostMapping("/users/auth-token")
+    public ResponseEntity<Response<TokenDTO>> authenticate(@RequestBody AuthenticationWsTo authenticationWsTo) {
+        UserDTO userDTO = new UserDTO(authenticationWsTo.email(), authenticationWsTo.password());
 
         return ResponseEntity.ok( Response.of(authenticationService.authenticate(userDTO), new Message(Message.SUCCESS)));
     }
