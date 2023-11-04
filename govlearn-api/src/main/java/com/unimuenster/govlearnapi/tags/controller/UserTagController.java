@@ -34,7 +34,7 @@ public class UserTagController {
             description = "Get all Tags of a user."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/tag/user")
+    @GetMapping("/tags/users")
     public ResponseEntity<Response> getAllTagsByUserId(){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
@@ -50,7 +50,7 @@ public class UserTagController {
             description = "Add a tag to the user."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/tag/user")
+    @PostMapping("/tags/users")
     public ResponseEntity<Response> addTagToUser(
             @RequestBody AddTagToUserWsTo addTagToUserWsTo
     ){
@@ -66,7 +66,7 @@ public class UserTagController {
             description = "remove tag from user."
     )
     @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/tag/user")
+    @DeleteMapping("/tags/users")
     public ResponseEntity<Response> removeTagFromUser(
             @RequestBody DeleteTagFromUserWsTo deleteTagFromUserWsTo
     ){
