@@ -2,7 +2,6 @@ package com.unimuenster.govlearnapi.course.controller.mapper;
 
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import org.springframework.stereotype.Service;

@@ -2,14 +2,11 @@ package com.unimuenster.govlearnapi.tags.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
-import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.*;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
-import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +19,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/tags")
+@RequestMapping("/api/v1/tag")
 @Slf4j
 public class TagController {
 
     private final ControllerTagMapper controllerTagMapper;
     private final TagService tagService;
-    private final AuthenticationService authenticationService;
-    private final CourseService courseService;
-    private final ControllerCourseMapper controllerCourseMapper;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },

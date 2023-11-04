@@ -37,7 +37,7 @@ public class CourseTagController {
             description = "Get all Tags of a course."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/tags/courses/{id}")
+    @GetMapping("/tag/course/{id}")
     public ResponseEntity<Response> getAllTagsByCourseId(@PathVariable long id){
         List<TagDTO> tagsByCourse = tagService.getTagsByCourse(id);
 
@@ -49,7 +49,7 @@ public class CourseTagController {
     @Operation(
             description = "Get all courses with a tag."
     )
-    @GetMapping("/courses/tag/{id}")
+    @GetMapping("/course/tag/{id}")
     public ResponseEntity<Response> getAllCoursesByTagId(@PathVariable Long id){
 
         List<CourseDTO> coursesDTO = courseService.getAllCoursesByTagId(id);
@@ -63,7 +63,7 @@ public class CourseTagController {
             description = "Add a tag to a course."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("tags/course")
+    @PostMapping("tag/course")
     public ResponseEntity<Response> addTagToCourse(
             @RequestBody AddTagToCourseWsTo addTagToCourseWsTo
     ){

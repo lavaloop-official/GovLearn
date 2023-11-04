@@ -8,8 +8,6 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
-import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
-import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,9 +28,7 @@ public class CourseController {
 
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
-    private final ControllerTagMapper controllerTagMapper;
     private final AuthenticationService authenticationService;
-    private final TagService tagService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
