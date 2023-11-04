@@ -1,7 +1,7 @@
 package com.unimuenster.govlearnapi.tags.controller.mapper;
 
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.TagCreationWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class ControllerTagMapper {
 
-    public TagCreationDTO map(TagsCreationWsTo tagsCreationWsTo){
-        return new TagCreationDTO(tagsCreationWsTo.name(), tagsCreationWsTo.category());
+    public TagCreationDTO map(TagCreationWsTo tagCreationWsTo){
+        return new TagCreationDTO(tagCreationWsTo.name(), tagCreationWsTo.category());
     }
 
     public TagWsTo map(Tag tag){

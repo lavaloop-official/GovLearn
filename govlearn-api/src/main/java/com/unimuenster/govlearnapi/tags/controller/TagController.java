@@ -39,10 +39,10 @@ public class TagController {
     @PreAuthorize("hasAuthority('user')")
     @PostMapping()
     public ResponseEntity<Response> createTags(
-            @RequestBody TagsCreationWsTo tagsCreationWsTo
+            @RequestBody TagCreationWsTo tagCreationWsTo
     ){
 
-        TagCreationDTO tagCreationDTO = controllerTagMapper.map(tagsCreationWsTo);
+        TagCreationDTO tagCreationDTO = controllerTagMapper.map(tagCreationWsTo);
 
         tagService.createTag(tagCreationDTO);
 
