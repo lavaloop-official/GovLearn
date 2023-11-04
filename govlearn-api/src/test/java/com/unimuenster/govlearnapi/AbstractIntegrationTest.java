@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -8,6 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 @ActiveProfiles("test")
+@SpringBootTest
 public abstract class AbstractIntegrationTest {
 
     @Container

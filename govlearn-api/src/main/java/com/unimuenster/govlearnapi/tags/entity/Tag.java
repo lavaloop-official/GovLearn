@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,14 +25,14 @@ public class Tag {
     protected String category;
     protected Date createdAt;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    },mappedBy = "tags")
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "tags")
     Set<UserEntity> users = new HashSet<>();
 
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
+    }
+    public String toString(){
+        return "";
     }
 }
