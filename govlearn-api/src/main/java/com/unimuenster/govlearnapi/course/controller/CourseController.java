@@ -81,16 +81,5 @@ public class CourseController {
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
     }
 
-    @Operation(
-            description = "Get all courses with a tag."
-    )
-    @GetMapping("/courses/tag/{id}")
-    public ResponseEntity<Response> getAllCoursesByTagId(@PathVariable Long id){
-
-        List<CourseDTO> coursesDTO = courseService.getAllCoursesByTagId(id);
-        List<CourseWsTo> courses = controllerCourseMapper.mapList(coursesDTO);
-
-        return ResponseEntity.ok( Response.of(courses, new Message(Message.SUCCESS)));
-    }
 
 }

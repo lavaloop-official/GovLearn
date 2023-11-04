@@ -29,8 +29,6 @@ public class TagsService {
     private final ServiceTagMapper serviceTagMapper;
     private final EntityManager entityManager;
     private final CourseRepository courseRepository;
-    /** evtl. unsauber hier Kurs-Klassen aufzurufen, jedoch wusste ich nicht wie ich
-    von CourseDTO zu Course casten kann, was wohl nötig wäre um das zu umgehen **/
 
     public TagsDTO getTagsById(Long courseId){
         Optional<Tag> tagById = tagRepository.findById(courseId);
