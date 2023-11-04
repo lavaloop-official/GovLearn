@@ -1,17 +1,11 @@
 package com.unimuenster.govlearnapi.course.service;
 
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
-import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
-import com.unimuenster.govlearnapi.tags.repository.TagRepository;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

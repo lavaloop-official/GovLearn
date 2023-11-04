@@ -3,16 +3,12 @@ package com.unimuenster.govlearnapi.tags.controller;
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.CourseService;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.*;
-import com.unimuenster.govlearnapi.tags.service.TagsService;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.tags.service.TagService;
+import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,16 +19,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/tags")
 @Slf4j
-public class TagsController {
+public class TagController {
 
     private final ControllerTagMapper controllerTagMapper;
-    private final TagsService tagsService;
+    private final TagService tagService;
     private final AuthenticationService authenticationService;
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
@@ -47,9 +42,9 @@ public class TagsController {
             @RequestBody TagsCreationWsTo tagsCreationWsTo
     ){
 
-        TagsCreationDTO tagsCreationDTO = controllerTagMapper.map(tagsCreationWsTo);
+        TagCreationDTO tagCreationDTO = controllerTagMapper.map(tagsCreationWsTo);
 
-        tagsService.createTag(tagsCreationDTO);
+        tagService.createTag(tagCreationDTO);
 
         return ResponseEntity.ok(Response.of(true));
     }
@@ -60,7 +55,7 @@ public class TagsController {
     @GetMapping()
     public ResponseEntity<Response> getTags() {
 
-        List<TagsDTO> tags = tagsService.getTags();
+        List<TagDTO> tags = tagService.getTags();
 
         List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tags);
 
@@ -73,7 +68,7 @@ public class TagsController {
     @GetMapping("/{id}")
     public ResponseEntity<Response> getTagById(@PathVariable Long id) {
 
-        TagsDTO tagById = tagsService.getTagsById(id);
+        TagDTO tagById = tagService.getTagsById(id);
 
         TagWsTo map = controllerTagMapper.map(tagById);
 

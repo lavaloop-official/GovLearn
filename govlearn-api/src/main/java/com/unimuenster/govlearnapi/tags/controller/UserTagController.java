@@ -6,8 +6,8 @@ import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.service.TagsService;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
+import com.unimuenster.govlearnapi.tags.service.TagService;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +24,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
-public class UserTagsController {
+public class UserTagController {
     private final AuthenticationService authenticationService;
-    private final TagsService tagsService;
+    private final TagService tagService;
     private final ControllerTagMapper controllerTagMapper;
 
     @Operation(
@@ -38,7 +38,7 @@ public class UserTagsController {
     public ResponseEntity<Response> getAllTagsByUserId(){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        List<TagsDTO> tagsByUser = tagsService.getTagsByUser(currentUser.getId());
+        List<TagDTO> tagsByUser = tagService.getTagsByUser(currentUser.getId());
 
         List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByUser);
 
@@ -56,7 +56,7 @@ public class UserTagsController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        tagsService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
+        tagService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
 
         return ResponseEntity.ok( Response.of(true));
     }
@@ -72,7 +72,7 @@ public class UserTagsController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        tagsService.deleteTagFromUser(currentUser, deleteTagFromUserWsTo.tagId());
+        tagService.deleteTagFromUser(currentUser, deleteTagFromUserWsTo.tagId());
 
         return ResponseEntity.ok( Response.of(true));
     }

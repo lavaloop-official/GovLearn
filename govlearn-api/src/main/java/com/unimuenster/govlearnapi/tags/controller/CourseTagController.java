@@ -10,8 +10,8 @@ import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.service.TagsService;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
+import com.unimuenster.govlearnapi.tags.service.TagService;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +26,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
-public class CourseTagsController {
+public class CourseTagController {
     private final ControllerTagMapper controllerTagMapper;
     private final ControllerCourseMapper controllerCourseMapper;
-    private final TagsService tagsService;
+    private final TagService tagService;
     private final CourseService courseService;
 
     @Operation(
@@ -39,7 +39,7 @@ public class CourseTagsController {
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/tags/courses/{id}")
     public ResponseEntity<Response> getAllTagsByCourseId(@PathVariable long id){
-        List<TagsDTO> tagsByCourse = tagsService.getTagsByCourse(id);
+        List<TagDTO> tagsByCourse = tagService.getTagsByCourse(id);
 
         List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByCourse);
 
@@ -70,7 +70,7 @@ public class CourseTagsController {
         CourseDTO courseDTO = courseService.getCourseById(addTagToCourseWsTo.courseId());
         CourseWsTo course = controllerCourseMapper.map(courseDTO);
 
-        tagsService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
+        tagService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
         return ResponseEntity.ok( Response.of(true));
     }
 
@@ -85,7 +85,7 @@ public class CourseTagsController {
     ){
         CourseDTO courseDTO = courseService.getCourseById(deleteTagFromCourseWsTo.courseId());
         CourseWsTo course = controllerCourseMapper.map(courseDTO);
-        tagsService.deleteTagFromCourse(course, deleteTagFromCourseWsTo.tagId());
+        tagService.deleteTagFromCourse(course, deleteTagFromCourseWsTo.tagId());
 
         return ResponseEntity.ok( Response.of(true));
     }

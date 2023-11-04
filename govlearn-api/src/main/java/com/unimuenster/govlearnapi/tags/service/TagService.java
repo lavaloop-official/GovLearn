@@ -3,12 +3,11 @@ package com.unimuenster.govlearnapi.tags.service;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.tags.service.mapper.ServiceTagMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.EntityManager;
@@ -16,47 +15,46 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class TagsService {
+public class TagService {
 
     private final TagRepository tagRepository;
     private final ServiceTagMapper serviceTagMapper;
     private final EntityManager entityManager;
     private final CourseRepository courseRepository;
 
-    public TagsDTO getTagsById(Long courseId){
+    public TagDTO getTagsById(Long courseId){
         Optional<Tag> tagById = tagRepository.findById(courseId);
 
         if ( tagById.isEmpty() ) {
             throw new NotFoundException();
         }
 
-        TagsDTO map = serviceTagMapper.map(
+        TagDTO map = serviceTagMapper.map(
                 tagById.get()
         );
 
         return map;
     }
 
-    public List<TagsDTO> getTagsByUser(Long userId) {
+    public List<TagDTO> getTagsByUser(Long userId) {
         List<Tag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
 
         return mapTags(allTagsByUserId);
     }
 
-    public List<TagsDTO> getTagsByCourse(Long courseId) {
+    public List<TagDTO> getTagsByCourse(Long courseId) {
         List<Tag> allTagsByCourseId = tagRepository.findAllTagsByCourseId(courseId);
 
         return mapTags(allTagsByCourseId);
     }
     
-    public void createTag(TagsCreationDTO tagsDTO) {
+    public void createTag(TagCreationDTO tagsDTO) {
         
         Tag tag = Tag
                 .builder()
@@ -67,14 +65,14 @@ public class TagsService {
         tagRepository.save(tag);
     }
 
-    public List<TagsDTO> getTags() {
+    public List<TagDTO> getTags() {
 
         List<Tag> allTags = tagRepository.findAllTags();
 
         return mapTags(allTags);
     }
 
-    private List<TagsDTO> mapTags(List<Tag> tags) {
+    private List<TagDTO> mapTags(List<Tag> tags) {
         return tags
                 .stream()
                 .map(course -> serviceTagMapper.map(course))
