@@ -1,10 +1,10 @@
 package com.unimuenster.govlearnapi.tags.controller.mapper;
 
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
-import com.unimuenster.govlearnapi.tags.controller.wsto.TagsCreationWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.TagCreationWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsCreationDTO;
-import com.unimuenster.govlearnapi.tags.service.dto.TagsDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 @Service
 public class ControllerTagMapper {
 
-    public TagsCreationDTO map(TagsCreationWsTo tagsCreationWsTo){
-        return new TagsCreationDTO(tagsCreationWsTo.name(), tagsCreationWsTo.category());
+    public TagCreationDTO map(TagCreationWsTo tagCreationWsTo){
+        return new TagCreationDTO(tagCreationWsTo.name(), tagCreationWsTo.category());
     }
 
     public TagWsTo map(Tag tag){
         return new TagWsTo(tag.getName(), tag.getCategory());
     }
 
-    public TagWsTo map(TagsDTO tag) {
+    public TagWsTo map(TagDTO tag) {
         return TagWsTo
                 .builder()
                 .name(tag.name())
@@ -29,7 +29,7 @@ public class ControllerTagMapper {
                 .build();
     }
 
-    public List<TagWsTo> mapList(List<TagsDTO> tags) {
+    public List<TagWsTo> mapList(List<TagDTO> tags) {
         return tags
                 .stream()
                 .map(courseDTO1 -> map(courseDTO1))

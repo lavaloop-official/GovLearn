@@ -1,6 +1,5 @@
 package com.unimuenster.govlearnapi.course.service;
 
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
@@ -50,6 +49,13 @@ public class CourseService {
     public List<CourseDTO> getCourses() {
 
         List<Course> allCourses = courseRepository.findAllCourses();
+
+        return mapCourses(allCourses);
+    }
+
+    public List<CourseDTO> getAllCoursesByTagId(Long id) {
+
+        List<Course> allCourses = courseRepository.findAllCoursesByTagId(id);
 
         return mapCourses(allCourses);
     }
