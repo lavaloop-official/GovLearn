@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
@@ -43,9 +44,15 @@ public class TagService {
     }
 
     public List<TagDTO> getTagsByUser(Long userId) {
-        List<Tag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
+        List<UserTag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
 
-        return mapTags(allTagsByUserId);
+        List<Tag> collect = allTagsByUserId
+                .stream()
+                .filter(userTag -> userTag.getTag() != null)
+                .map(userTag -> userTag.getTag())
+                .collect(Collectors.toList());
+
+        return mapTags(collect);
     }
 
     public List<TagDTO> getTagsByCourse(Long courseId) {
