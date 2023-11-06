@@ -7,6 +7,7 @@ import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.service.TagService;
+import com.unimuenster.govlearnapi.tags.service.UserTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
@@ -27,6 +28,7 @@ import java.util.List;
 public class UserTagController {
     private final AuthenticationService authenticationService;
     private final TagService tagService;
+    private final UserTagService userTagService;
     private final ControllerTagMapper controllerTagMapper;
 
     @Operation(
@@ -56,7 +58,7 @@ public class UserTagController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        tagService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
+        userTagService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
 
         return ResponseEntity.ok( Response.of(true));
     }

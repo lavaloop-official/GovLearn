@@ -20,7 +20,7 @@ select c from Course c where c.id = :courseId
     List<Course> findAllCourses();
 
     @Query(value = """
-SELECT c FROM Course c JOIN c.tags t WHERE t.id = :tagId
+SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
     """)
     List<Course> findAllCoursesByTagId(Long tagId);
 }

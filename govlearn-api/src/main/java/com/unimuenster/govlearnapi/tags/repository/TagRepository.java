@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.tags.repository;
 
 import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,13 +23,13 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     void deleteTagFromUser(@Param("userId") Long userId, @Param("tagId") Long tagId);
 
     @Query(value = """
-      select u.tags from UserEntity u
-      where u.id = :userId
+      select ut from UserTag ut
+      where ut.user.id = :userId
       """)
-    List<Tag> findAllTagsByUserId(@Param("userId") Long userId);
+    List<UserTag> findAllTagsByUserId(@Param("userId") Long userId);
     @Query(value = """
-select course.tags from Course course
-where course.id = :courseId
+select ct.tag from CourseTag ct
+where ct.course.id = :courseId
 """)
     List<Tag> findAllTagsByCourseId(@Param("courseId")Long courseId);
 

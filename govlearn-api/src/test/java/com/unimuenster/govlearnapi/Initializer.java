@@ -2,8 +2,12 @@ package com.unimuenster.govlearnapi;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
+import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import lombok.Getter;
@@ -26,10 +30,15 @@ public class Initializer {
     private final CourseRepository courseRepository;
     private final TagRepository tagRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserTagRepository userTagRepository;
+    private final CourseTagRepository courseTagRepository;
 
-    private UserEntity user1, user2;
+    private UserEntity user1, user2, recommendationUser;
     private Course course1, course2;
     private Tag tag1, tag2;
+    private UserTag userTag1, userTag2;
+    private CourseTag courseTag1, courseTag2;
+
 
     @Bean
     public CommandLineRunner appReady(){
@@ -39,8 +48,11 @@ public class Initializer {
             insertCourse();
             insertTag();
             addTagsToUsers();
+            addTagsToCourses();
         };
     }
+
+
 
     public void insertUser(){
         String test = passwordEncoder.encode("test");
@@ -61,6 +73,15 @@ public class Initializer {
         user2.setPassword(test2);
 
         userRepository.save(user2);
+
+        String recommendationUserPasswort = passwordEncoder.encode("test3");
+        recommendationUser = new UserEntity();
+        recommendationUser.setActivated(true);
+        recommendationUser.setName("test3");
+        recommendationUser.setEmail("test3");
+        recommendationUser.setPassword(recommendationUserPasswort);
+
+        userRepository.save(recommendationUser);
     }
 
     public void insertCourse(){
@@ -91,11 +112,35 @@ public class Initializer {
         tagRepository.save(tag2);
     }
 
-    public void addTagsToUsers(){
-        user1.getTags().add(tag1);
-        userRepository.save(user1);
+    private void addTagsToUsers() {
 
-        user2.getTags().add(tag2);
-        userRepository.save(user2);
+        userTag1 = new UserTag();
+        userTag1.setUser(recommendationUser);
+        userTag1.setRating(2);
+        userTag1.setTag(tag1);
+
+        userTagRepository.save(userTag1);
+
+        userTag2 = new UserTag();
+        userTag2.setUser(user2);
+        userTag2.setRating(2);
+        userTag2.setTag(tag2);
+
+        userTagRepository.save(userTag2);
+    }
+
+    private void addTagsToCourses() {
+
+        courseTag1 = new CourseTag();
+        courseTag1.setCourse(course1);
+        courseTag1.setTag(tag1);
+
+        courseTagRepository.save(courseTag1);
+
+        courseTag2 = new CourseTag();
+        courseTag2.setCourse(course2);
+        courseTag2.setTag(tag2);
+
+        courseTagRepository.save(courseTag2);
     }
 }

@@ -1,13 +1,11 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
-import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -26,14 +24,20 @@ public class Tag {
     protected String category;
     protected Date createdAt;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "tags")
-    Set<UserEntity> users = new HashSet<>();
+    @OneToMany( fetch = FetchType.LAZY )
+    @ToString.Exclude
+    private List<CourseTag> courseTags;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    },mappedBy = "tags")
-    Set<Course> courses = new HashSet<>();
+    @OneToMany( fetch = FetchType.LAZY )
+    @ToString.Exclude
+    private List<UserTag> userTags;
+
+    public List<UserEntity> getUsers(){
+        return userTags
+                .stream()
+                .map(userTag -> userTag.getUser())
+                .collect(Collectors.toList());
+    }
 
     @PrePersist
     private void onCreate() {
