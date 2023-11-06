@@ -86,20 +86,7 @@ public class TagService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void addTagToUser(UserEntity currentUser, long tagId) {
 
-        Optional<Tag> byId = tagRepository.findById(tagId);
-
-        if ( byId.isEmpty() ){
-            throw new NotFoundException();
-        }
-
-        currentUser.getTags().add(byId.get());
-        byId.get().getUsers().add(currentUser);
-
-        tagRepository.save(byId.get());
-    }
 
     @Transactional
     public void addTagToCourse(long courseId, long tagId) {

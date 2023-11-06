@@ -14,6 +14,7 @@ import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class RecommendationService {
     private List<Course> mapAndLimitCourses(List<Object[]> courseSimilarityList, int maxReturnedCourses) {
         return courseSimilarityList
                 .stream()
-                .map(object -> (Course)object[1])
+                .map(object -> (Course)object[0])
                 .limit(maxReturnedCourses)
                 .collect(Collectors.toList());
     }
@@ -124,7 +125,8 @@ public class RecommendationService {
     }
 
     private void sortSimilarityList(List<Object[]> courseSimilarityList) {
-        courseSimilarityList.sort(Comparator.comparing(o -> (Comparable) o[1]));
+        courseSimilarityList.sort(Comparator.comparing(o ->  (Comparable)o[1]));
+        Collections.reverse(courseSimilarityList);
     }
 
     public static double cosineSimilarity(double[] vectorA, double[] vectorB) {

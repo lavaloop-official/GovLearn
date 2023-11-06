@@ -36,8 +36,8 @@ public class Initializer {
     private UserEntity user1, user2, recommendationUser;
     private Course course1, course2;
     private Tag tag1, tag2;
-    private UserTag userTag1;
-    private CourseTag courseTag1;
+    private UserTag userTag1, userTag2;
+    private CourseTag courseTag1, courseTag2;
 
 
     @Bean
@@ -120,6 +120,13 @@ public class Initializer {
         userTag1.setTag(tag1);
 
         userTagRepository.save(userTag1);
+
+        userTag2 = new UserTag();
+        userTag2.setUser(user2);
+        userTag2.setRating(2);
+        userTag2.setTag(tag2);
+
+        userTagRepository.save(userTag2);
     }
 
     private void addTagsToCourses() {
@@ -129,5 +136,11 @@ public class Initializer {
         courseTag1.setTag(tag1);
 
         courseTagRepository.save(courseTag1);
+
+        courseTag2 = new CourseTag();
+        courseTag2.setCourse(course2);
+        courseTag2.setTag(tag2);
+
+        courseTagRepository.save(courseTag2);
     }
 }

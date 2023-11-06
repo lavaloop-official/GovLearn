@@ -2,15 +2,14 @@ package com.unimuenster.govlearnapi.tags.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
 import com.unimuenster.govlearnapi.Initializer;
-import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
+import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +23,10 @@ class TagsServiceTest extends AbstractIntegrationTest {
     TagService tagsService;
     @Autowired
     TagRepository tagRepository;
+    @Autowired
+    UserTagService userTagService;
+    @Autowired
+    UserTagRepository userTagRepository;
 
     @Test
     void getTagsById(){
@@ -38,7 +41,7 @@ class TagsServiceTest extends AbstractIntegrationTest {
 
         List<TagDTO> tagsByUser = tagsService.getTagsByUser(initializer.getUser2().getId());
 
-        assertEquals(tagsByUser.size(), 1);
+        assertEquals(1, tagsByUser.size());
         assertEquals(tagsByUser.get(0).id(), initializer.getTag2().getId());
     }
 
@@ -47,12 +50,10 @@ class TagsServiceTest extends AbstractIntegrationTest {
     void addTagToUser(){
 
         // Add tag 2 to user 1
-        tagsService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId());
+        userTagService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId());
 
-        Optional<Tag> loadedTag = tagRepository.findById(initializer.getTag2().getId());
-        List<UserEntity> userEntities =  new ArrayList<>();
-        userEntities.addAll(loadedTag.get().getUsers());
+        List<UserTag> userTagByUserId = userTagRepository.getUserTagByUserId(initializer.getUser1().getId());
 
-        assertTrue(userEntities.stream().anyMatch( userEntity -> userEntity.getId() == initializer.getUser1().getId()));
+        assertTrue( userTagByUserId.stream().anyMatch(userTag -> userTag.getTag().getId() == initializer.getTag2().getId()));
     }
 }

@@ -23,8 +23,8 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     void deleteTagFromUser(@Param("userId") Long userId, @Param("tagId") Long tagId);
 
     @Query(value = """
-      select u.userTags from UserEntity u
-      where u.id = :userId
+      select ut from UserTag ut
+      where ut.user.id = :userId
       """)
     List<UserTag> findAllTagsByUserId(@Param("userId") Long userId);
     @Query(value = """

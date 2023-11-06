@@ -22,6 +22,6 @@ class RecommendationServiceTest extends AbstractIntegrationTest {
 
         List<Course> recommendation = recommendationService.getRecommendation(initializer.getRecommendationUser(), 10);
 
-
+        assertEquals(recommendation.get(0).getId(), initializer.getCourse1().getId());
     }
 }
