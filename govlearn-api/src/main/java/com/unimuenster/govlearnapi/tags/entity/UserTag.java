@@ -15,14 +15,18 @@ import java.util.Date;
 public class UserTag {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     private Tag tag;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
+
+    private int rating;
 
     protected Date createdAt;
 

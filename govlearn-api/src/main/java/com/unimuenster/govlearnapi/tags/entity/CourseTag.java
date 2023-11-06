@@ -15,14 +15,17 @@ import java.util.Date;
 public class CourseTag {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     private Tag tag;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
+
 
     protected Date createdAt;
 

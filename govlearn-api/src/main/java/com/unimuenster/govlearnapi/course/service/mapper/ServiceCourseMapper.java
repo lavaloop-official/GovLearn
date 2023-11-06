@@ -10,4 +10,12 @@ public class ServiceCourseMapper {
     public CourseDTO map(Course course) {
         return new CourseDTO(course.getId(), course.getDescription());
     }
+
+    public Course map(CourseDTO courseDTO) {
+        return Course
+                .builder()
+                .id(courseDTO.id())
+                .description(courseDTO.description())
+                .build();
+    }
 }
