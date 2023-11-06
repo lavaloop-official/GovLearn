@@ -89,8 +89,9 @@ public class TagService {
         }
 
         currentUser.getTags().add(byId.get());
+        byId.get().getUsers().add(currentUser);
 
-        entityManager.merge(currentUser);
+        tagRepository.save(byId.get());
     }
 
     @Transactional

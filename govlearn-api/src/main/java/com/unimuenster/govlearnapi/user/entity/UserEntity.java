@@ -27,11 +27,7 @@ public class UserEntity {
     @Column(nullable = true)
     protected boolean activated;
     protected Date createdAt;
-    @ManyToMany(fetch = FetchType.LAZY, cascade =
-            {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name= "user_tag",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -65,4 +61,7 @@ public class UserEntity {
         }
     }
 
+    public String toString(){
+        return "";
+    }
 }
