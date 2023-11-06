@@ -53,11 +53,6 @@ public class UserEntity {
         return new UserDTO(email, password);
     }
 
-    public void addTag(Tag tag){
-        this.tags.add(tag);
-        tag.getUsers().add(this);
-    }
-
     public void removeTag(long tagId){
         Tag tag = this.tags.stream().filter(t -> t.getId() == tagId).findFirst().orElse(null);
         if(tag != null){
