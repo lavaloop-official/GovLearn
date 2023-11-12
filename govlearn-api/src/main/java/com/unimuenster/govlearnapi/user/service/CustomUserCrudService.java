@@ -35,6 +35,7 @@ public class CustomUserCrudService {
                 .builder()
                 .email(userDTO.email())
                 .password(encode)
+                .name(userDTO.name())
                 .activated(true)
                 .build();
 
@@ -51,7 +52,7 @@ public class CustomUserCrudService {
 
     public UserWsTo UserProfil(){
 
-        UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail());
+        UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail(),authenticationService.getCurrentUser().getName());
 
         return userWsTo;
     }

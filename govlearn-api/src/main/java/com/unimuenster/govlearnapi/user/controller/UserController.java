@@ -37,7 +37,8 @@ public class UserController {
     public ResponseEntity<Response<TokenDTO>> createUser(@RequestBody RegisterWsTo registerRequest){
         UserDTO userDTO = new UserDTO(
                 registerRequest.email(),
-                registerRequest.password()
+                registerRequest.password(),
+                registerRequest.name()
         );
 
         TokenDTO newUser = customUserCrudService.createNewUser(userDTO);
@@ -51,7 +52,7 @@ public class UserController {
     @Transactional
     @PostMapping("/users/auth-token")
     public ResponseEntity<Response<TokenDTO>> authenticate(@RequestBody AuthenticationWsTo authenticationWsTo) {
-        UserDTO userDTO = new UserDTO(authenticationWsTo.email(), authenticationWsTo.password());
+        UserDTO userDTO = new UserDTO(authenticationWsTo.email(), authenticationWsTo.password(), authenticationWsTo.name());
 
         return ResponseEntity.ok( Response.of(authenticationService.authenticate(userDTO), new Message(Message.SUCCESS)));
     }
