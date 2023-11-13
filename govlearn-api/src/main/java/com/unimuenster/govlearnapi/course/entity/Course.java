@@ -28,7 +28,7 @@ public class Course {
     private UserEntity creator;
     protected Date createdAt;
 
-    @OneToMany( fetch = FetchType.LAZY )
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course")
     @ToString.Exclude
     private List<CourseTag> courseTags;
 
