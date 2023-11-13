@@ -25,4 +25,4 @@ server:
   address: 0.0.0.0
 
 frontend:
-  url: http://localhost:4200
+  url: http://localhost:5173
