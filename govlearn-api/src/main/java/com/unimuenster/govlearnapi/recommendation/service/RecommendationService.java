@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +29,7 @@ public class RecommendationService {
     private final CourseTagService courseTagService;
     private final ServiceCourseMapper serviceCourseMapper;
 
-    public List<Course> getRecommendation(UserEntity user, int maxReturnedCourses){
+    public List<CourseDTO> getRecommendation(UserEntity user, int maxReturnedCourses){
 
         List<UserTag> userTags = getUserTags(user);
         // TODO declare allTags globally
@@ -40,7 +41,9 @@ public class RecommendationService {
 
         sortSimilarityList(courseSimilarityList);
 
-        return mapAndLimitCourses(courseSimilarityList, maxReturnedCourses);
+        List<Course> courses = mapAndLimitCourses(courseSimilarityList, maxReturnedCourses);
+
+        return courses.stream().map(course -> serviceCourseMapper.map(course)).toList();
     }
 
     private List<Course> mapAndLimitCourses(List<Object[]> courseSimilarityList, int maxReturnedCourses) {

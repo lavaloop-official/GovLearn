@@ -35,11 +35,7 @@ public class UserEntity {
     @ToString.Exclude
     private List<Token> tokens;
 
-    @OneToMany( fetch = FetchType.LAZY )
-    @ToString.Exclude
-    private List<Course> courses;
-
-    @OneToMany( fetch = FetchType.LAZY )
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")
     @ToString.Exclude
     private List<UserTag> userTags;
 

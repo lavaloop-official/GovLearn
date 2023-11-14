@@ -24,11 +24,11 @@ public class Tag {
     protected String category;
     protected Date createdAt;
 
-    @OneToMany( fetch = FetchType.LAZY )
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "tag")
     @ToString.Exclude
     private List<CourseTag> courseTags;
 
-    @OneToMany( fetch = FetchType.LAZY )
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "tag")
     @ToString.Exclude
     private List<UserTag> userTags;
 
