@@ -1,3 +1,3 @@
 package com.unimuenster.govlearnapi.user.controller.wsto;
 
-public record UserWsTo(String email) {}
+public record UserWsTo(String email, String name) {}

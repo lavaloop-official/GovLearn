@@ -49,7 +49,7 @@ public class UserEntity {
     }
 
     public UserDTO getDTO(){
-        return new UserDTO(email, password);
+        return new UserDTO(email, password, name);
     }
 
     public String toString(){
