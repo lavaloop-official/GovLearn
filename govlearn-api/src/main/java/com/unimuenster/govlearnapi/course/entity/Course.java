@@ -32,9 +32,6 @@ public class Course {
     @ToString.Exclude
     private List<CourseTag> courseTags;
 
-    public List<CourseTag> getCourseTags(){
-        return courseTags;
-    }
     public List<Tag> getTags(){
         return courseTags
                 .stream()
