@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.tags.service;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
@@ -86,21 +87,6 @@ public class TagService {
                 .collect(Collectors.toList());
     }
 
-
-
-    @Transactional
-    public void addTagToCourse(long courseId, long tagId) {
-
-        Optional<Tag> tag = tagRepository.findById(tagId);
-        Optional<Course> course = courseRepository.findById(courseId);
-        if ( tag.isEmpty() || course.isEmpty() ){
-            throw new NotFoundException();
-        }
-
-        course.get().getTags().add(tag.get());
-
-        entityManager.merge(course.get());
-    }
 
     @Transactional
     public void deleteTagFromUser(UserEntity currentUser, long tagId) {

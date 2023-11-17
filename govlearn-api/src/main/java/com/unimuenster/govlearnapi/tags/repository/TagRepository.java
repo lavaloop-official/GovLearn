@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-
+    @Query(value = """
+SELECT t FROM Tag t where t.id = :tagId
+""")
     Optional<Tag> findById(Long tagId);
 
     @Modifying
