@@ -39,7 +39,19 @@ public class CourseService {
         
         Course course = Course
                 .builder()
+                .name(courseCreationDTO.name())
+                .image(courseCreationDTO.image())
                 .description(courseCreationDTO.description())
+                .createdAt(courseCreationDTO.createdAt())
+                .provider(courseCreationDTO.provider())
+                .instructor(courseCreationDTO.instructor())
+                .certificate(courseCreationDTO.certificate())
+                .skilllevel(courseCreationDTO.skilllevel())
+                .durationInHours(courseCreationDTO.durationInHours())
+                .format(courseCreationDTO.format())
+                .startDate(courseCreationDTO.startDate())
+                .costFree(courseCreationDTO.costFree())
+                .domainSpecific(courseCreationDTO.domainSpecific())
                 .creator(currentUser)
                 .build();
         
