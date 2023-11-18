@@ -19,11 +19,11 @@ public class CourseTag {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
 
