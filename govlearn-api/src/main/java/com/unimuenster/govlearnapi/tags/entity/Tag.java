@@ -8,8 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,7 +42,5 @@ public class Tag {
     private void onCreate() {
         createdAt = new Date();
     }
-    public String toString(){
-        return "";
-    }
+
 }
