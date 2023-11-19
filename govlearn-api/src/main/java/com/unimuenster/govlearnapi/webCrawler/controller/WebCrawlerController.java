@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.webCrawler.controller.wsto.CrawlerWsTo;
 import com.unimuenster.govlearnapi.webCrawler.service.WebCrawler;
 import com.unimuenster.govlearnapi.webCrawler.service.WebCrawlerStrategySelector;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,11 @@ public class WebCrawlerController {
     private final AuthenticationService authenticationService;
 
     @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
             description = "Post once to initialize the application database."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping()
+    @PostMapping("")
     public ResponseEntity crawl(@RequestBody CrawlerWsTo crawlerWsTo){
         UserEntity currentUser = authenticationService.getCurrentUser();
 

@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class WebCrawlerStrategySelector {
+    private final FindigShWebCrawler findigShWebCrawler;
 
     public WebCrawler getWebCrawler(CrawlerWsTo crawlerWsTo){
 
         if (crawlerWsTo.getCrawlerType().equals("findig.sh")){
-            return new FindigShWebCrawler();
+            return findigShWebCrawler;
         }
 
-        return null;
+        return findigShWebCrawler;
     }
 
 }

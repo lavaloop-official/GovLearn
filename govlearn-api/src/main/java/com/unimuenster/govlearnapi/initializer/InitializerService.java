@@ -83,6 +83,7 @@ public class InitializerService {
         course1.setDescription("description 1");
         course1.setProvider("provider 1");
         course1.setStartDate(new Date());
+        course1.setLink("");
 
         courseRepository.save(course1);
 
@@ -92,6 +93,7 @@ public class InitializerService {
         course2.setDescription("description 2");
         course2.setProvider("provider 2");
         course2.setStartDate(new Date());
+        course2.setLink("");
 
         courseRepository.save(course2);
     }
