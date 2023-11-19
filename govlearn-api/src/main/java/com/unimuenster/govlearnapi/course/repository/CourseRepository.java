@@ -23,4 +23,13 @@ select c from Course c where c.id = :courseId
 SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
     """)
     List<Course> findAllCoursesByTagId(Long tagId);
+
+
+    // May be used for filtering courses by attributes
+    @Query(value = """
+        select c 
+        from Course c 
+        where c.description like %:nameSearch%
+    """)
+    List<Course> findCoursesByAttributes(String nameSearch);
 }
