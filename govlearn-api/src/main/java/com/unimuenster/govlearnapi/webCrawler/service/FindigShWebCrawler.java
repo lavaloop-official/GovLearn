@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class FindigShWebCrawler extends WebCrawler{
         //Write the crawler logic here
 
         // Driver for Win64 can be downloaded here: https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/win64/chromedriver-win64.zip
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Star-Lord\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\julia\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
 
         // Create a new instance of the Chrome driver
         WebDriver driver = new ChromeDriver();
@@ -33,10 +34,17 @@ public class FindigShWebCrawler extends WebCrawler{
         loadAllData(driver);
 
         // Find and print the title of the page
-        List<WebElement> cardTitles = driver.findElements(By.cssSelector("span.card-title"));
+        List<WebElement> cardTitles = driver.findElements(By.cssSelector("div.card"));
 
         for(WebElement cardTitle : cardTitles){
-            System.out.println(cardTitle.getText());
+            String title = cardTitle.findElement(By.cssSelector("span.card-title")).getText();
+            String provider = cardTitle.findElement(By.cssSelector("div.ucc-course-provider")).getText();
+            String duration = cardTitle.findElement(By.cssSelector("div.ucc-course-duration")).getText();
+            List<String> competence_level = cardTitle.findElements(By.cssSelector("div.ucc-course-competence-level")).stream()
+                    .map(WebElement::getText)
+                    .toList();
+            //String image = cardTitle
+
         }
 
 
