@@ -1,11 +1,11 @@
 package com.unimuenster.govlearnapi.tags.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
-import com.unimuenster.govlearnapi.Initializer;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
+import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TagsServiceTest extends AbstractIntegrationTest {
 
     @Autowired
-    Initializer initializer;
+    InitializerService initializer;
     @Autowired
     TagService tagService;
     @Autowired
