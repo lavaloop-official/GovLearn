@@ -1,8 +1,8 @@
 package com.unimuenster.govlearnapi.course.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
-import com.unimuenster.govlearnapi.Initializer;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.initializer.InitializerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ class CourseFilteringServiceTest extends AbstractIntegrationTest {
     @Autowired
     private CourseFilteringService courseFilteringService;
     @Autowired
-    private Initializer initializer;
+    private InitializerService initializer;
 
     @Test
     void filterCourses() {
