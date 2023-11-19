@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Getter
 @Slf4j
 @Service
@@ -76,14 +78,20 @@ public class InitializerService {
 
     public void insertCourse(){
         course1 = new Course();
-        course1.setDescription("course 1");
+        course1.setName("course 1");
         course1.setCreator(user1);
+        course1.setDescription("description 1");
+        course1.setProvider("provider 1");
+        course1.setStartDate(new Date());
 
         courseRepository.save(course1);
 
         course2 = new Course();
-        course2.setDescription("course 2");
+        course2.setName("course 2");
         course2.setCreator(user2);
+        course2.setDescription("description 2");
+        course2.setProvider("provider 2");
+        course2.setStartDate(new Date());
 
         courseRepository.save(course2);
     }
