@@ -1,9 +1,8 @@
 package com.unimuenster.govlearnapi.recommendation.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
-import com.unimuenster.govlearnapi.Initializer;
-import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.initializer.InitializerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,12 +15,13 @@ class RecommendationServiceTest extends AbstractIntegrationTest {
     @Autowired
     RecommendationService recommendationService;
     @Autowired
-    Initializer initializer;
+    InitializerService initializer;
 
     @Test
     void getRecommendations(){
 
-        List<CourseDTO> recommendation = recommendationService.getRecommendation(initializer.getRecommendationUser(), 10);
+        List<CourseDTO> recommendation
+                = recommendationService.getRecommendation(initializer.getRecommendationUser(), 10);
 
         assertEquals(recommendation.get(0).id(), initializer.getCourse1().getId());
     }

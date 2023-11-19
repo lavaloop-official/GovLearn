@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi;
+package com.unimuenster.govlearnapi.initializer;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
@@ -13,18 +13,14 @@ import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-@Configuration
-@Profile("test")
 @Getter
 @Slf4j
+@Service
 @RequiredArgsConstructor
-public class Initializer {
+public class InitializerService {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
@@ -40,19 +36,13 @@ public class Initializer {
     private CourseTag courseTag1, courseTag2;
 
 
-    @Bean
-    public CommandLineRunner appReady(){
-        return args -> {
-            System.out.println("Initializing database");
-            insertUser();
-            insertCourse();
-            insertTag();
-            addTagsToUsers();
-            addTagsToCourses();
-        };
+    public void init() {
+        insertUser();
+        insertCourse();
+        insertTag();
+        addTagsToUsers();
+        addTagsToCourses();
     }
-
-
 
     public void insertUser(){
         String test = passwordEncoder.encode("test");
