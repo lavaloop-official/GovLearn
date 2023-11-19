@@ -13,9 +13,14 @@ import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Date;
 
 @Getter
@@ -30,6 +35,8 @@ public class InitializerService {
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
+    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
     private UserEntity user1, user2, recommendationUser;
     private Course course1, course2;
@@ -41,6 +48,7 @@ public class InitializerService {
     public void init() {
         insertUser();
         insertCourse();
+        insertMassiveCourseList();
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
@@ -96,6 +104,8 @@ public class InitializerService {
         course2.setLink("");
 
         courseRepository.save(course2);
+
+
     }
 
     public void insertTag(){
@@ -142,5 +152,14 @@ public class InitializerService {
         courseTag2.setTag(tag2);
 
         courseTagRepository.save(courseTag2);
+    }
+
+    private void insertMassiveCourseList(){
+        ClassPathResource resource = new ClassPathResource("course.sql");
+        try {
+            ScriptUtils.executeSqlScript(dataSource.getConnection(), resource);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
