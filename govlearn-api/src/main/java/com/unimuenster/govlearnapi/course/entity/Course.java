@@ -25,7 +25,8 @@ public class Course {
     @Column(nullable = false)
     protected String name;
     protected String image;
-
+    @Column(nullable = false)
+    protected String link;
     @Column(nullable = false)
     protected String description;
     protected Date createdAt;
@@ -34,9 +35,8 @@ public class Course {
     protected String instructor;
     protected Boolean certificate;
     protected Skilllevel skilllevel;
-    protected Double durationInHours;
+    protected String duration;
     protected Format format;
-    @Column(nullable = false)
     protected Date startDate;
     protected Boolean costFree;
     protected Boolean domainSpecific;

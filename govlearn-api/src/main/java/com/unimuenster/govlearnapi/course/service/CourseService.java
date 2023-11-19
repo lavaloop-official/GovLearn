@@ -47,7 +47,7 @@ public class CourseService {
                 .instructor(courseCreationDTO.instructor())
                 .certificate(courseCreationDTO.certificate())
                 .skilllevel(courseCreationDTO.skilllevel())
-                .durationInHours(courseCreationDTO.durationInHours())
+                .duration(courseCreationDTO.durationInHours())
                 .format(courseCreationDTO.format())
                 .startDate(courseCreationDTO.startDate())
                 .costFree(courseCreationDTO.costFree())
