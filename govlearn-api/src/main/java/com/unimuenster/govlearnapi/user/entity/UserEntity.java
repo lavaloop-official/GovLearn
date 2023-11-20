@@ -1,6 +1,5 @@
 package com.unimuenster.govlearnapi.user.entity;
-
-import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
@@ -38,6 +37,20 @@ public class UserEntity {
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")
     @ToString.Exclude
     private List<UserTag> userTags;
+
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Feedback> feedback;
+
+    public void addFeedback(Feedback Postfeedback) {
+        feedback.add(Postfeedback);
+        Postfeedback.setUser(this);
+    }
+ 
+    public void removeComment(Feedback Postfeedback) {
+        feedback.remove(Postfeedback);
+        Postfeedback.setUser(null);
+    }
 
     @PrePersist
     private void onCreate() {
