@@ -13,14 +13,41 @@ import java.util.stream.Collectors;
 public class ControllerCourseMapper {
 
     public CourseCreationDTO map(CourseCreationWsTo courseCreationWsTo){
-        return new CourseCreationDTO(courseCreationWsTo.description());
+        return new CourseCreationDTO(
+                courseCreationWsTo.name(),
+                courseCreationWsTo.image(),
+                courseCreationWsTo.description(),
+                courseCreationWsTo.createdAt(),
+                courseCreationWsTo.provider(),
+                courseCreationWsTo.instructor(),
+                courseCreationWsTo.certificate(),
+                courseCreationWsTo.skilllevel(),
+                courseCreationWsTo.durationInHours(),
+                courseCreationWsTo.format(),
+                courseCreationWsTo.startDate(),
+                courseCreationWsTo.costFree(),
+                courseCreationWsTo.domainSpecific()
+        );
     }
 
     public CourseWsTo map(CourseDTO courseDTO) {
         return CourseWsTo
                 .builder()
                 .id(courseDTO.id())
+                .name(courseDTO.name())
+                .image(courseDTO.image())
                 .description(courseDTO.description())
+                .createdAt(courseDTO.createdAt())
+                .provider(courseDTO.provider())
+                .instructor(courseDTO.instructor())
+                .certificate(courseDTO.certificate())
+                .skilllevel(courseDTO.skilllevel())
+                .durationInHours(courseDTO.durationInHours())
+                .format(courseDTO.format())
+                .startDate(courseDTO.startDate())
+                .costFree(courseDTO.costFree())
+                .domainSpecific(courseDTO.domainSpecific())
+
                 .build();
     }
 

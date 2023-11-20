@@ -1,6 +1,8 @@
 package com.unimuenster.govlearnapi.course.entity;
 
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
+import com.unimuenster.govlearnapi.core.config.enums.Format;
+import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -24,12 +26,27 @@ public class Course {
     protected Long id;
 
     @Column(nullable = false)
+    protected String name;
+    protected String image;
+    @Column(nullable = false)
+    protected String link;
+    @Column(nullable = false)
     protected String description;
+    protected Date createdAt;
+    @Column(nullable = false)
+    protected String provider;
+    protected String instructor;
+    protected Boolean certificate;
+    protected Skilllevel skilllevel;
+    protected String duration;
+    protected Format format;
+    protected Date startDate;
+    protected Boolean costFree;
+    protected Boolean domainSpecific;
 
     @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private UserEntity creator;
-    protected Date createdAt;
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "course")
     @ToString.Exclude
@@ -61,3 +78,4 @@ public class Course {
         createdAt = new Date();
     }
 }
+

@@ -10,6 +10,7 @@ import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
+import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ public class CourseTagController {
     private final ControllerTagMapper controllerTagMapper;
     private final ControllerCourseMapper controllerCourseMapper;
     private final TagService tagService;
+    private final CourseTagService courseTagService;
     private final CourseService courseService;
 
     @Operation(
@@ -70,7 +72,7 @@ public class CourseTagController {
         CourseDTO courseDTO = courseService.getCourseById(addTagToCourseWsTo.courseId());
         CourseWsTo course = controllerCourseMapper.map(courseDTO);
 
-        tagService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
+        courseTagService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
         return ResponseEntity.ok( Response.of(true));
     }
 

@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi;
+package com.unimuenster.govlearnapi.initializer;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
@@ -13,18 +13,21 @@ import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-@Configuration
-@Profile("test")
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.Date;
+
 @Getter
 @Slf4j
+@Service
 @RequiredArgsConstructor
-public class Initializer {
+public class InitializerService {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
@@ -32,6 +35,8 @@ public class Initializer {
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
+    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
     private UserEntity user1, user2, recommendationUser;
     private Course course1, course2;
@@ -40,19 +45,14 @@ public class Initializer {
     private CourseTag courseTag1, courseTag2;
 
 
-    @Bean
-    public CommandLineRunner appReady(){
-        return args -> {
-            System.out.println("Initializing database");
-            insertUser();
-            insertCourse();
-            insertTag();
-            addTagsToUsers();
-            addTagsToCourses();
-        };
+    public void init() {
+        insertUser();
+        insertCourse();
+        insertMassiveCourseList();
+        insertTag();
+        addTagsToUsers();
+        addTagsToCourses();
     }
-
-
 
     public void insertUser(){
         String test = passwordEncoder.encode("test");
@@ -86,16 +86,26 @@ public class Initializer {
 
     public void insertCourse(){
         course1 = new Course();
-        course1.setDescription("course 1");
+        course1.setName("course 1");
         course1.setCreator(user1);
+        course1.setDescription("description 1");
+        course1.setProvider("provider 1");
+        course1.setStartDate(new Date());
+        course1.setLink("");
 
         courseRepository.save(course1);
 
         course2 = new Course();
-        course2.setDescription("course 2");
+        course2.setName("course 2");
         course2.setCreator(user2);
+        course2.setDescription("description 2");
+        course2.setProvider("provider 2");
+        course2.setStartDate(new Date());
+        course2.setLink("");
 
         courseRepository.save(course2);
+
+
     }
 
     public void insertTag(){
@@ -142,5 +152,14 @@ public class Initializer {
         courseTag2.setTag(tag2);
 
         courseTagRepository.save(courseTag2);
+    }
+
+    private void insertMassiveCourseList(){
+        ClassPathResource resource = new ClassPathResource("course.sql");
+        try {
+            ScriptUtils.executeSqlScript(dataSource.getConnection(), resource);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
