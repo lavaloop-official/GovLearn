@@ -32,4 +32,14 @@ SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
         where c.description like %:nameSearch%
     """)
     List<Course> findCoursesByAttributes(String nameSearch);
+
+    @Query(value = """
+        select c 
+        from Course c 
+        INNER JOIN c.courseTags t 
+        INNER JOIN t.tag tag
+        INNER JOIN tag.category cat
+        where cat.id = :categoryId
+    """)
+    List<Course> findCoursesByCategory(int categoryId);
 }

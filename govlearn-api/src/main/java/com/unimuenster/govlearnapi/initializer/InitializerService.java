@@ -2,9 +2,11 @@ package com.unimuenster.govlearnapi.initializer;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
@@ -35,6 +37,7 @@ public class InitializerService {
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
+    private final CategoryRepository categoryRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
 
@@ -43,10 +46,11 @@ public class InitializerService {
     private Tag tag1, tag2;
     private UserTag userTag1, userTag2;
     private CourseTag courseTag1, courseTag2;
-
+    private Category category1, category2;
 
     public void init() {
         insertUser();
+        insertCategories();
         insertCourse();
         insertMassiveCourseList();
         insertTag();
@@ -84,6 +88,18 @@ public class InitializerService {
         userRepository.save(recommendationUser);
     }
 
+    private void insertCategories() {
+        category1 = new Category();
+        category1.setName("Category 1");
+
+        categoryRepository.save(category1);
+
+        category2 = new Category();
+        category2.setName("Category 2");
+
+        categoryRepository.save(category2);
+    }
+
     public void insertCourse(){
         course1 = new Course();
         course1.setName("course 1");
@@ -111,13 +127,13 @@ public class InitializerService {
     public void insertTag(){
         tag1 = new Tag();
         tag1.setName("Tag 1");
-        tag1.setCategory("Category 1");
+        tag1.setCategory(category1);
 
         tagRepository.save(tag1);
 
         tag2 = new Tag();
         tag2.setName("Tag 2");
-        tag2.setCategory("Category 2");
+        tag2.setCategory(category2);
 
         tagRepository.save(tag2);
     }

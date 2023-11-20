@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class ServiceTagMapper {
 
     public TagDTO map(Tag tag) {
-        return new TagDTO(tag.getId(), tag.getName(), tag.getCategory());
+        return new TagDTO(tag.getId(), tag.getName(), tag.getCategory().getName());
     }
 }

@@ -29,6 +29,22 @@ public class RecommendationService {
     private final CourseTagService courseTagService;
     private final ServiceCourseMapper serviceCourseMapper;
 
+    public List<CourseDTO> getRecommendationBasedOnCourseSet(UserEntity user, List<Course> courses){
+        List<UserTag> userTags = getUserTags(user);
+        // TODO declare allTags globally
+        List<TagDTO> allTags = tagService.getTags();
+
+        double[] userTagRatingVector = getUserTagRatingVector(userTags, allTags);
+
+        List<Object[]> courseSimilarityList = compareToCourses(userTagRatingVector, allTags, courses);
+
+        sortSimilarityList(courseSimilarityList);
+
+        List<Course> selectedCourses = mapAndLimitCourses(courseSimilarityList, 10000);
+
+        return selectedCourses.stream().map(course -> serviceCourseMapper.map(course)).toList();
+    }
+
     public List<CourseDTO> getRecommendation(UserEntity user, int maxReturnedCourses){
 
         List<UserTag> userTags = getUserTags(user);
@@ -61,6 +77,30 @@ public class RecommendationService {
 
         for( int i = 0; i< courses.size(); i++) {
             Course course = serviceCourseMapper.map(courses.get(i));
+
+            double[] courseTagBinaryVector = getCourseTagBinaryVector(course, allTags);
+
+            Optional<Object[]> similarityAndCourse
+                    = computeSimilarityForCourse(userTagRatingVector, courseTagBinaryVector, course);
+
+            similarityAndCourse.ifPresent(
+                    sc -> courseSimilarityList.add(sc)
+            );
+        }
+
+        return courseSimilarityList;
+    }
+
+    private List<Object[]> compareToCourses(double[] userTagRatingVector, List<TagDTO> allTags, List<Course> courses) {
+        List<Object[]> courseSimilarityList = new ArrayList<>();
+
+        List<CourseDTO> courseDTOS = courses
+                .stream()
+                .map(course -> serviceCourseMapper.map(course))
+                .collect(Collectors.toList());
+
+        for( int i = 0; i< courses.size(); i++) {
+            Course course = serviceCourseMapper.map(courseDTOS.get(i));
 
             double[] courseTagBinaryVector = getCourseTagBinaryVector(course, allTags);
 
