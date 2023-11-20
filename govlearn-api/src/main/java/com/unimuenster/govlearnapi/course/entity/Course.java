@@ -61,11 +61,6 @@ public class Course {
         feedback.add(Postfeedback);
         Postfeedback.setCourse(this);
     }
- 
-    public void removeComment(Feedback Postfeedback) {
-        feedback.remove(Postfeedback);
-        Postfeedback.setCourse(null);
-    }
 
     public List<Tag> getTags(){
         return courseTags

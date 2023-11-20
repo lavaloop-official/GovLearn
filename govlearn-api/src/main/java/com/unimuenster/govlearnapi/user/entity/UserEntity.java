@@ -42,16 +42,6 @@ public class UserEntity {
     @ToString.Exclude
     private List<Feedback> feedback;
 
-    public void addFeedback(Feedback Postfeedback) {
-        feedback.add(Postfeedback);
-        Postfeedback.setUser(this);
-    }
- 
-    public void removeComment(Feedback Postfeedback) {
-        feedback.remove(Postfeedback);
-        Postfeedback.setUser(null);
-    }
-
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
