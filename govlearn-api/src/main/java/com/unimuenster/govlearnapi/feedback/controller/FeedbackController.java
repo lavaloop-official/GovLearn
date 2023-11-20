@@ -64,7 +64,7 @@ public class FeedbackController {
         description = "Get feedback by courseID and userID."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{courseID}")
+    @GetMapping("/feedback/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDandFeedbackID(@PathVariable Long courseID) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
@@ -81,7 +81,7 @@ public class FeedbackController {
         description = "Get feedback by courseID with a limit and offset"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{courseID}/{limit}/{offset}")
+    @GetMapping("/feedback/course/{courseID}/limit/{limit}/offset/{offset}")
     public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Long limit, Long offset) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
@@ -98,7 +98,7 @@ public class FeedbackController {
         description = "Delete a feedback from a course"
     )
     @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/{feedbackID}")
+    @DeleteMapping("/feedback/{feedbackID}")
     public ResponseEntity<Response> deleteFeedbackFromCourse(@PathVariable Long feedbackID) {
 
         feedbackService.deleteFeedbackFromCourse(feedbackID);
@@ -108,10 +108,10 @@ public class FeedbackController {
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
-        description = "Delete a feedback from a course"
+        description = "Update a feedback"
     )
     @PreAuthorize("hasAuthority('user')")
-    @PutMapping("/")
+    @PutMapping("/feedback")
     public ResponseEntity<Response> updateFeedbackFromCourse(
             @RequestBody FeedbackUpdateWsTo feedbackUpdateWsTo
     ){
