@@ -31,10 +31,10 @@ public class InitializerController {
             Post once to kill the application database.
             """
     )
-    @PostMapping("/dropAll")
-    public ResponseEntity DropAllTables(){
+    @PostMapping("/deleteAll")
+    public ResponseEntity DeleteAllData(){
         try {
-            initializerService.dropAllTables();
+            initializerService.deleteAllData();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
