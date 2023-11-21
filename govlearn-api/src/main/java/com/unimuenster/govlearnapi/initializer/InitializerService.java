@@ -42,7 +42,7 @@ public class InitializerService {
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
     private Tag tag1, tag2, tag3, tag4, tag5;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
-    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5;
+    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15;
 
 
     public void init() {
@@ -283,6 +283,27 @@ public class InitializerService {
         userTag2.setTag(tag2);
 
         userTagRepository.save(userTag2);
+
+        userTag3 = new UserTag();
+        userTag3.setUser(recommendationUser);
+        userTag3.setRating(2);
+        userTag3.setTag(tag3);
+
+        userTagRepository.save(userTag3);
+
+        userTag4 = new UserTag();
+        userTag4.setUser(user2);
+        userTag4.setRating(2);
+        userTag4.setTag(tag4);
+
+        userTagRepository.save(userTag4);
+
+        userTag5 = new UserTag();
+        userTag5.setUser(user2);
+        userTag5.setRating(2);
+        userTag5.setTag(tag5);
+
+        userTagRepository.save(userTag5);
     }
 
     private void addTagsToCourses() {
@@ -298,6 +319,84 @@ public class InitializerService {
         courseTag2.setTag(tag2);
 
         courseTagRepository.save(courseTag2);
+
+        courseTag3 = new CourseTag();
+        courseTag3.setCourse(course3);
+        courseTag3.setTag(tag3);
+
+        courseTagRepository.save(courseTag3);
+
+        courseTag4 = new CourseTag();
+        courseTag4.setCourse(course4);
+        courseTag4.setTag(tag4);
+
+        courseTagRepository.save(courseTag4);
+
+        courseTag5 = new CourseTag();
+        courseTag5.setCourse(course5);
+        courseTag5.setTag(tag5);
+
+        courseTagRepository.save(courseTag5);
+
+        courseTag6 = new CourseTag();
+        courseTag6.setCourse(course6);
+        courseTag6.setTag(tag1);
+
+        courseTagRepository.save(courseTag6);
+
+        courseTag7 = new CourseTag();
+        courseTag7.setCourse(course7);
+        courseTag7.setTag(tag2);
+
+        courseTagRepository.save(courseTag7);
+
+        courseTag8 = new CourseTag();
+        courseTag8.setCourse(course8);
+        courseTag8.setTag(tag3);
+
+        courseTagRepository.save(courseTag8);
+
+        courseTag9 = new CourseTag();
+        courseTag9.setCourse(course9);
+        courseTag9.setTag(tag4);
+
+        courseTagRepository.save(courseTag9);
+
+        courseTag10 = new CourseTag();
+        courseTag10.setCourse(course10);
+        courseTag10.setTag(tag5);
+
+        courseTagRepository.save(courseTag10);
+
+        courseTag11 = new CourseTag();
+        courseTag11.setCourse(course11);
+        courseTag11.setTag(tag1);
+
+        courseTagRepository.save(courseTag11);
+
+        courseTag12 = new CourseTag();
+        courseTag12.setCourse(course12);
+        courseTag12.setTag(tag2);
+
+        courseTagRepository.save(courseTag12);
+
+        courseTag13 = new CourseTag();
+        courseTag13.setCourse(course13);
+        courseTag13.setTag(tag3);
+
+        courseTagRepository.save(courseTag13);
+
+        courseTag14 = new CourseTag();
+        courseTag14.setCourse(course14);
+        courseTag14.setTag(tag4);
+
+        courseTagRepository.save(courseTag14);
+
+        courseTag15 = new CourseTag();
+        courseTag15.setCourse(course15);
+        courseTag15.setTag(tag5);
+
+        courseTagRepository.save(courseTag15);
     }
 
     private void insertMassiveCourseList(){
