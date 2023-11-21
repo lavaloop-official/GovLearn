@@ -193,7 +193,7 @@ public class InitializerService {
         course11.setStartDate(new Date());
         course11.setLink("");
 
-        courseRepository.save(course1);
+        courseRepository.save(course11);
 
         course12 = new Course();
         course12.setName("course 12");
