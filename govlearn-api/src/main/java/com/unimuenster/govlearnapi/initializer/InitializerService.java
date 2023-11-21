@@ -66,8 +66,8 @@ public class InitializerService {
 
         user1 = new UserEntity();
         user1.setActivated(true);
-        user1.setName("test@mail.com");
-        user1.setEmail("test");
+        user1.setName("test");
+        user1.setEmail("test@mail.com");
         user1.setPassword(test);
 
         userRepository.save(user1);
@@ -75,17 +75,17 @@ public class InitializerService {
         String test2 = passwordEncoder.encode("test2");
         user2 = new UserEntity();
         user2.setActivated(true);
-        user2.setName("test2@mail.com");
-        user2.setEmail("test2");
+        user2.setName("test2");
+        user2.setEmail("test2@mail.com");
         user2.setPassword(test2);
 
         userRepository.save(user2);
 
-        String recommendationUserPasswort = passwordEncoder.encode("test3@mail.com");
+        String recommendationUserPasswort = passwordEncoder.encode("test3");
         recommendationUser = new UserEntity();
         recommendationUser.setActivated(true);
         recommendationUser.setName("test3");
-        recommendationUser.setEmail("test3");
+        recommendationUser.setEmail("test3@mail.com");
         recommendationUser.setPassword(recommendationUserPasswort);
 
         userRepository.save(recommendationUser);
