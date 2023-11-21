@@ -40,7 +40,8 @@ public class UserEntity {
 
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Feedback> feedback;
+    @Builder.Default
+    private List<Feedback> feedback = new ArrayList<Feedback>();
 
     @PrePersist
     private void onCreate() {

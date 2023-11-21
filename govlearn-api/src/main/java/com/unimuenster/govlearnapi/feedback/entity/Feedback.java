@@ -30,7 +30,7 @@ public class Feedback {
     protected Date createdAt;
 
     @ManyToOne( fetch = FetchType.LAZY )
-    @Cascade(CascadeType.PERSIST)
+    @Cascade(CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
