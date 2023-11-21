@@ -10,9 +10,15 @@ import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
+
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
@@ -37,6 +43,7 @@ public class InitializerService {
     private final CourseTagRepository courseTagRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
+    private final EntityManager entityManager;
 
     private UserEntity user1, user2, recommendationUser;
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
@@ -406,5 +413,25 @@ public class InitializerService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Transactional
+    public void dropAllTables() throws Exception{
+        Query dropAllTables = entityManager.createNativeQuery("""
+            DROP TABLE course_tag CASCADE;
+            DROP TABLE course CASCADE;
+            DROP TABLE feedback CASCADE;
+            DROP TABLE tag CASCADE;
+            DROP TABLE token CASCADE;
+            DROP TABLE user_entity CASCADE;
+            DROP TABLE user_tag CASCADE; 
+            """
+        );
+        try {
+            dropAllTables.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+        
     }
 }
