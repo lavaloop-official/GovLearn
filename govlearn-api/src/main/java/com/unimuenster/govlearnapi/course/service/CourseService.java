@@ -78,4 +78,21 @@ public class CourseService {
                 .map(course -> serviceCourseMapper.map(course))
                 .collect(Collectors.toList());
     }
+
+    public Course getCourseEntityById(Long courseId){
+        Optional<Course> course = courseRepository.findById(courseId);
+
+        if ( course.isEmpty() ) {
+            throw new NotFoundException();
+        }
+
+        Course map = Course
+                .builder()
+                .description(course.get().getDescription())
+                .creator(course.get().getCreator())
+                .createdAt(course.get().getCreatedAt())
+                .build();
+
+        return map;
+    }
 }

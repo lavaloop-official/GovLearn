@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.course.entity;
 
+import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
@@ -10,6 +11,8 @@ import lombok.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.ObjectUtils.Null;
 
 @Entity
 @Data
@@ -25,7 +28,6 @@ public class Course {
     @Column(nullable = false)
     protected String name;
     protected String image;
-    @Column(nullable = false)
     protected String link;
     @Column(nullable = false)
     protected String description;
@@ -41,13 +43,23 @@ public class Course {
     protected Boolean costFree;
     protected Boolean domainSpecific;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
     private UserEntity creator;
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "course")
     @ToString.Exclude
     private List<CourseTag> courseTags;
+
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @Builder.Default
+    private List<Feedback> feedback = new ArrayList<Feedback>();
+
+    public void addFeedback(Feedback Postfeedback) {
+        feedback.add(Postfeedback);
+        Postfeedback.setCourse(this);
+    }
 
     public List<Tag> getTags(){
         return courseTags
