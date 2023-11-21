@@ -17,10 +17,27 @@ public class InitializerController {
     @Operation(
             description = "Post once to initialize the application database."
     )
-    @PostMapping()
+    @PostMapping("/instatiate")
     public ResponseEntity createCourse(){
         initializerService.init();
 
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+        description = """
+            ## WARNING - WHEN EXECUTING ALL DATA WILL BE DELETED
+
+            Post once to kill the application database.
+            """
+    )
+    @PostMapping("/deleteAll")
+    public ResponseEntity DeleteAllData(){
+        try {
+            initializerService.deleteAllData();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().build();
     }
 }
