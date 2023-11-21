@@ -28,7 +28,6 @@ public class Course {
     @Column(nullable = false)
     protected String name;
     protected String image;
-    @Column(nullable = false)
     protected String link;
     @Column(nullable = false)
     protected String description;
@@ -44,7 +43,7 @@ public class Course {
     protected Boolean costFree;
     protected Boolean domainSpecific;
 
-    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
     private UserEntity creator;
 
