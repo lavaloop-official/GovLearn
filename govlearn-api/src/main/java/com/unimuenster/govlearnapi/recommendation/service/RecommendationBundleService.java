@@ -25,7 +25,6 @@ public class RecommendationBundleService {
     public RecommendationBundleWsTo getBundle(UserEntity currentUser) {
 
         RecommendationBundleWsTo bundle = new RecommendationBundleWsTo();
-        // TODO find a way to select featured courses
 
         List<CourseDTO> recommendations = recommendationService.getRecommendation(currentUser, 5);
         List<CourseWsTo> list = recommendations.stream().map(course -> controllerCourseMapper.map(course)).toList();
