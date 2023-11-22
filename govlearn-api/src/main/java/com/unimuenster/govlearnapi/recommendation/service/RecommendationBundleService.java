@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.recommendation.service;
 
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -26,7 +27,12 @@ public class RecommendationBundleService {
         RecommendationBundleWsTo bundle = new RecommendationBundleWsTo();
         // TODO find a way to select featured courses
 
-        List<Category> recommendedCategories = getRecommendedCategories(currentUser, 4);
+        List<CourseDTO> recommendations = recommendationService.getRecommendation(currentUser, 5);
+        List<CourseWsTo> list = recommendations.stream().map(course -> controllerCourseMapper.map(course)).toList();
+
+        bundle.setFeatured(list);
+
+        List<Category> recommendedCategories = getRecommendedCategories(currentUser, 6);
 
         for(Category category : recommendedCategories){
             List<Course> coursesByCategory = courseRepository.findCoursesByCategory(Math.toIntExact(category.getId()));
