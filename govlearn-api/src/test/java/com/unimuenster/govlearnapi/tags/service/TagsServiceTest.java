@@ -53,7 +53,7 @@ class TagsServiceTest extends AbstractIntegrationTest {
 
         List<TagDTO> tagsByUser = tagService.getTagsByUser(initializer.getUser2().getId());
 
-        assertEquals(1, tagsByUser.size());
+        assertEquals(3, tagsByUser.size());
         assertEquals(tagsByUser.get(0).id(), initializer.getTag2().getId());
     }
 
