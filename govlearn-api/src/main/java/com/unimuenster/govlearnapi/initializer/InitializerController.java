@@ -29,12 +29,14 @@ public class InitializerController {
             ## WARNING - WHEN EXECUTING ALL DATA WILL BE DELETED
 
             Post once to kill the application database.
+
+            -> When using Instantiate afterwards -> Restart the application!
             """
     )
-    @PostMapping("/deleteAll")
-    public ResponseEntity DeleteAllData(){
+    @PostMapping("/dropAll")
+    public ResponseEntity DropAllTables(){
         try {
-            initializerService.deleteAllData();
+            initializerService.dropAllTables();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
