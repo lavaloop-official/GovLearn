@@ -98,7 +98,7 @@ public class InitializerService {
 
     private void insertCategories() {
         category1 = new Category();
-        category1.setName("Category 1");
+        category1.setName("Lerne Scrum");
 
         categoryRepository.save(category1);
 
@@ -108,7 +108,7 @@ public class InitializerService {
         categoryRepository.save(category2);
 
         category3 = new Category();
-        category3.setName("Category 3");
+        category3.setName("E-Government");
 
         categoryRepository.save(category3);
 
@@ -125,32 +125,35 @@ public class InitializerService {
 
     public void insertCourse(){
         course1 = new Course();
-        course1.setName("course 1");
         course1.setCreator(user1);
-        course1.setDescription("description 1");
-        course1.setProvider("provider 1");
         course1.setStartDate(new Date());
         course1.setLink("");
+        course1.setName("Scrum für den öffentlichen Dienst");
+        course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
+        course1.setProvider("Digitale Bildungsinstitute GmbH");
+        course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
 
         courseRepository.save(course1);
 
         course2 = new Course();
-        course2.setName("course 2");
         course2.setCreator(user2);
-        course2.setDescription("description 2");
-        course2.setProvider("provider 2");
         course2.setStartDate(new Date());
         course2.setLink("");
+        course2.setName("Datenmanagement im öffentlichen Sektor");
+        course2.setDescription("Ein Schulungsprogramm zur sicheren Handhabung von Daten und Einhaltung von Datenschutzbestimmungen.");
+        course2.setProvider("DataSkills Academy");
+        course2.setImage("https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/09/4-3.jpg");
 
         courseRepository.save(course2);
 
         course3 = new Course();
-        course3.setName("course 3");
+        course3.setName("E-Government und digitale Transformation");
         course3.setCreator(user1);
-        course3.setDescription("description 3");
-        course3.setProvider("provider 3");
+        course3.setDescription("Schulungen zur Implementierung von E-Government-Diensten und digitalen Transformationsprozessen.");
+        course3.setProvider("GovTech Solutions");
         course3.setStartDate(new Date());
         course3.setLink("");
+        course3.setImage("https://media.istockphoto.com/id/498323251/de/foto/colleagues-discussing-over-digital-tablet.jpg?s=612x612&w=0&k=20&c=L9wHTzShsicC42CDSUilPZ4N8YduB2V6Zr_ffp9mxaU=");
 
         courseRepository.save(course3);
 
@@ -161,6 +164,7 @@ public class InitializerService {
         course4.setProvider("provider 4");
         course4.setStartDate(new Date());
         course4.setLink("");
+        course4.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
 
         courseRepository.save(course4);
 
@@ -171,6 +175,7 @@ public class InitializerService {
         course5.setProvider("provider 5");
         course5.setStartDate(new Date());
         course5.setLink("");
+        course5.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
 
         courseRepository.save(course5);
 
@@ -181,6 +186,7 @@ public class InitializerService {
         course6.setProvider("provider 6");
         course6.setStartDate(new Date());
         course6.setLink("");
+        course6.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
 
         courseRepository.save(course6);
 
@@ -191,6 +197,7 @@ public class InitializerService {
         course7.setProvider("provider 7");
         course7.setStartDate(new Date());
         course7.setLink("");
+        course7.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
 
         courseRepository.save(course7);
 
@@ -201,6 +208,7 @@ public class InitializerService {
         course8.setProvider("provider 8");
         course8.setStartDate(new Date());
         course8.setLink("");
+        course8.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
 
         courseRepository.save(course8);
 
@@ -367,7 +375,7 @@ public class InitializerService {
 
         courseTag4 = new CourseTag();
         courseTag4.setCourse(course4);
-        courseTag4.setTag(tag4);
+        courseTag4.setTag(tag3);
 
         courseTagRepository.save(courseTag4);
 
