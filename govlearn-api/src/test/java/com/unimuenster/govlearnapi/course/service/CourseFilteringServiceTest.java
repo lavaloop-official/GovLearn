@@ -22,7 +22,7 @@ class CourseFilteringServiceTest extends AbstractIntegrationTest {
 
         List<CourseDTO> courseDTOS = courseFilteringService.filterCourses("1");
 
-        assertEquals(7, courseDTOS.size());
+        assertEquals(29, courseDTOS.size());
         assertEquals(courseDTOS.get(0).id(), initializer.getCourse1().getId());
     }
 
@@ -31,7 +31,7 @@ class CourseFilteringServiceTest extends AbstractIntegrationTest {
 
         List<CourseDTO> courseDTOS = courseFilteringService.filterCourses("2");
 
-        assertEquals(2, courseDTOS.size());
+        assertEquals(21, courseDTOS.size());
         assertEquals(courseDTOS.get(0).id(), initializer.getCourse2().getId());
     }
 }
