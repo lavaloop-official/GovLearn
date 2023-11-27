@@ -31,6 +31,11 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
         """)
     List<Feedback> findAllFeedbackByUserId(Long userID);
 
+    @Query(value = """
+        SELECT AVG(rating) FROM feedback WHERE course_id = :courseID
+        """, nativeQuery = true)
+    Float findAverageFeedbackByCourseId(Long courseID);
+
     @Modifying
     @Query(value = """
         DELETE FROM Feedback WHERE id = :feedbackID
