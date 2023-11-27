@@ -142,4 +142,17 @@ public class FeedbackService {
     public void updateFeedbackFromCourse(FeedbackUpdateWsTo feedback){
         feedbackRepository.updateFeedbackFromCourse(feedback.feedbackID(), feedback.title(), feedback.description(), feedback.rating());
     }
+
+    private float round(float value, int decimalPoints) {
+        float d = (float)Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
+     }
+
+    public float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
+        try {
+            return round(feedbackRepository.findAverageFeedbackByCourseId(courseID), 1);
+        } catch (NullPointerException e) {
+            throw new NotFoundException();
+        }
+    }
 }

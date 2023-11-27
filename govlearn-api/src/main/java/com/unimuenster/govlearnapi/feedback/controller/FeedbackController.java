@@ -95,6 +95,17 @@ public class FeedbackController {
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get the average feedbackrate of a course"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/feedback/average/course/{courseID}")
+    public ResponseEntity<Response> getAverageFeedbackByCourseID(@PathVariable Long courseID) {
+        float averageFeedback = feedbackService.getAverageFeedbackByCourseID(courseID);
+        return ResponseEntity.ok( Response.of(averageFeedback, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
         description = "Delete a feedback from a course"
     )
     @PreAuthorize("hasAuthority('user')")
