@@ -1,5 +1,7 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.core.config.enums.Format;
+import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.tags.entity.Category;
@@ -132,6 +134,9 @@ public class InitializerService {
         course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
         course1.setProvider("Digitale Bildungsinstitute GmbH");
         course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
+        course1.setDuration("2 Stunden");
+        course1.setSkilllevel(Skilllevel.Anfaenger);
+        course1.setFormat(Format.Hybrid);
 
         courseRepository.save(course1);
 
@@ -143,6 +148,9 @@ public class InitializerService {
         course2.setDescription("Ein Schulungsprogramm zur sicheren Handhabung von Daten und Einhaltung von Datenschutzbestimmungen.");
         course2.setProvider("DataSkills Academy");
         course2.setImage("https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/09/4-3.jpg");
+        course2.setDuration("2 Stunden");
+        course2.setSkilllevel(Skilllevel.Fortgeschritten);
+        course2.setFormat(Format.Hybrid);
 
         courseRepository.save(course2);
 
@@ -154,6 +162,9 @@ public class InitializerService {
         course3.setStartDate(new Date());
         course3.setLink("");
         course3.setImage("https://media.istockphoto.com/id/498323251/de/foto/colleagues-discussing-over-digital-tablet.jpg?s=612x612&w=0&k=20&c=L9wHTzShsicC42CDSUilPZ4N8YduB2V6Zr_ffp9mxaU=");
+        course3.setDuration("2 Stunden");
+        course3.setSkilllevel(Skilllevel.Fortgeschritten);
+        course3.setFormat(Format.Hybrid);
 
         courseRepository.save(course3);
 
@@ -165,6 +176,9 @@ public class InitializerService {
         course4.setStartDate(new Date());
         course4.setLink("");
         course4.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course4.setDuration("2 Stunden");
+        course4.setSkilllevel(Skilllevel.Fortgeschritten);
+        course4.setFormat(Format.Hybrid);
 
         courseRepository.save(course4);
 
@@ -176,6 +190,9 @@ public class InitializerService {
         course5.setStartDate(new Date());
         course5.setLink("");
         course5.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course5.setDuration("2 Stunden");
+        course5.setSkilllevel(Skilllevel.Fortgeschritten);
+        course5.setFormat(Format.Hybrid);
 
         courseRepository.save(course5);
 
@@ -187,6 +204,9 @@ public class InitializerService {
         course6.setStartDate(new Date());
         course6.setLink("");
         course6.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course6.setDuration("2 Stunden");
+        course6.setSkilllevel(Skilllevel.Fortgeschritten);
+        course6.setFormat(Format.Hybrid);
 
         courseRepository.save(course6);
 
@@ -198,6 +218,9 @@ public class InitializerService {
         course7.setStartDate(new Date());
         course7.setLink("");
         course7.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course7.setDuration("2 Stunden");
+        course7.setSkilllevel(Skilllevel.Fortgeschritten);
+        course7.setFormat(Format.Hybrid);
 
         courseRepository.save(course7);
 
@@ -209,6 +232,9 @@ public class InitializerService {
         course8.setStartDate(new Date());
         course8.setLink("");
         course8.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course8.setDuration("2 Stunden");
+        course8.setSkilllevel(Skilllevel.Fortgeschritten);
+        course8.setFormat(Format.Hybrid);
 
         courseRepository.save(course8);
 
