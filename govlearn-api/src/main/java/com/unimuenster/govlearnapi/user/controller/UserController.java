@@ -11,6 +11,7 @@ import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -69,4 +70,14 @@ public class UserController {
         return ResponseEntity.ok(Response.of(customUserCrudService.UserProfil(), new Message(Message.SUCCESS)));
     }
 
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Returns a user by ID"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/users/{userID}")
+    public ResponseEntity<Response> getUserByID(@PathVariable Long userID) {
+
+        return ResponseEntity.ok(Response.of(customUserCrudService.getUserByID(userID), new Message(Message.SUCCESS)));
+    }
 }
