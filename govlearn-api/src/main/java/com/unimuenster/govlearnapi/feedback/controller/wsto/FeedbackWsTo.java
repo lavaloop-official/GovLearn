@@ -12,4 +12,5 @@ public class FeedbackWsTo {
     Integer rating;
     Long courseID;
     Long userID;
+    String username;
 }
