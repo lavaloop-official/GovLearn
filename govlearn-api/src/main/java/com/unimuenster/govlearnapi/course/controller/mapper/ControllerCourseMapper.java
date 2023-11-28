@@ -26,7 +26,8 @@ public class ControllerCourseMapper {
                 courseCreationWsTo.format(),
                 courseCreationWsTo.startDate(),
                 courseCreationWsTo.costFree(),
-                courseCreationWsTo.domainSpecific()
+                courseCreationWsTo.domainSpecific(),
+                courseCreationWsTo.link()
         );
     }
 
@@ -47,7 +48,7 @@ public class ControllerCourseMapper {
                 .startDate(courseDTO.startDate())
                 .costFree(courseDTO.costFree())
                 .domainSpecific(courseDTO.domainSpecific())
-
+                .link(courseDTO.link())
                 .build();
     }
 
