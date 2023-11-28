@@ -76,13 +76,7 @@ public class FeedbackController {
 
         List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseAndUser(courseID, currentUser.getId());
 
-        List<UserWsTo> userWsTos = new ArrayList<UserWsTo>();
-        
-        for (int i = 0; i < feedbackDTOs.size(); i++) {
-            userWsTos.add(customUserCrudService.getUserByID(feedbackDTOs.get(i).userID()));
-        }
-
-        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs, userWsTos);
+        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
 
         return ResponseEntity.ok( Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
     }
@@ -97,13 +91,7 @@ public class FeedbackController {
 
         List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
 
-        List<UserWsTo> userWsTos = new ArrayList<UserWsTo>();
-        
-        for (int i = 0; i < feedbackDTOs.size(); i++) {
-            userWsTos.add(customUserCrudService.getUserByID(feedbackDTOs.get(i).userID()));
-        }
-
-        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs, userWsTos);
+        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
 
         return ResponseEntity.ok( Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
     }
@@ -146,7 +134,7 @@ public class FeedbackController {
 
         FeedbackDTO feedbackDTO = feedbackService.getFeedbackDTOById(feedbackUpdateWsTo.feedbackID());
 
-        FeedbackWsTo feedbackWsTo = controllerFeedbackMapper.map(feedbackDTO, customUserCrudService.getUserByID(feedbackDTO.userID()).name());
+        FeedbackWsTo feedbackWsTo = controllerFeedbackMapper.map(feedbackDTO);
 
         return ResponseEntity.ok( Response.of(feedbackWsTo,new Message(Message.SUCCESS)));
     }

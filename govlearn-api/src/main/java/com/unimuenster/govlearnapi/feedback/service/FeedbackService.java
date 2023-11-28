@@ -41,15 +41,6 @@ public class FeedbackService {
     public void createFeedback(FeedbackCreationDTO feedbackCreationDTO, UserEntity currentUser)
     {
         try {
-            // Feedback feedback = Feedback
-                    // .builder()
-                    // .course(courseService.getCourseEntityById(feedbackCreationDTO.courseID()))
-                    // .user(currentUser)
-                    // .title(feedbackCreationDTO.title())
-                    // .description(feedbackCreationDTO.description())
-                    // .rating(feedbackCreationDTO.rating())
-                    // .build();
-
                     Feedback feedback = new Feedback();
                     feedback.setRating(feedbackCreationDTO.rating());
                     feedback.setDescription(feedbackCreationDTO.description());
