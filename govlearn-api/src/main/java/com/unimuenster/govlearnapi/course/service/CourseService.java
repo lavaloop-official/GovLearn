@@ -53,6 +53,7 @@ public class CourseService {
                 .costFree(courseCreationDTO.costFree())
                 .domainSpecific(courseCreationDTO.domainSpecific())
                 .creator(currentUser)
+                .link(courseCreationDTO.link())
                 .build();
         
         courseRepository.save(course);
@@ -88,9 +89,21 @@ public class CourseService {
 
         Course map = Course
                 .builder()
+                .name(course.get().getName())
                 .description(course.get().getDescription())
                 .creator(course.get().getCreator())
                 .createdAt(course.get().getCreatedAt())
+                .image(course.get().getImage())
+                .provider(course.get().getProvider())
+                .instructor(course.get().getInstructor())
+                .certificate(course.get().getCertificate())
+                .skilllevel(course.get().getSkilllevel())
+                .duration(course.get().getDuration())
+                .format(course.get().getFormat())
+                .startDate(course.get().getStartDate())
+                .costFree(course.get().getCostFree())
+                .domainSpecific(course.get().getDomainSpecific())
+                .link(course.get().getLink())
                 .build();
 
         return map;
