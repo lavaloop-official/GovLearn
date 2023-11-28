@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
+import com.unimuenster.govlearnapi.core.config.math.Measure;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.service.CourseTagService;
@@ -14,10 +15,8 @@ import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -91,7 +90,7 @@ public class RecommendationService {
         return courseSimilarityList;
     }
 
-    private List<Object[]> compareToCourses(double[] userTagRatingVector, List<TagDTO> allTags, List<Course> courses) {
+    public List<Object[]> compareToCourses(double[] tagVector, List<TagDTO> allTags, List<Course> courses) {
         List<Object[]> courseSimilarityList = new ArrayList<>();
 
         List<CourseDTO> courseDTOS = courses
@@ -105,7 +104,7 @@ public class RecommendationService {
             double[] courseTagBinaryVector = getCourseTagBinaryVector(course, allTags);
 
             Optional<Object[]> similarityAndCourse
-                    = computeSimilarityForCourse(userTagRatingVector, courseTagBinaryVector, course);
+                    = computeSimilarityForCourse(tagVector, courseTagBinaryVector, course);
 
             similarityAndCourse.ifPresent(
                     sc -> courseSimilarityList.add(sc)
@@ -117,12 +116,12 @@ public class RecommendationService {
 
     private Optional<Object[]> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){
 
-        double similarity = cosineSimilarity(vectorA, vectorB);
+        double similarity = Measure.cosineSimilarity(vectorA, vectorB);
 
         return getSimilarityAndCourse(similarity, course);
     }
 
-    private double[] getCourseTagBinaryVector(Course course, List<TagDTO> allTags){
+    public double[] getCourseTagBinaryVector(Course course, List<TagDTO> allTags){
 
         List<CourseTag> courseTags = courseTagService.getCourseTags(course);
 
@@ -172,17 +171,6 @@ public class RecommendationService {
         Collections.reverse(courseSimilarityList);
     }
 
-    public static double cosineSimilarity(double[] vectorA, double[] vectorB) {
-        double dotProduct = 0.0;
-        double normA = 0.0;
-        double normB = 0.0;
-        for (int i = 0; i < vectorA.length; i++) {
-            dotProduct += vectorA[i] * vectorB[i];
-            normA += Math.pow(vectorA[i], 2);
-            normB += Math.pow(vectorB[i], 2);
-        }
-        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
-    }
 
     private double[] getUserTagRatingVector(List<UserTag> tags, List<TagDTO> allTags){
         double[] userTagRatingVector = new double[allTags.size()];

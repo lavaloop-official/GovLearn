@@ -5,9 +5,12 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.tags.service.TagService;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +32,7 @@ public class CourseController {
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
-
+    private final TagService tagService;
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Create a course."
@@ -74,5 +77,16 @@ public class CourseController {
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
     }
 
+    @Operation(
+            description = "Get a list of most similiar courses"
+    )
+    @GetMapping("/similiar-courses/{id}/")
+    public ResponseEntity<Response> getSimiliarCourses(@PathVariable Long id) {
+        List<TagDTO> allTags = tagService.getTags();
+        List<Course> similiarCourses = courseService.getSimiliarCourses(id,allTags);
 
+        //List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similiarCourses);
+
+        return ResponseEntity.ok( Response.of(similiarCourses, new Message(Message.SUCCESS)));
+    }
 }
