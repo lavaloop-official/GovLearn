@@ -41,15 +41,6 @@ public class FeedbackService {
     public void createFeedback(FeedbackCreationDTO feedbackCreationDTO, UserEntity currentUser)
     {
         try {
-            // Feedback feedback = Feedback
-                    // .builder()
-                    // .course(courseService.getCourseEntityById(feedbackCreationDTO.courseID()))
-                    // .user(currentUser)
-                    // .title(feedbackCreationDTO.title())
-                    // .description(feedbackCreationDTO.description())
-                    // .rating(feedbackCreationDTO.rating())
-                    // .build();
-
                     Feedback feedback = new Feedback();
                     feedback.setRating(feedbackCreationDTO.rating());
                     feedback.setDescription(feedbackCreationDTO.description());
@@ -141,5 +132,18 @@ public class FeedbackService {
     @Transactional
     public void updateFeedbackFromCourse(FeedbackUpdateWsTo feedback){
         feedbackRepository.updateFeedbackFromCourse(feedback.feedbackID(), feedback.title(), feedback.description(), feedback.rating());
+    }
+
+    private float round(float value, int decimalPoints) {
+        float d = (float)Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
+     }
+
+    public float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
+        try {
+            return round(feedbackRepository.findAverageFeedbackByCourseId(courseID), 1);
+        } catch (NullPointerException e) {
+            throw new NotFoundException();
+        }
     }
 }

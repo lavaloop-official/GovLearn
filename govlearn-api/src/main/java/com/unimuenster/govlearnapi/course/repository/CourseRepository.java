@@ -10,26 +10,24 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Query(value = """
-select c from Course c where c.id = :courseId
-""")
+        SELECT c FROM Course c WHERE c.id = :courseId
+    """)
     Optional<Course> findById(Long courseId);
 
     @Query(value = """
-      select c from Course c
+      SELECT c FROM Course c
       """)
     List<Course> findAllCourses();
 
     @Query(value = """
-SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
+        SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
     """)
     List<Course> findAllCoursesByTagId(Long tagId);
 
 
     // May be used for filtering courses by attributes
     @Query(value = """
-        select c 
-        from Course c 
-        where c.description like %:nameSearch%
+        SELECT c FROM Course c WHERE (c.name LIKE %:nameSearch%) OR (c.description LIKE %:nameSearch%)
     """)
     List<Course> findCoursesByAttributes(String nameSearch);
 

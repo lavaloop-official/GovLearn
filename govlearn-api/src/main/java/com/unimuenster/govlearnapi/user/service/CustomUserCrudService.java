@@ -2,11 +2,15 @@ package com.unimuenster.govlearnapi.user.service;
 
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
+import com.unimuenster.govlearnapi.course.exception.NotFoundException;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +57,20 @@ public class CustomUserCrudService {
     public UserWsTo UserProfil(){
 
         UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail(),authenticationService.getCurrentUser().getName());
+
+        return userWsTo;
+    }
+
+    public UserWsTo getUserByID(Long userID){
+
+        Optional<UserEntity> userEntity = userRepository.findUserById(userID);
+
+        if(userEntity.isEmpty())
+        {
+            throw new NotFoundException();
+        }
+
+        UserWsTo userWsTo = new UserWsTo(userEntity.get().getEmail(), userEntity.get().getName());
 
         return userWsTo;
     }

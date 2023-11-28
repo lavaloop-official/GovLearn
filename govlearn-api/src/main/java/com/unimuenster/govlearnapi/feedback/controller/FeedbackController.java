@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.feedback.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,11 @@ import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackWsTo;
 import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackCreationDTO;
 import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackDTO;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
+import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
+import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -40,6 +44,7 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
     private final ControllerFeedbackMapper controllerFeedbackMapper;
     private final AuthenticationService authenticationService;
+    private final CustomUserCrudService customUserCrudService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -84,13 +89,22 @@ public class FeedbackController {
     @GetMapping("/feedback/course/{courseID}/limit/{limit}/offset/{offset}")
     public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Long limit, Long offset) {
 
-        UserEntity currentUser = authenticationService.getCurrentUser();
-
         List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
 
         List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
 
         return ResponseEntity.ok( Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get the average feedbackrate of a course"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/feedback/average/course/{courseID}")
+    public ResponseEntity<Response> getAverageFeedbackByCourseID(@PathVariable Long courseID) {
+        float averageFeedback = feedbackService.getAverageFeedbackByCourseID(courseID);
+        return ResponseEntity.ok( Response.of(averageFeedback, new Message(Message.SUCCESS)));
     }
 
     @Operation(
