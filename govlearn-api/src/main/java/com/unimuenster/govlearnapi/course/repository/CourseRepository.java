@@ -30,4 +30,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         SELECT c FROM Course c WHERE (c.name LIKE %:nameSearch%) OR (c.description LIKE %:nameSearch%)
     """)
     List<Course> findCoursesByAttributes(String nameSearch);
+
+    @Query(value = """
+        select c 
+        from Course c 
+        INNER JOIN c.courseTags t 
+        INNER JOIN t.tag tag
+        INNER JOIN tag.category cat
+        where cat.id = :categoryId
+    """)
+    List<Course> findCoursesByCategory(int categoryId);
 }

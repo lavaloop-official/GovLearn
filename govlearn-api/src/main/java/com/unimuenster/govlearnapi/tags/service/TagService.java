@@ -1,18 +1,16 @@
 package com.unimuenster.govlearnapi.tags.service;
 
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.entity.Course;
-import com.unimuenster.govlearnapi.course.repository.CourseRepository;
-import com.unimuenster.govlearnapi.tags.entity.CourseTag;
+import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
+import com.unimuenster.govlearnapi.tags.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.tags.service.mapper.ServiceTagMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +25,7 @@ public class TagService {
 
     private final TagRepository tagRepository;
     private final ServiceTagMapper serviceTagMapper;
-    private final EntityManager entityManager;
-    private final CourseRepository courseRepository;
+    private final CategoryRepository categoryRepository;
 
     public TagDTO getTagsById(Long courseId){
         Optional<Tag> tagById = tagRepository.findById(courseId);
@@ -63,11 +60,13 @@ public class TagService {
     }
     
     public void createTag(TagCreationDTO tagsDTO) {
-        
+
+        Optional<Category> byId = categoryRepository.findById(Math.toIntExact(tagsDTO.categoryId()));
+
         Tag tag = Tag
                 .builder()
                 .name(tagsDTO.name())
-                .category(tagsDTO.category())
+                .category(byId.get())
                 .build();
         
         tagRepository.save(tag);

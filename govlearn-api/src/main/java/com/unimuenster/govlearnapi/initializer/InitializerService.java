@@ -1,10 +1,15 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.core.config.enums.Format;
+import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.tags.entity.Category;
+import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
@@ -41,6 +46,7 @@ public class InitializerService {
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
+    private final CategoryRepository categoryRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
@@ -50,10 +56,11 @@ public class InitializerService {
     private Tag tag1, tag2, tag3, tag4, tag5;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15;
-
+    private Category category1, category2, category3, category4, category5;
 
     public void init() {
         insertUser();
+        insertCategories();
         insertCourse();
         insertMassiveCourseList();
         insertTag();
@@ -91,34 +98,73 @@ public class InitializerService {
         userRepository.save(recommendationUser);
     }
 
+    private void insertCategories() {
+        category1 = new Category();
+        category1.setName("Lerne Scrum");
+
+        categoryRepository.save(category1);
+
+        category2 = new Category();
+        category2.setName("Category 2");
+
+        categoryRepository.save(category2);
+
+        category3 = new Category();
+        category3.setName("E-Government");
+
+        categoryRepository.save(category3);
+
+        category4 = new Category();
+        category4.setName("Category 4");
+
+        categoryRepository.save(category4);
+
+        category5 = new Category();
+        category5.setName("Category 5");
+
+        categoryRepository.save(category5);
+    }
+
     public void insertCourse(){
         course1 = new Course();
-        course1.setName("course 1");
         course1.setCreator(user1);
-        course1.setDescription("description 1");
-        course1.setProvider("provider 1");
         course1.setStartDate(new Date());
         course1.setLink("");
+        course1.setName("Scrum für den öffentlichen Dienst");
+        course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
+        course1.setProvider("Digitale Bildungsinstitute GmbH");
+        course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
+        course1.setDuration("2 Stunden");
+        course1.setSkilllevel(Skilllevel.Anfaenger);
+        course1.setFormat(Format.Hybrid);
 
         courseRepository.save(course1);
 
         course2 = new Course();
-        course2.setName("course 2");
         course2.setCreator(user2);
-        course2.setDescription("description 2");
-        course2.setProvider("provider 2");
         course2.setStartDate(new Date());
         course2.setLink("");
+        course2.setName("Datenmanagement im öffentlichen Sektor");
+        course2.setDescription("Ein Schulungsprogramm zur sicheren Handhabung von Daten und Einhaltung von Datenschutzbestimmungen.");
+        course2.setProvider("DataSkills Academy");
+        course2.setImage("https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/09/4-3.jpg");
+        course2.setDuration("2 Stunden");
+        course2.setSkilllevel(Skilllevel.Fortgeschritten);
+        course2.setFormat(Format.Hybrid);
 
         courseRepository.save(course2);
 
         course3 = new Course();
-        course3.setName("course 3");
+        course3.setName("E-Government und digitale Transformation");
         course3.setCreator(user1);
-        course3.setDescription("description 3");
-        course3.setProvider("provider 3");
+        course3.setDescription("Schulungen zur Implementierung von E-Government-Diensten und digitalen Transformationsprozessen.");
+        course3.setProvider("GovTech Solutions");
         course3.setStartDate(new Date());
         course3.setLink("");
+        course3.setImage("https://media.istockphoto.com/id/498323251/de/foto/colleagues-discussing-over-digital-tablet.jpg?s=612x612&w=0&k=20&c=L9wHTzShsicC42CDSUilPZ4N8YduB2V6Zr_ffp9mxaU=");
+        course3.setDuration("2 Stunden");
+        course3.setSkilllevel(Skilllevel.Fortgeschritten);
+        course3.setFormat(Format.Hybrid);
 
         courseRepository.save(course3);
 
@@ -129,6 +175,10 @@ public class InitializerService {
         course4.setProvider("provider 4");
         course4.setStartDate(new Date());
         course4.setLink("");
+        course4.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course4.setDuration("2 Stunden");
+        course4.setSkilllevel(Skilllevel.Fortgeschritten);
+        course4.setFormat(Format.Hybrid);
 
         courseRepository.save(course4);
 
@@ -139,6 +189,10 @@ public class InitializerService {
         course5.setProvider("provider 5");
         course5.setStartDate(new Date());
         course5.setLink("");
+        course5.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course5.setDuration("2 Stunden");
+        course5.setSkilllevel(Skilllevel.Fortgeschritten);
+        course5.setFormat(Format.Hybrid);
 
         courseRepository.save(course5);
 
@@ -149,6 +203,10 @@ public class InitializerService {
         course6.setProvider("provider 6");
         course6.setStartDate(new Date());
         course6.setLink("");
+        course6.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course6.setDuration("2 Stunden");
+        course6.setSkilllevel(Skilllevel.Fortgeschritten);
+        course6.setFormat(Format.Hybrid);
 
         courseRepository.save(course6);
 
@@ -159,6 +217,10 @@ public class InitializerService {
         course7.setProvider("provider 7");
         course7.setStartDate(new Date());
         course7.setLink("");
+        course7.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course7.setDuration("2 Stunden");
+        course7.setSkilllevel(Skilllevel.Fortgeschritten);
+        course7.setFormat(Format.Hybrid);
 
         courseRepository.save(course7);
 
@@ -169,6 +231,10 @@ public class InitializerService {
         course8.setProvider("provider 8");
         course8.setStartDate(new Date());
         course8.setLink("");
+        course8.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
+        course8.setDuration("2 Stunden");
+        course8.setSkilllevel(Skilllevel.Fortgeschritten);
+        course8.setFormat(Format.Hybrid);
 
         courseRepository.save(course8);
 
@@ -246,31 +312,31 @@ public class InitializerService {
     public void insertTag(){
         tag1 = new Tag();
         tag1.setName("Tag 1");
-        tag1.setCategory("Category 1");
+        tag1.setCategory(category1);
 
         tagRepository.save(tag1);
 
         tag2 = new Tag();
         tag2.setName("Tag 2");
-        tag2.setCategory("Category 2");
+        tag2.setCategory(category2);
 
         tagRepository.save(tag2);
 
         tag3 = new Tag();
         tag3.setName("Tag 3");
-        tag3.setCategory("Category 3");
+        tag3.setCategory(category3);
 
         tagRepository.save(tag3);
 
         tag4 = new Tag();
         tag4.setName("Tag 4");
-        tag4.setCategory("Category 4");
+        tag4.setCategory(category4);
 
         tagRepository.save(tag4);
 
         tag5 = new Tag();
         tag5.setName("Tag 5");
-        tag5.setCategory("Category 5");
+        tag5.setCategory(category5);
 
         tagRepository.save(tag5);
     }
@@ -335,7 +401,7 @@ public class InitializerService {
 
         courseTag4 = new CourseTag();
         courseTag4.setCourse(course4);
-        courseTag4.setTag(tag4);
+        courseTag4.setTag(tag3);
 
         courseTagRepository.save(courseTag4);
 
@@ -432,6 +498,6 @@ public class InitializerService {
         } catch (Exception e) {
             throw new Exception(e);
         }
-        
+
     }
 }

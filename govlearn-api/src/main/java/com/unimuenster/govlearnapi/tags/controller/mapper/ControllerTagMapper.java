@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public class ControllerTagMapper {
 
     public TagCreationDTO map(TagCreationWsTo tagCreationWsTo){
-        return new TagCreationDTO(tagCreationWsTo.name(), tagCreationWsTo.category());
+        return new TagCreationDTO(tagCreationWsTo.name(),null);
     }
 
     public TagWsTo map(Tag tag){
-        return new TagWsTo(tag.getName(), tag.getCategory());
+        return new TagWsTo(tag.getName(), tag.getCategory().getName());
     }
 
     public TagWsTo map(TagDTO tag) {

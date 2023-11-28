@@ -19,8 +19,6 @@ public class Tag {
     protected Long id;
     @Column(nullable = false)
     protected String name;
-    @Column(nullable = false)
-    protected String category;
     protected Date createdAt;
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "tag")
@@ -31,13 +29,9 @@ public class Tag {
     @ToString.Exclude
     private List<UserTag> userTags;
 
-    public List<UserEntity> getUsers(){
-        return userTags
-                .stream()
-                .map(userTag -> userTag.getUser())
-                .collect(Collectors.toList());
-    }
-
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
