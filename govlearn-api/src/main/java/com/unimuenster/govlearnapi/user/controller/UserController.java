@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.user.controller.wsto.AuthenticationWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
@@ -80,4 +81,12 @@ public class UserController {
 
         return ResponseEntity.ok(Response.of(customUserCrudService.getUserByID(userID), new Message(Message.SUCCESS)));
     }
+    @PutMapping("/users/{userID}")
+    public ResponseEntity<Response> updateUser(@PathVariable Long userID,@RequestBody UserDTO user){
+        
+        UserWsTo updatedUser = customUserCrudService.updateUser(userID, user);
+        
+        return ResponseEntity.ok(Response.of(updatedUser, new Message(Message.SUCCESS)));
+    };
+    
 }
