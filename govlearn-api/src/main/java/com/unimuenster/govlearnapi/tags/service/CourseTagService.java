@@ -7,11 +7,11 @@ import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,5 +43,38 @@ public class CourseTagService {
         courseTag.setCreatedAt(new Date());
 
         courseTagRepository.save(courseTag);
+    }
+
+    public double[] computeCourseTagVector(List<CourseTag> courseTags, List<TagDTO> allTags){
+        double[] courseTagVector = new double[allTags.size()];
+
+        for ( int i = 0; i < allTags.size(); i++ ){
+            TagDTO currentTagDTO = allTags.get(i);
+
+            boolean containsTag = isTagInCourseTags(courseTags, currentTagDTO);
+
+            courseTagVector[i] = getTagValue(containsTag);
+        }
+
+        return courseTagVector;
+    }
+
+    public double[] getCourseTagBinaryVector(Course course, List<TagDTO> allTags){
+
+        List<CourseTag> courseTags = getCourseTags(course);
+
+        return computeCourseTagVector(courseTags, allTags);
+    }
+
+    public boolean isTagInCourseTags(List<CourseTag> courseTags, TagDTO currentTagDTO){
+        return courseTags.stream().anyMatch(courseTag -> courseTag.getTag().getId() == currentTagDTO.id());
+    }
+
+    private int getTagValue (boolean containsTag){
+        if ( containsTag ) {
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }

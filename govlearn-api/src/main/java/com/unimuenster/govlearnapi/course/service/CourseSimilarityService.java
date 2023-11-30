@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.recommendation.service.RecommendationService;
+import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class CourseSimilarityService {
     private final CourseRepository courseRepository;
     private final ServiceCourseMapper serviceCourseMapper;
     private final RecommendationService recommendationService;
+    private final CourseTagService courseTagService;
 
     public List<CourseDTO> getMostSimiliarCourses(Long id, List<TagDTO> allTags) {
         List<Course> allCoursesExceptSelf = courseRepository.findAllCourses().stream().filter(course -> !Objects.equals(course.getId(), id)).collect(Collectors.toList());
@@ -28,8 +30,8 @@ public class CourseSimilarityService {
             throw new NotFoundException();
         }
 
-        double[] courseTagVector = recommendationService.getCourseTagBinaryVector(courseById.get(), allTags);
-        List<Object[]> coursesWithSimilarity = recommendationService.compareToCourses(courseTagVector, allTags, allCoursesExceptSelf);
+        double[] courseTagVector = courseTagService.getCourseTagBinaryVector(courseById.get(), allTags);
+        List<Object[]> coursesWithSimilarity = recommendationService.compareToCourseSet(courseTagVector, allTags, allCoursesExceptSelf);
 
         return filterBySimilarity(coursesWithSimilarity);
     }
