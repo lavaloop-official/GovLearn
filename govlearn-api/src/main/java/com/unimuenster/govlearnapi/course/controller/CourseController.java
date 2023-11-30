@@ -77,16 +77,4 @@ public class CourseController {
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
     }
 
-    @Operation(
-            description = "Get a list of most similiar courses"
-    )
-    @GetMapping("/similiar-courses/{id}/")
-    public ResponseEntity<Response> getSimiliarCourses(@PathVariable Long id) {
-        List<TagDTO> allTags = tagService.getTags();
-        List<Course> similiarCourses = courseService.getSimiliarCourses(id,allTags);
-
-        //List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similiarCourses);
-
-        return ResponseEntity.ok( Response.of(similiarCourses, new Message(Message.SUCCESS)));
-    }
 }

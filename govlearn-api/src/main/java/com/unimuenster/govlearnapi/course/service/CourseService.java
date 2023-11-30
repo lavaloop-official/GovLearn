@@ -21,7 +21,6 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final ServiceCourseMapper serviceCourseMapper;
-    private final RecommendationService recommendationService;
 
     public CourseDTO getCourseById(Long courseId){
         Optional<Course> courseById = courseRepository.findById(courseId);
@@ -97,29 +96,4 @@ public class CourseService {
 
         return map;
     }
-
-    public List<Course> getSimiliarCourses(Long id, List<TagDTO> allTags) {
-        List<Course> allCoursesExceptSelf = courseRepository.findAllCourses().stream().filter(course -> !Objects.equals(course.getId(), id)).collect(Collectors.toList());
-        Optional<Course> courseById = courseRepository.findById(id);
-
-        if ( courseById.isEmpty() ) {
-            throw new NotFoundException();
-        }
-
-        double[] courseTagVector = recommendationService.getCourseTagBinaryVector(courseById.get(), allTags);
-        List<Object[]> coursesWithSimilarity = recommendationService.compareToCourses(courseTagVector, allTags, allCoursesExceptSelf);
-
-        return this.mostSimilarCourses(coursesWithSimilarity);
-    }
-
-    private List<Course> mostSimilarCourses(List<Object[]> coursesWithSimilarity) {
-        coursesWithSimilarity.sort(Comparator.comparing(o ->  (Comparable)o[1]));
-        Collections.reverse(coursesWithSimilarity);
-
-        return coursesWithSimilarity
-                .stream()
-                .map(object -> (Course)object[0])
-                .limit(5)
-                .collect(Collectors.toList());
-        }
-    }
+}
