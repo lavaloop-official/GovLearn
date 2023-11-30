@@ -22,7 +22,8 @@ public class ServiceCourseMapper {
                 course.getFormat(),
                 course.getStartDate(),
                 course.getCostFree(),
-                course.getDomainSpecific()
+                course.getDomainSpecific(),
+                course.getLink()
         );
     }
 
@@ -43,6 +44,7 @@ public class ServiceCourseMapper {
                 .startDate(courseDTO.startDate())
                 .costFree(courseDTO.costFree())
                 .domainSpecific(courseDTO.domainSpecific())
+                .link(courseDTO.link())
                 .build();
     }
 }

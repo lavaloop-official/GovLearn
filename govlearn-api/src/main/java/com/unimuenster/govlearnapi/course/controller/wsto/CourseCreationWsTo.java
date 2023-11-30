@@ -18,5 +18,6 @@ public record CourseCreationWsTo(
         Format format,
         Date startDate,
         Boolean costFree,
-        Boolean domainSpecific) {
+        Boolean domainSpecific,
+        String link) {
 }

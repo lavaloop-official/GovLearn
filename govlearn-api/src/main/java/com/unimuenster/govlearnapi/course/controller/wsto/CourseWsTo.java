@@ -25,5 +25,6 @@ public class CourseWsTo {
     Date startDate;
     Boolean costFree;
     Boolean domainSpecific;
+    String link;
 
 }
