@@ -10,9 +10,11 @@ import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +31,10 @@ public class CourseSimilarityController {
     private final CourseSimilarityService courseSimilarityService;
     private final ControllerCourseMapper controllerCourseMapper;
     @Operation(
-            description = "Get a list of most similiar courses"
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get similar courses."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{id}/")
     public ResponseEntity<Response> getSimiliarCourses(@PathVariable Long id) {
         List<TagDTO> allTags = tagService.getTags();
