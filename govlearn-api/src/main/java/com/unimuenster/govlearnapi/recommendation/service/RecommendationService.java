@@ -163,7 +163,7 @@ public class RecommendationService {
     }
 
     private boolean isTagInCourseTags(List<CourseTag> courseTags, TagDTO currentTagDTO){
-        return courseTags.stream().anyMatch(courseTag -> courseTag.getId() == currentTagDTO.id());
+        return courseTags.stream().anyMatch(courseTag -> courseTag.getTag().getId() == currentTagDTO.id());
     }
 
     private void sortSimilarityList(List<Object[]> courseSimilarityList) {
