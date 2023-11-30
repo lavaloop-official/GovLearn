@@ -54,7 +54,7 @@ public class InitializerService {
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
     private Tag tag1, tag2, tag3, tag4, tag5;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
-    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17;
+    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
 
     public void init() {
@@ -481,6 +481,12 @@ public class InitializerService {
         courseTag17.setTag(tag2);
 
         courseTagRepository.save(courseTag17);
+
+        courseTag18 = new CourseTag();
+        courseTag18.setCourse(course3);
+        courseTag18.setTag(tag1);
+
+        courseTagRepository.save(courseTag18);
     }
 
     private void insertMassiveCourseList(){
