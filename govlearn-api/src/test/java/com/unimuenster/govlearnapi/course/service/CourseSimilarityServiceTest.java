@@ -21,9 +21,9 @@ public class CourseSimilarityServiceTest extends AbstractIntegrationTest {
     private TagService tagService;
 
     @Test
-    void getMostSimiliarCourses(){
+    void getMostSimilarCourses(){
         List<TagDTO> tags = tagService.getTags();
-        List<CourseDTO> courseDTOs = courseSimilarityService.getMostSimiliarCourses(initializer.getCourse6().getId(), tags);
+        List<CourseDTO> courseDTOs = courseSimilarityService.getMostSimilarCourses(initializer.getCourse6().getId(), tags);
         // Kurs mit welchem verglichen wird, sollte nicht in der Liste sein
         assertTrue(courseDTOs.stream().noneMatch(courseDTO -> courseDTO.id().equals(initializer.getCourse6().getId())));
         // Kurs 11 sollte in der Liste sein

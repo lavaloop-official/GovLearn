@@ -4,7 +4,6 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.CourseSimilarityService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.tags.service.TagService;
@@ -24,7 +23,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/similiar-courses")
+@RequestMapping("/api/v1/similar-courses")
 @Slf4j
 public class CourseSimilarityController {
     private final TagService tagService;
@@ -36,11 +35,11 @@ public class CourseSimilarityController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{id}/")
-    public ResponseEntity<Response> getSimiliarCourses(@PathVariable Long id) {
+    public ResponseEntity<Response> getSimilarCourses(@PathVariable Long id) {
         List<TagDTO> allTags = tagService.getTags();
-        List<CourseDTO> similiarCourses = courseSimilarityService.getMostSimiliarCourses(id,allTags);
+        List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(id,allTags);
 
-        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similiarCourses);
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similarCourses);
 
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
