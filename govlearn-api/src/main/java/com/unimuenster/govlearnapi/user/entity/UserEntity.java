@@ -1,4 +1,5 @@
 package com.unimuenster.govlearnapi.user.entity;
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -43,6 +44,13 @@ public class UserEntity {
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "bookmark",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> bookmarked;// = new ArrayList<Course>();
+
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
@@ -52,6 +60,10 @@ public class UserEntity {
         return userTags.stream().map(userTag -> userTag.getTag()).collect(Collectors.toList());
     }
 
+    public void addBookmark(Course course){
+        bookmarked.add(course);
+        course.getBookmarkedBy().add(this);
+    }
     public UserDTO getDTO(){
         return new UserDTO(email, password, name);
     }

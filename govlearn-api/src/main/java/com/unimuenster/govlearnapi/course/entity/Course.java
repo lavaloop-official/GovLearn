@@ -12,7 +12,6 @@ import lombok.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 
 @Entity
 @Data
@@ -55,6 +54,9 @@ public class Course {
     @ToString.Exclude
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
+
+    @ManyToMany(mappedBy = "bookmarked")
+    private List<UserEntity> bookmarkedBy;// = new ArrayList<UserEntity>();
 
     public void addFeedback(Feedback Postfeedback) {
         feedback.add(Postfeedback);
