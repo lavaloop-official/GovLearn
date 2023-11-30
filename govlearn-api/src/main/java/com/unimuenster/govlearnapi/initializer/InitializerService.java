@@ -5,7 +5,6 @@ import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.tags.entity.Category;
-import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -491,6 +490,7 @@ public class InitializerService {
             DROP TABLE token CASCADE;
             DROP TABLE user_entity CASCADE;
             DROP TABLE user_tag CASCADE; 
+            DROP TABLE category CASCADE;
             """
         );
         try {
