@@ -27,7 +27,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     // May be used for filtering courses by attributes
     @Query(value = """
-        SELECT c FROM Course c WHERE (c.name LIKE %:nameSearch%) OR (c.description LIKE %:nameSearch%)
+        SELECT c FROM Course c WHERE (lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%')))
     """)
     List<Course> findCoursesByAttributes(String nameSearch);
 
