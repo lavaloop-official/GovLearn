@@ -1,11 +1,11 @@
 package com.unimuenster.govlearnapi.tags.service;
 
+import com.unimuenster.govlearnapi.category.entity.Category;
+import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
-import com.unimuenster.govlearnapi.tags.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
