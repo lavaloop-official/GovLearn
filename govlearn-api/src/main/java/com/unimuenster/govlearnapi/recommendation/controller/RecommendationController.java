@@ -36,7 +36,7 @@ public class RecommendationController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{length}")
-    public ResponseEntity<Response> createCourse(
+    public ResponseEntity<Response> getRecommendations(
             @PathVariable int length
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
