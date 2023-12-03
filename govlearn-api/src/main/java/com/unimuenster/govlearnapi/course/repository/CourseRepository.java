@@ -40,4 +40,15 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         where cat.id = :categoryId
     """)
     List<Course> findCoursesByCategory(int categoryId);
+
+    @Query(value = """
+        SELECT c 
+        FROM Course c 
+        INNER JOIN c.courseTags t 
+        INNER JOIN t.tag tag
+        INNER JOIN tag.category cat
+        WHERE cat.id IN :categoryIDs
+        AND (lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%')))
+    """)
+    List<Course> findCoursesByAttributesAndCategories(String nameSearch, List<Long> categoryIDs);
 }
