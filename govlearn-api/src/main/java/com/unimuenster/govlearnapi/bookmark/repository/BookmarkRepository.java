@@ -2,7 +2,6 @@ package com.unimuenster.govlearnapi.bookmark.repository;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -16,9 +15,4 @@ public interface BookmarkRepository extends JpaRepository<Course, Long> {
     """, nativeQuery = true)
     public List<Course> getBookmarksByUser(Long currentUserId);
 
-    @Modifying
-    @Query(value = """
-        DELETE FROM bookmark WHERE user_id = :userId AND course_id = :courseId
-    """, nativeQuery = true)
-    void deleteBookmark(Long userId, Long courseId);
 }

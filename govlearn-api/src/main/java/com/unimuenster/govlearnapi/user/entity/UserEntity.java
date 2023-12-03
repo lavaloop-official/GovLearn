@@ -44,12 +44,12 @@ public class UserEntity {
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "bookmark",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> bookmarked;// = new ArrayList<Course>();
+    private List<Course> bookmarked = new ArrayList<Course>();
 
     @PrePersist
     private void onCreate() {
@@ -60,10 +60,6 @@ public class UserEntity {
         return userTags.stream().map(userTag -> userTag.getTag()).collect(Collectors.toList());
     }
 
-    public void addBookmark(Course course){
-        bookmarked.add(course);
-        course.getBookmarkedBy().add(this);
-    }
     public UserDTO getDTO(){
         return new UserDTO(email, password, name);
     }

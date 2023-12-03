@@ -55,8 +55,9 @@ public class Course {
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
 
-    @ManyToMany(mappedBy = "bookmarked")
-    private List<UserEntity> bookmarkedBy;// = new ArrayList<UserEntity>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bookmarked", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<UserEntity> bookmarkedBy = new ArrayList<UserEntity>();
 
     public void addFeedback(Feedback Postfeedback) {
         feedback.add(Postfeedback);
@@ -73,5 +74,6 @@ public class Course {
     private void onCreate() {
         createdAt = new Date();
     }
+
 }
 
