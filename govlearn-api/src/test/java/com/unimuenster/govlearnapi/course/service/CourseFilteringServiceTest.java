@@ -34,4 +34,14 @@ class CourseFilteringServiceTest extends AbstractIntegrationTest {
         assertEquals(20, courseDTOS.size());
         assertEquals(courseDTOS.get(0).id(), initializer.getCourse12().getId());
     }
+
+    @Test
+    void caseInsensitiveTest() {
+
+        String lowerCaseSearchString = initializer.getCourse1().getName().toLowerCase();
+
+        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(lowerCaseSearchString);
+
+        assertEquals(courseDTOS.get(0).id(), initializer.getCourse1().getId());
+    }
 }

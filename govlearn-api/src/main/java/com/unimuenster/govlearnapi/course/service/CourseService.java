@@ -6,8 +6,6 @@ import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
-import com.unimuenster.govlearnapi.recommendation.service.RecommendationService;
-import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

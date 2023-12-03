@@ -1,10 +1,12 @@
-package com.unimuenster.govlearnapi.tags.repository;
+package com.unimuenster.govlearnapi.category.repository;
 
-import com.unimuenster.govlearnapi.tags.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.unimuenster.govlearnapi.category.entity.Category;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
@@ -16,4 +18,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
             "ORDER BY COUNT(c.id) DESC " +
             "LIMIT ?2", nativeQuery = true)
     List<Category> getMostCommonCategories(int userId, int limit);
+
+    @Query(value = "SELECT c FROM Category c")
+    List<Category> findAllCategories();
+
+    @Query(value = "SELECT c FROM Category c WHERE c.id = :categoryID")
+    Optional<Category> findCategoryByID(Long categoryID);
 }
