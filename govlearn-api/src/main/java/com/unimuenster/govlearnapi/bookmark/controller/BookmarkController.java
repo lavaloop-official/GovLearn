@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +36,17 @@ public class BookmarkController {
         List<CourseDTO> bookmarksDTOs = bookmarkService.getBookmarks(currentUser);
         List<CourseWsTo> bookmarksWsTos = controllerCourseMapper.mapList(bookmarksDTOs);
         return ResponseEntity.ok(Response.of(bookmarksWsTos, true));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "bookmark course"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PostMapping("/{courseId}")
+    public ResponseEntity<Response> addBookmark(@PathVariable Long courseId){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        bookmarkService.addBookmark(currentUser, courseId);
+        return ResponseEntity.ok(Response.of(true));
     }
 }

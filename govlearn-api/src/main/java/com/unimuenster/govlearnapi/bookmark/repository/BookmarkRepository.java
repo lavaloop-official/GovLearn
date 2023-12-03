@@ -14,4 +14,5 @@ public interface BookmarkRepository extends JpaRepository<Course, Long> {
         ) 
     """, nativeQuery = true)
     public List<Course> getBookmarksByUser(Long currentUserId);
+
 }
