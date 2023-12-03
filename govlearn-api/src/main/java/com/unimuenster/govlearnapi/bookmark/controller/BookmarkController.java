@@ -49,4 +49,16 @@ public class BookmarkController {
         bookmarkService.addBookmark(currentUser, courseId);
         return ResponseEntity.ok(Response.of(true));
     }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "delete course from bookmarks"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Response> deleteBookmark(@PathVariable Long courseId){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        bookmarkService.deleteBookmark(currentUser, courseId);
+        return ResponseEntity.ok(Response.of(true));
+    }
 }

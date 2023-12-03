@@ -39,4 +39,16 @@ public class BookmarkService {
         currentUser.addBookmark(course.get());
         bookmarkRepository.save(course.get());
     }
+
+    @Transactional
+    public void deleteBookmark(UserEntity currentUser, Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isEmpty()) { //catch if course does not exist
+            throw new NotFoundException();
+        }
+        if (!course.get().getBookmarkedBy().contains(currentUser)) { //catch if course is not bookmarked
+            throw new IllegalArgumentException();
+        }
+        bookmarkRepository.deleteBookmark(currentUser.getId(),course.get().getId());
+    }
 }
