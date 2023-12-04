@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.user.service;
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
+import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
@@ -14,7 +15,6 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Service
@@ -64,7 +64,6 @@ public class CustomUserCrudService {
 
     public UserWsTo getUserByID(Long userID){
 
-
         Optional<UserEntity> userEntity = userRepository.findUserById(userID);
 
         if(userEntity.isEmpty())
@@ -78,9 +77,9 @@ public class CustomUserCrudService {
     }
     
     @Transactional
-    public UserWsTo updateUser(Long userID, UserDTO userDTO){
+    public UserWsTo updateUser(Long userID, RegisterWsTo userWsTo){
 
-        boolean userExists = authenticationService.doesUserExist(userDTO.email());
+        boolean userExists = authenticationService.doesUserExist(userWsTo.email());
         //checkt ob email bereits vergeben ist.
         if (userExists) {
             throw new UserExistsException();
@@ -88,7 +87,7 @@ public class CustomUserCrudService {
 
         //Teste, ob Änderung für korrekten User
 
-        String encode = passwordEncoder.encode(userDTO.password());
+        String encode = passwordEncoder.encode(userWsTo.password());
 
         // Lade alten nutzer
 
@@ -103,15 +102,17 @@ public class CustomUserCrudService {
 
         // Setze auf alten nutzer neue felder
 
-        userEntity.setEmail(userDTO.email());
+        userEntity.setEmail(userWsTo.email());
         userEntity.setPassword(encode);
-        userEntity.setName(userDTO.name());
+        userEntity.setName(userWsTo.name());
 
         // Speicher neuen Nutzer ab
         UserEntity save = userRepository.save(userEntity);
 
-        UserWsTo userWsTo = new UserWsTo(save.getEmail(), save.getName());
+        UserWsTo UserFeedback = new UserWsTo(save.getEmail(), save.getName());
+        UserDTO UserDTO = new UserDTO(UserFeedback.email(), encode, UserFeedback.name());
+        authenticationService.authenticate(UserDTO);
 
-        return userWsTo;
+        return UserFeedback;
     }
 }

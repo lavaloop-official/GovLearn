@@ -81,10 +81,18 @@ public class UserController {
 
         return ResponseEntity.ok(Response.of(customUserCrudService.getUserByID(userID), new Message(Message.SUCCESS)));
     }
+
+    
+    
+    @Operation(
+        security= {@SecurityRequirement(name="Authorization")},
+        description= "Update User"
+    )
+    @PreAuthorize("hasAuthority('user')")
     @PutMapping("/users/{userID}")
-    public ResponseEntity<Response> updateUser(@PathVariable Long userID,@RequestBody UserDTO user){
+    public ResponseEntity<Response> updateUser(@RequestBody RegisterWsTo user){
         
-        UserWsTo updatedUser = customUserCrudService.updateUser(userID, user);
+        UserWsTo updatedUser = customUserCrudService.updateUser(authenticationService.getCurrentUser().getId(), user);
         
         return ResponseEntity.ok(Response.of(updatedUser, new Message(Message.SUCCESS)));
     };
