@@ -18,12 +18,13 @@ public class ControllerTagMapper {
     }
 
     public TagWsTo map(Tag tag){
-        return new TagWsTo(tag.getName(), tag.getCategory().getName());
+        return new TagWsTo(tag.getId(), tag.getName(), tag.getCategory().getName());
     }
 
     public TagWsTo map(TagDTO tag) {
         return TagWsTo
                 .builder()
+                .id(tag.id())
                 .name(tag.name())
                 .category(tag.category())
                 .build();

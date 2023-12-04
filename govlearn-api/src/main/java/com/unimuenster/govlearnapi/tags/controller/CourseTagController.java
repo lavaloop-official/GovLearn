@@ -49,8 +49,10 @@ public class CourseTagController {
     }
 
     @Operation(
-            description = "Get all courses with a tag."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get all courses with a tag."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses/tags/{id}")
     public ResponseEntity<Response> getAllCoursesByTagId(@PathVariable Long id){
 

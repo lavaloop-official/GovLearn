@@ -9,9 +9,11 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseFilteringService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +33,10 @@ public class CourseFilteringController {
     private final ControllerCourseMapper controllerCourseMapper;
 
     @Operation(
-            description = "Filter courses by attributes and categories."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Filter courses by attributes and categories."
     )
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/{name-search}")
     public ResponseEntity<Response> filterCourses(@PathVariable("name-search") String nameSearch, 
         @RequestBody List<Long> categoryIDs) {
