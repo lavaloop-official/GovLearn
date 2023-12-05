@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -37,8 +38,8 @@ public class CourseFilteringController {
         description = "Filter courses by attributes and categories."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/{name-search}")
-    public ResponseEntity<Response> filterCourses(@PathVariable("name-search") String nameSearch, 
+    @PostMapping(value = {"/", "/{name-search}"})
+    public ResponseEntity<Response> filterCourses(@PathVariable("name-search") Optional<String> nameSearch, 
         @RequestBody List<Long> tagIDs) {
 
         List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(nameSearch, tagIDs);

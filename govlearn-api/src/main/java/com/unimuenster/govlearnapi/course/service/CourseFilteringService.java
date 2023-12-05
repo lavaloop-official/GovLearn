@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,16 +19,21 @@ public class CourseFilteringService {
     private final CourseRepository courseRepository;
     private final ServiceCourseMapper serviceCourseMapper;
 
-    public List<CourseDTO> filterCourses(String nameSearch, List<Long> tagIDs) {
+    public List<CourseDTO> filterCourses(Optional<String> nameSearch, List<Long> tagIDs) {
 
+        String search = "";
+        if(nameSearch.isPresent())
+        {
+            search = nameSearch.get();
+        }
         if(tagIDs.isEmpty())
         {
-            List<Course> allCourses = courseRepository.findCoursesByAttributes(nameSearch);
+            List<Course> allCourses = courseRepository.findCoursesByAttributes(search);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
         else
         {
-            List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(nameSearch, tagIDs);
+            List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(search, tagIDs);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
     }
