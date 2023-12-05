@@ -38,11 +38,14 @@ public class CourseFilteringController {
         description = "Filter courses by attributes and categories."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping(value = {"/", "/{name-search}"})
-    public ResponseEntity<Response> filterCourses(@PathVariable("name-search") Optional<String> nameSearch, 
+    @PostMapping(value = {"/limit/{limit}/offset/{offset}/", "/limit/{limit}/offset/{offset}/{name-search}"})
+    public ResponseEntity<Response> filterCourses(
+        @PathVariable("limit") Integer limit,
+        @PathVariable("offset") Integer offset, 
+        @PathVariable("name-search") Optional<String> nameSearch, 
         @RequestBody List<Long> tagIDs) {
 
-        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(nameSearch, tagIDs);
+        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(limit, offset, nameSearch, tagIDs);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOS);
 

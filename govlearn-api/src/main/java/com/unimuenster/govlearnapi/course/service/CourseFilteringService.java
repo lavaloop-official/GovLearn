@@ -19,21 +19,21 @@ public class CourseFilteringService {
     private final CourseRepository courseRepository;
     private final ServiceCourseMapper serviceCourseMapper;
 
-    public List<CourseDTO> filterCourses(Optional<String> nameSearch, List<Long> tagIDs) {
+    public List<CourseDTO> filterCourses(Integer limit, Integer offset, Optional<String> nameSearch, List<Long> tagIDs) {
 
-        String search = "";
+        String search = "%%";
         if(nameSearch.isPresent())
         {
-            search = nameSearch.get();
+            search = "%"+nameSearch.get()+"%";
         }
         if(tagIDs.isEmpty())
         {
-            List<Course> allCourses = courseRepository.findCoursesByAttributes(search);
+            List<Course> allCourses = courseRepository.findCoursesByAttributes(limit, offset, search);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
         else
         {
-            List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(search, tagIDs);
+            List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(limit, offset, search, tagIDs);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
     }
