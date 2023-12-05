@@ -39,9 +39,9 @@ public class CourseFilteringController {
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/{name-search}")
     public ResponseEntity<Response> filterCourses(@PathVariable("name-search") String nameSearch, 
-        @RequestBody List<Long> categoryIDs) {
+        @RequestBody List<Long> tagIDs) {
 
-        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(nameSearch, categoryIDs);
+        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(nameSearch, tagIDs);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOS);
 

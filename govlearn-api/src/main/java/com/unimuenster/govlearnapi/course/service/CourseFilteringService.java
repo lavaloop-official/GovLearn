@@ -18,16 +18,16 @@ public class CourseFilteringService {
     private final CourseRepository courseRepository;
     private final ServiceCourseMapper serviceCourseMapper;
 
-    public List<CourseDTO> filterCourses(String nameSearch, List<Long> categoryIDs) {
+    public List<CourseDTO> filterCourses(String nameSearch, List<Long> tagIDs) {
 
-        if(categoryIDs.isEmpty())
+        if(tagIDs.isEmpty())
         {
             List<Course> allCourses = courseRepository.findCoursesByAttributes(nameSearch);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
         else
         {
-            List<Course> allCourses = courseRepository.findCoursesByAttributesAndCategories(nameSearch, categoryIDs);
+            List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(nameSearch, tagIDs);
             return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
         }
     }
