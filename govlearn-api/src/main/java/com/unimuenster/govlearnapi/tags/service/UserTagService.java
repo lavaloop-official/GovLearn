@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,36 @@ public class UserTagService {
         userTag.setTag(byId.get());
 
         userTagRepository.save(userTag);
+    }
+
+    public double[] getUserTagRatingVector(List<UserTag> tags, List<TagDTO> allTags){
+        double[] userTagRatingVector = new double[allTags.size()];
+
+        for (int i = 0; i < allTags.size(); i++) {
+            TagDTO currentTag = allTags.get(i);
+
+            Optional<UserTag> userTag = findCurrentTagInUserTags(currentTag, tags);
+
+            userTagRatingVector[i] = getUserTagRating(userTag);
+        }
+
+        return userTagRatingVector;
+    }
+
+    private int getUserTagRating(Optional<UserTag> foundUserTag){
+        if ( foundUserTag.isPresent() ) {
+            return foundUserTag.get().getRating();
+        }
+
+        return  0;
+    }
+
+    private Optional<UserTag> findCurrentTagInUserTags(TagDTO currentTag, List<UserTag> tags){
+        return tags
+                .stream()
+                .filter(userTag ->
+                        userTag.getTag().getName().equals(currentTag.name())
+                )
+                .findFirst();
     }
 }

@@ -1,15 +1,14 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.category.entity.Category;
+import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
-import com.unimuenster.govlearnapi.tags.entity.Category;
-import com.unimuenster.govlearnapi.tags.entity.Category;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
-import com.unimuenster.govlearnapi.tags.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
@@ -55,7 +54,7 @@ public class InitializerService {
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
     private Tag tag1, tag2, tag3, tag4, tag5;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
-    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15;
+    private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
 
     public void init() {
@@ -470,6 +469,24 @@ public class InitializerService {
         courseTag15.setTag(tag5);
 
         courseTagRepository.save(courseTag15);
+
+        courseTag16 = new CourseTag();
+        courseTag16.setCourse(course6);
+        courseTag16.setTag(tag2);
+
+        courseTagRepository.save(courseTag16);
+
+        courseTag17 = new CourseTag();
+        courseTag17.setCourse(course11);
+        courseTag17.setTag(tag2);
+
+        courseTagRepository.save(courseTag17);
+
+        courseTag18 = new CourseTag();
+        courseTag18.setCourse(course3);
+        courseTag18.setTag(tag1);
+
+        courseTagRepository.save(courseTag18);
     }
 
     private void insertMassiveCourseList(){
@@ -491,6 +508,7 @@ public class InitializerService {
             DROP TABLE token CASCADE;
             DROP TABLE user_entity CASCADE;
             DROP TABLE user_tag CASCADE; 
+            DROP TABLE category CASCADE;
             """
         );
         try {

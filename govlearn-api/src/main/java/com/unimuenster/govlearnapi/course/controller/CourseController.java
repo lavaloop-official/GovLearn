@@ -29,7 +29,6 @@ public class CourseController {
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
-
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Create a course."
@@ -73,6 +72,5 @@ public class CourseController {
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
     }
-
 
 }
