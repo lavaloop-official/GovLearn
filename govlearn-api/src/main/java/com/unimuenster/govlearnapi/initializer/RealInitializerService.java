@@ -281,7 +281,7 @@ public class RealInitializerService {
         course5.setStartDate(new Date());
         course5.setLink("");
         course5.setName("Psychologie für Führungskräfte");
-        course5.setDescription("Um erfolgreich zu führen, ist es wichtig, menschliche Verhaltensmuster zu verstehen. Denn diese spiegeln sich im unterschiedlichen Agieren und Reagieren Ihrer Mitarbeitenden wider. Sobald Sie diese Muster erkennen, können Sie einfacher damit umgehen. In diesem Seminar erfahren Sie, wie Sie Ihre Wahrnehmung im Umgang mit Mitarbeitenden sensibilisieren, um diese besser einzuschätzen und zu motivieren.");
+        course5.setDescription("Um erfolgreich zu führen, ist es wichtig, menschliche Verhaltensmuster zu verstehen. Denn diese spiegeln sich im unterschiedlichen Agieren und Reagieren Ihrer Mitarbeitenden wider. Sobald Sie diese Muster erkennen, können Sie einfacher damit umgehen.");
         course5.setProvider("Führungsinstitut GmbH");
         course5.setImage("https://w2.forschung-und-lehre.de/fileadmin/user_upload/Rubriken/Management/2021/4-21/Humble_Leadership_mauritius_images_11538516.jpg");
         course5.setDuration("3 Stunden");
