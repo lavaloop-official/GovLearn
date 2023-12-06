@@ -638,7 +638,7 @@ public class RealInitializerService {
 
         CourseTag courseTagPublicSector = new CourseTag();
         courseTagPublicSector.setCourse(course1);
-        courseTagPublicSector.setTag(tagBusinessProgramManagement);
+        courseTagPublicSector.setTag(tagBusinessProjectManagement);
         courseTagRepository.save(courseTagPublicSector);
 
 // Associate tags with Course 2
@@ -754,7 +754,7 @@ public class RealInitializerService {
 // Associate tags with Course 12
         CourseTag courseTagEnterpriseArchitecture12 = new CourseTag();
         courseTagEnterpriseArchitecture12.setCourse(course12);
-        courseTagEnterpriseArchitecture12.setTag(tagOrgDesign);
+        courseTagEnterpriseArchitecture12.setTag(tagItSkills);
         courseTagRepository.save(courseTagEnterpriseArchitecture12);
 
         CourseTag courseTagTechnologyManagement12 = new CourseTag();
