@@ -54,7 +54,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     //     AND ((lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%'))))
     // """)
     @Query(value = """
-        SELECT Course.*
+        SELECT DISTINCT (Course.*)
         FROM Course
         INNER JOIN course_tag ON course.id = course_tag.course_id
         WHERE course_tag.tag_id IN :tagIDs
