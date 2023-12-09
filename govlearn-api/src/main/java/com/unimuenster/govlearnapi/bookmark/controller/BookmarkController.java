@@ -1,12 +1,10 @@
-package com.unimuenster.govlearnapi.recommendation.controller;
+package com.unimuenster.govlearnapi.bookmark.controller;
 
+import com.unimuenster.govlearnapi.bookmark.service.BookmarkService;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
-import com.unimuenster.govlearnapi.recommendation.controller.wsto.RecommendationBundleWsTo;
-import com.unimuenster.govlearnapi.recommendation.service.RecommendationBundleService;
-import com.unimuenster.govlearnapi.recommendation.service.RecommendationService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,44 +19,46 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/recommendations")
+@RequestMapping("/api/v1/bookmarks")
 @Slf4j
-public class RecommendationController {
-
-    private final RecommendationService recommendationService;
-    private final RecommendationBundleService recommendationBundleService;
+public class BookmarkController {
     private final AuthenticationService authenticationService;
+    private final BookmarkService bookmarkService;
     private final ControllerCourseMapper controllerCourseMapper;
-
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Get a recommendation."
+            description = "Get bookmarked courses."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{length}")
-    public ResponseEntity<Response> getRecommendations(
-            @PathVariable int length
-    ){
+    @GetMapping("")
+    public ResponseEntity<Response> getBookmarks(){
         UserEntity currentUser = authenticationService.getCurrentUser();
-
-        List<CourseDTO> recommendations = recommendationService.getRecommendation(currentUser, length);
-
-        List<CourseWsTo> list = recommendations.stream().map(course -> controllerCourseMapper.map(course)).toList();
-
-        return ResponseEntity.ok(Response.of(list, true));
+        List<CourseDTO> bookmarksDTOs = bookmarkService.getBookmarks(currentUser);
+        List<CourseWsTo> bookmarksWsTos = controllerCourseMapper.mapList(bookmarksDTOs);
+        return ResponseEntity.ok(Response.of(bookmarksWsTos, true));
     }
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Get a recommendation bundle for the frontend landing page."
+            description = "bookmark course"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/bundle")
-    public ResponseEntity<Response> getRecommendationBundle(){
+    @PostMapping("/{courseId}")
+    public ResponseEntity<Response> addBookmark(@PathVariable Long courseId){
         UserEntity currentUser = authenticationService.getCurrentUser();
+        bookmarkService.addBookmark(currentUser, courseId);
+        return ResponseEntity.ok(Response.of(true));
+    }
 
-        RecommendationBundleWsTo bundle = recommendationBundleService.getBundle(currentUser);
-
-        return ResponseEntity.ok(Response.of(bundle, true));
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "delete course from bookmarks"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Response> deleteBookmark(@PathVariable Long courseId){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        bookmarkService.deleteBookmark(currentUser, courseId);
+        return ResponseEntity.ok(Response.of(true));
     }
 }

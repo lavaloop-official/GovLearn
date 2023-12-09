@@ -13,13 +13,24 @@ import org.springframework.web.bind.annotation.*;
 public class InitializerController {
 
     private final InitializerService initializerService;
+    private final RealInitializerService realInitializerService;
 
     @Operation(
             description = "Post once to initialize the application database."
     )
     @PostMapping("/instatiate")
-    public ResponseEntity createCourse(){
+    public ResponseEntity instatiate(){
         initializerService.init();
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+            description = "Post once to initialize a mock application database."
+    )
+    @PostMapping("/instatiate-realistic")
+    public ResponseEntity instatiateRealisitc(){
+        realInitializerService.init();
 
         return ResponseEntity.ok().build();
     }

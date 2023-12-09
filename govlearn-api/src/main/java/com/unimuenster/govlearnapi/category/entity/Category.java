@@ -1,9 +1,11 @@
-package com.unimuenster.govlearnapi.tags.entity;
+package com.unimuenster.govlearnapi.category.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+
+import com.unimuenster.govlearnapi.tags.entity.Tag;
 
 @Entity
 @Data
