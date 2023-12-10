@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Value("${frontend.url}")
     private String frontendUrl;
-    public static final long EXPIRATION_TIME = 60000 * 120;
+    public static final long EXPIRATION_TIME = 1200000 * 120;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final LogoutHandler logoutHandler;
