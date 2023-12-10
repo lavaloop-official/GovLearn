@@ -20,7 +20,7 @@ class JwtAuthenticationFilterTest extends AbstractIntegrationTest {
     private final TestRestTemplate restTemplate = new TestRestTemplate();
 
     @Test
-    void invalidJWT() {
+    void missingJWT() {
 
         String url = "http://localhost:" + port + "/api/v1/users";
 
@@ -35,6 +35,19 @@ class JwtAuthenticationFilterTest extends AbstractIntegrationTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(initializer.getUser1Token().token());
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void invalidJWT()  {
+
+        String url = "http://localhost:" + port + "/api/v1/users";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth("anythiung.at.all");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
