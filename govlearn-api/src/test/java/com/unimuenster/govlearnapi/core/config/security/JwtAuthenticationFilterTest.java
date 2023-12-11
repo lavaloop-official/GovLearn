@@ -57,7 +57,7 @@ class JwtAuthenticationFilterTest extends AbstractIntegrationTest {
     @Test
     void publicEndpoint() {
 
-        String url = "http://localhost:" + port + "/api/v1/tags";
+        String url = "http://localhost:" + port + "/api/v1/health";
 
         ResponseEntity response = restTemplate.getForEntity(url, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
