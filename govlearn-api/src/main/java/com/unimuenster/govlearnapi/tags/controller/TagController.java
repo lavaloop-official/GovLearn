@@ -27,8 +27,8 @@ public class TagController {
     private final TagService tagService;
 
     @Operation(
-            security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a tag."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Create a tag."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping()
@@ -44,8 +44,10 @@ public class TagController {
     }
 
     @Operation(
-            description = "Get a list of all tags."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a list of all tags."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping()
     public ResponseEntity<Response> getTags() {
 
@@ -57,8 +59,10 @@ public class TagController {
     }
 
     @Operation(
-            description = "Get a tag by id."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a tag by id."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{id}")
     public ResponseEntity<Response> getTagById(@PathVariable Long id) {
 
@@ -67,6 +71,21 @@ public class TagController {
         TagWsTo map = controllerTagMapper.map(tagById);
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get all tags by categoryID."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/category/{categoryID}")
+    public ResponseEntity<Response> getTagsByCategoryID(@PathVariable Long categoryID) {
+
+        List<TagDTO> tags = tagService.getTagsByCategoryID(categoryID);
+
+        List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tags);
+
+        return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
     }
 
 }

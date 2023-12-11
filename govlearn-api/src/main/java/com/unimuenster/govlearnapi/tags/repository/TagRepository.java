@@ -12,37 +12,52 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Query(value = """
-SELECT t FROM Tag t where t.id = :tagId
-""")
+      SELECT t 
+      FROM Tag t 
+      WHERE t.id = :tagId
+    """)
     Optional<Tag> findById(Long tagId);
 
     @Modifying
     @Query(value = """
-      delete from user_tag
+      DELETE 
+      FROM user_tag
       WHERE user_id = :userId
       AND tag_id = :tagId
       """, nativeQuery = true)
     void deleteTagFromUser(@Param("userId") Long userId, @Param("tagId") Long tagId);
 
     @Query(value = """
-      select ut from UserTag ut
-      where ut.user.id = :userId
+      SELECT ut 
+      FROM UserTag ut
+      WHERE ut.user.id = :userId
       """)
     List<UserTag> findAllTagsByUserId(@Param("userId") Long userId);
+
     @Query(value = """
-select ct.tag from CourseTag ct
-where ct.course.id = :courseId
-""")
+      SELECT ct.tag
+      FROM CourseTag ct
+      WHERE ct.course.id = :courseId
+      """)
     List<Tag> findAllTagsByCourseId(@Param("courseId")Long courseId);
 
     @Query(value = """
-      select c from Tag c
+      SELECT t 
+      FROM Tag t
+      WHERE t.category.id = :categoryID
+      """)
+    List<Tag> findAllTagsByCategoryID(@Param("categoryID") Long categoryID);
+
+    @Query(value = """
+      SELECT c 
+      FROM Tag c
       """)
     List<Tag> findAllTags();
 
     @Modifying
     @Query(value = """
-      delete from course_tag
+      DELETE
+      FROM course_tag
       WHERE course_id = :courseId
       AND tag_id = :tagId
       """, nativeQuery = true)

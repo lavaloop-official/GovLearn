@@ -30,8 +30,8 @@ public class CourseController {
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
     @Operation(
-            security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a course."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Create a course."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/courses")
@@ -48,8 +48,10 @@ public class CourseController {
     }
 
     @Operation(
-            description = "Get a list of all courses."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a list of all courses."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses")
     public ResponseEntity<Response> getCourses() {
 
@@ -61,8 +63,10 @@ public class CourseController {
     }
 
     @Operation(
-            description = "Get a course by id."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a course by id."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses/{id}")
     public ResponseEntity<Response> getCourseById(@PathVariable Long id) {
 

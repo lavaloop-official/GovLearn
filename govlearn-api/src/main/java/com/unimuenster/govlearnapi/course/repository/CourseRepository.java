@@ -27,17 +27,40 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     // May be used for filtering courses by attributes
     @Query(value = """
-        SELECT c FROM Course c WHERE (lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%')))
-    """)
-    List<Course> findCoursesByAttributes(String nameSearch);
+        SELECT *
+        FROM Course
+        WHERE (lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch))
+        LIMIT :limit
+        OFFSET :offset
+    """, nativeQuery = true)
+    List<Course> findCoursesByAttributes(Integer limit, Integer offset, String nameSearch);
 
     @Query(value = """
-        select c 
-        from Course c 
+        SELECT c 
+        FROM Course c 
         INNER JOIN c.courseTags t 
         INNER JOIN t.tag tag
         INNER JOIN tag.category cat
-        where cat.id = :categoryId
+        WHERE cat.id = :categoryId
     """)
     List<Course> findCoursesByCategory(int categoryId);
+
+    // @Query(value = """
+    //     SELECT c 
+    //     FROM Course c 
+    //     INNER JOIN c.courseTags t 
+    //     INNER JOIN t.tag tag
+    //     WHERE tag.id IN :tagIDs
+    //     AND ((lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%'))))
+    // """)
+    @Query(value = """
+        SELECT DISTINCT (Course.*)
+        FROM Course
+        INNER JOIN course_tag ON course.id = course_tag.course_id
+        WHERE course_tag.tag_id IN :tagIDs
+        AND ((lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
+        LIMIT :limit
+        OFFSET :offset
+    """, nativeQuery = true)
+    List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch, List<Long> tagIDs);
 }
