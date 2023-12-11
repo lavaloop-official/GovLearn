@@ -4,6 +4,8 @@ import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
+import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
+import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
@@ -12,9 +14,13 @@ import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
+import com.unimuenster.govlearnapi.user.entity.Token;
+import com.unimuenster.govlearnapi.user.entity.TokenType;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.TokenRepository;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
 
+import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +55,12 @@ public class InitializerService {
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
+    private final JwtService jwtService;
+    private final TokenRepository tokenRepository;
 
     private UserEntity user1, user2, recommendationUser;
+    private TokenDTO user1Token, user2Token, recommendationUserToken;
+    private String clearPassword = "test";
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
     private Tag tag1, tag2, tag3, tag4, tag5, tag6;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
@@ -68,8 +78,25 @@ public class InitializerService {
         addBookmarkToUser();
     }
 
+    private TokenDTO authenticate(UserEntity user){
+        // Normaler AuthenticationService kann nicht verwendet werden,
+        // da updating/deleting queries ausgeführt werden und dies im Testkontext Fehler schmeisst.
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+
+        String jwt = jwtService.generateToken(customUserDetails);
+        tokenRepository.save(Token.builder()
+                .user(user)
+                .token(jwt)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build());
+
+        return new TokenDTO(jwt);
+    }
+
     public void insertUser(){
-        String test = passwordEncoder.encode("test");
+        String test = passwordEncoder.encode(clearPassword);
 
         user1 = new UserEntity();
         user1.setActivated(true);
@@ -78,8 +105,9 @@ public class InitializerService {
         user1.setPassword(test);
 
         userRepository.save(user1);
+        user1Token = authenticate(user1);
 
-        String test2 = passwordEncoder.encode("test2");
+        String test2 = passwordEncoder.encode(clearPassword);
         user2 = new UserEntity();
         user2.setActivated(true);
         user2.setName("test2");
@@ -87,8 +115,9 @@ public class InitializerService {
         user2.setPassword(test2);
 
         userRepository.save(user2);
+        user2Token = authenticate(user2);
 
-        String recommendationUserPasswort = passwordEncoder.encode("test3");
+        String recommendationUserPasswort = passwordEncoder.encode(clearPassword);
         recommendationUser = new UserEntity();
         recommendationUser.setActivated(true);
         recommendationUser.setName("test3");
@@ -96,6 +125,7 @@ public class InitializerService {
         recommendationUser.setPassword(recommendationUserPasswort);
 
         userRepository.save(recommendationUser);
+        recommendationUserToken = authenticate(recommendationUser);
     }
 
     private void insertCategories() {
