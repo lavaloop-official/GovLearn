@@ -58,6 +58,12 @@ public class TagService {
 
         return mapTags(allTagsByCourseId);
     }
+
+    public List<TagDTO> getTagsByCategoryID(Long categoryID) {
+        List<Tag> allTagsByCategoryID = tagRepository.findAllTagsByCategoryID(categoryID);
+
+        return mapTags(allTagsByCategoryID);
+    }
     
     public void createTag(TagCreationDTO tagsDTO) {
 

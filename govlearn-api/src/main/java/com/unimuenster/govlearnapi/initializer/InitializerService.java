@@ -52,7 +52,7 @@ public class InitializerService {
 
     private UserEntity user1, user2, recommendationUser;
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
-    private Tag tag1, tag2, tag3, tag4, tag5;
+    private Tag tag1, tag2, tag3, tag4, tag5, tag6;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
@@ -339,6 +339,12 @@ public class InitializerService {
         tag5.setCategory(category5);
 
         tagRepository.save(tag5);
+
+        tag6 = new Tag();
+        tag6.setName("Tag 6");
+        tag6.setCategory(category1);
+
+        tagRepository.save(tag6);
     }
 
     private void addTagsToUsers() {
