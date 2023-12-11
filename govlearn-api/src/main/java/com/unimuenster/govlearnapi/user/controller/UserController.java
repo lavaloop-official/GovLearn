@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.user.controller.wsto.AuthenticationWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
@@ -80,4 +81,21 @@ public class UserController {
 
         return ResponseEntity.ok(Response.of(customUserCrudService.getUserByID(userID), new Message(Message.SUCCESS)));
     }
+
+    
+    
+    @Operation(
+        security= {@SecurityRequirement(name="Authorization")},
+        description= "Update User"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping("/users")
+    public ResponseEntity<Response> updateUser(@RequestBody RegisterWsTo user){
+        
+        TokenDTO tokenDTO = customUserCrudService.updateUser(authenticationService.getCurrentUser().getId(), user);
+
+        // Da Email im Token gespeichert wird, muss der token neu generiert werden
+        return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
+    };
+    
 }

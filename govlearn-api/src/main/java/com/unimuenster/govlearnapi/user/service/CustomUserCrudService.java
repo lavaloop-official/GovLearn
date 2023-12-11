@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.user.service;
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
+import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
@@ -73,5 +74,46 @@ public class CustomUserCrudService {
         UserWsTo userWsTo = new UserWsTo(userEntity.get().getEmail(), userEntity.get().getName());
 
         return userWsTo;
+    }
+    
+    @Transactional
+    public TokenDTO updateUser(Long userID, RegisterWsTo userWsTo){
+
+        boolean userExists = authenticationService.doesUserExist(userWsTo.email());
+        //checkt ob email bereits vergeben ist.
+        if (userExists) {
+            throw new UserExistsException();
+        }
+
+        //Teste, ob Änderung für korrekten User
+
+        String encode = passwordEncoder.encode(userWsTo.password());
+
+        // Lade alten nutzer
+
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserById(userID);
+
+        if(optionalUserEntity.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        UserEntity userEntity = optionalUserEntity.get();
+        
+
+        // Setze auf alten nutzer neue felder
+
+        userEntity.setEmail(userWsTo.email());
+        userEntity.setPassword(encode);
+        userEntity.setName(userWsTo.name());
+
+        // Speicher neuen Nutzer ab
+        UserEntity save = userRepository.save(userEntity);
+
+        UserWsTo UserFeedback = new UserWsTo(save.getEmail(), save.getName());
+        UserDTO UserDTO = new UserDTO(UserFeedback.email(), userWsTo.password(), UserFeedback.name());
+
+        TokenDTO authenticate = authenticationService.authenticate(UserDTO);
+
+        return authenticate;
     }
 }
