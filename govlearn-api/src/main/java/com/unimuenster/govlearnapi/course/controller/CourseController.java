@@ -8,6 +8,7 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,8 @@ public class CourseController {
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
+    private final FeedbackService feedbackService;
+
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
         description = "Create a course."
@@ -59,6 +62,11 @@ public class CourseController {
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courses);
 
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
+
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
 
@@ -72,9 +80,12 @@ public class CourseController {
 
         CourseDTO courseById = courseService.getCourseById(id);
 
-        CourseWsTo map = controllerCourseMapper.map(courseById);
+        CourseWsTo courseWsTo = controllerCourseMapper.map(courseById);
 
-        return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
+        courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+        courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+
+        return ResponseEntity.ok( Response.of(courseWsTo, new Message(Message.SUCCESS)));
     }
 
 }
