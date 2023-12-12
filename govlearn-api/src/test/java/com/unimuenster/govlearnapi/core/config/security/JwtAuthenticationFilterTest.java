@@ -25,7 +25,7 @@ class JwtAuthenticationFilterTest extends AbstractIntegrationTest {
         String url = "http://localhost:" + port + "/api/v1/users";
 
         ResponseEntity response = restTemplate.getForEntity(url, String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
     @Test
