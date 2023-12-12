@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.group.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.group.service.dto.GroupDTO;
@@ -44,16 +45,20 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    /*
-    {
-  "userIds": [
-    2,3,4,5
-  ],
-  "name": "Test kurs",
-  "courseIds": [
-    1,2,3,4,5,6
-  ]
-}
-     */
+    public List<GroupContentWsTo> getGroupsWithMember(UserEntity currentUser) {
+        // Find all groups which the current user is a member of
+        List<Group> groups = groupRepository.findAllByMember(currentUser.getId());
 
+        // Map the groups to the GroupContentWsTo
+        List<GroupContentWsTo> groupContents = groups.stream()
+                .map(group -> {
+                    GroupContentWsTo groupContent = new GroupContentWsTo();
+                    groupContent.setName(group.getName());
+                    groupContent.setCourseId(group.getCourses().stream().map(Course::getId).toList());
+                    return groupContent;
+                })
+                .toList();
+
+        return groupContents;
+    }
 }
