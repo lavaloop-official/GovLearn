@@ -44,4 +44,16 @@ public class GroupService {
         groupRepository.save(group);
     }
 
+    /*
+    {
+  "userIds": [
+    2,3,4,5
+  ],
+  "name": "Test kurs",
+  "courseIds": [
+    1,2,3,4,5,6
+  ]
+}
+     */
+
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GroupMapper {
 
-    public GroupDTO mapToDto(GroupCreationWsTo groupCreationWsTo, Integer creatorId){
+    public GroupDTO mapToDto(GroupCreationWsTo groupCreationWsTo, Long creatorId){
 
         GroupDTO groupDTO = new GroupDTO();
 

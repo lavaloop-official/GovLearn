@@ -9,8 +9,8 @@ import java.util.List;
 @Setter
 public class GroupDTO {
 
-    List<Integer> members;
-    List<Integer> courses;
-    Integer creatorId;
+    List<Long> members;
+    List<Long> courses;
+    Long creatorId;
     String name;
 }
