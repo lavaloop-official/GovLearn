@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.group.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupAdminWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
@@ -45,7 +46,7 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    public List<GroupContentWsTo> getGroupsWithMember(UserEntity currentUser) {
+    public List<GroupContentWsTo> getGroupsByMember(UserEntity currentUser) {
         // Find all groups which the current user is a member of
         List<Group> groups = groupRepository.findAllByMember(currentUser.getId());
 
@@ -60,5 +61,23 @@ public class GroupService {
                 .toList();
 
         return groupContents;
+    }
+
+    public List<GroupAdminWsTo> getGroupsByAdmin(UserEntity currentUser) {
+        // Find all groups which the current user is a member of
+        List<Group> groups = groupRepository.findAllByAdmin(currentUser.getId());
+
+        // Map the groups to the GroupContentWsTo
+        List<GroupAdminWsTo> groupAdmins = groups.stream()
+                .map(group -> {
+                    GroupAdminWsTo groupAdmin = new GroupAdminWsTo();
+                    groupAdmin.setName(group.getName());
+                    groupAdmin.setCourseIds(group.getCourses().stream().map(Course::getId).toList());
+                    groupAdmin.setUserIds(group.getMembers().stream().map(UserEntity::getId).toList());
+                    return groupAdmin;
+                })
+                .toList();
+
+        return groupAdmins;
     }
 }

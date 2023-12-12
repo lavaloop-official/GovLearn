@@ -13,4 +13,9 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             "INNER JOIN g.members m " +
             "WHERE :memberId = m.id")
     List<Group> findAllByMember(@Param("memberId") Long userId);
+
+    @Query("SELECT g " +
+            "FROM Group g " +
+            "Where g.creator.id = :adminId ")
+    List<Group> findAllByAdmin(@Param("adminId")Long userId);
 }

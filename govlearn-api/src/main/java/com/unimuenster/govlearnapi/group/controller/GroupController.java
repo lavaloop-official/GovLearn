@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.group.controller.mapper.GroupMapper;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupAdminWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
 import com.unimuenster.govlearnapi.group.service.GroupService;
@@ -59,7 +60,21 @@ public class GroupController {
     public ResponseEntity<Response> getMemberGroup(){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        List<GroupContentWsTo> groupContents = groupService.getGroupsWithMember(currentUser);
+        List<GroupContentWsTo> groupContents = groupService.getGroupsByMember(currentUser);
+
+        return ResponseEntity.ok(Response.of(groupContents));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get all groups of a user."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/admin")
+    public ResponseEntity<Response> getAdminGroup(){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        List<GroupAdminWsTo> groupContents = groupService.getGroupsByAdmin(currentUser);
 
         return ResponseEntity.ok(Response.of(groupContents));
     }
