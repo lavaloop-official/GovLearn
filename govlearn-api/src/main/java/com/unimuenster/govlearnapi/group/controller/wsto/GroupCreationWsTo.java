@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class GroupCreationWsTo {
 
-    private List<Long> userIds;
+    private List<Integer> userIds;
     private String name;
-    private List<Long> courseIds;
+    private List<Integer> courseIds;
 }

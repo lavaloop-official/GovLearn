@@ -43,7 +43,7 @@ public class GroupController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        GroupDTO groupDTO = groupMapper.mapToDto(groupCreationWsTo, currentUser.getId());
+        GroupDTO groupDTO = groupMapper.mapToDto(groupCreationWsTo, Math.toIntExact(currentUser.getId()));
 
         groupService.createGroup(groupDTO);
 
