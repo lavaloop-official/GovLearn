@@ -37,7 +37,7 @@ public class GroupController {
             description = "Create a group."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/courses")
+    @PostMapping()
     public ResponseEntity<Response> createCourse(
             @RequestBody GroupCreationWsTo groupCreationWsTo
     ){
