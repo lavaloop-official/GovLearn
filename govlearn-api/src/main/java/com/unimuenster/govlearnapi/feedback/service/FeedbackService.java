@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.Option;
+
 @Service
 @RequiredArgsConstructor
 public class FeedbackService {
@@ -139,11 +141,19 @@ public class FeedbackService {
         return Math.round(value * d) / d;
      }
 
-    public float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
+    public Float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
         try {
             return round(feedbackRepository.findAverageFeedbackByCourseId(courseID), 1);
         } catch (NullPointerException e) {
-            throw new NotFoundException();
+            return null;
+        }
+    }
+
+    public Long getAmountFeedbackByCourseID(Long courseID) throws NotFoundException{
+        try {
+            return feedbackRepository.findAmountFeedbackByCourseId(courseID);
+        } catch (NullPointerException e) {
+            return null;
         }
     }
 }

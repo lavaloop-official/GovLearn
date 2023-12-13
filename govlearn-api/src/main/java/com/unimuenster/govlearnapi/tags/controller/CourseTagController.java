@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapp
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromCourseWsTo;
@@ -33,7 +34,7 @@ public class CourseTagController {
     private final TagService tagService;
     private final CourseTagService courseTagService;
     private final CourseService courseService;
-
+    private final FeedbackService feedbackService;
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Get all Tags of a course."
@@ -57,9 +58,14 @@ public class CourseTagController {
     public ResponseEntity<Response> getAllCoursesByTagId(@PathVariable Long id){
 
         List<CourseDTO> coursesDTO = courseService.getAllCoursesByTagId(id);
-        List<CourseWsTo> courses = controllerCourseMapper.mapList(coursesDTO);
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(coursesDTO);
 
-        return ResponseEntity.ok( Response.of(courses, new Message(Message.SUCCESS)));
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
+
+        return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
