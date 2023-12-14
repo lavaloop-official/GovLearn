@@ -44,7 +44,6 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
     private final ControllerFeedbackMapper controllerFeedbackMapper;
     private final AuthenticationService authenticationService;
-    private final CustomUserCrudService customUserCrudService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -70,7 +69,7 @@ public class FeedbackController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/feedback/course/{courseID}")
-    public ResponseEntity<Response> getFeedbackByCourseIDandFeedbackID(@PathVariable Long courseID) {
+    public ResponseEntity<Response> getFeedbackByCourseIDAndFeedbackID(@PathVariable Long courseID) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
