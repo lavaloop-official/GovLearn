@@ -7,6 +7,7 @@ import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -108,9 +109,15 @@ public class CourseService {
         return map;
     }
 
+    @Transactional
+    public void deleteCourse(Long courseId) {
+        courseRepository.deleteCourse(courseId);
+    }
+
     public List<CourseDTO> getProvidedCourses(Long userId) {
         List<Course> courses = courseRepository.getProvidedCourses(userId);
 
         return mapCourses(courses);
     }
+
 }

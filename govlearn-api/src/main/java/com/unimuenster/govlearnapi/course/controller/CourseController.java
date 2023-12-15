@@ -90,6 +90,18 @@ public class CourseController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
+            description = "Delete a course"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/courses/{courseID}")
+    public ResponseEntity<Response> deleteCourse(@PathVariable Long courseId) {
+        courseService.deleteCourse(courseId);
+
+        return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
             description = "Get courses the user created"
     )
     @PreAuthorize("hasAuthority('user')")

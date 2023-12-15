@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.course.repository;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -68,4 +69,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     SELECT c FROM Course c where c.creator.id = :userId
 """)
     List<Course> getProvidedCourses(Long userId);
+
+    @Modifying
+    @Query(value = """
+    DELETE FROM Course c where c.id = :courseId
+""")
+    void deleteCourse(Long courseId);
 }
