@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -93,9 +94,11 @@ public class CourseController {
             description = "Delete a course"
     )
     @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/courses/{courseID}")
-    public ResponseEntity<Response> deleteCourse(@PathVariable Long courseId) {
-        courseService.deleteCourse(courseId);
+    @DeleteMapping("/courses/{id}")
+    public ResponseEntity<Response> deleteCourse(@PathVariable Long id) {
+        // Übergebe User um Berechtigung des Löschens zu prüfen
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        courseService.deleteCourse(id, currentUser.getId());
 
         return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
     }

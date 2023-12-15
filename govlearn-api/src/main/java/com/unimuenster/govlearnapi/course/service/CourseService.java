@@ -110,8 +110,11 @@ public class CourseService {
     }
 
     @Transactional
-    public void deleteCourse(Long courseId) {
-        courseRepository.deleteCourse(courseId);
+    public void deleteCourse(Long courseId, Long userId) {
+        int deletedRows =courseRepository.deleteCourse(courseId, userId);
+        if (deletedRows == 0){
+            throw new RuntimeException("keine Berechtigung den Kurs zu löschen");
+        }
     }
 
     public List<CourseDTO> getProvidedCourses(Long userId) {
