@@ -88,4 +88,24 @@ public class CourseController {
         return ResponseEntity.ok( Response.of(courseWsTo, new Message(Message.SUCCESS)));
     }
 
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get courses the user created"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/providers/courses")
+    public ResponseEntity<Response> getProvidedCourses() {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        List<CourseDTO> courseDTOs = courseService.getProvidedCourses(currentUser.getId());
+
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOs);
+
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
+        return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
+    }
+
 }

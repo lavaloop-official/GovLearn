@@ -107,4 +107,10 @@ public class CourseService {
 
         return map;
     }
+
+    public List<CourseDTO> getProvidedCourses(Long userId) {
+        List<Course> courses = courseRepository.getProvidedCourses(userId);
+
+        return mapCourses(courses);
+    }
 }

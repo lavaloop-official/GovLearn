@@ -63,4 +63,9 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         OFFSET :offset
     """, nativeQuery = true)
     List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch, List<Long> tagIDs);
+
+    @Query(value = """
+    SELECT c FROM Course c where c.creator.id = :userId
+""")
+    List<Course> getProvidedCourses(Long userId);
 }
