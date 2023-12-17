@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapp
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseSimilarityService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,8 @@ public class CourseSimilarityController {
     private final TagService tagService;
     private final CourseSimilarityService courseSimilarityService;
     private final ControllerCourseMapper controllerCourseMapper;
+    private final FeedbackService feedbackService;
+
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Get similar courses."
@@ -40,6 +43,11 @@ public class CourseSimilarityController {
         List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(id,allTags);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similarCourses);
+
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
 
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }

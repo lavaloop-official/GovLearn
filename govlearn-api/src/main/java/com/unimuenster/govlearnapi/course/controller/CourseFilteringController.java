@@ -8,6 +8,8 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseFilteringService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class CourseFilteringController {
 
     private final CourseFilteringService courseFilteringService;
     private final ControllerCourseMapper controllerCourseMapper;
+    private final FeedbackService feedbackService;
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
@@ -48,6 +51,11 @@ public class CourseFilteringController {
         List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(limit, offset, nameSearch, tagIDs);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOS);
+
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
 
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
