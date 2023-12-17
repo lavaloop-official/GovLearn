@@ -58,4 +58,12 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         WHERE m.user.id = :id
     """)
     List<Group> getGroupsByMember(Long id);
+
+    @Query(value = """
+        SELECT CASE WHEN COUNT(g) > 0 THEN true ELSE false END  
+        FROM Group g 
+        JOIN g.members m
+        WHERE g.id = :groupId AND m.user.id = :memberId
+    """)
+    boolean existsByIdAndMember(Long groupId, Long memberId);
 }

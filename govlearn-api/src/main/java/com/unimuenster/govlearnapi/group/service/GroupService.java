@@ -4,6 +4,8 @@ import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.group.controller.wsto.DeleteContentForGroupWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
@@ -25,11 +27,13 @@ public class GroupService {
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
 
-    public void createGroup(UserEntity admin) {
+    public void createGroup(UserEntity admin, GroupCreationWsTo groupCreationWsTo) {
 
         Group group = Group
                 .builder()
                 .admin(admin)
+                .description(groupCreationWsTo.getGroupDescription())
+                .name(groupCreationWsTo.getGroupName())
                 .build();
 
         groupRepository.save(group);
@@ -142,5 +146,21 @@ public class GroupService {
         List<Group> groups = groupRepository.getGroupsByMember(currentUser.getId());
 
         return groups.stream().map(group -> group.getId()).toList();
+    }
+
+    public GroupDetailsWsTo getGroupDetails(Long groupId) {
+
+        Group group = groupRepository.findById(groupId).orElseThrow();
+
+        return GroupDetailsWsTo
+                .builder()
+                .groupId(group.getId())
+                .groupName(group.getName())
+                .groupDescription(group.getDescription())
+                .build();
+    }
+
+    public boolean isUserMember(UserEntity currentUser, Long groupId) {
+        return groupRepository.existsByIdAndMember(groupId, currentUser.getId());
     }
 }
