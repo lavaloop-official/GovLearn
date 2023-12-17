@@ -2,12 +2,15 @@ package com.unimuenster.govlearnapi.group.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
+import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.openqa.selenium.devtools.v85.runtime.Runtime;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -98,5 +101,26 @@ public class GroupService {
         members.stream().forEach(member -> {
             addContentToMember(member.getId(), course.getId());
         });
+    }
+
+    public GroupContentWsTo getContent(UserEntity currentUser, Long groupId) {
+
+        Group group = groupRepository.findById(groupId).orElseThrow();
+
+        boolean isMember = groupRepository.isMember(currentUser.getId(), groupId);
+
+        if ( !isMember ) {
+            throw new RuntimeException("User is not in group");
+        }
+
+        Member member = groupRepository.getMember(currentUser.getId(), groupId);
+
+        return GroupContentWsTo
+                .builder()
+                .groupId(group.getId())
+                .courseIds(
+                        member.getCourses().stream().map(course -> course.getId()).toList()
+                )
+                .build();
     }
 }

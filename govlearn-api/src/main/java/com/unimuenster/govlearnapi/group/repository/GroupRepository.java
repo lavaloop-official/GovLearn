@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.group.repository;
 
 import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,4 +27,20 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         WHERE m.id = :memberId
     """)
     Group findByMemberId(Long memberId);
+
+    @Query(value = """
+        SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END  
+        FROM Group g 
+        JOIN g.members m 
+        WHERE m.id = :id AND g.id = :groupId
+    """)
+    boolean isMember(Long id, Long groupId);
+
+    @Query(value = """
+        SELECT m 
+        FROM Group g 
+        JOIN g.members m 
+        WHERE m.user.id = :userId AND g.id = :groupId
+    """)
+    Member getMember(Long userId, Long groupId);
 }

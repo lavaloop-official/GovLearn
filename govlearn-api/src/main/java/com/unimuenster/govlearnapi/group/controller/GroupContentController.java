@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToGroupWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToMemberWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -15,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -77,5 +75,21 @@ public class GroupContentController {
 
         return ResponseEntity.ok(Response.of(true));
 
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get content based on user."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{groupId}")
+    public ResponseEntity getContent(
+            @PathVariable Long groupId
+    ) {
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        GroupContentWsTo groupContentWsTo = groupService.getContent(currentUser, groupId);
+
+        return ResponseEntity.ok(Response.of(groupContentWsTo));
     }
 }
