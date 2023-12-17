@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.group.controller.wsto.GetGroupsWsTo;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,5 +37,22 @@ public class GroupController {
         groupService.createGroup(currentUser);
 
         return ResponseEntity.ok(Response.of(true));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Gets all groups this user is an admin and member of."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping()
+    public ResponseEntity getGroups() {
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        GetGroupsWsTo getGroupsWsTo = new GetGroupsWsTo();
+
+        getGroupsWsTo.setAdminGroups(groupService.getAdminGroups(currentUser));
+        getGroupsWsTo.setMemberGroups(groupService.getMemberGroups(currentUser));
+
+        return ResponseEntity.ok(Response.of(getGroupsWsTo));
     }
 }

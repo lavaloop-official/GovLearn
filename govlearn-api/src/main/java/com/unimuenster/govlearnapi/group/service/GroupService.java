@@ -130,4 +130,17 @@ public class GroupService {
 
         return memberRepository.deleteCourseForAllMembers(group.getId(), deleteContentForGroupWsTo.getCourseId());
     }
+
+    public List<Long> getAdminGroups(UserEntity currentUser) {
+
+        List<Group> groups = groupRepository.getGroupsByAdmin(currentUser.getId());
+
+        return groups.stream().map(group -> group.getId()).toList();
+    }
+
+    public List<Long> getMemberGroups(UserEntity currentUser) {
+        List<Group> groups = groupRepository.getGroupsByMember(currentUser.getId());
+
+        return groups.stream().map(group -> group.getId()).toList();
+    }
 }

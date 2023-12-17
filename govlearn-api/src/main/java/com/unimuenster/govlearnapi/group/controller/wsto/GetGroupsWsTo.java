@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
-@Builder
 @Getter
 @Setter
-public class AddContentToGroupWsTo {
-    private Long groupId;
-    private Long courseId;
+public class GetGroupsWsTo {
+
+    List<Long> adminGroups;
+    List<Long> memberGroups;
 }
