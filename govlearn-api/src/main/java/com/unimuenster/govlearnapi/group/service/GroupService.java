@@ -1,5 +1,7 @@
 package com.unimuenster.govlearnapi.group.service;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
@@ -17,6 +19,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final MemberRepository memberRepository;
+    private final CourseRepository courseRepository;
 
     public void createGroup(UserEntity admin) {
 
@@ -30,6 +33,10 @@ public class GroupService {
 
     public boolean isUserAdmin(UserEntity user, Long groupId) {
         return groupRepository.existsByIdAndAdmin(groupId, user.getId());
+    }
+
+    public Group findGroupByMemberId(Long memberId) {
+        return groupRepository.findByMemberId(memberId);
     }
 
     public void addMember(Long userId, Long groupId) {
@@ -57,5 +64,23 @@ public class GroupService {
         if (group.getMembers() == null) {
             group.setMembers(new ArrayList());
         }
+    }
+
+    private void checkIfNull(Member member) {
+        if (member.getCourses() == null) {
+            member.setCourses(new ArrayList());
+        }
+    }
+
+    public void addContentToMember(Long memberId, Long courseId) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        Course course = courseRepository.findById(courseId).orElseThrow();
+
+        checkIfNull(member);
+        member.getCourses().add(course);
+
+        memberRepository.save(member);
     }
 }

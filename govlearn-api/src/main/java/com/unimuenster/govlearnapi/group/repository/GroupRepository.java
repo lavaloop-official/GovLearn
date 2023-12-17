@@ -18,4 +18,12 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         FROM Group g WHERE g.id = :groupId AND g.admin.id = :id
     """)
     boolean existsByIdAndAdmin(Long groupId, Long id);
+
+    @Query(value = """
+        SELECT g 
+        FROM Group g 
+        JOIN g.members m 
+        WHERE m.id = :memberId
+    """)
+    Group findByMemberId(Long memberId);
 }
