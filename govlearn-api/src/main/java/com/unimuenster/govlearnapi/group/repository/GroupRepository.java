@@ -29,14 +29,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Group findByMemberId(Long memberId);
 
     @Query(value = """
-        SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END  
-        FROM Group g 
-        JOIN g.members m 
-        WHERE m.id = :id AND g.id = :groupId
-    """)
-    boolean isMember(Long id, Long groupId);
-
-    @Query(value = """
         SELECT m 
         FROM Group g 
         JOIN g.members m 

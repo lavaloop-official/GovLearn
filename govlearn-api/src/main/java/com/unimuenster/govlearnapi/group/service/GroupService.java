@@ -112,7 +112,7 @@ public class GroupService {
 
         Group group = groupRepository.findById(groupId).orElseThrow();
 
-        boolean isMember = groupRepository.isMember(currentUser.getId(), groupId);
+        boolean isMember = groupRepository.existsByIdAndMember(groupId, currentUser.getId());
 
         if ( !isMember ) {
             throw new RuntimeException("User is not in group");
