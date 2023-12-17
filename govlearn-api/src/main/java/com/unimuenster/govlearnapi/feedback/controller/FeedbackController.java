@@ -69,7 +69,7 @@ public class FeedbackController {
         description = "Get feedback by courseID and userID."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/feedback/course/{courseID}")
+    @GetMapping("/feedback/user/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDandFeedbackID(@PathVariable Long courseID) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
@@ -86,7 +86,7 @@ public class FeedbackController {
         description = "Get feedback by courseID with a limit and offset"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/feedback/course/{courseID}/limit/{limit}/offset/{offset}")
+    @GetMapping("/feedback/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Long limit, Long offset) {
 
         List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
