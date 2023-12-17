@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Group {
     private UserEntity admin;
 
     @OneToMany
-    private List<Member> members;
+    private List<Member> members = new ArrayList<>();
 
     protected Date createdAt;
 

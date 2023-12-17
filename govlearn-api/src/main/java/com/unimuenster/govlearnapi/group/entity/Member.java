@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.group.entity;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,11 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @ManyToMany
     private List<Course> courses;
