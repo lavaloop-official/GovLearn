@@ -48,7 +48,7 @@ class CourseFilteringControllerTest extends AbstractIntegrationTest {
             .Dauer(new ArrayList<String>())
             .Format(new ArrayList<Format>())
             .Startdatum(new Date())
-            .Kosten(false)
+            .Kostenlos(false)
             .Sonstiges(new ArrayList<String>())
             .build();
 

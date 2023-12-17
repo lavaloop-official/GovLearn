@@ -22,6 +22,6 @@ public class CourseFilterWsTo {
     List<String> Dauer;
     List<Format> Format;
     Date Startdatum;
-    Boolean Kosten;
+    Boolean Kostenlos;
     List<String> Sonstiges;
 }

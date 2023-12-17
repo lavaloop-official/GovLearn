@@ -61,14 +61,14 @@ public class CourseFilteringService {
             Formate.add(format.getLongValue());
         }
 
-        List<Boolean> Kosten = new ArrayList<Boolean>();
-        Kosten.add(false);
-        if (courseFilterWsTo.getKosten() == false)
+        List<Boolean> Kostenlos = new ArrayList<Boolean>();
+        Kostenlos.add(false);
+        if (courseFilterWsTo.getKostenlos() == false)
         {
-            Kosten.add(true);
+            Kostenlos.add(true);
         }
 
-        List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(limit, offset, search,courseFilterWsTo.getAnbieter(), Formate, Kompetenzstufen, Kosten, courseFilterWsTo.getTagIDs());
+        List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(limit, offset, search,courseFilterWsTo.getAnbieter(), Formate, Kompetenzstufen, Kostenlos, courseFilterWsTo.getTagIDs());
         return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
     }
 }
