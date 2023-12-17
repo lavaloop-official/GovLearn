@@ -27,4 +27,6 @@ public class CourseWsTo {
     Boolean domainSpecific;
     String link;
 
+    Float ratingAverage;
+    Long ratingAmount;
 }
