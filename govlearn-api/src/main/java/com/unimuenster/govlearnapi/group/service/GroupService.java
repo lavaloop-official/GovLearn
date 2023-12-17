@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.group.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.controller.wsto.DeleteContentForGroupWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
@@ -122,5 +123,11 @@ public class GroupService {
                         member.getCourses().stream().map(course -> course.getId()).toList()
                 )
                 .build();
+    }
+
+    public int deleteContentForGroup(DeleteContentForGroupWsTo deleteContentForGroupWsTo) {
+        Group group = groupRepository.findById(deleteContentForGroupWsTo.getGroupId()).orElseThrow();
+
+        return memberRepository.deleteCourseForAllMembers(group.getId(), deleteContentForGroupWsTo.getCourseId());
     }
 }

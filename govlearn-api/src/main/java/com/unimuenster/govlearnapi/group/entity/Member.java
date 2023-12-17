@@ -25,7 +25,11 @@ public class Member {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToMany
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @ManyToMany()
     private List<Course> courses;
 
     protected Date createdAt;

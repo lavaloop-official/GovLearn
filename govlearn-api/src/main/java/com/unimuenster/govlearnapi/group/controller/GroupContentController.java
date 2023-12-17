@@ -1,10 +1,7 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToGroupWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToMemberWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.*;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -91,5 +88,27 @@ public class GroupContentController {
         GroupContentWsTo groupContentWsTo = groupService.getContent(currentUser, groupId);
 
         return ResponseEntity.ok(Response.of(groupContentWsTo));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Delete courses for all members."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping()
+    public ResponseEntity deleteContent(
+            @RequestBody DeleteContentForGroupWsTo deleteContentForGroupWsTo
+    ) {
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, deleteContentForGroupWsTo.getGroupId());
+
+        if (!userAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        int deleteCount = groupService.deleteContentForGroup(deleteContentForGroupWsTo);
+
+        return ResponseEntity.ok(Response.of((deleteCount), true));
     }
 }
