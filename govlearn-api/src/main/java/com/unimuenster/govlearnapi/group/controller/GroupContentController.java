@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToGroupWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToMemberWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
@@ -49,6 +50,30 @@ public class GroupContentController {
         }
 
         groupService.addContentToMember(addContentToMemberWsTo.getMemberId(), addContentToMemberWsTo.getCourseId());
+
+        return ResponseEntity.ok(Response.of(true));
+
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Add content to an entire group, returns forbidden, if the current user is not admin of the group."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping("/all")
+    public ResponseEntity addContentToAll(
+            @RequestBody AddContentToGroupWsTo addContentToGroupWsTo
+    ) {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, addContentToGroupWsTo.getGroupId());
+
+        if (!userAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        groupService.addContentToGroup(addContentToGroupWsTo.getGroupId(), addContentToGroupWsTo.getCourseId());
 
         return ResponseEntity.ok(Response.of(true));
 

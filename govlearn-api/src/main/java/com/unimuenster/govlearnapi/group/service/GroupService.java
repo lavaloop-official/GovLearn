@@ -83,4 +83,20 @@ public class GroupService {
 
         memberRepository.save(member);
     }
+
+    public void addContentToGroup(Long groupId, Long courseId) {
+
+        Group group = groupRepository.findById(groupId).orElseThrow();
+
+        Course course = courseRepository.findById(courseId).orElseThrow();
+
+        checkIfNull(group);
+        addContentToMembers(group.getMembers(), course);
+    }
+
+    public void addContentToMembers(List<Member> members, Course course) {
+        members.stream().forEach(member -> {
+            addContentToMember(member.getId(), course.getId());
+        });
+    }
 }
