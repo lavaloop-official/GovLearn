@@ -39,6 +39,10 @@ public class GroupContentController {
         // Using then actual memeber Id here
         Group group = groupService.findGroupByMemberId(addContentToMemberWsTo.getMemberId());
 
+        if (group == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
         boolean userAdmin = groupService.isUserAdmin(currentUser, group.getId());
 
         if (!userAdmin) {

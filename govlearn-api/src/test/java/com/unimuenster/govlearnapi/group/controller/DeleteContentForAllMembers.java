@@ -6,16 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Transactional
 public class DeleteContentForAllMembers extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
         setCurrentUser(initializerService.getUser2());
 
-        createGroup();
         addMember();
         addContent();
     }
@@ -25,7 +26,7 @@ public class DeleteContentForAllMembers extends GroupTestBase {
 
         DeleteContentForGroupWsTo deleteContentForGroupWsTo = DeleteContentForGroupWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .courseId(initializerService.getCourse1().getId())
                 .build();
 
@@ -47,7 +48,7 @@ public class DeleteContentForAllMembers extends GroupTestBase {
 
         DeleteContentForGroupWsTo deleteContentForGroupWsTo = DeleteContentForGroupWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .courseId(1L)
                 .build();
 

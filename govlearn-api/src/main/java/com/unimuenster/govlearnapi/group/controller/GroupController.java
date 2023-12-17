@@ -33,7 +33,7 @@ public class GroupController {
     @PostMapping()
     public ResponseEntity createGroup(
             @RequestBody GroupCreationWsTo groupCreationWsTo
-            ) {
+    ) {
         UserEntity currentUser = authenticationService.getCurrentUser();
 
         groupService.createGroup(currentUser, groupCreationWsTo);

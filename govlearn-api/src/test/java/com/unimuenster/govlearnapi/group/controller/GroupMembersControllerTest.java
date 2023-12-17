@@ -6,18 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Transactional
 class GroupMembersControllerTest extends GroupTestBase {
-
     @BeforeEach
     void setUp() {
         setCurrentUser(initializerService.getUser2());
-
-        createGroup();
     }
 
     @Test
@@ -25,13 +23,13 @@ class GroupMembersControllerTest extends GroupTestBase {
 
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .userId(1L)
                 .build();
 
         ResponseEntity responseEntity = groupMembersController.addMember(addMemberWsTo);
 
-        Optional<Group> byId = groupRepository.findById(group.getId());
+        Optional<Group> byId = groupRepository.findById(getGroup().getId());
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(1, byId.get().getMembers().size());
@@ -46,7 +44,7 @@ class GroupMembersControllerTest extends GroupTestBase {
 
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .userId(1L)
                 .build();
 

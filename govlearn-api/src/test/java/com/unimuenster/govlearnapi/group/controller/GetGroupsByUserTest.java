@@ -7,15 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@Transactional
 public class GetGroupsByUserTest extends GroupTestBase {
     @BeforeEach
     void setUp() {
         setCurrentUser(initializerService.getUser2());
 
-        createGroup();
         addMember();
     }
 
@@ -23,7 +23,7 @@ public class GetGroupsByUserTest extends GroupTestBase {
     protected void addMember() {
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .userId(initializerService.getUser1().getId())
                 .build();
 
@@ -31,7 +31,7 @@ public class GetGroupsByUserTest extends GroupTestBase {
 
         AddMemberWsTo addMemberWsTo2 = AddMemberWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .userId(initializerService.getUser2().getId())
                 .build();
 
@@ -48,7 +48,7 @@ public class GetGroupsByUserTest extends GroupTestBase {
         Response<GetGroupsWsTo> response = (Response<GetGroupsWsTo>) responseEntity.getBody();
 
         // Current user is member and admin of group with id 1
-        assertEquals(group.getId(), response.getPayload().getAdminGroups().get(0));
-        assertEquals(group.getId(), response.getPayload().getMemberGroups().get(0));
+        assertEquals(getGroup().getId(), response.getPayload().getAdminGroups().get(0));
+        assertEquals(getGroup().getId(), response.getPayload().getMemberGroups().get(0));
     }
 }

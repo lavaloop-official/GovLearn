@@ -41,9 +41,9 @@ public class GroupMembersController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        groupService.addMember(addMemberWsTo.getUserId(), addMemberWsTo.getGroupId());
+        Long memberId = groupService.addMember(addMemberWsTo.getUserId(), addMemberWsTo.getGroupId());
 
-        return ResponseEntity.ok(Response.of(true));
+        return ResponseEntity.ok(Response.of(memberId));
 
     }
 }

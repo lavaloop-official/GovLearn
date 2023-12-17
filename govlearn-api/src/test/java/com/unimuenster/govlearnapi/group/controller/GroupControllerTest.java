@@ -7,16 +7,16 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Transactional
 class GroupControllerTest extends GroupTestBase {
-
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
     }
 
     @Test
@@ -28,10 +28,10 @@ class GroupControllerTest extends GroupTestBase {
 
         groupController.createGroup(groupCreationWsTo);
 
-        List<Group> group = groupRepository.findByAdmin(initializerService.getUser2().getId());
+        List<Group> group = groupRepository.findByAdmin(initializerService.getUser1().getId());
 
         assertEquals(1, group.size());
-        assertEquals(initializerService.getUser2().getId(), group.get(0).getAdmin().getId());
+        assertEquals(initializerService.getUser1().getId(), group.get(0).getAdmin().getId());
     }
 
     @Test
@@ -40,7 +40,7 @@ class GroupControllerTest extends GroupTestBase {
         Group group = new Group();
         group.setName("TestGroup");
         group.setDescription("TestDescription");
-        group.setAdmin(initializerService.getUser2());
+        group.setAdmin(initializerService.getUser1());
 
         Group save = groupRepository.save(group);
 

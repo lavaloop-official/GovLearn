@@ -6,18 +6,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@Transactional
 public class AddContentToAllMembersTest extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
         setCurrentUser(initializerService.getUser2());
 
-        createGroup();
         addMember();
     }
 
@@ -29,14 +29,14 @@ public class AddContentToAllMembersTest extends GroupTestBase {
 
         AddContentToGroupWsTo addContentToGroupWsTo = AddContentToGroupWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .courseId(courseId)
                 .build();
 
 
         ResponseEntity responseEntity = groupContentController.addContentToAll(addContentToGroupWsTo);
 
-        Optional<Group> byId = groupRepository.findById(group.getId());
+        Optional<Group> byId = groupRepository.findById(getGroup().getId());
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(1, byId.get().getMembers().size());
@@ -51,7 +51,7 @@ public class AddContentToAllMembersTest extends GroupTestBase {
 
         AddContentToGroupWsTo addContentToGroupWsTo = AddContentToGroupWsTo
                 .builder()
-                .groupId(group.getId())
+                .groupId(getGroup().getId())
                 .courseId(1L)
                 .build();
 

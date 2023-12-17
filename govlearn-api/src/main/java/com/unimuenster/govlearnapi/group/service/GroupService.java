@@ -13,6 +13,7 @@ import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.devtools.v85.runtime.Runtime;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GroupService {
 
     private final GroupRepository groupRepository;
@@ -47,7 +49,7 @@ public class GroupService {
         return groupRepository.findByMemberId(memberId);
     }
 
-    public void addMember(Long userId, Long groupId) {
+    public Long addMember(Long userId, Long groupId) {
         Group group = groupRepository.findById(groupId).orElseThrow();
 
         UserEntity user = UserEntity
@@ -60,12 +62,15 @@ public class GroupService {
                 .user(user)
                 .build();
 
-        memberRepository.save(member);
+        Member save = memberRepository.save(member);
+        log.info("New member Id is {}", save.getId());
 
         checkIfNull(group);
         group.getMembers().add(member);
 
         groupRepository.save(group);
+
+        return save.getId();
     }
 
     private void checkIfNull(Group group) {
