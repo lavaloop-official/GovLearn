@@ -36,6 +36,7 @@ public class GroupContentController {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
+        // Using then actual memeber Id here
         Group group = groupService.findGroupByMemberId(addContentToMemberWsTo.getMemberId());
 
         boolean userAdmin = groupService.isUserAdmin(currentUser, group.getId());

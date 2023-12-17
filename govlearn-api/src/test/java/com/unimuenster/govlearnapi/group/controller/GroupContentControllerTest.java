@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GroupContentControllerTest extends GroupTestBase {
+public class GroupContentControllerTest extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
@@ -21,7 +21,6 @@ class GroupContentControllerTest extends GroupTestBase {
         addMember();
     }
 
-
     @Test
     void addContentTest() {
 
@@ -29,7 +28,7 @@ class GroupContentControllerTest extends GroupTestBase {
 
         AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
                 .builder()
-                .memberId(1L)
+                .memberId(initializerService.getUser1().getId())
                 .courseId(courseId)
                 .build();
 
