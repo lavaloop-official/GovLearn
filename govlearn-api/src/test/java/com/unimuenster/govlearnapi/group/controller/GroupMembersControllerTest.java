@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.group.controller;
 
+import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +36,21 @@ class GroupMembersControllerTest extends GroupTestBase {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(1, byId.get().getMembers().size());
         assertEquals(1, byId.get().getMembers().get(0).getUser().getId());
+
+    }
+
+    @Test
+    void getMembersTest() {
+
+        addMember();
+
+        ResponseEntity responseEntity = groupMembersController.getMembers(getGroup().getId());
+
+        Response<List> memberIds = (Response<List>) responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(1, memberIds.getPayload().size());
+        assertEquals(currentMember.getId(), memberIds.getPayload().get(0));
 
     }
 

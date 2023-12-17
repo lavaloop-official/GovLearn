@@ -168,4 +168,8 @@ public class GroupService {
     public boolean isUserMember(UserEntity currentUser, Long groupId) {
         return groupRepository.existsByIdAndMember(groupId, currentUser.getId());
     }
+
+    public List<Long> getMembers(Long groupId) {
+        return groupRepository.getMembers(groupId);
+    }
 }

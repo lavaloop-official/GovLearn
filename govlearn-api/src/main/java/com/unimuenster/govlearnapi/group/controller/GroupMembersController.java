@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/groups/members")
@@ -44,6 +46,30 @@ public class GroupMembersController {
         Long memberId = groupService.addMember(addMemberWsTo.getUserId(), addMemberWsTo.getGroupId());
 
         return ResponseEntity.ok(Response.of(memberId));
+
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get all members of this group."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{groupId}")
+    public ResponseEntity getMembers(
+            @PathVariable Long groupId
+    ) {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, groupId);
+
+        if (!userAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        List<Long> memberIds = groupService.getMembers(groupId);
+
+        return ResponseEntity.ok(Response.of(memberIds));
 
     }
 }
