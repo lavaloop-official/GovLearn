@@ -77,9 +77,23 @@ public class FeedbackService {
                 .collect(Collectors.toList());
     }
 
-    public List<FeedbackDTO> getFeedbackByCourseWithLimitAndOffset(Long courseId, Long min, Long amount){
+    public List<FeedbackDTO> getFeedbackByCourseWithLimitAndOffset(Long courseId, Optional<Long> limit, Optional<Long> offset){
 
-        List<Feedback> feedbacks = feedbackRepository.findAllFeedbackByCourseIdWithLimitAndOffset(courseId, min, amount);
+        Long limitQuery = 100L;
+
+        if (limit.isPresent())
+        {
+            limitQuery = limit.get();
+        }
+
+        Long offsetQuery = 0L;
+
+        if (offset.isPresent())
+        {
+            offsetQuery = offset.get();
+        }
+
+        List<Feedback> feedbacks = feedbackRepository.findAllFeedbackByCourseIdWithLimitAndOffset(courseId, limitQuery, offsetQuery);
 
         return mapFeedback(feedbacks);
     }

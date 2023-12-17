@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.feedback.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -87,7 +88,7 @@ public class FeedbackController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/feedback/course/{courseID}")
-    public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Long limit, Long offset) {
+    public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Optional<Long> limit, Optional<Long> offset) {
 
         List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
 
