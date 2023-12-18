@@ -7,12 +7,10 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@Transactional
 class GroupControllerTest extends GroupTestBase {
     @BeforeEach
     void setUp() {

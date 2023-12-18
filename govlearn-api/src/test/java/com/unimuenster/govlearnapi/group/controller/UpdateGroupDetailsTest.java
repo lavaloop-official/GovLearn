@@ -5,13 +5,11 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Transactional
 public class UpdateGroupDetailsTest extends GroupTestBase{
 
     @Test
