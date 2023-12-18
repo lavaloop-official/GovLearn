@@ -35,7 +35,7 @@ public class CourseService {
         return map;
     }
     
-    public void createCourse(CourseCreationDTO courseCreationDTO, UserEntity currentUser) {
+    public Course createCourse(CourseCreationDTO courseCreationDTO, UserEntity currentUser) {
         
         Course course = Course
                 .builder()
@@ -56,7 +56,7 @@ public class CourseService {
                 .link(courseCreationDTO.link())
                 .build();
         
-        courseRepository.save(course);
+        return courseRepository.save(course);
     }
 
     public List<CourseDTO> getCourses() {
