@@ -1,5 +1,6 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.group;
 
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsUpdateWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UpdateGroupDetailsTest extends GroupTestBase{
+public class UpdateGroupDetailsTest extends GroupTestBase {
 
     @Test
     void getMemberDetails(){

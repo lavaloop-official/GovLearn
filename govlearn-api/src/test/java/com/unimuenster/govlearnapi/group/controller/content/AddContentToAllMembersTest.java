@@ -1,6 +1,7 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.content;
 
-import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToMemberWsTo;
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
+import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToGroupWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class GroupContentControllerTest extends GroupTestBase {
+public class AddContentToAllMembersTest extends GroupTestBase {
+
     @BeforeEach
     void setUp() {
         setCurrentUser(initializerService.getUser2());
@@ -18,19 +20,20 @@ public class GroupContentControllerTest extends GroupTestBase {
         addMember();
     }
 
+
     @Test
-    void addContentTest() {
+    void addContentToAll() {
 
         Long courseId = 1L;
 
-        AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
+        AddContentToGroupWsTo addContentToGroupWsTo = AddContentToGroupWsTo
                 .builder()
-                .memberId(currentMember.getId())
+                .groupId(getGroup().getId())
                 .courseId(courseId)
                 .build();
 
 
-        ResponseEntity responseEntity = groupContentController.addContent(addMemberWsTo);
+        ResponseEntity responseEntity = groupContentController.addContentToAll(addContentToGroupWsTo);
 
         Optional<Group> byId = groupRepository.findById(getGroup().getId());
 
@@ -39,20 +42,21 @@ public class GroupContentControllerTest extends GroupTestBase {
         assertEquals(1, byId.get().getMembers().get(0).getCourses().size());
         assertEquals(courseId, byId.get().getMembers().get(0).getCourses().get(0).getId());
     }
+
     @Test
     void addContentButNotAdmin() {
 
         setCurrentUser(initializerService.getUser1());
 
-        AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
+        AddContentToGroupWsTo addContentToGroupWsTo = AddContentToGroupWsTo
                 .builder()
-                .memberId(currentMember.getId())
+                .groupId(getGroup().getId())
                 .courseId(1L)
                 .build();
 
-        ResponseEntity responseEntity = groupContentController.addContent(addMemberWsTo);
+
+        ResponseEntity responseEntity = groupContentController.addContentToAll(addContentToGroupWsTo);
 
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-
     }
 }

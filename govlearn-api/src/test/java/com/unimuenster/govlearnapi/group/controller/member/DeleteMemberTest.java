@@ -1,5 +1,6 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.member;
 
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DeleteMemberTest extends GroupTestBase{
+public class DeleteMemberTest extends GroupTestBase {
 
 
     @BeforeEach

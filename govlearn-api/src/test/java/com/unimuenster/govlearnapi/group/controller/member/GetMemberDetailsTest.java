@@ -1,6 +1,7 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.member;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GetMemberDetailsTest extends GroupTestBase{
+public class GetMemberDetailsTest extends GroupTestBase {
 
     @BeforeEach
     void setup(){

@@ -1,5 +1,6 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.content;
 
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

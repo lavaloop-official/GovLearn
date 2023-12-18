@@ -1,6 +1,7 @@
-package com.unimuenster.govlearnapi.group.controller;
+package com.unimuenster.govlearnapi.group.controller.group;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
