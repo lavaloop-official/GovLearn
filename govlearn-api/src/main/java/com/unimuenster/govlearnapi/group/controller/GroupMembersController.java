@@ -105,4 +105,33 @@ public class GroupMembersController {
 
         return ResponseEntity.ok(Response.of(memberDetails));
     }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Delete a member. Only allowed as an admin."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity deleteMember(
+            @PathVariable Long memberId
+    ) {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        Group groupByMemberId = groupService.findGroupByMemberId(memberId);
+
+        if (groupByMemberId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, groupByMemberId.getId());
+
+        if (!userAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        memberService.removeMember(memberId);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
 }

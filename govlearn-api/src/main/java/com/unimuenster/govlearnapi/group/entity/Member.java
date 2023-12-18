@@ -29,7 +29,7 @@ public class Member {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Course> courses;
 
     protected Date createdAt;

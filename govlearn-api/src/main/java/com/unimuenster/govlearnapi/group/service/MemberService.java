@@ -27,4 +27,7 @@ public class MemberService {
         return memberDetailsWsTo;
     }
 
+    public void removeMember(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }
