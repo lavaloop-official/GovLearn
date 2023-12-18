@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.group.controller;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.GetGroupsWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsUpdateWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsWsTo;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -77,5 +78,25 @@ public class GroupController {
         GroupDetailsWsTo groupDetails = groupService.getGroupDetails(groupId);
 
         return ResponseEntity.ok(Response.of(groupDetails));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Update group details."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping()
+    public ResponseEntity updateGroupDetails(@RequestBody GroupDetailsUpdateWsTo updateWsTo) {
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, updateWsTo.getGroupId());
+
+        if ( !userAdmin ) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        groupService.updateGroupDetails(updateWsTo);
+
+        return ResponseEntity.ok(Response.of(true));
     }
 }

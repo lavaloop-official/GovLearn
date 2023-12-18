@@ -2,10 +2,7 @@ package com.unimuenster.govlearnapi.group.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
-import com.unimuenster.govlearnapi.group.controller.wsto.DeleteContentForGroupWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.GroupContentWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.*;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
@@ -169,5 +166,20 @@ public class GroupService {
 
     public List<Long> getMembers(Long groupId) {
         return groupRepository.getMembers(groupId);
+    }
+
+    public void updateGroupDetails(GroupDetailsUpdateWsTo updateWsTo) {
+
+        Group group = groupRepository.findById(updateWsTo.getGroupId()).orElseThrow();
+
+        if ( updateWsTo.getGroupName() != null ) {
+            group.setName(updateWsTo.getGroupName());
+        }
+
+        if ( updateWsTo.getGroupDescription() != null ) {
+            group.setDescription(updateWsTo.getGroupDescription());
+        }
+
+        groupRepository.save(group);
     }
 }
