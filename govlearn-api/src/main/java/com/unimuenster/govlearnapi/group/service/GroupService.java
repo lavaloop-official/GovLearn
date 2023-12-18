@@ -182,4 +182,8 @@ public class GroupService {
 
         groupRepository.save(group);
     }
+
+    public void deleteGroup(Long groupId) {
+        groupRepository.deleteById(groupId);
+    }
 }

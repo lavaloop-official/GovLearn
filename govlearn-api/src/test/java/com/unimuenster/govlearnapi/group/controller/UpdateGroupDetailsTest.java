@@ -1,11 +1,7 @@
 package com.unimuenster.govlearnapi.group.controller;
 
-import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsUpdateWsTo;
-import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
-import com.unimuenster.govlearnapi.group.entity.Member;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

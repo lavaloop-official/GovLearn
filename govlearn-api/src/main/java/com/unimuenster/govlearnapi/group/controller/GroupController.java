@@ -99,4 +99,24 @@ public class GroupController {
 
         return ResponseEntity.ok(Response.of(true));
     }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Update group details."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity deleteGroup(@PathVariable Long groupId) {
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, groupId);
+
+        if ( !userAdmin ) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        groupService.deleteGroup(groupId);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
 }
