@@ -2,7 +2,10 @@ package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
+import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.service.GroupService;
+import com.unimuenster.govlearnapi.group.service.MemberService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +27,7 @@ public class GroupMembersController {
 
     private final AuthenticationService authenticationService;
     private final GroupService groupService;
+    private final MemberService memberService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
@@ -71,5 +75,34 @@ public class GroupMembersController {
 
         return ResponseEntity.ok(Response.of(memberIds));
 
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get details regarding a member."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{memberId}")
+    public ResponseEntity getMemberById(
+            @PathVariable Long memberId
+    ) {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        Group groupByMemberId = groupService.findGroupByMemberId(memberId);
+
+        if (groupByMemberId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, groupByMemberId.getId());
+
+        if (!userAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        MemberDetailsWsTo memberDetails = memberService.getMember(memberId);
+
+        return ResponseEntity.ok(Response.of(memberDetails));
     }
 }

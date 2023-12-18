@@ -7,6 +7,7 @@ import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
+import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class GroupTestBase extends AbstractIntegrationTest {
     protected GroupMembersController groupMembersController;
     @Autowired
     protected GroupController groupController;
+    @Autowired
+    protected MemberRepository memberRepository;
     @Autowired
     protected GroupRepository groupRepository;
     protected Member currentMember;

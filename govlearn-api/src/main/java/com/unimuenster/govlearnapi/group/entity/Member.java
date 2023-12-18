@@ -38,4 +38,8 @@ public class Member {
     private void onCreate() {
         createdAt = new Date();
     }
+
+    public String getMemberSince() {
+        return createdAt.toString();
+    }
 }

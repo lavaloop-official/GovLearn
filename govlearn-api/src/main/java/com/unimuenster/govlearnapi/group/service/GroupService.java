@@ -10,11 +10,9 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
-import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.devtools.v85.runtime.Runtime;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
