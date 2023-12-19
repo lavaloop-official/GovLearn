@@ -70,9 +70,4 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 """)
     List<Course> getProvidedCourses(Long userId);
 
-    @Modifying
-    @Query(value = """
-    DELETE FROM Course c where c.id = :courseId AND c.creator.id = :userId
-""")
-    int deleteCourse(Long courseId, Long userId);
 }

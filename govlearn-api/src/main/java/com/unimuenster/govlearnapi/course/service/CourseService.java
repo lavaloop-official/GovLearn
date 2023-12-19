@@ -111,10 +111,18 @@ public class CourseService {
 
     @Transactional
     public void deleteCourse(Long courseId, Long userId) {
-        int deletedRows =courseRepository.deleteCourse(courseId, userId);
-        if (deletedRows == 0){
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
+
+        // Prüfe, ob aktueller Nutzer der Kurs-Ersteller ist
+        if (!Objects.equals(course.getCreator().getId(), userId)) {
             throw new RuntimeException("keine Berechtigung den Kurs zu löschen");
         }
+
+        // Lösche Kurs-Tags bevor Kurs gelöscht wird
+        course.getCourseTags().clear();
+
+        courseRepository.delete(course);
     }
 
     public List<CourseDTO> getProvidedCourses(Long userId) {
