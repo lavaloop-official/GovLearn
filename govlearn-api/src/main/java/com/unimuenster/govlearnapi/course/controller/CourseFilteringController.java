@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseFilterWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseFilteringService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -46,9 +47,9 @@ public class CourseFilteringController {
         @PathVariable("limit") Integer limit,
         @PathVariable("offset") Integer offset, 
         @PathVariable("name-search") Optional<String> nameSearch, 
-        @RequestBody List<Long> tagIDs) {
+        @RequestBody CourseFilterWsTo courseFilterWsTo) {
 
-        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(limit, offset, nameSearch, tagIDs);
+        List<CourseDTO> courseDTOS = courseFilteringService.filterCourses(limit, offset, nameSearch, courseFilterWsTo);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOS);
 
