@@ -21,7 +21,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/groups/members")
+@RequestMapping("/api/v1/groups")
 @Slf4j
 public class GroupMembersController {
 
@@ -34,7 +34,7 @@ public class GroupMembersController {
             description = "Add a member to the group, returns forbidden, if the current user is not admin of the group."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PutMapping()
+    @PostMapping("/members")
     public ResponseEntity addMember(
             @RequestBody AddMemberWsTo addMemberWsTo
     ) {
@@ -58,7 +58,7 @@ public class GroupMembersController {
             description = "Get all members of this group."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{groupId}")
+    @GetMapping("/{groupId}/members")
     public ResponseEntity getMembers(
             @PathVariable Long groupId
     ) {
@@ -82,7 +82,7 @@ public class GroupMembersController {
             description = "Get details regarding a member."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{memberId}")
+    @GetMapping("/members/{memberId}")
     public ResponseEntity getMemberById(
             @PathVariable Long memberId
     ) {

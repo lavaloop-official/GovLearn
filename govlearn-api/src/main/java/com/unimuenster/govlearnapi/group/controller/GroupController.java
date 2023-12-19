@@ -102,7 +102,7 @@ public class GroupController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Update group details."
+            description = "Delete a group irreversibly."
     )
     @PreAuthorize("hasAuthority('user')")
     @DeleteMapping("/{groupId}")

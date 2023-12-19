@@ -1,5 +1,7 @@
 package com.unimuenster.govlearnapi.group.service;
 
+import com.unimuenster.govlearnapi.core.globalExceptions.NotFoundException;
+import com.unimuenster.govlearnapi.core.globalExceptions.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.group.controller.wsto.*;
@@ -110,12 +112,12 @@ public class GroupService {
 
     public GroupContentWsTo getContent(UserEntity currentUser, Long groupId) {
 
-        Group group = groupRepository.findById(groupId).orElseThrow();
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new NotFoundException("Group not found"));
 
         boolean isMember = groupRepository.existsByIdAndMember(groupId, currentUser.getId());
 
         if ( !isMember ) {
-            throw new RuntimeException("User is not in group");
+            throw new UnauthorizedException("Not part of group.");
         }
 
         Member member = groupRepository.getMember(currentUser.getId(), groupId);

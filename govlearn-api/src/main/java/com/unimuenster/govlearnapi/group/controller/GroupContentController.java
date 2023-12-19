@@ -29,7 +29,7 @@ public class GroupContentController {
             description = "Add content for a group member, returns forbidden, if the current user is not admin of the group."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PutMapping()
+    @PostMapping()
     public ResponseEntity addContent(
             @RequestBody AddContentToMemberWsTo addContentToMemberWsTo
     ) {
