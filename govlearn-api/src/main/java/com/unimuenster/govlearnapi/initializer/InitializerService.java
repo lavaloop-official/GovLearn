@@ -167,6 +167,7 @@ public class InitializerService {
         course1.setDuration("2 Stunden");
         course1.setSkilllevel(Skilllevel.Anfaenger);
         course1.setFormat(Format.Hybrid);
+        course1.setCostFree(false);
 
         courseRepository.save(course1);
 
@@ -181,6 +182,7 @@ public class InitializerService {
         course2.setDuration("2 Stunden");
         course2.setSkilllevel(Skilllevel.Fortgeschritten);
         course2.setFormat(Format.Hybrid);
+        course2.setCostFree(true);
 
         courseRepository.save(course2);
 
@@ -195,6 +197,7 @@ public class InitializerService {
         course3.setDuration("2 Stunden");
         course3.setSkilllevel(Skilllevel.Fortgeschritten);
         course3.setFormat(Format.Hybrid);
+        course3.setCostFree(false);
 
         courseRepository.save(course3);
 
@@ -209,6 +212,7 @@ public class InitializerService {
         course4.setDuration("2 Stunden");
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.Hybrid);
+        course4.setCostFree(false);
 
         courseRepository.save(course4);
 
@@ -223,6 +227,7 @@ public class InitializerService {
         course5.setDuration("2 Stunden");
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
+        course5.setCostFree(true);
 
         courseRepository.save(course5);
 
@@ -237,6 +242,7 @@ public class InitializerService {
         course6.setDuration("2 Stunden");
         course6.setSkilllevel(Skilllevel.Fortgeschritten);
         course6.setFormat(Format.Hybrid);
+        course6.setCostFree(false);
 
         courseRepository.save(course6);
 
@@ -251,6 +257,7 @@ public class InitializerService {
         course7.setDuration("2 Stunden");
         course7.setSkilllevel(Skilllevel.Fortgeschritten);
         course7.setFormat(Format.Hybrid);
+        course7.setCostFree(true);
 
         courseRepository.save(course7);
 
@@ -265,6 +272,7 @@ public class InitializerService {
         course8.setDuration("2 Stunden");
         course8.setSkilllevel(Skilllevel.Fortgeschritten);
         course8.setFormat(Format.Hybrid);
+        course8.setCostFree(false);
 
         courseRepository.save(course8);
 
@@ -275,6 +283,7 @@ public class InitializerService {
         course9.setProvider("provider 9");
         course9.setStartDate(new Date());
         course9.setLink("");
+        course9.setCostFree(true);
 
         courseRepository.save(course9);
 
@@ -285,6 +294,7 @@ public class InitializerService {
         course10.setProvider("provider 10");
         course10.setStartDate(new Date());
         course10.setLink("");
+        course10.setCostFree(false);
 
         courseRepository.save(course10);
 
@@ -295,6 +305,7 @@ public class InitializerService {
         course11.setProvider("provider 11");
         course11.setStartDate(new Date());
         course11.setLink("");
+        course11.setCostFree(true);
 
         courseRepository.save(course11);
 
@@ -305,6 +316,7 @@ public class InitializerService {
         course12.setProvider("provider 12");
         course12.setStartDate(new Date());
         course12.setLink("");
+        course12.setCostFree(false);
 
         courseRepository.save(course12);
 
@@ -315,6 +327,7 @@ public class InitializerService {
         course13.setProvider("provider 13");
         course13.setStartDate(new Date());
         course13.setLink("");
+        course13.setCostFree(true);
 
         courseRepository.save(course13);
 
@@ -325,6 +338,7 @@ public class InitializerService {
         course14.setProvider("provider 14");
         course14.setStartDate(new Date());
         course14.setLink("");
+        course14.setCostFree(true);
 
         courseRepository.save(course14);
 
@@ -335,6 +349,7 @@ public class InitializerService {
         course15.setProvider("provider 15");
         course15.setStartDate(new Date());
         course15.setLink("");
+        course15.setCostFree(false);
 
         courseRepository.save(course15);
     }

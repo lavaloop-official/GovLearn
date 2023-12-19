@@ -122,5 +122,18 @@ public class CourseController {
         }
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
+  
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get all course providers."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/courses/providers")
+    public ResponseEntity<Response> getAllCourseProviders() {
+
+        List<String> allCourseProviders = courseService.getAllCourseProviders();
+
+        return ResponseEntity.ok( Response.of(allCourseProviders, new Message(Message.SUCCESS)));
+    }
 
 }

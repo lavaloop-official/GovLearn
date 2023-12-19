@@ -131,4 +131,10 @@ public class CourseService {
         return mapCourses(courses);
     }
 
+    public List<String> getAllCourseProviders() {
+
+        List<String> allCourseProviders = courseRepository.findAllCourseProviders();
+
+        return allCourseProviders;
+    }
 }
