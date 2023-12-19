@@ -108,11 +108,11 @@ public class CourseController {
             description = "Get courses the user created"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/providers/courses")
-    public ResponseEntity<Response> getProvidedCourses() {
+    @GetMapping("/creators/courses")
+    public ResponseEntity<Response> getCreatedCourses() {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
-        List<CourseDTO> courseDTOs = courseService.getProvidedCourses(currentUser.getId());
+        List<CourseDTO> courseDTOs = courseService.getCreatedCourses(currentUser.getId());
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOs);
 

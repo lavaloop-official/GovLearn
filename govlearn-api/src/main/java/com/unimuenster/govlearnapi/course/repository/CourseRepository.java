@@ -68,6 +68,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Query(value = """
     SELECT c FROM Course c where c.creator.id = :userId
 """)
-    List<Course> getProvidedCourses(Long userId);
+    List<Course> getCreatedCourses(Long userId);
 
 }

@@ -125,8 +125,8 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-    public List<CourseDTO> getProvidedCourses(Long userId) {
-        List<Course> courses = courseRepository.getProvidedCourses(userId);
+    public List<CourseDTO> getCreatedCourses(Long userId) {
+        List<Course> courses = courseRepository.getCreatedCourses(userId);
 
         return mapCourses(courses);
     }
