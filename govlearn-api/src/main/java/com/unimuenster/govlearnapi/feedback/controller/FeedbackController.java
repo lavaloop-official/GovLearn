@@ -52,7 +52,7 @@ public class FeedbackController {
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/feedback")
-    public ResponseEntity<Response> createCourse(
+    public ResponseEntity<Response> createFeedback(
             @RequestBody FeedbackCreationWsTo feedbackCreationWsTo
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
@@ -65,11 +65,11 @@ public class FeedbackController {
     }
 
     @Operation(
-        security = { @SecurityRequirement(name = "Authorization") },
-        description = "Get feedback by courseID and userID."
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get feedback by courseID and userID."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/feedback/course/{courseID}")
+    @GetMapping("/feedback/user/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDAndFeedbackID(@PathVariable Long courseID) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
