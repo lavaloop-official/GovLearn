@@ -32,8 +32,8 @@ public class ControllerFeedbackMapper {
                 .title(feedbackDTO.title())
                 .description(feedbackDTO.description())
                 .rating(feedbackDTO.rating())
-                .courseID(feedbackDTO.coursID())
-                .userID(feedbackDTO.coursID())
+                .courseID(feedbackDTO.courseID())
+                .userID(feedbackDTO.userID())
                 .username(customUserCrudService.getUserByID(feedbackDTO.userID()).name())
                 .build();
     }
