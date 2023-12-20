@@ -54,5 +54,5 @@ public class CategoryController {
         List<CategoryWsTo> map = controllerCategoryMapper.mapList(categories);
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
-    } 
+    }
 }
