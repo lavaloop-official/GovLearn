@@ -43,9 +43,9 @@ public class RealInitializerService {
     private final EntityManager entityManager;
 
     private UserEntity user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11;
-    private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
-    private Category businessCategory, isitManagementCategory, organizationCategory, publicPolicyCategory, lawCategory, otherExperienceCategory, softSkillsCategory, personalityTraitsCategory, analyticalCategory, selfManagementCategory;
-    private Tag tagBusinessStrategicPlanning, tagBusinessProjectManagement, tagBusinessProgramManagement, tagIsItSystems, tagItSkills, tagCyberSecurity, tagOrgDesign, tagAdminProcesses, tagCoordination, tagPublicPolicy, tagKnowledgeAgencyPolicy, tagAdminLaw, tagLegalDataManagement, tagProfessionalExperience, tagEvaluationResearch, tagLeadership, tagConflictManagement, tagTolerance, tagContinuousLearning, tagCriticalThinking, tagDecisionMaking, tagSelfOrganization, tagSelfControl;
+    private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15, course16, course17, course18, course19, course20, course21, course22, course23, course24, course25, course26;
+    private Category businessCategory, organisatorischCategory, RechtlichCategory, softSkillsCategory, sozioTechnischCategory, technischCategory, ÖffenlichPolitischCategory;
+    private Tag tagChangemanagement, tagProjektmanagement, tagProjektplanung, tagProjekterfolgskontrolle, tagResourcenmanagement, tagMarketing, tagQulitätsmanagement, tagRisikomanagement, tagVerwaltungsstrucktur, tagProzessmanagement, tagOrganisationsformen, tagVerwaltungsprozesse, tagVerwaltungsrecht, tagItRecht, tagEGovermentRecht, tagSelbstorgainsation, tagTeamsähigkeiten, tagFührungskompentenzen, tagDesignThinking, tagStressbewältigung, tagKonfliktmanagement, tagMedienkompetenz, tagKommunikation, tagVirtuellesArbeiten, tagPräsentationstechnicken, tagLernkompetenzen, tagVermittlungskompetenzen, tagKundenbedürfnisseAnforderungsmanagement, tagStakeholderAnalyse, tagDigitaleTrends, tagProgrammieren, tagSoftwarearchitektur, tagEntwicklungvonSicherheitskonzepten, tagBetirebssymsteme, tagErpSysteme, tagDataMining, tagDatenbankmanagement, tagKI, tagGrafikdesignBilbearbeitung, tagKollaborationstools, tagOutlook, tagWord, tagExcel, tagItSicherheit, tagHardwarekompetenz, tagBürgerzentrierung, tagDatenschutz, tagCompliance, tagFremdsprache, tagInformationsicherheit;
     private UserTag userTag1, userTag2, userTag3;
 
     public void init() {
@@ -151,55 +151,42 @@ public class RealInitializerService {
     }
 
     private void insertCategories() {
+
 // Business Category
         businessCategory = new Category();
         businessCategory.setName("Business");
         categoryRepository.save(businessCategory);
 
-// IS/IT Management Category
-        isitManagementCategory = new Category();
-        isitManagementCategory.setName("IS/IT Management");
-        categoryRepository.save(isitManagementCategory);
+// Organisatorisch Category
+        organisatorischCategory = new Category();
+        organisatorischCategory.setName("Organisatorisch");
+        categoryRepository.save(organisatorischCategory);
 
-// Organization Category
-        organizationCategory = new Category();
-        organizationCategory.setName("Organization");
-        categoryRepository.save(organizationCategory);
-
-// Public Policy Category
-        publicPolicyCategory = new Category();
-        publicPolicyCategory.setName("Public Policy");
-        categoryRepository.save(publicPolicyCategory);
-
-// Law Category
-        lawCategory = new Category();
-        lawCategory.setName("Law");
-        categoryRepository.save(lawCategory);
-
-// Other Professional Experience Category
-        otherExperienceCategory = new Category();
-        otherExperienceCategory.setName("Other Professional Experience");
-        categoryRepository.save(otherExperienceCategory);
+// Rechtlich Category
+        RechtlichCategory = new Category();
+        RechtlichCategory.setName("Rechtlich");
+        categoryRepository.save(RechtlichCategory);
 
 // Soft Skills Category
         softSkillsCategory = new Category();
         softSkillsCategory.setName("Soft Skills");
         categoryRepository.save(softSkillsCategory);
 
-// Personality Traits Category
-        personalityTraitsCategory = new Category();
-        personalityTraitsCategory.setName("Personality Traits");
-        categoryRepository.save(personalityTraitsCategory);
+// Sozio-technisch Category
+        sozioTechnischCategory = new Category();
+        sozioTechnischCategory.setName("Sozio-technisch");
+        categoryRepository.save(sozioTechnischCategory);
 
-// Analytical Category
-        analyticalCategory = new Category();
-        analyticalCategory.setName("Analytical");
-        categoryRepository.save(analyticalCategory);
 
-// Self-Management Category
-        selfManagementCategory = new Category();
-        selfManagementCategory.setName("Self-Management");
-        categoryRepository.save(selfManagementCategory);
+// Technisch Category
+        technischCategory = new Category();
+        technischCategory.setName("Technisch");
+        categoryRepository.save(technischCategory);
+
+// Öffentlich/Politisch Category
+        ÖffenlichPolitischCategory = new Category();
+        ÖffenlichPolitischCategory.setName("Öffentlich/Politisch");
+        categoryRepository.save(ÖffenlichPolitischCategory);
     }
 
     public void insertCourse(){
@@ -334,8 +321,8 @@ public class RealInitializerService {
         course8.setCreator(user8);
         course8.setStartDate(new Date());
         course8.setLink("");
-        course8.setName("Sozialpolitik im Überblick");
-        course8.setDescription("Eine Übersicht über Grundlagen und Entwicklungen in der Sozialpolitik.");
+        course8.setName("Kundenbedürfnisse im Überblick");
+        course8.setDescription("Eine Übersicht über Grundlagen und Entwicklungen von Kundenbedürfnissen und Anforderungsmanagement.");
         course8.setProvider("Sozialwissenschaftliches Institut");
         course8.setImage("https://arbeitgeber.de/wp-content/uploads/2022/05/bda-arbeitgeber-agenda-thema_der_woche_zeitenwende_sozialpolitik-@adobestock_snyGGG-552x274px-2022_05_12.jpg");
         course8.setDuration("2.5 Stunden");
@@ -425,8 +412,8 @@ public class RealInitializerService {
         course13.setCreator(user3);
         course13.setStartDate(new Date());
         course13.setLink("");
-        course13.setName("Politikprozesse verstehen und gestalten");
-        course13.setDescription("Analyse und Gestaltung von politischen Prozessen und Entscheidungsfindung.");
+        course13.setName("Bürgerzentrierung verstehen und gestalten");
+        course13.setDescription("Analyse und Gestaltung von Bürgerzentrierung und Entscheidungsfindung.");
         course13.setProvider("Institut für Politikwissenschaft");
         course13.setImage("https://www.kopernikus-projekte.de/lw_resource/datapool/systemfiles/agent/lw_articlesystem/245/live/image2_cropped/AdobeStock_434744303_%C2%A9VectorMine_-_stock.adobe.com.jpeg");
         course13.setDuration("4 Stunden");
@@ -473,134 +460,466 @@ public class RealInitializerService {
 
         courseRepository.save(course15);
 
+// Course 16
+        course16 = new Course();
+        course16.setCreator(user5);
+        course16.setStartDate(new Date());
+        course16.setLink("");
+        course16.setName("eGoverment-Recht");
+        course16.setDescription("Einführung in die Rechte und Pflichten bei eGoverment.");
+        course16.setProvider("Institut für Politikwissenschaft");
+        course16.setImage("https://www.chieflearningofficer.com/wp-content/uploads/2023/05/AdobeStock_509757335.jpeg");
+        course16.setDuration("10 Stunden");
+        course16.setSkilllevel(Skilllevel.Anfaenger);
+        course16.setFormat(Format.Hybrid);
+        course16.setDomainSpecific(false);
+        course16.setCostFree(true);
+        course16.setCertificate(true);
+
+        courseRepository.save(course16);
+
+// Course 17
+        course17 = new Course();
+        course17.setCreator(user2);
+        course17.setStartDate(new Date());
+        course17.setLink("");
+        course17.setName("Java: Grundlagen der Programmierung");
+        course17.setDescription("Eine Einführung in die Grundlagen und Anwendungen von Java.");
+        course17.setProvider("IT-Architektur Institut");
+        course17.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course17.setDuration("7 Stunden");
+        course17.setSkilllevel(Skilllevel.Anfaenger);
+        course17.setFormat(Format.OnlineLive);
+        course17.setDomainSpecific(false);
+        course17.setCostFree(false);
+        course17.setCertificate(true);
+
+        courseRepository.save(course17);
+
+// Course 18
+        course18 = new Course();
+        course18.setCreator(user2);
+        course18.setStartDate(new Date());
+        course18.setLink("");
+        course18.setName("Selbstorganisation mit Hilfe von Outlook");
+        course18.setDescription("Hilfe bei der Selbstorganisation mit Outlook.");
+        course18.setProvider("Outlook Institut");
+        course18.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course18.setDuration("5 Stunden");
+        course18.setSkilllevel(Skilllevel.Anfaenger);
+        course18.setFormat(Format.OnlineSelbstorganisiert);
+        course18.setDomainSpecific(false);
+        course18.setCostFree(false);
+        course18.setCertificate(true);
+
+        courseRepository.save(course18);
+
+// Course 19
+        course19 = new Course();
+        course19.setCreator(user2);
+        course19.setStartDate(new Date());
+        course19.setLink("");
+        course19.setName("Qualitätsmanagement");
+        course19.setDescription("Sicherung der Kundenbedürfnise durch Qualitätssicherung.");
+        course19.setProvider("Qualitäts GmbH");
+        course19.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course19.setDuration("5 Stunden");
+        course19.setSkilllevel(Skilllevel.Fortgeschritten);
+        course19.setFormat(Format.OnlineSelbstorganisiert);
+        course19.setDomainSpecific(false);
+        course19.setCostFree(false);
+        course19.setCertificate(true);
+
+        courseRepository.save(course19);
+
+// Course 20
+        course20 = new Course();
+        course20.setCreator(user2);
+        course20.setStartDate(new Date());
+        course20.setLink("");
+        course20.setName("Risikomanagement");
+        course20.setDescription("Wie plant man mit Risikofaktoren?");
+        course20.setProvider("Institut für Risikoforschung");
+        course20.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course20.setDuration("5 Stunden");
+        course20.setSkilllevel(Skilllevel.Fortgeschritten);
+        course20.setFormat(Format.OnlineSelbstorganisiert);
+        course20.setDomainSpecific(false);
+        course20.setCostFree(false);
+        course20.setCertificate(true);
+
+        courseRepository.save(course20);
+
+// Course 21
+        course21 = new Course();
+        course21.setCreator(user2);
+        course21.setStartDate(new Date());
+        course21.setLink("");
+        course21.setName("Teamführung");
+        course21.setDescription("Der richtige Umgang mit Streit im Arbeitsteam");
+        course21.setProvider("Streitschlichter GmbH");
+        course21.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course21.setDuration("10 Stunden");
+        course21.setSkilllevel(Skilllevel.Fortgeschritten);
+        course21.setFormat(Format.OnlineSelbstorganisiert);
+        course21.setDomainSpecific(false);
+        course21.setCostFree(false);
+        course21.setCertificate(true);
+
+        courseRepository.save(course21);
+
+// Course 22
+        course22 = new Course();
+        course22.setCreator(user2);
+        course22.setStartDate(new Date());
+        course22.setLink("");
+        course22.setName("Business Englisch");
+        course22.setDescription("Englisch für Fortgeschrittene.");
+        course22.setProvider("Streitschlichter GmbH");
+        course22.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course22.setDuration("10 Stunden");
+        course22.setSkilllevel(Skilllevel.Fortgeschritten);
+        course22.setFormat(Format.OnlineSelbstorganisiert);
+        course22.setDomainSpecific(false);
+        course22.setCostFree(false);
+        course22.setCertificate(true);
+
+        courseRepository.save(course22);
+
+// Course 23
+        course23 = new Course();
+        course23.setCreator(user2);
+        course23.setStartDate(new Date());
+        course23.setLink("");
+        course23.setName("Compliance in der Öffentlichen Verwaltung");
+        course23.setDescription("Compliance ist die betriebswirtschaftliche und rechtswissenschaftliche Umschreibung für die Regeltreue von Unternehmen.");
+        course23.setProvider("Institut für Compliance");
+        course23.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course23.setDuration("10 Stunden");
+        course23.setSkilllevel(Skilllevel.Anfaenger);
+        course23.setFormat(Format.Praesenz);
+        course23.setDomainSpecific(true);
+        course23.setCostFree(false);
+        course23.setCertificate(true);
+
+        courseRepository.save(course23);
+
+// Course 24
+        course24 = new Course();
+        course24.setCreator(user2);
+        course24.setStartDate(new Date());
+        course24.setLink("");
+        course24.setName("Digitale Trends in der Arbeitswelt");
+        course24.setDescription("Die digitalen Trends, wie Homeoffice für Einsteiger.");
+        course24.setProvider("Institut für Compliance");
+        course24.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course24.setDuration("10 Stunden");
+        course24.setSkilllevel(Skilllevel.Anfaenger);
+        course24.setFormat(Format.OnlineLive);
+        course24.setDomainSpecific(true);
+        course24.setCostFree(false);
+        course24.setCertificate(true);
+
+        courseRepository.save(course24);
+
+// Course 25
+        course25 = new Course();
+        course25.setCreator(user2);
+        course25.setStartDate(new Date());
+        course25.setLink("");
+        course25.setName("Präsentationen richtig halten");
+        course25.setDescription("Die besten Präsentationstechnicken, um Arbeitsergebnisse zu präsentieren.");
+        course25.setProvider("Institut für Compliance");
+        course25.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course25.setDuration("10 Stunden");
+        course25.setSkilllevel(Skilllevel.Anfaenger);
+        course25.setFormat(Format.OnlineLive);
+        course25.setDomainSpecific(true);
+        course25.setCostFree(false);
+        course25.setCertificate(true);
+
+        courseRepository.save(course25);
+
+// Course 26
+        course26 = new Course();
+        course26.setCreator(user2);
+        course26.setStartDate(new Date());
+        course26.setLink("");
+        course26.setName("Datenschutz im Umgang mit KI");
+        course26.setDescription("Wie dürfen KIs eigesetzt werden und wie können Daten dabei geschützt werden.");
+        course26.setProvider("Uni Münster");
+        course26.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course26.setDuration("10 Stunden");
+        course26.setSkilllevel(Skilllevel.Experte);
+        course26.setFormat(Format.Praesenz);
+        course26.setDomainSpecific(true);
+        course26.setCostFree(false);
+        course26.setCertificate(true);
+
+        courseRepository.save(course26);
+
 
     }
 
     public void insertTag(){
-        tagBusinessStrategicPlanning = new Tag();
-        tagBusinessStrategicPlanning.setName("Strategic Planning");
-        tagBusinessStrategicPlanning.setCategory(businessCategory);
-        tagRepository.save(tagBusinessStrategicPlanning);
 
-        tagBusinessProjectManagement = new Tag();
-        tagBusinessProjectManagement.setName("Project Management");
-        tagBusinessProjectManagement.setCategory(businessCategory);
-        tagRepository.save(tagBusinessProjectManagement);
+// Business Category
+        tagChangemanagement = new Tag();
+        tagChangemanagement.setName("Change Management");
+        tagChangemanagement.setCategory(businessCategory);
+        tagRepository.save(tagChangemanagement);
 
-        tagBusinessProgramManagement = new Tag();
-        tagBusinessProgramManagement.setName("Program Management");
-        tagBusinessProgramManagement.setCategory(businessCategory);
-        tagRepository.save(tagBusinessProgramManagement);
+        tagProjektmanagement = new Tag();
+        tagProjektmanagement.setName("Projekt Management");
+        tagProjektmanagement.setCategory(businessCategory);
+        tagRepository.save(tagProjektmanagement);
 
-// IS/IT Management Category
-        tagIsItSystems = new Tag();
-        tagIsItSystems.setName("Information Systems");
-        tagIsItSystems.setCategory(isitManagementCategory);
-        tagRepository.save(tagIsItSystems);
+        tagProjektplanung = new Tag();
+        tagProjektplanung.setName("Projekt Planung");
+        tagProjektplanung.setCategory(businessCategory);
+        tagRepository.save(tagProjektplanung);
 
-        tagItSkills = new Tag();
-        tagItSkills.setName("IT Skills");
-        tagItSkills.setCategory(isitManagementCategory);
-        tagRepository.save(tagItSkills);
+        tagProjekterfolgskontrolle = new Tag();
+        tagProjekterfolgskontrolle.setName("Projekterfolgskontrolle");
+        tagProjekterfolgskontrolle.setCategory(businessCategory);
+        tagRepository.save(tagProjekterfolgskontrolle);
 
-        tagCyberSecurity = new Tag();
-        tagCyberSecurity.setName("Cyber Security");
-        tagCyberSecurity.setCategory(isitManagementCategory);
-        tagRepository.save(tagCyberSecurity);
+        tagResourcenmanagement = new Tag();
+        tagResourcenmanagement.setName("Resourcenmanagement");
+        tagResourcenmanagement.setCategory(businessCategory);
+        tagRepository.save( tagResourcenmanagement);
 
-// Organization Category
-        tagOrgDesign = new Tag();
-        tagOrgDesign.setName("Organizational Design");
-        tagOrgDesign.setCategory(organizationCategory);
-        tagRepository.save(tagOrgDesign);
+        tagMarketing = new Tag();
+        tagMarketing.setName("(online-)Marketing");
+        tagMarketing.setCategory(businessCategory);
+        tagRepository.save(tagMarketing);
 
-        tagAdminProcesses = new Tag();
-        tagAdminProcesses.setName("Administrative Processes & Workflows");
-        tagAdminProcesses.setCategory(organizationCategory);
-        tagRepository.save(tagAdminProcesses);
+        tagQulitätsmanagement = new Tag();
+        tagQulitätsmanagement.setName("Qulitätsmanagement");
+        tagQulitätsmanagement.setCategory(businessCategory);
+        tagRepository.save(tagQulitätsmanagement);
 
-        tagCoordination = new Tag();
-        tagCoordination.setName("Coordination/Implementation");
-        tagCoordination.setCategory(organizationCategory);
-        tagRepository.save(tagCoordination);
+        tagRisikomanagement = new Tag();
+        tagRisikomanagement.setName("Risikomanagemnet");
+        tagRisikomanagement.setCategory(businessCategory);
+        tagRepository.save(tagRisikomanagement);
 
-// Public Policy Category
-        tagPublicPolicy = new Tag();
-        tagPublicPolicy.setName("Public Policy");
-        tagPublicPolicy.setCategory(publicPolicyCategory);
-        tagRepository.save(tagPublicPolicy);
+// Organisatorisch Category
+        tagVermittlungskompetenzen = new Tag();
+        tagVermittlungskompetenzen.setName("Vermittlungskompetenzen");
+        tagVermittlungskompetenzen.setCategory(organisatorischCategory);
+        tagRepository.save(tagVermittlungskompetenzen);
 
-        tagKnowledgeAgencyPolicy = new Tag();
-        tagKnowledgeAgencyPolicy.setName("Knowledge of Agency's Policy Area");
-        tagKnowledgeAgencyPolicy.setCategory(publicPolicyCategory);
-        tagRepository.save(tagKnowledgeAgencyPolicy);
+        tagProzessmanagement = new Tag();
+        tagProzessmanagement.setName("Prozessmanagement");
+        tagProzessmanagement.setCategory(organisatorischCategory);
+        tagRepository.save(tagProzessmanagement);
 
-// Law Category
-        tagAdminLaw = new Tag();
-        tagAdminLaw.setName("Administrative Law");
-        tagAdminLaw.setCategory(lawCategory);
-        tagRepository.save(tagAdminLaw);
+        tagOrganisationsformen = new Tag();
+        tagOrganisationsformen.setName("Organisationsformen");
+        tagOrganisationsformen.setCategory(organisatorischCategory);
+        tagRepository.save(tagOrganisationsformen);
 
-        tagLegalDataManagement = new Tag();
-        tagLegalDataManagement.setName("Legal Aspects for Data Management");
-        tagLegalDataManagement.setCategory(lawCategory);
-        tagRepository.save(tagLegalDataManagement);
+        tagVerwaltungsprozesse = new Tag();
+        tagVerwaltungsprozesse.setName("Verwaltungsprozesse");
+        tagVerwaltungsprozesse.setCategory(organisatorischCategory);
+        tagRepository.save(tagVerwaltungsprozesse);
 
-// Other Professional Experience Category
-        tagProfessionalExperience = new Tag();
-        tagProfessionalExperience.setName("Professional Experience");
-        tagProfessionalExperience.setCategory(otherExperienceCategory);
-        tagRepository.save(tagProfessionalExperience);
+// Rechtlich Category
+        tagVerwaltungsrecht = new Tag();
+        tagVerwaltungsrecht.setName("Verwaltungsrecht");
+        tagVerwaltungsrecht.setCategory(RechtlichCategory);
+        tagRepository.save(tagVerwaltungsrecht);
 
-        tagEvaluationResearch = new Tag();
-        tagEvaluationResearch.setName("Evaluation & Research");
-        tagEvaluationResearch.setCategory(otherExperienceCategory);
-        tagRepository.save(tagEvaluationResearch);
+        tagItRecht = new Tag();
+        tagItRecht.setName("IT-Recht");
+        tagItRecht.setCategory(RechtlichCategory);
+        tagRepository.save(tagItRecht);
 
-// Soft Skills Category
-        tagLeadership = new Tag();
-        tagLeadership.setName("Leadership");
-        tagLeadership.setCategory(softSkillsCategory);
-        tagRepository.save(tagLeadership);
+        tagEGovermentRecht = new Tag();
+        tagEGovermentRecht.setName("eGoverment-Recht");
+        tagEGovermentRecht.setCategory(RechtlichCategory);
+        tagRepository.save(tagEGovermentRecht);;
 
-        tagConflictManagement = new Tag();
-        tagConflictManagement.setName("Conflict Management/Negotiation");
-        tagConflictManagement.setCategory(softSkillsCategory);
-        tagRepository.save(tagConflictManagement);
+// Softskills Category
+        tagSelbstorgainsation = new Tag();
+        tagSelbstorgainsation.setName("Selbstorganisation");
+        tagSelbstorgainsation.setCategory(softSkillsCategory);
+        tagRepository.save(tagSelbstorgainsation);
 
-// Personality Traits Category
-        tagTolerance = new Tag();
-        tagTolerance.setName("Tolerance");
-        tagTolerance.setCategory(personalityTraitsCategory);
-        tagRepository.save(tagTolerance);
+        tagTeamsähigkeiten = new Tag();
+        tagTeamsähigkeiten.setName("Teamfähigkeiten");
+        tagTeamsähigkeiten.setCategory(softSkillsCategory);
+        tagRepository.save(tagTeamsähigkeiten);
 
-        tagContinuousLearning = new Tag();
-        tagContinuousLearning.setName("Continuous Learning");
-        tagContinuousLearning.setCategory(personalityTraitsCategory);
-        tagRepository.save(tagContinuousLearning);
+        tagFührungskompentenzen = new Tag();
+        tagFührungskompentenzen.setName("Führungskompetenzen");
+        tagFührungskompentenzen.setCategory(softSkillsCategory);
+        tagRepository.save(tagFührungskompentenzen);
 
-// Analytical Category
-        tagCriticalThinking = new Tag();
-        tagCriticalThinking.setName("Critical Thinking");
-        tagCriticalThinking.setCategory(analyticalCategory);
-        tagRepository.save(tagCriticalThinking);
+        tagDesignThinking = new Tag();
+        tagDesignThinking.setName("Design Thinking");
+        tagDesignThinking.setCategory(softSkillsCategory);
+        tagRepository.save(tagDesignThinking);
 
-        tagDecisionMaking = new Tag();
-        tagDecisionMaking.setName("Decision Making");
-        tagDecisionMaking.setCategory(analyticalCategory);
-        tagRepository.save(tagDecisionMaking);
+        tagStressbewältigung = new Tag();
+        tagStressbewältigung.setName("Stressbewältigung");
+        tagStressbewältigung.setCategory(softSkillsCategory);
+        tagRepository.save(tagStressbewältigung);
 
-// Self-Management Category
-        tagSelfOrganization = new Tag();
-        tagSelfOrganization.setName("Self-Organization");
-        tagSelfOrganization.setCategory(selfManagementCategory);
-        tagRepository.save(tagSelfOrganization);
+        tagKonfliktmanagement = new Tag();
+        tagKonfliktmanagement.setName("Konfliktmangement");
+        tagKonfliktmanagement.setCategory(softSkillsCategory);
+        tagRepository.save(tagKonfliktmanagement);
 
-        tagSelfControl = new Tag();
-        tagSelfControl.setName("Self-Control");
-        tagSelfControl.setCategory(selfManagementCategory);
-        tagRepository.save(tagSelfControl);
+        tagMedienkompetenz = new Tag();
+        tagMedienkompetenz.setName("Medienkompetenz");
+        tagMedienkompetenz.setCategory(softSkillsCategory);
+        tagRepository.save(tagMedienkompetenz);
 
+        tagKommunikation = new Tag();
+        tagKommunikation.setName("Kommunikation");
+        tagKommunikation.setCategory(softSkillsCategory);
+        tagRepository.save(tagKommunikation);
+
+        tagVirtuellesArbeiten = new Tag();
+        tagVirtuellesArbeiten.setName("Virtuelles Arbeiten");
+        tagVirtuellesArbeiten.setCategory(softSkillsCategory);
+        tagRepository.save(tagVirtuellesArbeiten);
+
+        tagPräsentationstechnicken = new Tag();
+        tagPräsentationstechnicken.setName("Präsentationstechnicken");
+        tagPräsentationstechnicken.setCategory(softSkillsCategory);
+        tagRepository.save(tagPräsentationstechnicken);
+
+        tagLernkompetenzen = new Tag();
+        tagLernkompetenzen.setName("Lernkompetenzen");
+        tagLernkompetenzen.setCategory(softSkillsCategory);
+        tagRepository.save(tagLernkompetenzen);
+
+        tagVermittlungskompetenzen = new Tag();
+        tagVermittlungskompetenzen.setName("Vermittlungskompetenzen");
+        tagVermittlungskompetenzen.setCategory(softSkillsCategory);
+        tagRepository.save(tagVermittlungskompetenzen);
+
+
+// Sozio-technisch Category
+        tagKundenbedürfnisseAnforderungsmanagement = new Tag();
+        tagKundenbedürfnisseAnforderungsmanagement.setName("Kundenbedürfnisse/ Anforderungsmanagement");
+        tagKundenbedürfnisseAnforderungsmanagement.setCategory(sozioTechnischCategory);
+        tagRepository.save(tagKundenbedürfnisseAnforderungsmanagement);
+
+        tagStakeholderAnalyse = new Tag();
+        tagStakeholderAnalyse.setName("Stakeholder-Analysen");
+        tagStakeholderAnalyse.setCategory(sozioTechnischCategory);
+        tagRepository.save(tagStakeholderAnalyse);
+
+        tagDigitaleTrends = new Tag();
+        tagDigitaleTrends.setName("Digitale Trends");
+        tagDigitaleTrends.setCategory(sozioTechnischCategory);
+        tagRepository.save(tagDigitaleTrends);
+
+// Technisch Category
+        tagProgrammieren = new Tag();
+        tagProgrammieren.setName("Programmieren");
+        tagProgrammieren.setCategory(technischCategory);
+        tagRepository.save(tagProgrammieren);
+
+        tagSoftwarearchitektur = new Tag();
+        tagSoftwarearchitektur.setName("Softwarearchitektur");
+        tagSoftwarearchitektur.setCategory(technischCategory);
+        tagRepository.save(tagSoftwarearchitektur);
+
+        tagEntwicklungvonSicherheitskonzepten = new Tag();
+        tagEntwicklungvonSicherheitskonzepten.setName("Entwicklungs von Sicherheitskonzepten");
+        tagEntwicklungvonSicherheitskonzepten.setCategory(technischCategory);
+        tagRepository.save(tagEntwicklungvonSicherheitskonzepten);
+
+        tagBetirebssymsteme = new Tag();
+        tagBetirebssymsteme.setName("Betriebsysteme");
+        tagBetirebssymsteme.setCategory(technischCategory);
+        tagRepository.save(tagBetirebssymsteme);
+
+        tagErpSysteme = new Tag();
+        tagErpSysteme.setName("ERP-Systeme");
+        tagErpSysteme.setCategory(technischCategory);
+        tagRepository.save(tagErpSysteme);
+
+        tagDataMining = new Tag();
+        tagDataMining.setName("Data Mining");
+        tagDataMining.setCategory(technischCategory);
+        tagRepository.save(tagDataMining);
+
+        tagDatenbankmanagement = new Tag();
+        tagDatenbankmanagement.setName("Datenbankmanagement");
+        tagDatenbankmanagement.setCategory(technischCategory);
+        tagRepository.save(tagDatenbankmanagement);
+
+        tagKI = new Tag();
+        tagKI.setName("KI");
+        tagKI.setCategory(technischCategory);
+        tagRepository.save(tagKI);
+
+        tagGrafikdesignBilbearbeitung = new Tag();
+        tagGrafikdesignBilbearbeitung.setName("Grafikdesign & Bildbearbeitung");
+        tagGrafikdesignBilbearbeitung.setCategory(technischCategory);
+        tagRepository.save(tagGrafikdesignBilbearbeitung);
+
+        tagKollaborationstools = new Tag();
+        tagKollaborationstools.setName("Kollaboration-Tools");
+        tagKollaborationstools.setCategory(technischCategory);
+        tagRepository.save(tagKollaborationstools);
+
+        tagOutlook = new Tag();
+        tagOutlook.setName("Outlook");
+        tagOutlook.setCategory(technischCategory);
+        tagRepository.save(tagOutlook);
+
+        tagWord = new Tag();
+        tagWord.setName("Word");
+        tagWord.setCategory(technischCategory);
+        tagRepository.save(tagWord);
+
+        tagExcel = new Tag();
+        tagExcel.setName("Excel");
+        tagExcel.setCategory(technischCategory);
+        tagRepository.save(tagExcel);
+
+        tagItSicherheit = new Tag();
+        tagItSicherheit.setName("It-Sicherheit");
+        tagItSicherheit.setCategory(technischCategory);
+        tagRepository.save(tagItSicherheit);
+
+        tagHardwarekompetenz = new Tag();
+        tagHardwarekompetenz.setName("Hardwarekompetenz");
+        tagHardwarekompetenz.setCategory(technischCategory);
+        tagRepository.save(tagHardwarekompetenz);
+
+// Öffentlich / Politisch Category
+        tagBürgerzentrierung = new Tag();
+        tagBürgerzentrierung.setName("Bürgerzentrierung");
+        tagBürgerzentrierung.setCategory(ÖffenlichPolitischCategory);
+        tagRepository.save(tagBürgerzentrierung);
+
+        tagDatenschutz = new Tag();
+        tagDatenschutz.setName("Datenschutz");
+        tagDatenschutz.setCategory(ÖffenlichPolitischCategory);
+        tagRepository.save(tagDatenschutz);
+
+        tagCompliance = new Tag();
+        tagCompliance.setName("Compliance");
+        tagCompliance.setCategory(ÖffenlichPolitischCategory);
+        tagRepository.save(tagCompliance);
+
+        tagFremdsprache = new Tag();
+        tagFremdsprache.setName("Fremdsprache");
+        tagFremdsprache.setCategory(ÖffenlichPolitischCategory);
+        tagRepository.save(tagFremdsprache);
+
+        tagInformationsicherheit = new Tag();
+        tagInformationsicherheit.setName("Informationssicherheit");
+        tagInformationsicherheit.setCategory(ÖffenlichPolitischCategory);
+        tagRepository.save(tagInformationsicherheit);
     }
 
     private void addTagsToUsers() {
@@ -631,169 +950,281 @@ public class RealInitializerService {
     private void addTagsToCourses() {
 
 // Associate tags with Course 1
-        CourseTag courseTagScrum = new CourseTag();
-        courseTagScrum.setCourse(course1);
-        courseTagScrum.setTag(tagBusinessStrategicPlanning);
-        courseTagRepository.save(courseTagScrum);
+        CourseTag courseTagProjektPlanung1 = new CourseTag();
+        courseTagProjektPlanung1.setCourse(course1);
+        courseTagProjektPlanung1.setTag(tagProjektplanung);
+        courseTagRepository.save(courseTagProjektPlanung1);
 
-        CourseTag courseTagPublicSector = new CourseTag();
-        courseTagPublicSector.setCourse(course1);
-        courseTagPublicSector.setTag(tagBusinessProjectManagement);
-        courseTagRepository.save(courseTagPublicSector);
+        CourseTag courseTagOrganisationsformen1 = new CourseTag();
+        courseTagOrganisationsformen1.setCourse(course1);
+        courseTagOrganisationsformen1.setTag(tagOrganisationsformen);
+        courseTagRepository.save(courseTagOrganisationsformen1);
+
+        CourseTag courseTagFührungskompetenz = new CourseTag();
+        courseTagFührungskompetenz.setCourse(course1);
+        courseTagFührungskompetenz.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFührungskompetenz);
 
 // Associate tags with Course 2
         CourseTag courseTagProjectManagement2 = new CourseTag();
         courseTagProjectManagement2.setCourse(course2);
-        courseTagProjectManagement2.setTag(tagBusinessProjectManagement);
+        courseTagProjectManagement2.setTag(tagProjektmanagement);
         courseTagRepository.save(courseTagProjectManagement2);
 
-        CourseTag courseTagMethodology = new CourseTag();
-        courseTagMethodology.setCourse(course2);
-        courseTagMethodology.setTag(tagCriticalThinking);
-        courseTagRepository.save(courseTagMethodology);
+        CourseTag courseTagFühruntskompetenz2 = new CourseTag();
+        courseTagFühruntskompetenz2.setCourse(course2);
+        courseTagFühruntskompetenz2.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFühruntskompetenz2);
 
 // Associate tags with Course 3
-        CourseTag courseTagCyberSecurity3 = new CourseTag();
-        courseTagCyberSecurity3.setCourse(course3);
-        courseTagCyberSecurity3.setTag(tagCyberSecurity);
-        courseTagRepository.save(courseTagCyberSecurity3);
+        CourseTag courseTagItSicherheit3 = new CourseTag();
+        courseTagItSicherheit3.setCourse(course3);
+        courseTagItSicherheit3.setTag(tagItSicherheit);
+        courseTagRepository.save(courseTagItSicherheit3);
 
-        CourseTag courseTagIsItSkills3 = new CourseTag();
-        courseTagIsItSkills3.setCourse(course3);
-        courseTagIsItSkills3.setTag(tagItSkills);
-        courseTagRepository.save(courseTagIsItSkills3);
+        CourseTag courseTagDatenschutz3 = new CourseTag();
+        courseTagDatenschutz3.setCourse(course3);
+        courseTagDatenschutz3.setTag(tagDatenschutz);
+        courseTagRepository.save(courseTagDatenschutz3);
 
 // Associate tags with Course 4
-        CourseTag courseTagOrganizationalDesign4 = new CourseTag();
-        courseTagOrganizationalDesign4.setCourse(course4);
-        courseTagOrganizationalDesign4.setTag(tagOrgDesign);
-        courseTagRepository.save(courseTagOrganizationalDesign4);
+        CourseTag courseTagOrganisationsformen4 = new CourseTag();
+        courseTagOrganisationsformen4.setCourse(course4);
+        courseTagOrganisationsformen4.setTag(tagOrganisationsformen);
+        courseTagRepository.save(courseTagOrganisationsformen4);
 
-        CourseTag courseTagAdministrativeProcesses = new CourseTag();
-        courseTagAdministrativeProcesses.setCourse(course4);
-        courseTagAdministrativeProcesses.setTag(tagCriticalThinking);
-        courseTagRepository.save(courseTagAdministrativeProcesses);
+        CourseTag courseTagProzessmanagement4 = new CourseTag();
+        courseTagProzessmanagement4.setCourse(course4);
+        courseTagProzessmanagement4.setTag(tagProzessmanagement);
+        courseTagRepository.save(courseTagProzessmanagement4);
+
+        CourseTag courseTagFührungskompetenz4 = new CourseTag();
+        courseTagFührungskompetenz4.setCourse(course4);
+        courseTagFührungskompetenz4.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFührungskompetenz4);
 
 // Associate tags with Course 5
-        CourseTag courseTagPublicPolicy5 = new CourseTag();
-        courseTagPublicPolicy5.setCourse(course5);
-        courseTagPublicPolicy5.setTag(tagLeadership);
-        courseTagRepository.save(courseTagPublicPolicy5);
+        CourseTag courseTagFührungskompetenz5 = new CourseTag();
+        courseTagFührungskompetenz5.setCourse(course5);
+        courseTagFührungskompetenz5.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFührungskompetenz5);
 
-        CourseTag courseTagPoliticsProcesses5 = new CourseTag();
-        courseTagPoliticsProcesses5.setCourse(course5);
-        courseTagPoliticsProcesses5.setTag(tagSelfControl);
-        courseTagRepository.save(courseTagPoliticsProcesses5);
+        CourseTag courseTagKonfliktmanagement5 = new CourseTag();
+        courseTagKonfliktmanagement5.setCourse(course5);
+        courseTagKonfliktmanagement5.setTag(tagKonfliktmanagement);
+        courseTagRepository.save(courseTagKonfliktmanagement5);
+
+        CourseTag courseTagKommunikation5 = new CourseTag();
+        courseTagKommunikation5.setCourse(course5);
+        courseTagKommunikation5.setTag(tagKommunikation);
+        courseTagRepository.save(courseTagKommunikation5);
 
 // Associate tags with Course 6
-        CourseTag courseTagAdministrativeLaw6 = new CourseTag();
-        courseTagAdministrativeLaw6.setCourse(course6);
-        courseTagAdministrativeLaw6.setTag(tagAdminLaw);
-        courseTagRepository.save(courseTagAdministrativeLaw6);
+        CourseTag courseTagVerwaltungsrecht6 = new CourseTag();
+        courseTagVerwaltungsrecht6.setCourse(course6);
+        courseTagVerwaltungsrecht6.setTag(tagVerwaltungsrecht);
+        courseTagRepository.save(courseTagVerwaltungsrecht6);
 
-        CourseTag courseTagLegalAspectsDataManagement6 = new CourseTag();
-        courseTagLegalAspectsDataManagement6.setCourse(course6);
-        courseTagLegalAspectsDataManagement6.setTag(tagLegalDataManagement);
-        courseTagRepository.save(courseTagLegalAspectsDataManagement6);
 
 // Associate tags with Course 7
-        CourseTag courseTagProfessionalExperience7 = new CourseTag();
-        courseTagProfessionalExperience7.setCourse(course7);
-        courseTagProfessionalExperience7.setTag(tagLeadership);
-        courseTagRepository.save(courseTagProfessionalExperience7);
+        CourseTag courseTagKonfliktmanagement7 = new CourseTag();
+        courseTagKonfliktmanagement7.setCourse(course7);
+        courseTagKonfliktmanagement7.setTag(tagKonfliktmanagement);
+        courseTagRepository.save(courseTagKonfliktmanagement7);
 
-        CourseTag courseTagConflictManagement7 = new CourseTag();
-        courseTagConflictManagement7.setCourse(course7);
-        courseTagConflictManagement7.setTag(tagConflictManagement);
-        courseTagRepository.save(courseTagConflictManagement7);
+        CourseTag courseTagVermittlungskompetenzen7 = new CourseTag();
+        courseTagVermittlungskompetenzen7.setCourse(course7);
+        courseTagVermittlungskompetenzen7.setTag(tagVermittlungskompetenzen);
+        courseTagRepository.save(courseTagVermittlungskompetenzen7);
 
 // Associate tags with Course 8
-        CourseTag courseTagLeadership8 = new CourseTag();
-        courseTagLeadership8.setCourse(course8);
-        courseTagLeadership8.setTag(tagLeadership);
-        courseTagRepository.save(courseTagLeadership8);
+        CourseTag courseTagKundenbedürfnisse8 = new CourseTag();
+        courseTagKundenbedürfnisse8.setCourse(course8);
+        courseTagKundenbedürfnisse8.setTag(tagKundenbedürfnisseAnforderungsmanagement);
+        courseTagRepository.save(courseTagKundenbedürfnisse8);
 
-        CourseTag courseTagTolerance8 = new CourseTag();
-        courseTagTolerance8.setCourse(course8);
-        courseTagTolerance8.setTag(tagTolerance);
-        courseTagRepository.save(courseTagTolerance8);
+        CourseTag courseTagKommunikation8 = new CourseTag();
+        courseTagKommunikation8.setCourse(course8);
+        courseTagKommunikation8.setTag(tagKommunikation);
+        courseTagRepository.save(courseTagKommunikation8);
 
 // Associate tags with Course 9
-        CourseTag courseTagCriticalThinking9 = new CourseTag();
-        courseTagCriticalThinking9.setCourse(course9);
-        courseTagCriticalThinking9.setTag(tagCriticalThinking);
-        courseTagRepository.save(courseTagCriticalThinking9);
-
-        CourseTag courseTagDecisionMaking9 = new CourseTag();
-        courseTagDecisionMaking9.setCourse(course9);
-        courseTagDecisionMaking9.setTag(tagDecisionMaking);
-        courseTagRepository.save(courseTagDecisionMaking9);
+        CourseTag courseTagKonfliktmanagement9 = new CourseTag();
+        courseTagKonfliktmanagement9.setCourse(course9);
+        courseTagKonfliktmanagement9.setTag(tagKonfliktmanagement);
+        courseTagRepository.save(courseTagKonfliktmanagement9);
 
 // Associate tags with Course 10
-        CourseTag courseTagSelfOrganization10 = new CourseTag();
-        courseTagSelfOrganization10.setCourse(course10);
-        courseTagSelfOrganization10.setTag(tagSelfOrganization);
-        courseTagRepository.save(courseTagSelfOrganization10);
+        CourseTag courseTagSelbstorganisation10 = new CourseTag();
+        courseTagSelbstorganisation10.setCourse(course10);
+        courseTagSelbstorganisation10.setTag(tagSelbstorgainsation);
+        courseTagRepository.save(courseTagSelbstorganisation10);
 
-        CourseTag courseTagSelfControl10 = new CourseTag();
-        courseTagSelfControl10.setCourse(course10);
-        courseTagSelfControl10.setTag(tagSelfControl);
-        courseTagRepository.save(courseTagSelfControl10);
+        CourseTag courseTagStessbewältigung10 = new CourseTag();
+        courseTagStessbewältigung10.setCourse(course10);
+        courseTagStessbewältigung10.setTag(tagStressbewältigung);
+        courseTagRepository.save(courseTagStessbewältigung10);
 
 // Associate tags with Course 11
-        CourseTag courseTagFinanceManagement11 = new CourseTag();
-        courseTagFinanceManagement11.setCourse(course11);
-        courseTagFinanceManagement11.setTag(tagBusinessStrategicPlanning);
-        courseTagRepository.save(courseTagFinanceManagement11);
+        CourseTag courseTagRessourcenmanagement11 = new CourseTag();
+        courseTagRessourcenmanagement11.setCourse(course11);
+        courseTagRessourcenmanagement11.setTag(tagResourcenmanagement);
+        courseTagRepository.save(courseTagRessourcenmanagement11);
 
-        CourseTag courseTagLegalFramework11 = new CourseTag();
-        courseTagLegalFramework11.setCourse(course11);
-        courseTagLegalFramework11.setTag(tagAdminLaw);
-        courseTagRepository.save(courseTagLegalFramework11);
+        CourseTag courseTagVerwaltungsstruktur11 = new CourseTag();
+        courseTagVerwaltungsstruktur11.setCourse(course11);
+        courseTagVerwaltungsstruktur11.setTag(tagVerwaltungsstrucktur);
+        courseTagRepository.save(courseTagVerwaltungsstruktur11);
 
 // Associate tags with Course 12
-        CourseTag courseTagEnterpriseArchitecture12 = new CourseTag();
-        courseTagEnterpriseArchitecture12.setCourse(course12);
-        courseTagEnterpriseArchitecture12.setTag(tagItSkills);
-        courseTagRepository.save(courseTagEnterpriseArchitecture12);
+        CourseTag courseTagSoftwarearchitektur12 = new CourseTag();
+        courseTagSoftwarearchitektur12.setCourse(course12);
+        courseTagSoftwarearchitektur12.setTag(tagSoftwarearchitektur);
+        courseTagRepository.save(courseTagSoftwarearchitektur12);
 
-        CourseTag courseTagTechnologyManagement12 = new CourseTag();
-        courseTagTechnologyManagement12.setCourse(course12);
-        courseTagTechnologyManagement12.setTag(tagIsItSystems);
-        courseTagRepository.save(courseTagTechnologyManagement12);
+        CourseTag courseTagDatenbankmanagement12 = new CourseTag();
+        courseTagDatenbankmanagement12.setCourse(course12);
+        courseTagDatenbankmanagement12.setTag(tagDatenbankmanagement);
+        courseTagRepository.save(courseTagDatenbankmanagement12);
 
 // Associate tags with Course 13
-        CourseTag courseTagPoliticsProcesses13 = new CourseTag();
-        courseTagPoliticsProcesses13.setCourse(course13);
-        courseTagPoliticsProcesses13.setTag(tagPublicPolicy);
-        courseTagRepository.save(courseTagPoliticsProcesses13);
+        CourseTag courseTagBürgerzentrierung = new CourseTag();
+        courseTagBürgerzentrierung.setCourse(course13);
+        courseTagBürgerzentrierung.setTag(tagBürgerzentrierung);
+        courseTagRepository.save(courseTagBürgerzentrierung);
 
-        CourseTag courseTagLegalAspects13 = new CourseTag();
-        courseTagLegalAspects13.setCourse(course13);
-        courseTagLegalAspects13.setTag(tagLegalDataManagement);
-        courseTagRepository.save(courseTagLegalAspects13);
+        CourseTag courseTagVerwaltungsprozesse = new CourseTag();
+        courseTagVerwaltungsprozesse.setCourse(course13);
+        courseTagVerwaltungsprozesse.setTag(tagVerwaltungsprozesse);
+        courseTagRepository.save(courseTagVerwaltungsprozesse);
 
 // Associate tags with Course 14
-        CourseTag courseTagEvaluationResearch14 = new CourseTag();
-        courseTagEvaluationResearch14.setCourse(course14);
-        courseTagEvaluationResearch14.setTag(tagEvaluationResearch);
-        courseTagRepository.save(courseTagEvaluationResearch14);
+        CourseTag courseTagLernkompetenzen14 = new CourseTag();
+        courseTagLernkompetenzen14.setCourse(course14);
+        courseTagLernkompetenzen14.setTag(tagLernkompetenzen);
+        courseTagRepository.save(courseTagLernkompetenzen14);
 
-        CourseTag courseTagSocioTechnicalSkills14 = new CourseTag();
-        courseTagSocioTechnicalSkills14.setCourse(course14);
-        courseTagSocioTechnicalSkills14.setTag(tagIsItSystems);
-        courseTagRepository.save(courseTagSocioTechnicalSkills14);
+        CourseTag courseTagInformationssicherheit14 = new CourseTag();
+        courseTagInformationssicherheit14.setCourse(course14);
+        courseTagInformationssicherheit14.setTag(tagInformationsicherheit);
+        courseTagRepository.save(courseTagInformationssicherheit14);
 
 // Associate tags with Course 15
-        CourseTag courseTagLeadership15 = new CourseTag();
-        courseTagLeadership15.setCourse(course15);
-        courseTagLeadership15.setTag(tagLeadership);
-        courseTagRepository.save(courseTagLeadership15);
+        CourseTag courseTagführungskompentenze15 = new CourseTag();
+        courseTagführungskompentenze15.setCourse(course15);
+        courseTagführungskompentenze15.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagführungskompentenze15);
 
-        CourseTag courseTagInfluencing15 = new CourseTag();
-        courseTagInfluencing15.setCourse(course15);
-        courseTagInfluencing15.setTag(tagCriticalThinking);
-        courseTagRepository.save(courseTagInfluencing15);
+        CourseTag courseTagVermittlungskompetenzen15 = new CourseTag();
+        courseTagVermittlungskompetenzen15.setCourse(course15);
+        courseTagVermittlungskompetenzen15.setTag(tagVermittlungskompetenzen);
+        courseTagRepository.save(courseTagVermittlungskompetenzen15);
+
+// Associate tags with Course 16
+        CourseTag courseTageGovermentRecht = new CourseTag();
+        courseTageGovermentRecht.setCourse(course16);
+        courseTageGovermentRecht.setTag(tagEGovermentRecht);
+        courseTagRepository.save(courseTageGovermentRecht);
+
+// Associate tags with Course 17
+        CourseTag courseTagProgrammieren17 = new CourseTag();
+        courseTagProgrammieren17.setCourse(course17);
+        courseTagProgrammieren17.setTag(tagProgrammieren);
+        courseTagRepository.save(courseTagProgrammieren17);
+
+// Associate tags with Course 18
+        CourseTag courseTagSelbstorganisation18 = new CourseTag();
+        courseTagSelbstorganisation18.setCourse(course18);
+        courseTagSelbstorganisation18.setTag(tagSelbstorgainsation);
+        courseTagRepository.save(courseTagSelbstorganisation18);
+
+        CourseTag courseTagOutlook18 = new CourseTag();
+        courseTagOutlook18.setCourse(course18);
+        courseTagOutlook18.setTag(tagOutlook);
+        courseTagRepository.save(courseTagOutlook18);
+
+// Associate tags with Course 19
+        CourseTag courseTagQualitätsmanagement19 = new CourseTag();
+        courseTagQualitätsmanagement19.setCourse(course19);
+        courseTagQualitätsmanagement19.setTag(tagQulitätsmanagement);
+        courseTagRepository.save(courseTagQualitätsmanagement19);
+
+        CourseTag courseTagKundenbedürfnisse19 = new CourseTag();
+        courseTagKundenbedürfnisse19.setCourse(course19);
+        courseTagKundenbedürfnisse19.setTag(tagKundenbedürfnisseAnforderungsmanagement);
+        courseTagRepository.save(courseTagKundenbedürfnisse19);
+
+// Associate tags with Course 20
+        CourseTag courseTagRisikomanagement20 = new CourseTag();
+        courseTagRisikomanagement20.setCourse(course20);
+        courseTagRisikomanagement20.setTag(tagQulitätsmanagement);
+        courseTagRepository.save(courseTagRisikomanagement20);
+
+        CourseTag courseTagFührungskompetenz20 = new CourseTag();
+        courseTagFührungskompetenz20.setCourse(course20);
+        courseTagFührungskompetenz20.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFührungskompetenz20);
+
+// Associate tags with Course 21
+        CourseTag courseTagKonfliktmanagement21 = new CourseTag();
+        courseTagKonfliktmanagement21.setCourse(course21);
+        courseTagKonfliktmanagement21.setTag(tagKonfliktmanagement);
+        courseTagRepository.save(courseTagKonfliktmanagement21);
+
+        CourseTag courseTagKommunikation21 = new CourseTag();
+        courseTagKommunikation21.setCourse(course21);
+        courseTagKommunikation21.setTag(tagKommunikation);
+        courseTagRepository.save(courseTagKommunikation21);
+
+        CourseTag courseTagFührungskometenz21 = new CourseTag();
+        courseTagFührungskometenz21.setCourse(course21);
+        courseTagFührungskometenz21.setTag(tagFührungskompentenzen);
+        courseTagRepository.save(courseTagFührungskometenz21);
+
+// Associate tags with Course 22
+        CourseTag courseTagFremdsprachen22 = new CourseTag();
+        courseTagFremdsprachen22.setCourse(course22);
+        courseTagFremdsprachen22.setTag(tagFremdsprache);
+        courseTagRepository.save(courseTagFremdsprachen22);
+
+// Associate tags with Course 23
+        CourseTag courseTagCompliance23 = new CourseTag();
+        courseTagCompliance23.setCourse(course23);
+        courseTagCompliance23.setTag(tagCompliance);
+        courseTagRepository.save(courseTagCompliance23);
+
+// Associate tags with Course 24
+        CourseTag courseTagDigitaleTrends24 = new CourseTag();
+        courseTagDigitaleTrends24.setCourse(course24);
+        courseTagDigitaleTrends24.setTag(tagDigitaleTrends);
+        courseTagRepository.save(courseTagDigitaleTrends24);
+
+        CourseTag courseTagVirtuellesArbeiten = new CourseTag();
+        courseTagVirtuellesArbeiten.setCourse(course24);
+        courseTagVirtuellesArbeiten.setTag(tagVirtuellesArbeiten);
+        courseTagRepository.save(courseTagVirtuellesArbeiten);
+
+// Associate tags with Course 25
+        CourseTag courseTagPräsentationstechnicken25 = new CourseTag();
+        courseTagPräsentationstechnicken25.setCourse(course25);
+        courseTagPräsentationstechnicken25.setTag(tagPräsentationstechnicken);
+        courseTagRepository.save(courseTagPräsentationstechnicken25);
+
+        CourseTag courseTagMedienkompetent25 = new CourseTag();
+        courseTagMedienkompetent25.setCourse(course25);
+        courseTagMedienkompetent25.setTag(tagMedienkompetenz);
+        courseTagRepository.save(courseTagMedienkompetent25);
+
+// Associate tags with Course 26
+        CourseTag courseTagDatenschutz26 = new CourseTag();
+        courseTagDatenschutz26.setCourse(course26);
+        courseTagDatenschutz26.setTag(tagDatenschutz);
+        courseTagRepository.save(courseTagDatenschutz26);
+
+        CourseTag courseTagKI26 = new CourseTag();
+        courseTagKI26.setCourse(course26);
+        courseTagKI26.setTag(tagKI);
+        courseTagRepository.save(courseTagKI26);
     }
 
     private void addFeedbackToCourses() {
