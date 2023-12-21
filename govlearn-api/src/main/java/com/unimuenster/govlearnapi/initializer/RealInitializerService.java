@@ -927,21 +927,21 @@ public class RealInitializerService {
         userTag1 = new UserTag();
         userTag1.setUser(user11);
         userTag1.setRating(1);
-        userTag1.setTag(tagLeadership);
+        userTag1.setTag(userTag1);
 
         userTagRepository.save(userTag1);
 
         userTag2 = new UserTag();
         userTag2.setUser(user11);
         userTag2.setRating(1);
-        userTag2.setTag(tagCriticalThinking);
+        userTag2.setTag(userTag2);
 
         userTagRepository.save(userTag2);
 
         userTag3 = new UserTag();
         userTag3.setUser(user11);
         userTag3.setRating(1);
-        userTag3.setTag(tagDecisionMaking);
+        userTag3.setTag(userTag3);
 
         userTagRepository.save(userTag3);
 
