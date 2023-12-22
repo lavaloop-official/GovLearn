@@ -1,8 +1,8 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.group.controller.wsto.AllInvitationsWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.InvitationWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.RetrieveInvitationWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.group.service.InvitationService;
@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -63,7 +65,22 @@ public class InvitationController {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        AllInvitationsWsTo allInvitationsWsTo = invitationService.getInvitations(currentUser);
+        List<RetrieveInvitationWsTo> retrieveInvitationWsTos = invitationService.getInvitations(currentUser);
+
+        return ResponseEntity.ok(Response.of(retrieveInvitationWsTos));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Update the state of an Invitation."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping()
+    public ResponseEntity answerInvitation() {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        List<RetrieveInvitationWsTo> allInvitationsWsTo = invitationService.getInvitations(currentUser);
 
         return ResponseEntity.ok(Response.of(allInvitationsWsTo));
     }

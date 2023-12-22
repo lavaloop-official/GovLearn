@@ -1,6 +1,6 @@
 package com.unimuenster.govlearnapi.group.service;
 
-import com.unimuenster.govlearnapi.group.controller.wsto.AllInvitationsWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.RetrieveInvitationWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Invitation;
 import com.unimuenster.govlearnapi.group.repository.InvitationRepository;
@@ -33,15 +33,23 @@ public class InvitationService {
 
     }
 
-    public AllInvitationsWsTo getInvitations(UserEntity currentUser) {
+    public List<RetrieveInvitationWsTo> getInvitations(UserEntity currentUser) {
 
         List<Invitation> invitationList = invitationRepository.getAllInvitationsByUser(currentUser.getId());
 
-        List<Long> groupIds = invitationList.stream().map(invitation -> invitation.getGroup().getId()).collect(Collectors.toList());
+        List<RetrieveInvitationWsTo> retrieveInvitationWsTos
+                = invitationList
+                .stream()
+                .map(invitation -> {
+                    RetrieveInvitationWsTo retrieveInvitationWsTo = new RetrieveInvitationWsTo();
 
-        AllInvitationsWsTo allInvitationsWsTo = new AllInvitationsWsTo();
-        allInvitationsWsTo.setGroupIds(groupIds);
+                    retrieveInvitationWsTo.setInvitationId(invitation.getId());
+                    retrieveInvitationWsTo.setGroupId(invitation.getGroup().getId());
 
-        return allInvitationsWsTo;
+                    return retrieveInvitationWsTo;
+                })
+                .collect(Collectors.toList());
+
+        return retrieveInvitationWsTos;
     }
 }
