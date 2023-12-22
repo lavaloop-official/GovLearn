@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -183,6 +184,16 @@ public class GroupService {
         }
 
         groupRepository.save(group);
+    }
+
+    public Group getGroupById(Long groupId) {
+        Optional<Group> byId = groupRepository.findById(groupId);
+
+        if ( byId.isEmpty() ) {
+            throw new NotFoundException("Group not found");
+        }
+
+        return byId.get();
     }
 
     public void deleteGroup(Long groupId) {

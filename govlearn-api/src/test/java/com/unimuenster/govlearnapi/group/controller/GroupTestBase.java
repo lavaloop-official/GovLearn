@@ -4,9 +4,11 @@ import com.unimuenster.govlearnapi.AbstractIntegrationTest;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddContentToGroupWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.InvitationWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
+import com.unimuenster.govlearnapi.group.repository.InvitationRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -35,6 +37,10 @@ public class GroupTestBase extends AbstractIntegrationTest {
     protected MemberRepository memberRepository;
     @Autowired
     protected GroupRepository groupRepository;
+    @Autowired
+    protected InvitationController invitationController;
+    @Autowired
+    protected InvitationRepository invitationRepository;
     protected Member currentMember;
 
     protected void addMember() {
@@ -69,6 +75,14 @@ public class GroupTestBase extends AbstractIntegrationTest {
                         .courseId(initializerService.getCourse1().getId())
                         .build()
         );
+    }
+
+    protected void sendInvitation() {
+        InvitationWsTo invitationWsTo = new InvitationWsTo();
+        invitationWsTo.setGroupId(initializerService.getGroup().getId());
+        invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+
+        invitationController.sendInvitation(invitationWsTo);
     }
 
     protected Group getGroup() {
