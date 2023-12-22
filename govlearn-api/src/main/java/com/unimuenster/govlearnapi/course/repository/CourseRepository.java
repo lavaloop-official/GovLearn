@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.course.repository;
 
+import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -58,9 +59,19 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         FROM Course
         INNER JOIN course_tag ON course.id = course_tag.course_id
         WHERE course_tag.tag_id IN :tagIDs
+        AND course.provider IN :Providers
+        AND course.skilllevel IN :Kompetenzstufe
+        AND course.format IN :Format
+        AND course.cost_free IN :Kosten
         AND ((lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
         LIMIT :limit
         OFFSET :offset
     """, nativeQuery = true)
-    List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch, List<Long> tagIDs);
+    List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch,List<String> Providers, List<Long> Format, List<Long> Kompetenzstufe, List<Boolean> Kosten, List<Long> tagIDs);
+
+
+    @Query(value = """
+      SELECT DISTINCT (c.provider) FROM Course c
+      """)
+    List<String> findAllCourseProviders();
 }
