@@ -47,7 +47,7 @@ public class GetGroupsByUserTest extends GroupTestBase {
         Response<GetGroupsWsTo> response = (Response<GetGroupsWsTo>) responseEntity.getBody();
 
         // Current user is member and admin of group with id 1
-        assertEquals(getGroup().getId(), response.getPayload().getAdminGroups().get(0));
-        assertEquals(getGroup().getId(), response.getPayload().getMemberGroups().get(0));
+        assertEquals(getGroup().getId(), response.getPayload().getAdminGroups().get(0).getGroupId());
+        assertEquals(getGroup().getId(), response.getPayload().getMemberGroups().get(0).getGroupId());
     }
 }
