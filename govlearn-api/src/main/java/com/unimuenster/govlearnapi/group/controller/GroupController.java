@@ -105,7 +105,7 @@ public class GroupController {
             description = "Delete a group irreversibly."
     )
     @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/{groupId}")
+    @DeleteMapping("/remove/group/{groupId}")
     public ResponseEntity deleteGroup(@PathVariable Long groupId) {
         UserEntity currentUser = authenticationService.getCurrentUser();
 
