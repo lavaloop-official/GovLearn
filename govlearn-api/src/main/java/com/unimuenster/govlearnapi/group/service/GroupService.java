@@ -138,17 +138,17 @@ public class GroupService {
         return memberRepository.deleteCourseForAllMembers(group.getId(), deleteContentForGroupWsTo.getCourseId());
     }
 
-    public List<Long> getAdminGroups(UserEntity currentUser) {
+    public List<GroupDetailsWsTo> getAdminGroups(UserEntity currentUser) {
 
         List<Group> groups = groupRepository.getGroupsByAdmin(currentUser.getId());
 
-        return groups.stream().map(group -> group.getId()).toList();
+        return groups.stream().map(group -> GroupDetailsWsTo.builder().groupId(group.getId()).groupName(group.getName()).groupDescription(group.getDescription()).build()).toList();
     }
 
-    public List<Long> getMemberGroups(UserEntity currentUser) {
+    public List<GroupDetailsWsTo> getMemberGroups(UserEntity currentUser) {
         List<Group> groups = groupRepository.getGroupsByMember(currentUser.getId());
 
-        return groups.stream().map(group -> group.getId()).toList();
+        return groups.stream().map(group -> GroupDetailsWsTo.builder().groupId(group.getId()).groupName(group.getName()).groupDescription(group.getDescription()).build()).toList();
     }
 
     public GroupDetailsWsTo getGroupDetails(Long groupId) {

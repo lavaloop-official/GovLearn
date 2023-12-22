@@ -12,6 +12,6 @@ import java.util.List;
 @Setter
 public class GetGroupsWsTo {
 
-    List<Long> adminGroups;
-    List<Long> memberGroups;
+    List<GroupDetailsWsTo> adminGroups;
+    List<GroupDetailsWsTo> memberGroups;
 }
