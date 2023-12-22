@@ -3,7 +3,9 @@ package com.unimuenster.govlearnapi.group.controller;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.InvitationWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.RetrieveInvitationWsTo;
+import com.unimuenster.govlearnapi.group.controller.wsto.UpdateInvitationWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.entity.Invitation;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.group.service.InvitationService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -76,12 +78,18 @@ public class InvitationController {
     )
     @PreAuthorize("hasAuthority('user')")
     @PutMapping()
-    public ResponseEntity answerInvitation() {
+    public ResponseEntity answerInvitation(@RequestBody UpdateInvitationWsTo updateInvitationWsTo) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        List<RetrieveInvitationWsTo> allInvitationsWsTo = invitationService.getInvitations(currentUser);
+        Invitation invitation = invitationService.hasInvitation(currentUser, updateInvitationWsTo.getInvitationId());
 
-        return ResponseEntity.ok(Response.of(allInvitationsWsTo));
+        if ( updateInvitationWsTo.isAccept() ) {
+            invitationService.acceptInvitation(invitation);
+        } else {
+            invitationService.declineInvitation(invitation);
+        }
+
+        return ResponseEntity.ok(Response.of(true));
     }
 }
