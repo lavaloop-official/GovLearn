@@ -50,6 +50,8 @@ public class InvitationService {
                     RetrieveInvitationWsTo retrieveInvitationWsTo = new RetrieveInvitationWsTo();
 
                     retrieveInvitationWsTo.setInvitationId(invitation.getId());
+                    retrieveInvitationWsTo.setGroupName(invitation.getGroup().getName());
+                    retrieveInvitationWsTo.setGroupDescription(invitation.getGroup().getDescription());
                     retrieveInvitationWsTo.setGroupId(invitation.getGroup().getId());
 
                     return retrieveInvitationWsTo;

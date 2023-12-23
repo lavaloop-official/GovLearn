@@ -8,6 +8,8 @@ import lombok.Setter;
 public class RetrieveInvitationWsTo {
 
     Long groupId;
+    String groupName;
+    String groupDescription;
     Long invitationId;
 
 }
