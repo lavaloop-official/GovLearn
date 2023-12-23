@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.user.repository;
 
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         SELECT u FROM UserEntity u WHERE u.id = :userID
     """)
     Optional<UserEntity> findUserById(Long userID);
+
+    @Query(value = """
+        SELECT u FROM UserEntity u WHERE u.email IN :email
+    """)
+    List<UserEntity> findAllUsersByEmail(List<String> email);
 }

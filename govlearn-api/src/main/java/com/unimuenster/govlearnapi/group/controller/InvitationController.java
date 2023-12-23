@@ -33,27 +33,29 @@ public class InvitationController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create an invitation to a group."
+            description = "Create a invitations to a group."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping()
-    public ResponseEntity sendInvitation(@RequestBody InvitationWsTo invitationWsTo) {
+    public ResponseEntity sendInvitation(@RequestBody List<InvitationWsTo> invitationWsTo) {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        boolean userAdmin = groupService.isUserAdmin(currentUser, invitationWsTo.getGroupId());
+        boolean userAdmin = groupService.isUserAdmin(currentUser, invitationWsTo.get(0).getGroupId());
 
         if (!userAdmin) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
 
-        Group groupById = groupService.getGroupById(invitationWsTo.getGroupId());
+        Group groupById = groupService.getGroupById(invitationWsTo.get(0).getGroupId());
 
-        UserEntity userByEmail = authenticationService.getUserByEmail(invitationWsTo.getUserEmail());
+        List<UserEntity> userEntities = authenticationService.getListOfUsersByEmail(invitationWsTo);
 
-        invitationService.sendInvitation(groupById, userByEmail);
-
+        for (UserEntity userEntity : userEntities) {
+            invitationService.sendInvitation(groupById, userEntity);
+        }
+        
         return ResponseEntity.ok(Response.of(true));
     }
 

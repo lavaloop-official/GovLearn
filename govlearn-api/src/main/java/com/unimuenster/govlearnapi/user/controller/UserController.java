@@ -73,6 +73,17 @@ public class UserController {
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
+        description = "Returns all users"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/users/all")
+    public ResponseEntity<Response> getAllUser() {
+
+        return ResponseEntity.ok(Response.of(customUserCrudService.getAllUser(), new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
         description = "Returns a user by ID"
     )
     @PreAuthorize("hasAuthority('user')")
