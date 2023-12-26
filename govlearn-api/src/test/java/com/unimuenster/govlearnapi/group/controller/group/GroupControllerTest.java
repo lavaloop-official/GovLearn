@@ -30,7 +30,6 @@ class GroupControllerTest extends GroupTestBase {
         List<Group> group = groupRepository.findByAdmin(initializerService.getUser1().getId());
 
         assertEquals(1, group.size());
-        assertEquals(initializerService.getUser1().getId(), group.get(0).getAdmin().getId());
     }
 
     @Test
@@ -39,7 +38,6 @@ class GroupControllerTest extends GroupTestBase {
         Group group = new Group();
         group.setName("TestGroup");
         group.setDescription("TestDescription");
-        group.setAdmin(initializerService.getUser1());
 
         Group save = groupRepository.save(group);
 

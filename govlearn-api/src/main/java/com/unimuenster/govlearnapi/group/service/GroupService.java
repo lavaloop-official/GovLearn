@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.group.service;
 
+import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.core.globalExceptions.NotFoundException;
 import com.unimuenster.govlearnapi.core.globalExceptions.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.entity.Course;
@@ -9,9 +10,12 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,16 +31,17 @@ public class GroupService {
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
 
-    public void createGroup(UserEntity admin, GroupCreationWsTo groupCreationWsTo) {
+    public void createGroup(UserEntity user, GroupCreationWsTo groupCreationWsTo) {
 
         Group group = Group
                 .builder()
-                .admin(admin)
                 .description(groupCreationWsTo.getGroupDescription())
                 .name(groupCreationWsTo.getGroupName())
                 .build();
 
-        groupRepository.save(group);
+        Group newGroup = groupRepository.save(group);
+
+        addMember(user.getId(), newGroup.getId(), Role.Admin);
     }
 
     public boolean isUserAdmin(UserEntity user, Long groupId) {
@@ -47,7 +52,7 @@ public class GroupService {
         return groupRepository.findByMemberId(memberId);
     }
 
-    public Long addMember(Long userId, Long groupId) {
+    public Long addMember(Long userId, Long groupId, Role role) {
         Group group = groupRepository.findById(groupId).orElseThrow();
 
         UserEntity user = UserEntity
@@ -58,6 +63,7 @@ public class GroupService {
         Member member = Member
                 .builder()
                 .user(user)
+                .role(role)
                 .build();
 
         Member save = memberRepository.save(member);
@@ -147,8 +153,28 @@ public class GroupService {
 
     public List<GroupDetailsWsTo> getMemberGroups(UserEntity currentUser) {
         List<Group> groups = groupRepository.getGroupsByMember(currentUser.getId());
+        for (Group group2 : groups) {
+            groupRepository.getAdmins(group2.getId());
+        }
 
-        return groups.stream().map(group -> GroupDetailsWsTo.builder().groupId(group.getId()).groupName(group.getName()).groupDescription(group.getDescription()).build()).toList();
+        return groups.stream().map(group -> {
+            Boolean isAdmin = isUserAdmin(currentUser, group.getId());
+
+            Role role = Role.Member;
+
+            if (isAdmin)
+                role = Role.Admin;
+
+            GroupDetailsWsTo groupDetailsWsTo = GroupDetailsWsTo
+                .builder()
+                .groupId(group.getId())
+                .groupName(group.getName())
+                .groupDescription(group.getDescription())
+                .role(role)
+                .build();
+            return groupDetailsWsTo;
+            }
+        ).toList();
     }
 
     public GroupDetailsWsTo getGroupDetails(Long groupId) {
@@ -167,8 +193,33 @@ public class GroupService {
         return groupRepository.existsByIdAndMember(groupId, currentUser.getId());
     }
 
-    public List<Long> getMembers(Long groupId) {
-        return groupRepository.getMembers(groupId);
+    public List<MemberDetailsWsTo> getMembers(Long groupId) {
+        List<MemberDetailsWsTo> memberDetailsWsTos = groupRepository.getMembers(groupId).stream().map(member -> {
+            MemberDetailsWsTo memberDetailsWsTo = MemberDetailsWsTo
+                .builder()
+                .memberId(member.getId())
+                .name(member.getUser().getName())
+                .email(member.getUser().getEmail())
+                .role(member.getRole())
+                .build();
+            return memberDetailsWsTo;
+        }).toList();
+        return memberDetailsWsTos;
+    }
+
+    public List<MemberDetailsWsTo> getAdmins(Long groupId) {
+        List<MemberDetailsWsTo> admins = groupRepository.getAdmins(groupId).stream().map(user -> {
+            MemberDetailsWsTo memberDetailsWsTo = MemberDetailsWsTo
+                .builder()
+                .memberId(user.getId())
+                .name(user.getUser().getName())
+                .email(user.getUser().getEmail())
+                .memberSince(user.getMemberSince())
+                .role(user.getRole())
+                .build();
+            return memberDetailsWsTo;
+        }).toList();
+        return admins;
     }
 
     public void updateGroupDetails(GroupDetailsUpdateWsTo updateWsTo) {

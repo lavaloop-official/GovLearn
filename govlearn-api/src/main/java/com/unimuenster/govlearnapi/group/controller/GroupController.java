@@ -1,7 +1,6 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.group.controller.wsto.GetGroupsWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupCreationWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsUpdateWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.GroupDetailsWsTo;
@@ -12,6 +11,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,12 +53,9 @@ public class GroupController {
     public ResponseEntity getGroups() {
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        GetGroupsWsTo getGroupsWsTo = new GetGroupsWsTo();
+        List<GroupDetailsWsTo> groups = groupService.getMemberGroups(currentUser);
 
-        getGroupsWsTo.setAdminGroups(groupService.getAdminGroups(currentUser));
-        getGroupsWsTo.setMemberGroups(groupService.getMemberGroups(currentUser));
-
-        return ResponseEntity.ok(Response.of(getGroupsWsTo));
+        return ResponseEntity.ok(Response.of(groups));
     }
 
     @Operation(

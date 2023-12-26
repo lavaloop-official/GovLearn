@@ -17,12 +17,14 @@ public class MemberService {
     public MemberDetailsWsTo getMember(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 
-        MemberDetailsWsTo memberDetailsWsTo = new MemberDetailsWsTo();
-
-        memberDetailsWsTo.setMemberId(member.getId());
-        memberDetailsWsTo.setEmail(member.getUser().getEmail());
-        memberDetailsWsTo.setName(member.getUser().getName());
-        memberDetailsWsTo.setMemberSince(member.getMemberSince());
+        MemberDetailsWsTo memberDetailsWsTo = MemberDetailsWsTo
+            .builder()
+            .memberId(member.getId())
+            .name(member.getUser().getName())
+            .email(member.getUser().getEmail())
+            .memberSince(member.getMemberSince())
+            .role(member.getRole())
+            .build();
 
         return memberDetailsWsTo;
     }

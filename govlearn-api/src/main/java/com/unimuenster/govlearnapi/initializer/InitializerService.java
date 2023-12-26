@@ -86,7 +86,6 @@ public class InitializerService {
     protected void createGroup(){
         group = Group
                 .builder()
-                .admin(getUser2())
                 .build();
 
         groupRepository.save(group);
@@ -576,10 +575,16 @@ public class InitializerService {
             DROP TABLE course CASCADE;
             DROP TABLE feedback CASCADE;
             DROP TABLE tag CASCADE;
+            DROP TABLE invitation CASCADE;
+            DROP TABLE member CASCADE;
+            Drop Table group_table CASCADE;
             DROP TABLE token CASCADE;
             DROP TABLE user_entity CASCADE;
             DROP TABLE user_tag CASCADE; 
             DROP TABLE category CASCADE;
+            DROP TABLE bookmark CASCADE;
+            DROP TABLE group_table_members CASCADE;
+            DROP TABLE member_courses CASCADE;
             """
         );
         try {

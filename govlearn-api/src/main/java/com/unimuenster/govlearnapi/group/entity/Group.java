@@ -24,10 +24,6 @@ public class Group {
     private String name;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private UserEntity admin;
-
     @OneToMany
     private List<Member> members = new ArrayList<>();
 

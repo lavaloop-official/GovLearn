@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.group.service;
 
+import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.core.globalExceptions.NotFoundException;
 import com.unimuenster.govlearnapi.core.globalExceptions.UnauthorizedException;
 import com.unimuenster.govlearnapi.group.controller.wsto.RetrieveInvitationWsTo;
@@ -34,7 +35,7 @@ public class InvitationService {
 
     public void acceptInvitation(Invitation invitation){
 
-        groupService.addMember(invitation.getUser().getId(), invitation.getGroup().getId());
+        groupService.addMember(invitation.getUser().getId(), invitation.getGroup().getId(), Role.Member);
 
         invitationRepository.delete(invitation);
     }

@@ -1,11 +1,13 @@
 package com.unimuenster.govlearnapi.group.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.group.service.MemberService;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +49,7 @@ public class GroupMembersController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Long memberId = groupService.addMember(addMemberWsTo.getUserId(), addMemberWsTo.getGroupId());
+        Long memberId = groupService.addMember(addMemberWsTo.getUserId(), addMemberWsTo.getGroupId(), Role.Member);
 
         return ResponseEntity.ok(Response.of(memberId));
 
@@ -65,15 +67,25 @@ public class GroupMembersController {
 
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        boolean userAdmin = groupService.isUserAdmin(currentUser, groupId);
+        boolean userMemberOrAdmin = (groupService.isUserMember(currentUser, groupId) || groupService.isUserAdmin(currentUser, groupId));
 
-        if (!userAdmin) {
+        if (!userMemberOrAdmin) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        List<Long> memberIds = groupService.getMembers(groupId);
+        List<MemberDetailsWsTo> members = groupService.getMembers(groupId);
+        // List<UserWsTo> admins = groupService.getAdmins(groupId);
 
-        return ResponseEntity.ok(Response.of(memberIds));
+        // admins.stream().forEach(admin -> members.add(MemberDetailsWsTo
+        //         .builder()
+        //         .memberId(null)
+        //         .email(admin.email())
+        //         .name(admin.name())
+        //         .memberSince(null)
+        //         .build()
+        // ));
+
+        return ResponseEntity.ok(Response.of(members));
 
     }
 

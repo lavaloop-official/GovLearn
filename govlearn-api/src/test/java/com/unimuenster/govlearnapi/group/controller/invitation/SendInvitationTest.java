@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -27,8 +28,10 @@ class SendInvitationTest extends GroupTestBase {
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());
         invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+        List<InvitationWsTo> invitationWsTos = new ArrayList<InvitationWsTo>();
+        invitationWsTos.add(invitationWsTo);
 
-        ResponseEntity responseEntity = invitationController.sendInvitation(invitationWsTo);
+        ResponseEntity responseEntity = invitationController.sendInvitation(invitationWsTos);
 
         List<Invitation> all = invitationRepository.findAll();
 
@@ -46,8 +49,10 @@ class SendInvitationTest extends GroupTestBase {
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());
         invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+        List<InvitationWsTo> invitationWsTos = new ArrayList<InvitationWsTo>();
+        invitationWsTos.add(invitationWsTo);
 
-        ResponseEntity responseEntity = invitationController.sendInvitation(invitationWsTo);
+        ResponseEntity responseEntity = invitationController.sendInvitation(invitationWsTos);
 
         List<Invitation> all = invitationRepository.findAll();
 

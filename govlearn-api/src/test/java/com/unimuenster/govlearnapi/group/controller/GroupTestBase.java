@@ -12,6 +12,10 @@ import com.unimuenster.govlearnapi.group.repository.InvitationRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -81,8 +85,10 @@ public class GroupTestBase extends AbstractIntegrationTest {
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());
         invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+        List<InvitationWsTo> invitationWsTos = new ArrayList<InvitationWsTo>();
+        invitationWsTos.add(invitationWsTo);
 
-        invitationController.sendInvitation(invitationWsTo);
+        invitationController.sendInvitation(invitationWsTos);
     }
 
     protected Group getGroup() {
