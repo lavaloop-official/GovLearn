@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,7 +248,8 @@ public class GroupService {
         return byId.get();
     }
 
+    @Transactional
     public void deleteGroup(Long groupId) {
-        groupRepository.deleteById(groupId);
+        groupRepository.deleteCourse(groupId);
     }
 }

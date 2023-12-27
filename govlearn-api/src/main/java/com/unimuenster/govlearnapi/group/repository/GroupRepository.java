@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -87,4 +88,17 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         AND m.role = 2
     """)
     List<Member> getAdmins(Long groupId);
+
+    @Modifying
+    @Query(value = """
+        DELETE FROM invitation i
+        WHERE i.group_id = :groupId ;
+        DELETE FROM group_table_members gm
+        WHERE gm.group_id = :groupId ;
+        DELETE FROM member m
+        WHERE m.group_id = :groupId ;
+        DELETE FROM group_table g
+        WHERE g.id = :groupId ;
+    """, nativeQuery = true)
+    void deleteCourse(Long groupId);
 }

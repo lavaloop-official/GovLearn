@@ -3,6 +3,8 @@ package com.unimuenster.govlearnapi.group.service;
 import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,8 @@ public class MemberService {
         return memberDetailsWsTo;
     }
 
+    @Transactional
     public void removeMember(Long memberId) {
-        memberRepository.deleteById(memberId);
+        memberRepository.removeMemberFromGroup(memberId);
     }
 }

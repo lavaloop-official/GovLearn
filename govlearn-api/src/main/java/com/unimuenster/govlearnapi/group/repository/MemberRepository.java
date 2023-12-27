@@ -18,4 +18,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         )
     """, nativeQuery = true)
     int deleteCourseForAllMembers(Long groupId, Long courseId);
+
+    @Modifying
+    @Query(value = """
+        DELETE FROM group_table_members g
+        WHERE g.members_id = :memberID ;
+        DELETE FROM member m
+        WHERE m.id = :memberID ;
+    """, nativeQuery = true)
+    void removeMemberFromGroup(Long memberID);
 }
