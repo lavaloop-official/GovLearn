@@ -60,7 +60,7 @@ public class GroupContentController {
             description = "Add content to an entire group, returns forbidden, if the current user is not admin of the group."
     )
     @PreAuthorize("hasAuthority('user')")
-    @PutMapping("/all")
+    @PostMapping("/all")
     public ResponseEntity addContentToAll(
             @RequestBody AddContentToGroupWsTo addContentToGroupWsTo
     ) {
