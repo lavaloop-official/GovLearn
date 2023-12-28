@@ -47,6 +47,43 @@ public class CourseController {
         return ResponseEntity.ok(Response.of(true));
     }
 
+    //
+     @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Change a course."
+    )
+    @PreAuthorize("hasAuthority('user')") 
+    //Authorität prüfen
+    @PutMapping("/courses")
+    public ResponseEntity<Response> changeCourse(
+            @RequestBody CourseWsTo courseWsTo
+    ){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        CourseDTO CourseDTO = new CourseDTO(
+            courseWsTo.getId(),
+            courseWsTo.getName(), 
+            courseWsTo.getImage(), 
+            courseWsTo.getDescription(), 
+            courseWsTo.getCreatedAt(), 
+            courseWsTo.getProvider(), 
+            courseWsTo.getInstructor(), 
+            courseWsTo.getCertificate(), 
+            courseWsTo.getSkilllevel(), 
+            courseWsTo.getDurationInHours(), 
+            courseWsTo.getFormat(), 
+            courseWsTo.getStartDate(), 
+            courseWsTo.getCostFree(), 
+            courseWsTo.getDomainSpecific(),
+            courseWsTo.getLink()
+            );
+            
+
+        courseService.changeCourse(CourseDTO, currentUser);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
+
+
     @Operation(
             description = "Get a list of all courses."
     )

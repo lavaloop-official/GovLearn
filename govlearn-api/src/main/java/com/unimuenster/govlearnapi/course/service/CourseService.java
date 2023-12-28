@@ -58,6 +58,43 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+
+    public void changeCourse(CourseDTO CourseDTO, UserEntity currentUser) {
+        
+
+        boolean courseExists = courseRepository.existsById(CourseDTO.id());
+        if (!courseExists) {
+            throw new NotFoundException();
+        }
+
+        Optional<Course> optionalCourseEntity = courseRepository.findById(CourseDTO.id());
+
+        if(optionalCourseEntity.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        Course CourseEntity = optionalCourseEntity.get();
+
+        CourseEntity.setName(CourseDTO.name());
+        CourseEntity.setImage(CourseDTO.image());
+        CourseEntity.setDescription(CourseDTO.description());
+        //CourseEntity.setCreatedAt(); Sollte man das ändern können?
+        CourseEntity.setProvider(CourseDTO.provider());
+        CourseEntity.setInstructor(CourseDTO.instructor());
+        CourseEntity.setCertificate(CourseDTO.certificate());
+        CourseEntity.setSkilllevel(CourseDTO.skilllevel());
+        CourseEntity.setDuration(CourseDTO.durationInHours());
+        CourseEntity.setFormat(CourseDTO.format());
+        CourseEntity.setStartDate(CourseDTO.startDate());
+        CourseEntity.setCostFree(CourseDTO.costFree());
+        CourseEntity.setDomainSpecific(CourseDTO.domainSpecific());
+        //CourseEntity.setCreator(); Soll der Creator geändert werden können?
+        CourseEntity.setLink(CourseDTO.link());
+
+        courseRepository.save(CourseEntity);
+    }
+    
+
     public List<CourseDTO> getCourses() {
 
         List<Course> allCourses = courseRepository.findAllCourses();
