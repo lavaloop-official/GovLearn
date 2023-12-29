@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.Option;
+
 @Service
 @RequiredArgsConstructor
 public class FeedbackService {
@@ -77,9 +79,23 @@ public class FeedbackService {
                 .collect(Collectors.toList());
     }
 
-    public List<FeedbackDTO> getFeedbackByCourseWithLimitAndOffset(Long courseId, Long min, Long amount){
+    public List<FeedbackDTO> getFeedbackByCourseWithLimitAndOffset(Long courseId, Optional<Long> limit, Optional<Long> offset){
 
-        List<Feedback> feedbacks = feedbackRepository.findAllFeedbackByCourseIdWithLimitAndOffset(courseId, min, amount);
+        Long limitQuery = 100L;
+
+        if (limit.isPresent())
+        {
+            limitQuery = limit.get();
+        }
+
+        Long offsetQuery = 0L;
+
+        if (offset.isPresent())
+        {
+            offsetQuery = offset.get();
+        }
+
+        List<Feedback> feedbacks = feedbackRepository.findAllFeedbackByCourseIdWithLimitAndOffset(courseId, limitQuery, offsetQuery);
 
         return mapFeedback(feedbacks);
     }
@@ -139,11 +155,19 @@ public class FeedbackService {
         return Math.round(value * d) / d;
      }
 
-    public float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
+    public Float getAverageFeedbackByCourseID(Long courseID) throws NotFoundException{
         try {
             return round(feedbackRepository.findAverageFeedbackByCourseId(courseID), 1);
         } catch (NullPointerException e) {
-            throw new NotFoundException();
+            return null;
+        }
+    }
+
+    public Long getAmountFeedbackByCourseID(Long courseID) throws NotFoundException{
+        try {
+            return feedbackRepository.findAmountFeedbackByCourseId(courseID);
+        } catch (NullPointerException e) {
+            return null;
         }
     }
 }

@@ -89,12 +89,15 @@ public class UserController {
         description= "Update User"
     )
     @PreAuthorize("hasAuthority('user')")
-    @PutMapping("/users/{userID}")
+
+    @PutMapping("/users")
     public ResponseEntity<Response> updateUser(@RequestBody RegisterWsTo user){
         
-        UserWsTo updatedUser = customUserCrudService.updateUser(authenticationService.getCurrentUser().getId(), user);
-        
-        return ResponseEntity.ok(Response.of(updatedUser, new Message(Message.SUCCESS)));
+        TokenDTO tokenDTO = customUserCrudService.updateUser(authenticationService.getCurrentUser().getId(), user);
+
+        // Da Email im Token gespeichert wird, muss der token neu generiert werden
+        return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
+
     };
     
 }

@@ -8,6 +8,7 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,9 +30,11 @@ public class CourseController {
     private final CourseService courseService;
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
+    private final FeedbackService feedbackService;
+
     @Operation(
-            security = { @SecurityRequirement(name = "Authorization") },
-            description = "Create a course."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Create a course."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/courses")
@@ -85,8 +88,10 @@ public class CourseController {
 
 
     @Operation(
-            description = "Get a list of all courses."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a list of all courses."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses")
     public ResponseEntity<Response> getCourses() {
 
@@ -94,20 +99,44 @@ public class CourseController {
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courses);
 
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
+
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
-            description = "Get a course by id."
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get a course by id."
     )
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses/{id}")
     public ResponseEntity<Response> getCourseById(@PathVariable Long id) {
 
         CourseDTO courseById = courseService.getCourseById(id);
 
-        CourseWsTo map = controllerCourseMapper.map(courseById);
+        CourseWsTo courseWsTo = controllerCourseMapper.map(courseById);
 
-        return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
+        courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+        courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+
+        return ResponseEntity.ok( Response.of(courseWsTo, new Message(Message.SUCCESS)));
+    }
+
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Get all course providers."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/courses/providers")
+    public ResponseEntity<Response> getAllCourseProviders() {
+
+        List<String> allCourseProviders = courseService.getAllCourseProviders();
+
+        return ResponseEntity.ok( Response.of(allCourseProviders, new Message(Message.SUCCESS)));
     }
 
 }

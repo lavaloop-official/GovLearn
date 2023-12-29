@@ -33,6 +33,7 @@ public class Tag {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    
     @PrePersist
     private void onCreate() {
         createdAt = new Date();

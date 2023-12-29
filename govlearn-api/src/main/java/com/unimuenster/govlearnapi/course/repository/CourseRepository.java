@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.course.repository;
 
+import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,17 +28,50 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     // May be used for filtering courses by attributes
     @Query(value = """
-        SELECT c FROM Course c WHERE (lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%')))
-    """)
-    List<Course> findCoursesByAttributes(String nameSearch);
+        SELECT *
+        FROM Course
+        WHERE (lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch))
+        LIMIT :limit
+        OFFSET :offset
+    """, nativeQuery = true)
+    List<Course> findCoursesByAttributes(Integer limit, Integer offset, String nameSearch);
 
     @Query(value = """
-        select c 
-        from Course c 
+        SELECT c 
+        FROM Course c 
         INNER JOIN c.courseTags t 
         INNER JOIN t.tag tag
         INNER JOIN tag.category cat
-        where cat.id = :categoryId
+        WHERE cat.id = :categoryId
     """)
     List<Course> findCoursesByCategory(int categoryId);
+
+    // @Query(value = """
+    //     SELECT c 
+    //     FROM Course c 
+    //     INNER JOIN c.courseTags t 
+    //     INNER JOIN t.tag tag
+    //     WHERE tag.id IN :tagIDs
+    //     AND ((lower(c.name) LIKE lower(concat('%', :nameSearch,'%'))) OR (lower(c.description) LIKE lower(concat('%', :nameSearch,'%'))))
+    // """)
+    @Query(value = """
+        SELECT DISTINCT (Course.*)
+        FROM Course
+        INNER JOIN course_tag ON course.id = course_tag.course_id
+        WHERE course_tag.tag_id IN :tagIDs
+        AND course.provider IN :Providers
+        AND course.skilllevel IN :Kompetenzstufe
+        AND course.format IN :Format
+        AND course.cost_free IN :Kosten
+        AND ((lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
+        LIMIT :limit
+        OFFSET :offset
+    """, nativeQuery = true)
+    List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch,List<String> Providers, List<Long> Format, List<Long> Kompetenzstufe, List<Boolean> Kosten, List<Long> tagIDs);
+
+
+    @Query(value = """
+      SELECT DISTINCT (c.provider) FROM Course c
+      """)
+    List<String> findAllCourseProviders();
 }

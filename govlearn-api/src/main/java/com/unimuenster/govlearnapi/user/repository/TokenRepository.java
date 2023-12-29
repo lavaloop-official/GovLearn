@@ -22,9 +22,9 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Modifying
     @Query(value = """
       Delete from Token t
-      where t.user.id = :adminId and (t.expired = true or t.revoked = true)
+      where t.user.id = :userId and (t.expired = true or t.revoked = true)
       """)
-    void deleteAllValidTokenByUser(@Param("adminId") Integer id);
+    void deleteAllValidTokenByUser(@Param("userId") Integer id);
 
     Optional<Token> findByToken(String token);
 }

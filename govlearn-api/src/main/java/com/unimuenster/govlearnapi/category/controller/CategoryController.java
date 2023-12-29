@@ -46,7 +46,7 @@ public class CategoryController {
             description = "Get all categories."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Response> getAllCategories() {
 
         List<CategoryDTO> categories = categoryService.getAllCategories();
@@ -54,5 +54,5 @@ public class CategoryController {
         List<CategoryWsTo> map = controllerCategoryMapper.mapList(categories);
 
         return ResponseEntity.ok( Response.of(map, new Message(Message.SUCCESS)));
-    } 
+    }
 }

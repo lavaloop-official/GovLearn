@@ -4,6 +4,8 @@ import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
+import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
+import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
@@ -12,9 +14,13 @@ import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
+import com.unimuenster.govlearnapi.user.entity.Token;
+import com.unimuenster.govlearnapi.user.entity.TokenType;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.TokenRepository;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
 
+import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -49,10 +55,14 @@ public class InitializerService {
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
+    private final JwtService jwtService;
+    private final TokenRepository tokenRepository;
 
     private UserEntity user1, user2, recommendationUser;
+    private TokenDTO user1Token, user2Token, recommendationUserToken;
+    private String clearPassword = "test";
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15;
-    private Tag tag1, tag2, tag3, tag4, tag5;
+    private Tag tag1, tag2, tag3, tag4, tag5, tag6;
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
@@ -68,8 +78,25 @@ public class InitializerService {
         addBookmarkToUser();
     }
 
+    private TokenDTO authenticate(UserEntity user){
+        // Normaler AuthenticationService kann nicht verwendet werden,
+        // da updating/deleting queries ausgeführt werden und dies im Testkontext Fehler schmeisst.
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+
+        String jwt = jwtService.generateToken(customUserDetails);
+        tokenRepository.save(Token.builder()
+                .user(user)
+                .token(jwt)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build());
+
+        return new TokenDTO(jwt);
+    }
+
     public void insertUser(){
-        String test = passwordEncoder.encode("test");
+        String test = passwordEncoder.encode(clearPassword);
 
         user1 = new UserEntity();
         user1.setActivated(true);
@@ -78,8 +105,9 @@ public class InitializerService {
         user1.setPassword(test);
 
         userRepository.save(user1);
+        user1Token = authenticate(user1);
 
-        String test2 = passwordEncoder.encode("test2");
+        String test2 = passwordEncoder.encode(clearPassword);
         user2 = new UserEntity();
         user2.setActivated(true);
         user2.setName("test2");
@@ -87,8 +115,9 @@ public class InitializerService {
         user2.setPassword(test2);
 
         userRepository.save(user2);
+        user2Token = authenticate(user2);
 
-        String recommendationUserPasswort = passwordEncoder.encode("test3");
+        String recommendationUserPasswort = passwordEncoder.encode(clearPassword);
         recommendationUser = new UserEntity();
         recommendationUser.setActivated(true);
         recommendationUser.setName("test3");
@@ -96,6 +125,7 @@ public class InitializerService {
         recommendationUser.setPassword(recommendationUserPasswort);
 
         userRepository.save(recommendationUser);
+        recommendationUserToken = authenticate(recommendationUser);
     }
 
     private void insertCategories() {
@@ -137,6 +167,7 @@ public class InitializerService {
         course1.setDuration("2 Stunden");
         course1.setSkilllevel(Skilllevel.Anfaenger);
         course1.setFormat(Format.Hybrid);
+        course1.setCostFree(false);
 
         courseRepository.save(course1);
 
@@ -151,6 +182,7 @@ public class InitializerService {
         course2.setDuration("2 Stunden");
         course2.setSkilllevel(Skilllevel.Fortgeschritten);
         course2.setFormat(Format.Hybrid);
+        course2.setCostFree(true);
 
         courseRepository.save(course2);
 
@@ -165,6 +197,7 @@ public class InitializerService {
         course3.setDuration("2 Stunden");
         course3.setSkilllevel(Skilllevel.Fortgeschritten);
         course3.setFormat(Format.Hybrid);
+        course3.setCostFree(false);
 
         courseRepository.save(course3);
 
@@ -179,6 +212,7 @@ public class InitializerService {
         course4.setDuration("2 Stunden");
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.Hybrid);
+        course4.setCostFree(false);
 
         courseRepository.save(course4);
 
@@ -193,6 +227,7 @@ public class InitializerService {
         course5.setDuration("2 Stunden");
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
+        course5.setCostFree(true);
 
         courseRepository.save(course5);
 
@@ -207,6 +242,7 @@ public class InitializerService {
         course6.setDuration("2 Stunden");
         course6.setSkilllevel(Skilllevel.Fortgeschritten);
         course6.setFormat(Format.Hybrid);
+        course6.setCostFree(false);
 
         courseRepository.save(course6);
 
@@ -221,6 +257,7 @@ public class InitializerService {
         course7.setDuration("2 Stunden");
         course7.setSkilllevel(Skilllevel.Fortgeschritten);
         course7.setFormat(Format.Hybrid);
+        course7.setCostFree(true);
 
         courseRepository.save(course7);
 
@@ -235,6 +272,7 @@ public class InitializerService {
         course8.setDuration("2 Stunden");
         course8.setSkilllevel(Skilllevel.Fortgeschritten);
         course8.setFormat(Format.Hybrid);
+        course8.setCostFree(false);
 
         courseRepository.save(course8);
 
@@ -245,6 +283,7 @@ public class InitializerService {
         course9.setProvider("provider 9");
         course9.setStartDate(new Date());
         course9.setLink("");
+        course9.setCostFree(true);
 
         courseRepository.save(course9);
 
@@ -255,6 +294,7 @@ public class InitializerService {
         course10.setProvider("provider 10");
         course10.setStartDate(new Date());
         course10.setLink("");
+        course10.setCostFree(false);
 
         courseRepository.save(course10);
 
@@ -265,6 +305,7 @@ public class InitializerService {
         course11.setProvider("provider 11");
         course11.setStartDate(new Date());
         course11.setLink("");
+        course11.setCostFree(true);
 
         courseRepository.save(course11);
 
@@ -275,6 +316,7 @@ public class InitializerService {
         course12.setProvider("provider 12");
         course12.setStartDate(new Date());
         course12.setLink("");
+        course12.setCostFree(false);
 
         courseRepository.save(course12);
 
@@ -285,6 +327,7 @@ public class InitializerService {
         course13.setProvider("provider 13");
         course13.setStartDate(new Date());
         course13.setLink("");
+        course13.setCostFree(true);
 
         courseRepository.save(course13);
 
@@ -295,6 +338,7 @@ public class InitializerService {
         course14.setProvider("provider 14");
         course14.setStartDate(new Date());
         course14.setLink("");
+        course14.setCostFree(true);
 
         courseRepository.save(course14);
 
@@ -305,6 +349,7 @@ public class InitializerService {
         course15.setProvider("provider 15");
         course15.setStartDate(new Date());
         course15.setLink("");
+        course15.setCostFree(false);
 
         courseRepository.save(course15);
     }
@@ -339,6 +384,12 @@ public class InitializerService {
         tag5.setCategory(category5);
 
         tagRepository.save(tag5);
+
+        tag6 = new Tag();
+        tag6.setName("Tag 6");
+        tag6.setCategory(category1);
+
+        tagRepository.save(tag6);
     }
 
     private void addTagsToUsers() {
