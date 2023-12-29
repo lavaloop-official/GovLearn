@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
+
 @Data
 @Builder
 @Getter
@@ -14,5 +16,6 @@ import java.util.List;
 public class GroupContentWsTo {
 
     private List<Long> courseIds;
+    private Long userId;
     private Long groupId;
 }

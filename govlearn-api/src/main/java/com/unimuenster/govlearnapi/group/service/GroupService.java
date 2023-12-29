@@ -12,10 +12,14 @@ import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.service.AuthenticationService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +35,7 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
+    private final AuthenticationService authenticationService;
 
     public void createGroup(UserEntity user, GroupCreationWsTo groupCreationWsTo) {
 
@@ -136,13 +141,77 @@ public class GroupService {
                 .courseIds(
                         member.getCourses().stream().map(course -> course.getId()).toList()
                 )
+                .userId(currentUser.getId())
                 .build();
+    }
+
+    public GroupContentWsTo getContentOfUser(Long groupId, Long memberId) {
+
+        groupRepository.findById(groupId).orElseThrow(() -> new NotFoundException("Group not found"));
+
+        boolean isAdmin = groupRepository.existsByIdAndAdmin(groupId, authenticationService.getCurrentUser().getId());
+
+        if ( !isAdmin ) {
+            throw new UnauthorizedException("Current user is not an admin of this group!");
+        }
+
+        Member member = groupRepository.getMemberByMemberId(memberId);
+
+        if (member == null)
+            throw new NotFoundException("User could not be found!");
+
+        return GroupContentWsTo
+                .builder()
+                .groupId(groupId)
+                .courseIds(
+                        member.getCourses().stream().map(course -> course.getId()).toList()
+                )
+                .userId(member.getUser().getId())
+                .build();
+    }
+
+    public List<GroupContentWsTo> getContentOfAllUsers(Long groupId) {
+
+        groupRepository.findById(groupId).orElseThrow(() -> new NotFoundException("Group not found"));
+
+        boolean isAdmin = groupRepository.existsByIdAndAdmin(groupId, authenticationService.getCurrentUser().getId());
+
+        if ( !isAdmin ) {
+            throw new UnauthorizedException("Current user is not an admin of this group!");
+        }
+
+        List<Member> member = groupRepository.getMembers(groupId);
+
+        List<GroupContentWsTo> groupContentWsTos = member.stream().map(element -> GroupContentWsTo
+            .builder()
+            .groupId(groupId)
+            .courseIds(element.getCourses().stream().map(course -> course.getId()).toList())
+            .userId(element.getUser().getId())
+            .build()).toList();
+
+        return groupContentWsTos;
     }
 
     public int deleteContentForGroup(DeleteContentForGroupWsTo deleteContentForGroupWsTo) {
         Group group = groupRepository.findById(deleteContentForGroupWsTo.getGroupId()).orElseThrow();
 
         return memberRepository.deleteCourseForAllMembers(group.getId(), deleteContentForGroupWsTo.getCourseId());
+    }
+
+    @Transactional
+    public void deleteContentForUser(long courseID, long memberID, long groupID) {
+
+        groupRepository.findById(groupID).orElseThrow(() -> new NotFoundException("Group could not be found!"));
+        
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        boolean userAdmin = isUserAdmin(currentUser, groupID);
+
+        if (!userAdmin) {
+            throw new UnauthorizedException("User is not an admin of this group!");
+        }
+
+        memberRepository.deleteCourseForMember(courseID, memberID);
     }
 
     public List<GroupDetailsWsTo> getAdminGroups(UserEntity currentUser) {

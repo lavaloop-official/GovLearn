@@ -48,6 +48,13 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Member getMember(Long userId, Long groupId);
 
     @Query(value = """
+        SELECT m 
+        FROM Member m
+        WHERE m.id = :memberId
+    """)
+    Member getMemberByMemberId(Long memberId);
+
+    @Query(value = """
         SELECT g 
         FROM Group g 
         JOIN g.members m

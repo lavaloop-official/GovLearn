@@ -21,6 +21,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Modifying
     @Query(value = """
+        DELETE FROM member_courses m 
+        WHERE m.courses_id = :courseID 
+        AND m.member_id = :memberID
+    """, nativeQuery = true)
+    void deleteCourseForMember(long courseID, long memberID);
+
+    @Modifying
+    @Query(value = """
         DELETE FROM group_table_members g
         WHERE g.members_id = :memberID ;
         DELETE FROM member m

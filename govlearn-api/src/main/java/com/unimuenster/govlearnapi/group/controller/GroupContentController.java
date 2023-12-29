@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.group.controller;
 
+import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.group.controller.wsto.*;
 import com.unimuenster.govlearnapi.group.entity.Group;
@@ -10,6 +11,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,6 +85,37 @@ public class GroupContentController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get content for all users of a group."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{groupId}/all")
+    public ResponseEntity getContentOfAllUsers(
+            @PathVariable Long groupId
+    ) {
+
+        List<GroupContentWsTo> groupContentWsTo = groupService.getContentOfAllUsers(groupId);
+
+        return ResponseEntity.ok(Response.of(groupContentWsTo));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get content based on user as admin."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{groupId}/{memberId}")
+    public ResponseEntity getContentOfUser(
+            @PathVariable Long groupId,
+            @PathVariable Long memberId
+    ) {
+
+        GroupContentWsTo groupContentWsTo = groupService.getContentOfUser(groupId, memberId);
+
+        return ResponseEntity.ok(Response.of(groupContentWsTo));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
             description = "Get content based on user."
     )
     @PreAuthorize("hasAuthority('user')")
@@ -115,5 +150,21 @@ public class GroupContentController {
         int deleteCount = groupService.deleteContentForGroup(deleteContentForGroupWsTo);
 
         return ResponseEntity.ok(Response.of((deleteCount), true));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Delete course for a member."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/{groupId}/{courseId}/{memberId}")
+    public ResponseEntity deleteContentForUser(
+        @PathVariable long groupId,
+        @PathVariable long courseId,
+        @PathVariable long memberId
+    ) {
+        groupService.deleteContentForUser(courseId, memberId, groupId);
+
+        return ResponseEntity.ok(Response.of(Message.SUCCESS));
     }
 }
