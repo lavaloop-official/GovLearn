@@ -77,7 +77,7 @@ public class CustomUserCrudService {
     }
     
     @Transactional
-    public UserWsTo updateUser(Long userID, RegisterWsTo userWsTo){
+    public TokenDTO updateUser(Long userID, RegisterWsTo userWsTo){
 
         boolean userExists = authenticationService.doesUserExist(userWsTo.email());
         //checkt ob email bereits vergeben ist.
@@ -110,9 +110,10 @@ public class CustomUserCrudService {
         UserEntity save = userRepository.save(userEntity);
 
         UserWsTo UserFeedback = new UserWsTo(save.getEmail(), save.getName());
-        UserDTO UserDTO = new UserDTO(UserFeedback.email(), encode, UserFeedback.name());
-        authenticationService.authenticate(UserDTO);
+        UserDTO UserDTO = new UserDTO(UserFeedback.email(), userWsTo.password(), UserFeedback.name());
 
-        return UserFeedback;
+        TokenDTO authenticate = authenticationService.authenticate(UserDTO);
+
+        return authenticate;
     }
 }
