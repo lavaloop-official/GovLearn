@@ -675,7 +675,7 @@ public class RealInitializerService {
         tagRepository.save(tagProjektmanagement);
 
         tagProjektplanung = new Tag();
-        tagProjektplanung.setName("Projekt Planung");
+        tagProjektplanung.setName("Projektplanung");
         tagProjektplanung.setCategory(businessCategory);
         tagRepository.save(tagProjektplanung);
 
@@ -700,13 +700,13 @@ public class RealInitializerService {
         tagRepository.save(tagQulitaetsmanagement);
 
         tagRisikomanagement = new Tag();
-        tagRisikomanagement.setName("Risikomanagemnet");
+        tagRisikomanagement.setName("Risikomanagement");
         tagRisikomanagement.setCategory(businessCategory);
         tagRepository.save(tagRisikomanagement);
 
 // Organisatorisch Category
         tagVermittlungskompetenzen = new Tag();
-        tagVermittlungskompetenzen.setName("Vermittlungskompetenzen");
+        tagVermittlungskompetenzen.setName("Verwaltungsstruktur");
         tagVermittlungskompetenzen.setCategory(organisatorischCategory);
         tagRepository.save(tagVermittlungskompetenzen);
 
@@ -739,7 +739,7 @@ public class RealInitializerService {
         tagEGovermentRecht = new Tag();
         tagEGovermentRecht.setName("eGovernment-Recht");
         tagEGovermentRecht.setCategory(RechtlichCategory);
-        tagRepository.save(tagEGovermentRecht);;
+        tagRepository.save(tagEGovermentRecht);
 
 // Softskills Category
         tagSelbstorganisation = new Tag();
@@ -748,12 +748,12 @@ public class RealInitializerService {
         tagRepository.save(tagSelbstorganisation);
 
         tagTeamfaehigkeiten = new Tag();
-        tagTeamfaehigkeiten.setName("Teamfähigkeiten");
+        tagTeamfaehigkeiten.setName("Teamfähigkeit");
         tagTeamfaehigkeiten.setCategory(softSkillsCategory);
         tagRepository.save(tagTeamfaehigkeiten);
 
         tagFuehrungskompentenzen = new Tag();
-        tagFuehrungskompentenzen.setName("Führungskompetenzen");
+        tagFuehrungskompentenzen.setName("Führungskompetenz");
         tagFuehrungskompentenzen.setCategory(softSkillsCategory);
         tagRepository.save(tagFuehrungskompentenzen);
 
@@ -793,12 +793,12 @@ public class RealInitializerService {
         tagRepository.save(tagPraesentationstechnicken);
 
         tagLernkompetenzen = new Tag();
-        tagLernkompetenzen.setName("Lernkompetenzen");
+        tagLernkompetenzen.setName("Lernkompetenz");
         tagLernkompetenzen.setCategory(softSkillsCategory);
         tagRepository.save(tagLernkompetenzen);
 
         tagVermittlungskompetenzen = new Tag();
-        tagVermittlungskompetenzen.setName("Vermittlungskompetenzen");
+        tagVermittlungskompetenzen.setName("Vermittlungskompetenz");
         tagVermittlungskompetenzen.setCategory(softSkillsCategory);
         tagRepository.save(tagVermittlungskompetenzen);
 
@@ -821,7 +821,7 @@ public class RealInitializerService {
 
 // Technisch Category
         tagProgrammieren = new Tag();
-        tagProgrammieren.setName("Programmieren");
+        tagProgrammieren.setName("Programmierung");
         tagProgrammieren.setCategory(technischCategory);
         tagRepository.save(tagProgrammieren);
 
@@ -866,7 +866,7 @@ public class RealInitializerService {
         tagRepository.save(tagGrafikdesignBilbearbeitung);
 
         tagKollaborationstools = new Tag();
-        tagKollaborationstools.setName("Kollaboration-Tools");
+        tagKollaborationstools.setName("Kollaborations-Tools");
         tagKollaborationstools.setCategory(technischCategory);
         tagRepository.save(tagKollaborationstools);
 
