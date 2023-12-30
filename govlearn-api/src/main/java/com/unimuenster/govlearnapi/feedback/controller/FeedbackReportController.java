@@ -45,7 +45,7 @@ public class FeedbackReportController {
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/report/feedback/{feedbackId}")
-    public ResponseEntity<Response> createFeedback(
+    public ResponseEntity<Response> createFeedbackReport(
         @PathVariable long feedbackId,
         @RequestBody FeedbackReportCreationWsTo feedbackReportCreationWsTo
     ){
