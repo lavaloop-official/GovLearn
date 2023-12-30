@@ -44,7 +44,7 @@ public class FeedbackReportController {
             description = "Create a report"
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/report/feedback/{feedbackId}")
+    @PostMapping("/reports/feedback/{feedbackId}")
     public ResponseEntity<Response> createFeedbackReport(
         @PathVariable long feedbackId,
         @RequestBody FeedbackReportCreationWsTo feedbackReportCreationWsTo
@@ -63,7 +63,7 @@ public class FeedbackReportController {
             description = "Find a report by id"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/report/{feedbackReportId}")
+    @GetMapping("/reports/{feedbackReportId}")
     public ResponseEntity<Response> getFeedbackReport(
         @PathVariable long feedbackReportId
     ){
@@ -77,7 +77,7 @@ public class FeedbackReportController {
         description = "Return all reports"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/report")
+    @GetMapping("/reports")
     public ResponseEntity<Response> getAllFeedbackReports(){
         List<FeedbackReportWsTo> feedbackReportWsTo = feedbackReportService.getAllFeedbackReports();
 
