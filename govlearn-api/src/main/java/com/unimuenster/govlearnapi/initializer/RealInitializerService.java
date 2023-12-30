@@ -45,8 +45,8 @@ public class RealInitializerService {
     private UserEntity user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11;
     private Course course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12, course13, course14, course15, course16, course17, course18, course19, course20, course21, course22, course23, course24, course25, course26;
     private Category businessCategory, organisatorischCategory, RechtlichCategory, softSkillsCategory, sozioTechnischCategory, technischCategory, oeffenlichPolitischCategory;
-    private Tag tagChangemanagement, tagProjektmanagement, tagProjektplanung, tagProjekterfolgskontrolle, tagResourcenmanagement, tagMarketing, tagQulitaetsmanagement, tagRisikomanagement, tagVerwaltungsstrucktur, tagProzessmanagement, tagOrganisationsformen, tagVerwaltungsprozesse, tagVerwaltungsrecht, tagItRecht, tagEGovermentRecht, tagSelbstorganisation, tagTeamfaehigkeiten, tagFuehrungskompentenzen, tagDesignThinking, tagStressbewaeltigung, tagKonfliktmanagement, tagMedienkompetenz, tagKommunikation, tagVirtuellesArbeiten, tagPraesentationstechnicken, tagLernkompetenzen, tagVermittlungskompetenzen, tagKundenbeduerfnisseAnforderungsmanagement, tagStakeholderAnalyse, tagDigitaleTrends, tagProgrammieren, tagSoftwarearchitektur, tagEntwicklungvonSicherheitskonzepten, tagBetirebssymsteme, tagErpSysteme, tagDataMining, tagDatenbankmanagement, tagKI, tagGrafikdesignBilbearbeitung, tagKollaborationstools, tagOutlook, tagWord, tagExcel, tagItSicherheit, tagHardwarekompetenz, tagBuergerzentrierung, tagDatenschutz, tagCompliance, tagFremdsprache, tagInformationsicherheit;
-    private UserTag userTag1, userTag2, userTag3;
+    private Tag tagChangemanagement, tagProjektmanagement, tagProjektplanung, tagProjekterfolgskontrolle, tagResourcenmanagement, tagMarketing, tagQulitaetsmanagement, tagRisikomanagement, tagVerwaltungsstruktur, tagProzessmanagement, tagOrganisationsformen, tagVerwaltungsprozesse, tagVerwaltungsrecht, tagItRecht, tageGovernmentRecht, tagSelbstorganisation, tagTeamFaehigkeit, tagFuehrungskompentenzen, tagDesignThinking, tagStressbewaeltigung, tagKonfliktmanagement, tagMedienkompetenz, tagKommunikation, tagVirtuellesArbeiten, tagPraesentationstechnicken, tagLernkompetenzen, tagKundenbeduerfnisseAnforderungsmanagement, tagStakeholderAnalyse, tagDigitaleTrends, tagProgrammieren, tagSoftwarearchitektur, tagEntwicklungvonSicherheitskonzepten, tagBetirebssymsteme, tagErpSysteme, tagDataMining, tagDatenbankmanagement, tagKI, tagGrafikdesignBilbearbeitung, tagKollaborationstools, tagOutlook, tagWord, tagExcel, tagItSicherheit, tagHardwarekompetenz, tagBuergerzentrierung, tagDatenschutz, tagCompliance, tagFremdsprache, tagInformationsicherheit;
+    private UserTag userTag1, userTag2, userTag3, userTag4;
 
     public void init() {
         insertUser();
@@ -705,10 +705,10 @@ public class RealInitializerService {
         tagRepository.save(tagRisikomanagement);
 
 // Organisatorisch Category
-        tagVermittlungskompetenzen = new Tag();
-        tagVermittlungskompetenzen.setName("Verwaltungsstruktur");
-        tagVermittlungskompetenzen.setCategory(organisatorischCategory);
-        tagRepository.save(tagVermittlungskompetenzen);
+        tagVerwaltungsstruktur = new Tag();
+        tagVerwaltungsstruktur.setName("Verwaltungsstruktur");
+        tagVerwaltungsstruktur.setCategory(organisatorischCategory);
+        tagRepository.save(tagVerwaltungsstruktur);
 
         tagProzessmanagement = new Tag();
         tagProzessmanagement.setName("Prozessmanagement");
@@ -736,10 +736,10 @@ public class RealInitializerService {
         tagItRecht.setCategory(RechtlichCategory);
         tagRepository.save(tagItRecht);
 
-        tagEGovermentRecht = new Tag();
-        tagEGovermentRecht.setName("eGovernment-Recht");
-        tagEGovermentRecht.setCategory(RechtlichCategory);
-        tagRepository.save(tagEGovermentRecht);
+        tageGovernmentRecht = new Tag();
+        tageGovernmentRecht.setName("eGovernment-Recht");
+        tageGovernmentRecht.setCategory(RechtlichCategory);
+        tagRepository.save(tageGovernmentRecht);
 
 // Softskills Category
         tagSelbstorganisation = new Tag();
@@ -747,10 +747,10 @@ public class RealInitializerService {
         tagSelbstorganisation.setCategory(softSkillsCategory);
         tagRepository.save(tagSelbstorganisation);
 
-        tagTeamfaehigkeiten = new Tag();
-        tagTeamfaehigkeiten.setName("Teamfähigkeit");
-        tagTeamfaehigkeiten.setCategory(softSkillsCategory);
-        tagRepository.save(tagTeamfaehigkeiten);
+        tagTeamFaehigkeit = new Tag();
+        tagTeamFaehigkeit.setName("Teamfähigkeit");
+        tagTeamFaehigkeit.setCategory(softSkillsCategory);
+        tagRepository.save(tagTeamFaehigkeit);
 
         tagFuehrungskompentenzen = new Tag();
         tagFuehrungskompentenzen.setName("Führungskompetenz");
@@ -797,10 +797,10 @@ public class RealInitializerService {
         tagLernkompetenzen.setCategory(softSkillsCategory);
         tagRepository.save(tagLernkompetenzen);
 
-        tagVermittlungskompetenzen = new Tag();
-        tagVermittlungskompetenzen.setName("Vermittlungskompetenz");
-        tagVermittlungskompetenzen.setCategory(softSkillsCategory);
-        tagRepository.save(tagVermittlungskompetenzen);
+        tagVerwaltungsstruktur = new Tag();
+        tagVerwaltungsstruktur.setName("Vermittlungskompetenz");
+        tagVerwaltungsstruktur.setCategory(softSkillsCategory);
+        tagRepository.save(tagVerwaltungsstruktur);
 
 
 // Sozio-technisch Category
@@ -927,7 +927,7 @@ public class RealInitializerService {
         userTag1 = new UserTag();
         userTag1.setUser(user11);
         userTag1.setRating(1);
-        userTag1.setTag(tagChangemanagement);
+        userTag1.setTag(tagDesignThinking);
 
         userTagRepository.save(userTag1);
 
@@ -944,6 +944,13 @@ public class RealInitializerService {
         userTag3.setTag(tagProjektplanung);
 
         userTagRepository.save(userTag3);
+
+        userTag4 = new UserTag();
+        userTag4.setUser(user11);
+        userTag4.setRating(1);
+        userTag4.setTag(tagTeamFaehigkeit);
+
+        userTagRepository.save(userTag4);
 
     }
 
@@ -971,10 +978,10 @@ public class RealInitializerService {
         courseTagProjectManagement2.setTag(tagProjektmanagement);
         courseTagRepository.save(courseTagProjectManagement2);
 
-        CourseTag courseTagFuehruntskompetenz2 = new CourseTag();
-        courseTagFuehruntskompetenz2.setCourse(course2);
-        courseTagFuehruntskompetenz2.setTag(tagFuehrungskompentenzen);
-        courseTagRepository.save(courseTagFuehruntskompetenz2);
+        CourseTag courseTagFuehrungskompetenz2 = new CourseTag();
+        courseTagFuehrungskompetenz2.setCourse(course2);
+        courseTagFuehrungskompetenz2.setTag(tagFuehrungskompentenzen);
+        courseTagRepository.save(courseTagFuehrungskompetenz2);
 
 // Associate tags with Course 3
         CourseTag courseTagItSicherheit3 = new CourseTag();
@@ -1032,10 +1039,10 @@ public class RealInitializerService {
         courseTagKonfliktmanagement7.setTag(tagKonfliktmanagement);
         courseTagRepository.save(courseTagKonfliktmanagement7);
 
-        CourseTag courseTagVermittlungskompetenzen7 = new CourseTag();
-        courseTagVermittlungskompetenzen7.setCourse(course7);
-        courseTagVermittlungskompetenzen7.setTag(tagVermittlungskompetenzen);
-        courseTagRepository.save(courseTagVermittlungskompetenzen7);
+        CourseTag coursetagVerwaltungsstruktur7 = new CourseTag();
+        coursetagVerwaltungsstruktur7.setCourse(course7);
+        coursetagVerwaltungsstruktur7.setTag(tagVerwaltungsstruktur);
+        courseTagRepository.save(coursetagVerwaltungsstruktur7);
 
 // Associate tags with Course 8
         CourseTag courseTagKundenbeduerfnisse8 = new CourseTag();
@@ -1073,7 +1080,7 @@ public class RealInitializerService {
 
         CourseTag courseTagVerwaltungsstruktur11 = new CourseTag();
         courseTagVerwaltungsstruktur11.setCourse(course11);
-        courseTagVerwaltungsstruktur11.setTag(tagVerwaltungsstrucktur);
+        courseTagVerwaltungsstruktur11.setTag(tagVerwaltungsstruktur);
         courseTagRepository.save(courseTagVerwaltungsstruktur11);
 
 // Associate tags with Course 12
@@ -1115,16 +1122,16 @@ public class RealInitializerService {
         courseTagfuehrungskompentenze15.setTag(tagFuehrungskompentenzen);
         courseTagRepository.save(courseTagfuehrungskompentenze15);
 
-        CourseTag courseTagVermittlungskompetenzen15 = new CourseTag();
-        courseTagVermittlungskompetenzen15.setCourse(course15);
-        courseTagVermittlungskompetenzen15.setTag(tagVermittlungskompetenzen);
-        courseTagRepository.save(courseTagVermittlungskompetenzen15);
+        CourseTag coursetagVerwaltungsstruktur15 = new CourseTag();
+        coursetagVerwaltungsstruktur15.setCourse(course15);
+        coursetagVerwaltungsstruktur15.setTag(tagVerwaltungsstruktur);
+        courseTagRepository.save(coursetagVerwaltungsstruktur15);
 
 // Associate tags with Course 16
-        CourseTag courseTageGovermentRecht = new CourseTag();
-        courseTageGovermentRecht.setCourse(course16);
-        courseTageGovermentRecht.setTag(tagEGovermentRecht);
-        courseTagRepository.save(courseTageGovermentRecht);
+        CourseTag courseTageGovernmentRecht = new CourseTag();
+        courseTageGovernmentRecht.setCourse(course16);
+        courseTageGovernmentRecht.setTag(tageGovernmentRecht);
+        courseTagRepository.save(courseTageGovernmentRecht);
 
 // Associate tags with Course 17
         CourseTag courseTagProgrammieren17 = new CourseTag();
