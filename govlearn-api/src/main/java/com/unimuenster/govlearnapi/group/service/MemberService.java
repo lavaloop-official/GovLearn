@@ -31,6 +31,21 @@ public class MemberService {
         return memberDetailsWsTo;
     }
 
+    public MemberDetailsWsTo getMemberByUserIDAndGroupID(Long userID, Long groupID) {
+        Member member = memberRepository.findByUserIDAndGroupID(userID, groupID).orElseThrow();
+
+        MemberDetailsWsTo memberDetailsWsTo = MemberDetailsWsTo
+            .builder()
+            .memberId(member.getId())
+            .name(member.getUser().getName())
+            .email(member.getUser().getEmail())
+            .memberSince(member.getMemberSince())
+            .role(member.getRole())
+            .build();
+
+        return memberDetailsWsTo;
+    }
+
     @Transactional
     public void removeMember(Long memberId) {
         memberRepository.removeMemberFromGroup(memberId);

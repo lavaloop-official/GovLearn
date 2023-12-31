@@ -69,6 +69,7 @@ public class GroupService {
         Member member = Member
                 .builder()
                 .user(user)
+                .group(group)
                 .role(role)
                 .build();
 

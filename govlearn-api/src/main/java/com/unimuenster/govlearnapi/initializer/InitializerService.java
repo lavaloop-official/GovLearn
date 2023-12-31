@@ -573,6 +573,7 @@ public class InitializerService {
         Query dropAllTables = entityManager.createNativeQuery("""
             DROP TABLE course_tag CASCADE;
             DROP TABLE course CASCADE;
+            DROP TABLE feedback_report CASCADE;
             DROP TABLE feedback CASCADE;
             DROP TABLE tag CASCADE;
             DROP TABLE invitation CASCADE;

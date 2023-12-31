@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.group.controller.wsto.AddMemberWsTo;
 import com.unimuenster.govlearnapi.group.controller.wsto.MemberDetailsWsTo;
 import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.group.service.MemberService;
 import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
@@ -74,16 +75,6 @@ public class GroupMembersController {
         }
 
         List<MemberDetailsWsTo> members = groupService.getMembers(groupId);
-        // List<UserWsTo> admins = groupService.getAdmins(groupId);
-
-        // admins.stream().forEach(admin -> members.add(MemberDetailsWsTo
-        //         .builder()
-        //         .memberId(null)
-        //         .email(admin.email())
-        //         .name(admin.name())
-        //         .memberSince(null)
-        //         .build()
-        // ));
 
         return ResponseEntity.ok(Response.of(members));
 
@@ -143,6 +134,37 @@ public class GroupMembersController {
         }
 
         memberService.removeMember(memberId);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Allows a member to leave a group."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/members/removes/{groupID}")
+    public ResponseEntity leaveGroup(
+        @PathVariable long groupID
+    ) {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+
+        Group group = groupService.getGroupById(groupID);
+
+        MemberDetailsWsTo memberDetailsWsTo = memberService.getMemberByUserIDAndGroupID(currentUser.getId(), groupID);
+
+        if (group == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        boolean member = groupService.isUserMember(currentUser, groupID);
+
+        if (!member) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        memberService.removeMember(memberDetailsWsTo.getMemberId());
 
         return ResponseEntity.ok(Response.of(true));
     }

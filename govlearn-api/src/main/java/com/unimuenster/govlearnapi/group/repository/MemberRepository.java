@@ -1,6 +1,9 @@
 package com.unimuenster.govlearnapi.group.repository;
 
 import com.unimuenster.govlearnapi.group.entity.Member;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +38,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         WHERE m.id = :memberID ;
     """, nativeQuery = true)
     void removeMemberFromGroup(Long memberID);
+
+    @Query(value = """
+        SELECT m
+        FROM Member m
+        WHERE m.group.id = :groupID
+        AND m.user.id = :userID
+        """)
+    Optional<Member> findByUserIDAndGroupID(Long userID, Long groupID);
 }
