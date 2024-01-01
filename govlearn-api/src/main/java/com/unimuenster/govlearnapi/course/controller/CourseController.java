@@ -47,34 +47,37 @@ public class CourseController {
         return ResponseEntity.ok(Response.of(true));
     }
 
-    //
+
      @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
         description = "Change a course."
     )
     @PreAuthorize("hasAuthority('user')") 
-    //Authorität prüfen
     @PutMapping("/courses")
     public ResponseEntity<Response> changeCourse(
-            @RequestBody CourseWsTo courseWsTo
+            @RequestBody CourseCreationWsTo courseCreationWsTo, Long CourseId
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
+
+
+
+        
         CourseDTO CourseDTO = new CourseDTO(
-            courseWsTo.getId(),
-            courseWsTo.getName(), 
-            courseWsTo.getImage(), 
-            courseWsTo.getDescription(), 
-            courseWsTo.getCreatedAt(), 
-            courseWsTo.getProvider(), 
-            courseWsTo.getInstructor(), 
-            courseWsTo.getCertificate(), 
-            courseWsTo.getSkilllevel(), 
-            courseWsTo.getDurationInHours(), 
-            courseWsTo.getFormat(), 
-            courseWsTo.getStartDate(), 
-            courseWsTo.getCostFree(), 
-            courseWsTo.getDomainSpecific(),
-            courseWsTo.getLink()
+            CourseId,
+            courseCreationWsTo.name(), 
+            courseCreationWsTo.image(), 
+            courseCreationWsTo.description(), 
+            courseCreationWsTo.createdAt(), 
+            courseCreationWsTo.provider(), 
+            courseCreationWsTo.instructor(), 
+            courseCreationWsTo.certificate(), 
+            courseCreationWsTo.skilllevel(), 
+            courseCreationWsTo.durationInHours(), 
+            courseCreationWsTo.format(), 
+            courseCreationWsTo.startDate(), 
+            courseCreationWsTo.costFree(), 
+            courseCreationWsTo.domainSpecific(),
+            courseCreationWsTo.link()
             );
             
 
