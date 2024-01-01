@@ -2,18 +2,12 @@ package com.unimuenster.govlearnapi.feedback.service;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 
-import org.hibernate.LockMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
-import com.unimuenster.govlearnapi.course.service.CourseService;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
-import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackUpdateWsTo;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
@@ -28,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.swing.text.html.Option;
 
 @Service
 @RequiredArgsConstructor
@@ -36,31 +29,29 @@ public class FeedbackService {
     
     private final FeedbackRepository feedbackRepository;
     private final ServiceFeedbackMapper serviceFeedbackMapper;
-    private final CourseService courseService;
     private final EntityManager entityManager;
 
     @Transactional
     public void createFeedback(FeedbackCreationDTO feedbackCreationDTO, UserEntity currentUser)
     {
         try {
-                    Feedback feedback = new Feedback();
-                    feedback.setRating(feedbackCreationDTO.rating());
-                    feedback.setDescription(feedbackCreationDTO.description());
-                    feedback.setTitle(feedbackCreationDTO.title());
-                    feedback.setUser(currentUser);
-                    
-                    Course course = entityManager.find(Course.class, feedbackCreationDTO.courseID());
-                    
-                    feedback.setCourse(course); // Set the Course in the Feedback entity
-                    
-                    feedbackRepository.save(feedback); // Persist the Feedback entity
-                    
-                    course.addFeedback(feedback);
-                    
-                    entityManager.merge(course); // Use merge instead of persist for a detached entity
-            // entityManager.persist(feedback);
+            Feedback feedback = new Feedback();
+            feedback.setRating(feedbackCreationDTO.rating());
+            feedback.setDescription(feedbackCreationDTO.description());
+            feedback.setTitle(feedbackCreationDTO.title());
+            feedback.setUser(currentUser);
+
+            Course course = entityManager.find(Course.class, feedbackCreationDTO.courseID());
+
+            feedback.setCourse(course); // Set the Course in the Feedback entity
+
+            feedbackRepository.save(feedback); // Persist the Feedback entity
+
+            course.addFeedback(feedback);
+
+            entityManager.merge(course); // Use merge instead of persist for a detached entity
+
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

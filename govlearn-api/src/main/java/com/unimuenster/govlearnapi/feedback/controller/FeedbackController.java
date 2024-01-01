@@ -53,7 +53,7 @@ public class FeedbackController {
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/feedback")
-    public ResponseEntity<Response> createCourse(
+    public ResponseEntity<Response> createFeedback(
             @RequestBody FeedbackCreationWsTo feedbackCreationWsTo
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
