@@ -97,5 +97,18 @@ public class UserController {
         // Da Email im Token gespeichert wird, muss der token neu generiert werden
         return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
     };
+
+    @Operation(
+        security= {@SecurityRequirement(name="Authorization")},
+        description= "Update User Password"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping("/users/password")
+    public ResponseEntity<Response> updateUserPassword(@RequestBody RegisterWsTo user){
+        
+        TokenDTO tokenDTO = customUserCrudService.updateUserPassword(authenticationService.getCurrentUser().getId(), user);
+
+        return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
+    };
     
 }

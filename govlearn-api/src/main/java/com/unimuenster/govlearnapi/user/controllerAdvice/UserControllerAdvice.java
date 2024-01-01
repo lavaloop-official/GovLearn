@@ -2,6 +2,8 @@ package com.unimuenster.govlearnapi.user.controllerAdvice;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.user.exception.SamePasswordException;
+import com.unimuenster.govlearnapi.user.exception.NothingChangedException;
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +32,17 @@ public class UserControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Response> handleResourceNotFoundException(BadCredentialsException e) {
         return new ResponseEntity<Response>(Response.of(new Message("Password wrong")), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NothingChangedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Response> handleResourceNothingChangedException(NothingChangedException e) {
+        return new ResponseEntity<Response>(Response.of("Keine Änderung gefunden!", false), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SamePasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Response> handleResourceSamePasswordException(SamePasswordException e) {
+        return new ResponseEntity<Response>(Response.of("Gleiches Passwort!", false), HttpStatus.BAD_REQUEST);
     }
 }
