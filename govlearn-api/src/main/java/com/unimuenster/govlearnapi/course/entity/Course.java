@@ -26,7 +26,9 @@ public class Course {
 
     @Column(nullable = false)
     protected String name;
+    @Column(length = 1024)
     protected String image;
+    @Column(length = 1024)
     protected String link;
     @Column(nullable = false)
     protected String description;
