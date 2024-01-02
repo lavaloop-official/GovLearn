@@ -71,7 +71,7 @@ public class InitializerService {
         insertUser();
         insertCategories();
         insertCourse();
-        insertMassiveCourseList();
+        //insertMassiveCourseList();
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
