@@ -15,13 +15,12 @@ import com.unimuenster.govlearnapi.core.config.enums.Format;
 public class CourseFilterWsTo {
     List<Long> tagIDs;
     List<String> Anbieter;
-    List<String> Wissensbezug;
     Boolean Verwaltungsspezifisch;
     Boolean Zertifikat;
     List<Skilllevel> Kompetenzstufe;
-    List<String> Dauer;
+    Integer DauerInMinLaengerAls;
+    Integer DauerInMinKuerzerAls;
     List<Format> Format;
     Date Startdatum;
     Boolean Kostenlos;
-    List<String> Sonstiges;
 }

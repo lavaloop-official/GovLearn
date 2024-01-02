@@ -38,6 +38,7 @@ public class Course {
     protected Skilllevel skilllevel;
     protected int durationInMinutes;
     protected Format format;
+    @Temporal(TemporalType.DATE)
     protected Date startDate;
     protected Boolean costFree;
     protected Boolean domainSpecific;

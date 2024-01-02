@@ -14,10 +14,7 @@ import com.unimuenster.govlearnapi.tags.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,14 +58,33 @@ public class CourseFilteringService {
             Formate.add(format.getLongValue());
         }
 
-        List<Boolean> Kostenlos = new ArrayList<Boolean>();
-        Kostenlos.add(false);
-        if (courseFilterWsTo.getKostenlos() == false)
-        {
-            Kostenlos.add(true);
+        if (courseFilterWsTo.getStartdatum() == null) {
+            courseFilterWsTo.setStartdatum(getEarliestDate());
         }
 
-        List<Course> allCourses = courseRepository.findCoursesByAttributesAndTags(limit, offset, search,courseFilterWsTo.getAnbieter(), Formate, Kompetenzstufen, Kostenlos, courseFilterWsTo.getTagIDs());
-        return allCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
+        List<Course> results = courseRepository
+                .findCoursesByAttributesAndTags(
+                        limit,
+                        offset,
+                        search,
+                        courseFilterWsTo.getAnbieter(),
+                        Formate,
+                        Kompetenzstufen,
+                        courseFilterWsTo.getTagIDs(),
+                        courseFilterWsTo.getKostenlos(),
+                        courseFilterWsTo.getVerwaltungsspezifisch(),
+                        courseFilterWsTo.getZertifikat(),
+                        // Startdatum bedeutet, der Kurs ist bereits gestartet
+                        courseFilterWsTo.getStartdatum(),
+                        courseFilterWsTo.getDauerInMinLaengerAls(),
+                        courseFilterWsTo.getDauerInMinKuerzerAls()
+                );
+
+        return results.stream().map( course -> serviceCourseMapper.map(course) ).collect(Collectors.toList());
+    }
+
+    private static Date getEarliestDate(){
+        // January 1, 1970
+        return new Date(0);
     }
 }

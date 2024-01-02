@@ -38,19 +38,18 @@ class CourseFilteringControllerTest extends AbstractIntegrationTest {
         setCurrentUser();
 
         CourseFilterWsTo courseFilterWsTo = CourseFilterWsTo
-            .builder()
-            .tagIDs(new ArrayList<Long>())
-            .Anbieter(new ArrayList<String>())
-            .Wissensbezug(new ArrayList<String>())
-            .Verwaltungsspezifisch(false)
-            .Zertifikat(false)
-            .Kompetenzstufe(new ArrayList<Skilllevel>())
-            .Dauer(new ArrayList<String>())
-            .Format(new ArrayList<Format>())
-            .Startdatum(new Date())
-            .Kostenlos(false)
-            .Sonstiges(new ArrayList<String>())
-            .build();
+                .builder()
+                .tagIDs(new ArrayList<Long>())
+                .Anbieter(new ArrayList<String>())
+                .Verwaltungsspezifisch(false)
+                .Zertifikat(false)
+                .Kompetenzstufe(new ArrayList<Skilllevel>())
+                .DauerInMinLaengerAls(105)
+                .DauerInMinKuerzerAls(150)
+                .Format(new ArrayList<Format>())
+                .Startdatum(null)
+                .Kostenlos(false)
+                .build();
 
         ResponseEntity<Response> responseResponseEntity = courseFilteringController.filterCourses(10, 0, Optional.empty(), courseFilterWsTo);
 
