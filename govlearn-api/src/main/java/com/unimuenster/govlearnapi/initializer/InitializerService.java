@@ -164,7 +164,7 @@ public class InitializerService {
         course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
         course1.setProvider("Digitale Bildungsinstitute GmbH");
         course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
-        course1.setDuration("2 Stunden");
+        course1.setDurationInMinutes(120);
         course1.setSkilllevel(Skilllevel.Anfaenger);
         course1.setFormat(Format.Hybrid);
         course1.setCostFree(false);
@@ -179,7 +179,7 @@ public class InitializerService {
         course2.setDescription("Ein Schulungsprogramm zur sicheren Handhabung von Daten und Einhaltung von Datenschutzbestimmungen.");
         course2.setProvider("DataSkills Academy");
         course2.setImage("https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/09/4-3.jpg");
-        course2.setDuration("2 Stunden");
+        course2.setDurationInMinutes(120);
         course2.setSkilllevel(Skilllevel.Fortgeschritten);
         course2.setFormat(Format.Hybrid);
         course2.setCostFree(true);
@@ -194,7 +194,7 @@ public class InitializerService {
         course3.setStartDate(new Date());
         course3.setLink("");
         course3.setImage("https://media.istockphoto.com/id/498323251/de/foto/colleagues-discussing-over-digital-tablet.jpg?s=612x612&w=0&k=20&c=L9wHTzShsicC42CDSUilPZ4N8YduB2V6Zr_ffp9mxaU=");
-        course3.setDuration("2 Stunden");
+        course3.setDurationInMinutes(120);
         course3.setSkilllevel(Skilllevel.Fortgeschritten);
         course3.setFormat(Format.Hybrid);
         course3.setCostFree(false);
@@ -209,7 +209,7 @@ public class InitializerService {
         course4.setStartDate(new Date());
         course4.setLink("");
         course4.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course4.setDuration("2 Stunden");
+        course4.setDurationInMinutes(120);
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.Hybrid);
         course4.setCostFree(false);
@@ -224,7 +224,7 @@ public class InitializerService {
         course5.setStartDate(new Date());
         course5.setLink("");
         course5.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course5.setDuration("2 Stunden");
+        course5.setDurationInMinutes(120);
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
         course5.setCostFree(true);
@@ -239,7 +239,7 @@ public class InitializerService {
         course6.setStartDate(new Date());
         course6.setLink("");
         course6.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course6.setDuration("2 Stunden");
+        course6.setDurationInMinutes(120);
         course6.setSkilllevel(Skilllevel.Fortgeschritten);
         course6.setFormat(Format.Hybrid);
         course6.setCostFree(false);
@@ -254,7 +254,7 @@ public class InitializerService {
         course7.setStartDate(new Date());
         course7.setLink("");
         course7.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course7.setDuration("2 Stunden");
+        course7.setDurationInMinutes(120);
         course7.setSkilllevel(Skilllevel.Fortgeschritten);
         course7.setFormat(Format.Hybrid);
         course7.setCostFree(true);
@@ -269,7 +269,7 @@ public class InitializerService {
         course8.setStartDate(new Date());
         course8.setLink("");
         course8.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course8.setDuration("2 Stunden");
+        course8.setDurationInMinutes(120);
         course8.setSkilllevel(Skilllevel.Fortgeschritten);
         course8.setFormat(Format.Hybrid);
         course8.setCostFree(false);

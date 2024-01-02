@@ -212,7 +212,7 @@ public class RealInitializerService {
         course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
         course1.setProvider("Digitale Bildungsinstitute GmbH");
         course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
-        course1.setDuration("2 Stunden");
+        course1.setDurationInMinutes(120);
         course1.setSkilllevel(Skilllevel.Anfaenger);
         course1.setFormat(Format.Hybrid);
         course1.setDomainSpecific(true);
@@ -230,7 +230,7 @@ public class RealInitializerService {
         course2.setDescription("Grundlegende Einführung in die Prinzipien und Methoden des Projektmanagements.");
         course2.setProvider("Projektakademie GmbH");
         course2.setImage("https://static.vecteezy.com/ti/gratis-vektor/p1/13166712-projektmanagement-wortkonzepte-blaue-fahne-strategie-infografiken-mit-bearbeitbaren-symbolen-auf-farbigem-hintergrund-isolierte-typografieillustration-mit-text-vektor.jpg");
-        course2.setDuration("3 Stunden");
+        course2.setDurationInMinutes(180);
         course2.setSkilllevel(Skilllevel.Anfaenger);
         course2.setFormat(Format.OnlineSelbstorganisiert);
         course2.setDomainSpecific(false);
@@ -248,7 +248,7 @@ public class RealInitializerService {
         course3.setDescription("Grundlagen der IT-Sicherheit für Anfänger, um sich vor Cyberbedrohungen zu schützen.");
         course3.setProvider("IT Security Academy");
         course3.setImage("https://www.netaachen.de/cms/api/fileadmin/_processed_/2/4/csm_Cyber_Security_AdobeStock_493619792_f222ca18f8.jpg");
-        course3.setDuration("2.5 Stunden");
+        course3.setDurationInMinutes(150);
         course3.setSkilllevel(Skilllevel.Anfaenger);
         course3.setFormat(Format.Hybrid);
         course3.setDomainSpecific(false);
@@ -266,7 +266,7 @@ public class RealInitializerService {
         course4.setDescription("Strategien zur effektiven Gestaltung von Organisationen und administrativen Prozessen.");
         course4.setProvider("Organisationsberatung & Co.");
         course4.setImage("https://leanbase.de/autoimg/uploads/w3200/k4nu575r33k8sg6e2z8q29dhxnrubmrspaxn2f77.jpg");
-        course4.setDuration("4 Stunden");
+        course4.setDurationInMinutes(240);
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.OnlineLive);
         course4.setDomainSpecific(true);
@@ -284,7 +284,7 @@ public class RealInitializerService {
         course5.setDescription("Um erfolgreich zu führen, ist es wichtig, menschliche Verhaltensmuster zu verstehen. Denn diese spiegeln sich im unterschiedlichen Agieren und Reagieren Ihrer Mitarbeitenden wider. Sobald Sie diese Muster erkennen, können Sie einfacher damit umgehen.");
         course5.setProvider("Führungsinstitut GmbH");
         course5.setImage("https://w2.forschung-und-lehre.de/fileadmin/user_upload/Rubriken/Management/2021/4-21/Humble_Leadership_mauritius_images_11538516.jpg");
-        course5.setDuration("3 Stunden");
+        course5.setDurationInMinutes(180);
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
         course5.setDomainSpecific(false);
@@ -302,7 +302,7 @@ public class RealInitializerService {
         course6.setDescription("Eine Einführung in die grundlegenden Aspekte des Verwaltungsrechts.");
         course6.setProvider("Juristisches Institut");
         course6.setImage("https://raeluebbert.de/wp-content/uploads/2019/12/verwaltungsrecht.jpg");
-        course6.setDuration("2 Stunden");
+        course6.setDurationInMinutes(120);
         course6.setSkilllevel(Skilllevel.Anfaenger);
         course6.setFormat(Format.Praesenz);
         course6.setDomainSpecific(true);
@@ -320,7 +320,7 @@ public class RealInitializerService {
         course7.setDescription("Techniken für effektive Konfliktlösung und Verhandlungsführung in verschiedenen Kontexten.");
         course7.setProvider("Institut für Konfliktmanagement");
         course7.setImage("https://web.arbeitsagentur.de/dropsolid-prod-media/prod/s3fs-public/styles/webp/public/2022-12/iStock-1277920767_2500px-2048x1448.jpg.webp");
-        course7.setDuration("3.5 Stunden");
+        course7.setDurationInMinutes(150);
         course7.setSkilllevel(Skilllevel.Fortgeschritten);
         course7.setFormat(Format.Hybrid);
         course7.setDomainSpecific(false);
@@ -338,7 +338,7 @@ public class RealInitializerService {
         course8.setDescription("Eine Übersicht über Grundlagen und Entwicklungen in der Sozialpolitik.");
         course8.setProvider("Sozialwissenschaftliches Institut");
         course8.setImage("https://arbeitgeber.de/wp-content/uploads/2022/05/bda-arbeitgeber-agenda-thema_der_woche_zeitenwende_sozialpolitik-@adobestock_snyGGG-552x274px-2022_05_12.jpg");
-        course8.setDuration("2.5 Stunden");
+        course8.setDurationInMinutes(150);
         course8.setSkilllevel(Skilllevel.Anfaenger);
         course8.setFormat(Format.OnlineSelbstorganisiert);
         course8.setDomainSpecific(false);
@@ -357,7 +357,7 @@ public class RealInitializerService {
         course9.setDescription("Methoden und Ansätze für kreatives Denken und Problemlösung.");
         course9.setProvider("Institut für Kreativität und Innovation");
         course9.setImage("https://media.licdn.com/dms/image/D5612AQF6u-JnD4hQDw/article-cover_image-shrink_720_1280/0/1684945759396?e=2147483647&v=beta&t=pCHczuaGsT7b8Z0i7sxBOfHVw3sQ9qIe-xD5rjiahts");
-        course9.setDuration("4 Stunden");
+        course9.setDurationInMinutes(240);
         course9.setSkilllevel(Skilllevel.Fortgeschritten);
         course9.setFormat(Format.Hybrid);
         course9.setDomainSpecific(true);
@@ -375,7 +375,7 @@ public class RealInitializerService {
         course10.setDescription("Strategien zur Selbstorganisation und Steigerung der persönlichen Effektivität.");
         course10.setProvider("Persönlichkeitsentwicklungsakademie");
         course10.setImage("https://www.regiomanager.de/wp-content/uploads/1995/08/regio-1908-s-selbstmanagement-2nd-part-2-adobestock-234602455.jpg");
-        course10.setDuration("3 Stunden");
+        course10.setDurationInMinutes(180);
         course10.setSkilllevel(Skilllevel.Fortgeschritten);
         course10.setFormat(Format.OnlineLive);
         course10.setDomainSpecific(true);
@@ -393,7 +393,7 @@ public class RealInitializerService {
         course11.setDescription("Grundlagen des Finanzmanagements für Fachkräfte ohne Finanzhintergrund.");
         course11.setProvider("Finanzakademie GmbH");
         course11.setImage("https://images.ctfassets.net/8dreszsahte7/OWZH7RItGd67u8K0cMwOL/b2f9308236e087f4973dc95af159f0ed/image_60.jpg");
-        course11.setDuration("2.5 Stunden");
+        course11.setDurationInMinutes(150);
         course11.setSkilllevel(Skilllevel.Anfaenger);
         course11.setFormat(Format.Hybrid);
         course11.setDomainSpecific(false);
@@ -411,7 +411,7 @@ public class RealInitializerService {
         course12.setDescription("Eine Einführung in die Grundlagen und Anwendungen von Enterprise Architecture.");
         course12.setProvider("IT-Architektur Institut");
         course12.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course12.setDuration("3 Stunden");
+        course12.setDurationInMinutes(180);
         course12.setSkilllevel(Skilllevel.Fortgeschritten);
         course12.setFormat(Format.OnlineLive);
         course12.setDomainSpecific(false);
@@ -429,7 +429,7 @@ public class RealInitializerService {
         course13.setDescription("Analyse und Gestaltung von politischen Prozessen und Entscheidungsfindung.");
         course13.setProvider("Institut für Politikwissenschaft");
         course13.setImage("https://www.kopernikus-projekte.de/lw_resource/datapool/systemfiles/agent/lw_articlesystem/245/live/image2_cropped/AdobeStock_434744303_%C2%A9VectorMine_-_stock.adobe.com.jpeg");
-        course13.setDuration("4 Stunden");
+        course13.setDurationInMinutes(240);
         course13.setSkilllevel(Skilllevel.Fortgeschritten);
         course13.setFormat(Format.Hybrid);
         course13.setDomainSpecific(false);
@@ -447,7 +447,7 @@ public class RealInitializerService {
         course14.setDescription("Grundlagen der Evaluation und Forschungsmethoden in verschiedenen Kontexten.");
         course14.setProvider("Forschungsinstitut für Sozialwissenschaften");
         course14.setImage("https://www.fbzhl.fau.de/files/2017/12/evaluation.jpg");
-        course14.setDuration("3 Stunden");
+        course14.setDurationInMinutes(180);
         course14.setSkilllevel(Skilllevel.Anfaenger);
         course14.setFormat(Format.OnlineSelbstorganisiert);
         course14.setDomainSpecific(false);
@@ -464,7 +464,7 @@ public class RealInitializerService {
         course15.setDescription("Strategien und Praktiken für erfolgreiche Führungskräfte zur effektiven Einflussnahme.");
         course15.setProvider("Führungsinstitut GmbH");
         course15.setImage("https://www.chieflearningofficer.com/wp-content/uploads/2023/05/AdobeStock_509757335.jpeg");
-        course15.setDuration("4 Stunden");
+        course15.setDurationInMinutes(240);
         course15.setSkilllevel(Skilllevel.Fortgeschritten);
         course15.setFormat(Format.Hybrid);
         course15.setDomainSpecific(false);

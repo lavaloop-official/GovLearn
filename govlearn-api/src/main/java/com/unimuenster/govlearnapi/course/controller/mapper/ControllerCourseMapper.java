@@ -22,7 +22,7 @@ public class ControllerCourseMapper {
                 courseCreationWsTo.instructor(),
                 courseCreationWsTo.certificate(),
                 courseCreationWsTo.skilllevel(),
-                courseCreationWsTo.durationInHours(),
+                courseCreationWsTo.durationInMinutes(),
                 courseCreationWsTo.format(),
                 courseCreationWsTo.startDate(),
                 courseCreationWsTo.costFree(),
@@ -43,7 +43,7 @@ public class ControllerCourseMapper {
                 .instructor(courseDTO.instructor())
                 .certificate(courseDTO.certificate())
                 .skilllevel(courseDTO.skilllevel())
-                .durationInHours(courseDTO.durationInHours())
+                .durationInMinutes(courseDTO.durationInMinutes())
                 .format(courseDTO.format())
                 .startDate(courseDTO.startDate())
                 .costFree(courseDTO.costFree())
