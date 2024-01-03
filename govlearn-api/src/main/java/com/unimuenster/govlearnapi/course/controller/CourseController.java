@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
@@ -49,6 +50,23 @@ public class CourseController {
 
         return ResponseEntity.ok(Response.of(true));
     }
+
+
+     @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Update a course."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @PutMapping("/courses")
+    public ResponseEntity<Response> updateCourse(
+            @RequestBody CourseUpdateWsTo courseUpdateWsTo
+    ){
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        courseService.changeCourse(courseUpdateWsTo, currentUser);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
+
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
