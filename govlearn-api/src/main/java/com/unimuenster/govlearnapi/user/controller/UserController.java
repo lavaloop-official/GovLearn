@@ -86,11 +86,11 @@ public class UserController {
     
     @Operation(
         security= {@SecurityRequirement(name="Authorization")},
-        description= "Update User"
+        description= "Update the username or usermail"
     )
     @PreAuthorize("hasAuthority('user')")
     @PutMapping("/users")
-    public ResponseEntity<Response> updateUser(@RequestBody RegisterWsTo user){
+    public ResponseEntity<Response> updateNameOrEMail(@RequestBody RegisterWsTo user){
         
         TokenDTO tokenDTO = customUserCrudService.updateUser(authenticationService.getCurrentUser().getId(), user);
 
