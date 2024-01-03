@@ -39,7 +39,7 @@ public class CourseFilteringService {
         }
 
         if (courseFilterWsTo.getAnbieter().isEmpty()) {
-            courseFilterWsTo.setAnbieter(courseService.getAllCourseProviders().stream().map(provider -> provider).toList());
+            courseFilterWsTo.setAnbieter(courseService.getAllCourseProviders().stream().toList());
         }
 
         if (courseFilterWsTo.getKompetenzstufe().isEmpty()) {
@@ -74,7 +74,7 @@ public class CourseFilteringService {
                         courseFilterWsTo.getKostenlos(),
                         courseFilterWsTo.getVerwaltungsspezifisch(),
                         courseFilterWsTo.getZertifikat(),
-                        // Startdatum bedeutet, der Kurs ist bereits gestartet
+                        // Startdatum bedeutet, der Kurs noch nicht gestartet
                         courseFilterWsTo.getStartdatum(),
                         courseFilterWsTo.getDauerInMinLaengerAls(),
                         courseFilterWsTo.getDauerInMinKuerzerAls()

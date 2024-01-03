@@ -48,21 +48,22 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     """)
     List<Course> findCoursesByCategory(int categoryId);
 
+
     @Query(value = """
         SELECT DISTINCT (Course.*)
         FROM Course
         INNER JOIN course_tag ON course.id = course_tag.course_id
-        WHERE course_tag.tag_id IN :tagIDs
-        AND course.provider IN :Providers
-        AND course.skilllevel IN :Kompetenzstufe
-        AND course.format IN :Format
-        AND ((lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
+        WHERE (:Providers is null or course.provider IN :Providers)
+        AND (:tagIDs is null or course_tag.tag_id IN :tagIDs)
+        AND (:Kompetenzstufe is null or course.skilllevel IN :Kompetenzstufe)
+        AND (:Format is null or course.format IN :Format)
+        AND (:nameSearch is null OR (lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
         AND (:kostenlos is null OR course.cost_free = :kostenlos)
         AND (:verwaltungsspezifisch is null OR course.domain_specific = :verwaltungsspezifisch)
         AND (:zertifikat is null OR course.certificate = :zertifikat)
         AND (:dauerInMinLaengerAls is null OR course.duration_in_minutes >= :dauerInMinLaengerAls)
         AND (:dauerInMinKuerzerAls is null OR course.duration_in_minutes <= :dauerInMinKuerzerAls)
-        AND course.start_date <= COALESCE(:startdatum, course.start_date)
+        AND (cast(:startdatum as date) is null or course.start_date >= :startdatum)
         LIMIT :limit
         OFFSET :offset
     """, nativeQuery = true)
