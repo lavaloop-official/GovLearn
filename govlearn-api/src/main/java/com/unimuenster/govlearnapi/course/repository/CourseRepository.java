@@ -95,7 +95,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Modifying
     @Query(value = """
     UPDATE Course
-        SET name = :#{#courseUpdateWsTo.name}, image = :#{#courseUpdateWsTo.image}, link = :#{#courseUpdateWsTo.link}, description = :#{#courseUpdateWsTo.description}, provider = :#{#courseUpdateWsTo.provider}, instructor = :#{#courseUpdateWsTo.instructor}, certificate = :#{#courseUpdateWsTo.certificate}, skilllevel = :#{#courseUpdateWsTo.skilllevel}, duration = :#{#courseUpdateWsTo.durationInHours}, format = :#{#courseUpdateWsTo.format}, startDate = :#{#courseUpdateWsTo.startDate}, costFree = :#{#courseUpdateWsTo.costFree}, domainSpecific = :#{#courseUpdateWsTo.domainSpecific}
+        SET name = :#{#courseUpdateWsTo.name}, image = :#{#courseUpdateWsTo.image}, link = :#{#courseUpdateWsTo.link}, description = :#{#courseUpdateWsTo.description}, provider = :#{#courseUpdateWsTo.provider}, instructor = :#{#courseUpdateWsTo.instructor}, certificate = :#{#courseUpdateWsTo.certificate}, skilllevel = :#{#courseUpdateWsTo.skilllevel}, durationInMinutes = :#{#courseUpdateWsTo.durationInMinutes}, format = :#{#courseUpdateWsTo.format}, startDate = :#{#courseUpdateWsTo.startDate}, costFree = :#{#courseUpdateWsTo.costFree}, domainSpecific = :#{#courseUpdateWsTo.domainSpecific}
         WHERE id = :#{#courseUpdateWsTo.id}
 """)
     void updateCourse(CourseUpdateWsTo courseUpdateWsTo);

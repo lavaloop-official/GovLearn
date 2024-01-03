@@ -469,7 +469,7 @@ public class RealInitializerService {
         course16.setDescription("Einfuehrung in die Rechte und Pflichten bei eGovernment.");
         course16.setProvider("Institut für Politikwissenschaft");
         course16.setImage("https://www.chieflearningofficer.com/wp-content/uploads/2023/05/AdobeStock_509757335.jpeg");
-        course16.setDuration("10 Stunden");
+        course16.setDurationInMinutes(600);
         course16.setSkilllevel(Skilllevel.Anfaenger);
         course16.setFormat(Format.Hybrid);
         course16.setDomainSpecific(false);
@@ -487,7 +487,7 @@ public class RealInitializerService {
         course17.setDescription("Eine Einfuehrung in die Grundlagen und Anwendungen von Java.");
         course17.setProvider("IT-Architektur Institut");
         course17.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course17.setDuration("7 Stunden");
+        course17.setDurationInMinutes(420);
         course17.setSkilllevel(Skilllevel.Anfaenger);
         course17.setFormat(Format.OnlineLive);
         course17.setDomainSpecific(false);
@@ -505,7 +505,7 @@ public class RealInitializerService {
         course18.setDescription("Hilfe bei der Selbstorganisation mit Outlook.");
         course18.setProvider("Outlook Institut");
         course18.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course18.setDuration("5 Stunden");
+        course18.setDurationInMinutes(300);
         course18.setSkilllevel(Skilllevel.Anfaenger);
         course18.setFormat(Format.OnlineSelbstorganisiert);
         course18.setDomainSpecific(false);
@@ -523,7 +523,7 @@ public class RealInitializerService {
         course19.setDescription("Sicherung der Kundenbedürfnise durch Qualitätssicherung.");
         course19.setProvider("Qualitäts GmbH");
         course19.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course19.setDuration("5 Stunden");
+        course19.setDurationInMinutes(300);
         course19.setSkilllevel(Skilllevel.Fortgeschritten);
         course19.setFormat(Format.OnlineSelbstorganisiert);
         course19.setDomainSpecific(false);
@@ -541,7 +541,7 @@ public class RealInitializerService {
         course20.setDescription("Wie plant man mit Risikofaktoren?");
         course20.setProvider("Institut fuer Risikoforschung");
         course20.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course20.setDuration("5 Stunden");
+        course20.setDurationInMinutes(300);
         course20.setSkilllevel(Skilllevel.Fortgeschritten);
         course20.setFormat(Format.OnlineSelbstorganisiert);
         course20.setDomainSpecific(false);
@@ -559,7 +559,7 @@ public class RealInitializerService {
         course21.setDescription("Der richtige Umgang mit Streit im Arbeitsteam");
         course21.setProvider("Streitschlichter GmbH");
         course21.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course21.setDuration("10 Stunden");
+        course21.setDurationInMinutes(600);
         course21.setSkilllevel(Skilllevel.Fortgeschritten);
         course21.setFormat(Format.OnlineSelbstorganisiert);
         course21.setDomainSpecific(false);
@@ -577,7 +577,7 @@ public class RealInitializerService {
         course22.setDescription("Englisch für Fortgeschrittene.");
         course22.setProvider("Streitschlichter GmbH");
         course22.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course22.setDuration("10 Stunden");
+        course22.setDurationInMinutes(600);
         course22.setSkilllevel(Skilllevel.Fortgeschritten);
         course22.setFormat(Format.OnlineSelbstorganisiert);
         course22.setDomainSpecific(false);
@@ -595,7 +595,7 @@ public class RealInitializerService {
         course23.setDescription("Compliance ist die betriebswirtschaftliche und rechtswissenschaftliche Umschreibung für die Regeltreue von Unternehmen.");
         course23.setProvider("Institut für Compliance");
         course23.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course23.setDuration("10 Stunden");
+        course23.setDurationInMinutes(600);
         course23.setSkilllevel(Skilllevel.Anfaenger);
         course23.setFormat(Format.Praesenz);
         course23.setDomainSpecific(true);
@@ -613,7 +613,7 @@ public class RealInitializerService {
         course24.setDescription("Die digitalen Trends, wie Homeoffice für Einsteiger.");
         course24.setProvider("Institut für Compliance");
         course24.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course24.setDuration("10 Stunden");
+        course24.setDurationInMinutes(600);
         course24.setSkilllevel(Skilllevel.Anfaenger);
         course24.setFormat(Format.OnlineLive);
         course24.setDomainSpecific(true);
@@ -631,7 +631,7 @@ public class RealInitializerService {
         course25.setDescription("Die besten Präsentationstechnicken, um Arbeitsergebnisse zu präsentieren.");
         course25.setProvider("Institut für Compliance");
         course25.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course25.setDuration("10 Stunden");
+        course25.setDurationInMinutes(600);
         course25.setSkilllevel(Skilllevel.Anfaenger);
         course25.setFormat(Format.OnlineLive);
         course25.setDomainSpecific(true);
@@ -649,7 +649,7 @@ public class RealInitializerService {
         course26.setDescription("Wie dürfen KIs eigesetzt werden und wie können Daten dabei geschützt werden.");
         course26.setProvider("Uni Münster");
         course26.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
-        course26.setDuration("10 Stunden");
+        course26.setDurationInMinutes(600);
         course26.setSkilllevel(Skilllevel.Experte);
         course26.setFormat(Format.Praesenz);
         course26.setDomainSpecific(true);
