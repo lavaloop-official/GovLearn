@@ -1,7 +1,9 @@
 package com.unimuenster.govlearnapi.course.service;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -9,6 +11,7 @@ import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,42 +61,27 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    @Transactional
+    public void changeCourse(CourseUpdateWsTo courseUpdateWsTo, UserEntity currentUser) {
 
-    public void changeCourse(CourseDTO CourseDTO, UserEntity currentUser) {
-        
-
-        boolean courseExists = courseRepository.existsById(CourseDTO.id());
-        if (!courseExists) {
-            throw new NotFoundException();
-        }
-
-        Optional<Course> optionalCourseEntity = courseRepository.findById(CourseDTO.id());
+        Optional<Course> optionalCourseEntity = courseRepository.findById(courseUpdateWsTo.id());
 
         if(optionalCourseEntity.isEmpty()){
             throw new NotFoundException();
         }
 
-        Course CourseEntity = optionalCourseEntity.get();
+        boolean isCreator = isCreatorOfCourse(currentUser, optionalCourseEntity.get());
+        if(!isCreator){
+            throw new UnauthorizedException();
+        }
 
-        CourseEntity.setName(CourseDTO.name());
-        CourseEntity.setImage(CourseDTO.image());
-        CourseEntity.setDescription(CourseDTO.description());
-        //CourseEntity.setCreatedAt(); Sollte man das ändern können?
-        CourseEntity.setProvider(CourseDTO.provider());
-        CourseEntity.setInstructor(CourseDTO.instructor());
-        CourseEntity.setCertificate(CourseDTO.certificate());
-        CourseEntity.setSkilllevel(CourseDTO.skilllevel());
-        CourseEntity.setDuration(CourseDTO.durationInHours());
-        CourseEntity.setFormat(CourseDTO.format());
-        CourseEntity.setStartDate(CourseDTO.startDate());
-        CourseEntity.setCostFree(CourseDTO.costFree());
-        CourseEntity.setDomainSpecific(CourseDTO.domainSpecific());
-        //CourseEntity.setCreator(); Soll der Creator geändert werden können?
-        CourseEntity.setLink(CourseDTO.link());
-
-        courseRepository.save(CourseEntity);
+       courseRepository.updateCourse(courseUpdateWsTo);
     }
-    
+
+    private boolean isCreatorOfCourse(UserEntity currentUser, Course course) {
+        return course.getCreator().getId().equals(currentUser.getId());
+    }
+
 
     public List<CourseDTO> getCourses() {
 
