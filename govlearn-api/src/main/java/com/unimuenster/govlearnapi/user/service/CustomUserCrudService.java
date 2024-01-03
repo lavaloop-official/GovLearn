@@ -81,6 +81,7 @@ public class CustomUserCrudService {
     @Transactional
     public TokenDTO updateUser(Long userID, RegisterWsTo userWsTo){
 
+
         boolean emailExists = authenticationService.doesUserMailExistExceptOwnMail(userWsTo.email());
         //checkt ob email bereits vergeben ist.
         if (emailExists) {
@@ -88,7 +89,6 @@ public class CustomUserCrudService {
         }
 
         // Lade alten nutzer
-
         Optional<UserEntity> optionalUserEntity = userRepository.findUserById(userID);
 
         if(optionalUserEntity.isEmpty()){
@@ -105,7 +105,6 @@ public class CustomUserCrudService {
             userEntity.setEmail(userWsTo.email());
         if(userWsTo.name() != userEntity.getName())
             userEntity.setName(userWsTo.name());
-        
 
         // Speicher neuen Nutzer ab
         UserEntity save = userRepository.save(userEntity);
@@ -144,5 +143,6 @@ public class CustomUserCrudService {
         TokenDTO authenticate = authenticationService.authenticate(UserDTO);
 
         return authenticate;
+
     }
 }

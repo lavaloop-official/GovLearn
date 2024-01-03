@@ -89,6 +89,7 @@ public class UserController {
         description= "Update the username or usermail"
     )
     @PreAuthorize("hasAuthority('user')")
+
     @PutMapping("/users")
     public ResponseEntity<Response> updateNameOrEMail(@RequestBody RegisterWsTo user){
         
@@ -96,6 +97,7 @@ public class UserController {
 
         // Da Email im Token gespeichert wird, muss der token neu generiert werden
         return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
+
     };
 
     @Operation(
