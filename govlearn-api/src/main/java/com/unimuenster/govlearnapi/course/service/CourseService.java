@@ -12,7 +12,6 @@ import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -71,7 +70,7 @@ public class CourseService {
             throw new NotFoundException();
         }
 
-        boolean isCreator = isCreatorOfCourse(currentUser, optionalCourseEntity.get());
+        boolean isCreator = isCreatorOfCourse(currentUser.getId(), optionalCourseEntity.get());
         if(!isCreator){
             throw new UnauthorizedException();
         }
@@ -79,8 +78,8 @@ public class CourseService {
        courseRepository.updateCourse(courseUpdateWsTo);
     }
 
-    private boolean isCreatorOfCourse(UserEntity currentUser, Course course) {
-        return course.getCreator().getId().equals(currentUser.getId());
+    private boolean isCreatorOfCourse(Long userId, Course course) {
+        return course.getCreator().getId().equals(userId);
     }
 
 
@@ -140,8 +139,8 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
 
         // Prüfe, ob aktueller Nutzer der Kurs-Ersteller ist
-        if (!Objects.equals(course.getCreator().getId(), userId)) {
-            throw new RuntimeException("keine Berechtigung den Kurs zu löschen");
+        if (!isCreatorOfCourse(userId, course)) {
+            throw new UnauthorizedException();
         }
 
         // Lösche Kurs-Tags bevor Kurs gelöscht wird

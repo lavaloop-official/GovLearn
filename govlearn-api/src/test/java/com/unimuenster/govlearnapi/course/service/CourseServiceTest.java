@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.course.service;
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.transaction.Transactional;
@@ -40,9 +41,9 @@ public class CourseServiceTest extends AbstractIntegrationTest{
     @Test
     void deleteCourse_2() {
         UserEntity notCreator = initializer.getUser2();
-        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> {
+        Assertions.assertThatExceptionOfType(UnauthorizedException.class).isThrownBy(() -> {
             courseService.deleteCourse(initializer.getCourse1().getId(), notCreator.getId() );
-        }).withMessage("keine Berechtigung den Kurs zu löschen");
+        });
     }
 
     @Test
