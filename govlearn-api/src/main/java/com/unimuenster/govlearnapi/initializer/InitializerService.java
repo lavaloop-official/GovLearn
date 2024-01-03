@@ -183,6 +183,7 @@ public class InitializerService {
         course2.setSkilllevel(Skilllevel.Fortgeschritten);
         course2.setFormat(Format.Hybrid);
         course2.setCostFree(true);
+        course2.setDomainSpecific(true);
 
         courseRepository.save(course2);
 

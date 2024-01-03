@@ -5,6 +5,8 @@ import com.unimuenster.govlearnapi.common.responsewrapper.Response;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseFilterWsTo;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
+import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +27,12 @@ class CourseFilteringControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     private CourseFilteringController courseFilteringController;
-
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private InitializerService initializerService;
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Test
     void filterCourses() {
@@ -54,6 +56,29 @@ class CourseFilteringControllerTest extends AbstractIntegrationTest {
         ResponseEntity<Response> responseResponseEntity = courseFilteringController.filterCourses(10, 0, Optional.empty(), courseFilterWsTo);
 
         assertNotNull(responseResponseEntity);
+    }
+
+    @Test
+    void test_verwaltungsspezifisch(){
+        setCurrentUser();
+
+        CourseFilterWsTo courseFilterWsTo = CourseFilterWsTo
+                .builder()
+                .Verwaltungsspezifisch(true)
+                .build();
+
+        ResponseEntity<Response> responseResponseEntity = courseFilteringController
+                .filterCourses(
+                        10,
+                        0,
+                        Optional.empty(),
+                        courseFilterWsTo
+                );
+
+        List<CourseWsTo> payload = ((Response<List<CourseWsTo>>) responseResponseEntity.getBody()).getPayload();
+
+        assertEquals(1, payload.size());
+        assertEquals(initializerService.getCourse2().getId(), payload.get(0).getId());
     }
 
     private void setCurrentUser(){
