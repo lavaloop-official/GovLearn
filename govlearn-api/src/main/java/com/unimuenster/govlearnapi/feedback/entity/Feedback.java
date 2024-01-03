@@ -10,9 +10,6 @@ import lombok.*;
 
 import java.util.*;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Data
 @Builder
@@ -29,15 +26,18 @@ public class Feedback {
     protected Integer rating;
     protected Date createdAt;
 
-    @ManyToOne( fetch = FetchType.LAZY )
-    @Cascade(CascadeType.MERGE)
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne( fetch = FetchType.LAZY )
-    @Cascade(CascadeType.MERGE)
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "feedback", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @Builder.Default
+    private List<Feedback_Report> feedback_report = new ArrayList<Feedback_Report>();
 
     @PrePersist
     private void onCreate() {
@@ -46,5 +46,10 @@ public class Feedback {
 
     public String toString(){
         return "";
+    }
+
+    public void addFeedbackReport(Feedback_Report PostfeedbackReport) {
+        feedback_report.add(PostfeedbackReport);
+        PostfeedbackReport.setFeedback(this);
     }
 }

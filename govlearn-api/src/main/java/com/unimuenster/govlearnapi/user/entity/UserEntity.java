@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.user.entity;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
+import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
@@ -43,6 +44,11 @@ public class UserEntity {
     @ToString.Exclude
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
+
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @Builder.Default
+    private List<Feedback_Report> feedback_report = new ArrayList<Feedback_Report>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(

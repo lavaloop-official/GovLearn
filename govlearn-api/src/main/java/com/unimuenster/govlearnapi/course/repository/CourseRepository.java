@@ -1,8 +1,10 @@
 package com.unimuenster.govlearnapi.course.repository;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import jakarta.persistence.TemporalType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Temporal;
 
@@ -10,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query(value = """
         SELECT c FROM Course c WHERE c.id = :courseId
@@ -89,4 +91,12 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
       SELECT DISTINCT (c.provider) FROM Course c
       """)
     List<String> findAllCourseProviders();
+
+    @Modifying
+    @Query(value = """
+    UPDATE Course
+        SET name = :#{#courseUpdateWsTo.name}, image = :#{#courseUpdateWsTo.image}, link = :#{#courseUpdateWsTo.link}, description = :#{#courseUpdateWsTo.description}, provider = :#{#courseUpdateWsTo.provider}, instructor = :#{#courseUpdateWsTo.instructor}, certificate = :#{#courseUpdateWsTo.certificate}, skilllevel = :#{#courseUpdateWsTo.skilllevel}, duration = :#{#courseUpdateWsTo.durationInHours}, format = :#{#courseUpdateWsTo.format}, startDate = :#{#courseUpdateWsTo.startDate}, costFree = :#{#courseUpdateWsTo.costFree}, domainSpecific = :#{#courseUpdateWsTo.domainSpecific}
+        WHERE id = :#{#courseUpdateWsTo.id}
+""")
+    void updateCourse(CourseUpdateWsTo courseUpdateWsTo);
 }
