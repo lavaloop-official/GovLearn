@@ -210,7 +210,7 @@ public class InitializerService {
         course4.setStartDate(new Date());
         course4.setLink("");
         course4.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course4.setDurationInMinutes(120);
+        course4.setDurationInMinutes(121);
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.Hybrid);
         course4.setCostFree(false);
@@ -225,7 +225,7 @@ public class InitializerService {
         course5.setStartDate(new Date());
         course5.setLink("");
         course5.setImage("https://media.istockphoto.com/id/682143876/de/foto/kleine-unternehmen-arbeiten-im-b%C3%BCro.jpg?s=612x612&w=0&k=20&c=mGKkkC43B0kl2w6efy5XWY7Wh29mN5WEaqak67DVHeY=");
-        course5.setDurationInMinutes(120);
+        course5.setDurationInMinutes(125);
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
         course5.setCostFree(true);
@@ -243,6 +243,7 @@ public class InitializerService {
         course6.setDurationInMinutes(120);
         course6.setSkilllevel(Skilllevel.Fortgeschritten);
         course6.setFormat(Format.Hybrid);
+        course6.setCertificate(true);
         course6.setCostFree(false);
 
         courseRepository.save(course6);
@@ -304,7 +305,7 @@ public class InitializerService {
         course11.setCreator(user1);
         course11.setDescription("description 11");
         course11.setProvider("provider 11");
-        course11.setStartDate(new Date());
+        course11.setStartDate(new Date(94583443543244L));
         course11.setLink("");
         course11.setCostFree(true);
 
@@ -338,6 +339,7 @@ public class InitializerService {
         course14.setDescription("description 14");
         course14.setProvider("provider 14");
         course14.setStartDate(new Date());
+        course14.setDurationInMinutes(120);
         course14.setLink("");
         course14.setCostFree(true);
 
@@ -485,6 +487,8 @@ public class InitializerService {
         courseTag9 = new CourseTag();
         courseTag9.setCourse(course9);
         courseTag9.setTag(tag4);
+        courseTag9.setTag(tag5);
+        courseTag9.setTag(tag6);
 
         courseTagRepository.save(courseTag9);
 

@@ -17,15 +17,15 @@ public class CourseFilterWsTo {
     @Builder.Default
     List<Long> tagIDs = new ArrayList<>();
     @Builder.Default
-    List<String> Anbieter = new ArrayList<>();;
+    List<String> Anbieter = new ArrayList<>();
     Boolean Verwaltungsspezifisch;
     Boolean Zertifikat;
     @Builder.Default
-    List<Skilllevel> Kompetenzstufe = new ArrayList<>();;
+    List<Skilllevel> Kompetenzstufe = new ArrayList<>();
     Integer DauerInMinLaengerAls;
     Integer DauerInMinKuerzerAls;
     @Builder.Default
-    List<Format> Format = new ArrayList<>();;
+    List<Format> Format = new ArrayList<>();
     Date Startdatum;
     Boolean Kostenlos;
 }
