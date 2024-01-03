@@ -68,8 +68,13 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         LIMIT :limit
         OFFSET :offset
     """, nativeQuery = true)
+
     List<Course> findCoursesByAttributesAndTags(Integer limit, Integer offset, String nameSearch,List<String> Providers, List<Long> Format, List<Long> Kompetenzstufe, List<Boolean> Kosten, List<Long> tagIDs);
 
+    @Query(value = """
+    SELECT c FROM Course c where c.creator.id = :userId
+""")
+    List<Course> getCreatedCourses(Long userId);
 
     @Query(value = """
       SELECT DISTINCT (c.provider) FROM Course c
@@ -83,4 +88,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         WHERE id = :#{#courseUpdateWsTo.id}
 """)
     void updateCourse(CourseUpdateWsTo courseUpdateWsTo);
+
 }
