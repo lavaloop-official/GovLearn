@@ -1,7 +1,9 @@
 package com.unimuenster.govlearnapi.course.service;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -10,6 +12,7 @@ import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,6 +61,28 @@ public class CourseService {
         
         return courseRepository.save(course);
     }
+
+    @Transactional
+    public void changeCourse(CourseUpdateWsTo courseUpdateWsTo, UserEntity currentUser) {
+
+        Optional<Course> optionalCourseEntity = courseRepository.findById(courseUpdateWsTo.id());
+
+        if(optionalCourseEntity.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        boolean isCreator = isCreatorOfCourse(currentUser, optionalCourseEntity.get());
+        if(!isCreator){
+            throw new UnauthorizedException();
+        }
+
+       courseRepository.updateCourse(courseUpdateWsTo);
+    }
+
+    private boolean isCreatorOfCourse(UserEntity currentUser, Course course) {
+        return course.getCreator().getId().equals(currentUser.getId());
+    }
+
 
     public List<CourseDTO> getCourses() {
 
