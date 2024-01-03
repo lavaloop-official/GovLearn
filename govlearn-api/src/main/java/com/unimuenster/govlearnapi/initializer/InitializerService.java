@@ -349,6 +349,7 @@ public class InitializerService {
         course15.setDescription("description 15");
         course15.setProvider("provider 15");
         course15.setStartDate(new Date());
+        course15.setDurationInMinutes(10);
         course15.setLink("");
         course15.setCostFree(false);
 

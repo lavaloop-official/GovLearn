@@ -81,6 +81,30 @@ class CourseFilteringControllerTest extends AbstractIntegrationTest {
         assertEquals(initializerService.getCourse2().getId(), payload.get(0).getId());
     }
 
+    @Test
+    void test_dauerKuerzerAls(){
+        setCurrentUser();
+
+        CourseFilterWsTo courseFilterWsTo = CourseFilterWsTo
+                .builder()
+                .DauerInMinKuerzerAls(11)
+                .DauerInMinLaengerAls(9)
+                .build();
+
+        ResponseEntity<Response> responseResponseEntity = courseFilteringController
+                .filterCourses(
+                        10,
+                        0,
+                        Optional.empty(),
+                        courseFilterWsTo
+                );
+
+        List<CourseWsTo> payload = ((Response<List<CourseWsTo>>) responseResponseEntity.getBody()).getPayload();
+
+        assertEquals(1, payload.size());
+        assertEquals(initializerService.getCourse15().getId(), payload.get(0).getId());
+    }
+
     private void setCurrentUser(){
         UserDetails userDetails = userDetailsService.loadUserByUsername(
                 initializerService.getUser2().getEmail()

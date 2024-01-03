@@ -28,7 +28,7 @@ public class CourseFilteringService {
 
     public List<CourseDTO> filterCourses(Integer limit, Integer offset, Optional<String> nameSearch, CourseFilterWsTo courseFilterWsTo) {
 
-        String search = "%%";
+        String search = null;
         if(nameSearch.isPresent())
         {
             search = "%"+nameSearch.get()+"%";

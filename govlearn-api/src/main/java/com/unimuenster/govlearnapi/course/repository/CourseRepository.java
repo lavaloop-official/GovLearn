@@ -54,16 +54,16 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         FROM Course
         INNER JOIN course_tag ON course.id = course_tag.course_id
         WHERE (:Providers is null or course.provider IN :Providers)
-        AND (:tagIDs is null or course_tag.tag_id IN :tagIDs)
-        AND (:Kompetenzstufe is null or course.skilllevel IN :Kompetenzstufe)
-        AND (:Format is null or course.format IN :Format)
+        AND (:tagIDs is null or course_tag.tag_id IN :tagIDs or course_tag.tag_id is null)
+        AND (:Kompetenzstufe is null or course.skilllevel IN :Kompetenzstufe or course.skilllevel is null)
+        AND (:Format is null or course.format IN :Format or course.format is null)
         AND (:nameSearch is null OR (lower(course.name) LIKE lower(:nameSearch)) OR (lower(course.description) LIKE lower(:nameSearch)))
-        AND (:kostenlos is null OR course.cost_free = :kostenlos)
+        AND (:kostenlos is null OR course.cost_free = :kostenlos or course.cost_free is null)
         AND (:verwaltungsspezifisch is null OR course.domain_specific = :verwaltungsspezifisch)
         AND (:zertifikat is null OR course.certificate = :zertifikat)
         AND (:dauerInMinLaengerAls is null OR course.duration_in_minutes >= :dauerInMinLaengerAls)
         AND (:dauerInMinKuerzerAls is null OR course.duration_in_minutes <= :dauerInMinKuerzerAls)
-        AND (cast(:startdatum as date) is null or course.start_date >= :startdatum)
+        AND (cast(:startdatum as date) is null or course.start_date >= :startdatum or course.start_date is null)
         LIMIT :limit
         OFFSET :offset
     """, nativeQuery = true)
