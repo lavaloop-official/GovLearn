@@ -86,6 +86,10 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             Integer dauerInMinKuerzerAls
     );
 
+    @Query(value = """
+    SELECT c FROM Course c where c.creator.id = :userId
+""")
+    List<Course> getCreatedCourses(Long userId);
 
     @Query(value = """
       SELECT DISTINCT (c.provider) FROM Course c
@@ -99,4 +103,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         WHERE id = :#{#courseUpdateWsTo.id}
 """)
     void updateCourse(CourseUpdateWsTo courseUpdateWsTo);
+
 }

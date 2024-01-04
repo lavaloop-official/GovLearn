@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapp
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
@@ -46,9 +47,9 @@ public class CourseController {
 
         CourseCreationDTO courseCreationDTO = controllerCourseMapper.map(courseCreationWsTo);
 
-        courseService.createCourse(courseCreationDTO, currentUser);
-
-        return ResponseEntity.ok(Response.of(true));
+        Course createdCourse = courseService.createCourse(courseCreationDTO, currentUser);
+        CourseDTO courseDTO = courseService.getCourseById(createdCourse.getId());
+        return ResponseEntity.ok(Response.of(controllerCourseMapper.map(courseDTO), new Message(Message.SUCCESS)));
     }
 
 
@@ -106,7 +107,40 @@ public class CourseController {
         return ResponseEntity.ok( Response.of(courseWsTo, new Message(Message.SUCCESS)));
     }
 
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Delete a course"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/courses/{id}")
+    public ResponseEntity<Response> deleteCourse(@PathVariable Long id) {
+        // Übergebe User um Berechtigung des Löschens zu prüfen
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        courseService.deleteCourse(id, currentUser.getId());
 
+        return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Get courses the user created"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/creators/courses")
+    public ResponseEntity<Response> getCreatedCourses() {
+
+        UserEntity currentUser = authenticationService.getCurrentUser();
+        List<CourseDTO> courseDTOs = courseService.getCreatedCourses(currentUser.getId());
+
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOs);
+
+        for (CourseWsTo courseWsTo : courseWsTos) {
+            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+        }
+        return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
+    }
+  
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
         description = "Get all course providers."
