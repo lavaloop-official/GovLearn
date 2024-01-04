@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/govlearn
-    username: postgresUser
-    password: postgresPassword
+    url: jdbc:postgresql://postgres:-gaffaACEd6a6EF3-gDBadG*3G*D2e1*@postgres.railway.internal:5432/railway
+    username: postgres
+    password: -gaffaACEd6a6EF3-gDBadG*3G*D2e1*
     driverClassName: org.postgresql.Driver
 
   jpa:
@@ -23,4 +23,4 @@ server:
   address: 0.0.0.0
 
 frontend:
-  url: http://localhost:4200
+  url: https://govlearn-client-production.up.railway.app
