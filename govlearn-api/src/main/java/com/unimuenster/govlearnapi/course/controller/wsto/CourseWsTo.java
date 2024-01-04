@@ -20,7 +20,7 @@ public class CourseWsTo {
     String instructor;
     Boolean certificate;
     Skilllevel skilllevel;
-    Integer durationInMinutes;
+    String durationInHours;
     Format format;
     Date startDate;
     Boolean costFree;
