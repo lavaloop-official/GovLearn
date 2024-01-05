@@ -51,6 +51,14 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> bookmarked = new ArrayList<Course>();
 
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "courseCompletion",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> completed = new ArrayList<Course>();
+
     @PrePersist
     private void onCreate() {
         createdAt = new Date();

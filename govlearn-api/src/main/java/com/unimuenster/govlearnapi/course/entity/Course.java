@@ -59,6 +59,10 @@ public class Course {
     @ToString.Exclude
     private List<UserEntity> bookmarkedBy = new ArrayList<UserEntity>();
 
+    ManyToMany(fetch = FetchType.LAZY, mappedBy = "completed", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<UserEntity> completedBy = new ArrayList<UserEntity>();
+
     public void addFeedback(Feedback Postfeedback) {
         feedback.add(Postfeedback);
         Postfeedback.setCourse(this);
