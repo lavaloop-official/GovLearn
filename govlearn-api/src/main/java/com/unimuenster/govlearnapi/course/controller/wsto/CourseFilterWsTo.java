@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.course.controller.wsto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,15 +14,18 @@ import com.unimuenster.govlearnapi.core.config.enums.Format;
 @Data
 @Builder
 public class CourseFilterWsTo {
-    List<Long> tagIDs;
-    List<String> Anbieter;
-    List<String> Wissensbezug;
+    @Builder.Default
+    List<Long> tagIDs = new ArrayList<>();
+    @Builder.Default
+    List<String> Anbieter = new ArrayList<>();
     Boolean Verwaltungsspezifisch;
     Boolean Zertifikat;
-    List<Skilllevel> Kompetenzstufe;
-    List<String> Dauer;
-    List<Format> Format;
+    @Builder.Default
+    List<Skilllevel> Kompetenzstufe = new ArrayList<>();
+    Integer DauerInMinLaengerAls;
+    Integer DauerInMinKuerzerAls;
+    @Builder.Default
+    List<Format> Format = new ArrayList<>();
     Date Startdatum;
     Boolean Kostenlos;
-    List<String> Sonstiges;
 }

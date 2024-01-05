@@ -14,7 +14,7 @@ public record CourseCreationDTO(
         String instructor,
         Boolean certificate,
         Skilllevel skilllevel,
-        String durationInHours,
+        Integer durationInMinutes,
         Format format,
         Date startDate,
         Boolean costFree,
