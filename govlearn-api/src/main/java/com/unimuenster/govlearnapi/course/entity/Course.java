@@ -30,7 +30,7 @@ public class Course {
     protected String image;
     @Column(length = 1024)
     protected String link;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4096)
     protected String description;
     protected Date createdAt;
     @Column(nullable = false)
