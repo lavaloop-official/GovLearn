@@ -26,9 +26,11 @@ public class Course {
 
     @Column(nullable = false)
     protected String name;
+    @Column(length = 1024)
     protected String image;
+    @Column(length = 1024)
     protected String link;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4096)
     protected String description;
     protected Date createdAt;
     @Column(nullable = false)
@@ -46,7 +48,7 @@ public class Course {
     @ToString.Exclude
     private UserEntity creator;
 
-    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course")
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<CourseTag> courseTags;
 

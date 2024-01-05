@@ -1,5 +1,7 @@
 package com.unimuenster.govlearnapi.user.service;
 
+import com.unimuenster.govlearnapi.user.exception.NothingChangedException;
+import com.unimuenster.govlearnapi.user.exception.SamePasswordException;
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
@@ -91,18 +93,14 @@ public class CustomUserCrudService {
     @Transactional
     public TokenDTO updateUser(Long userID, RegisterWsTo userWsTo){
 
-        boolean userExists = authenticationService.doesUserExist(userWsTo.email());
+
+        boolean emailExists = authenticationService.doesUserMailExistExceptOwnMail(userWsTo.email());
         //checkt ob email bereits vergeben ist.
-        if (userExists) {
+        if (emailExists) {
             throw new UserExistsException();
         }
 
-        //Teste, ob Änderung für korrekten User
-
-        String encode = passwordEncoder.encode(userWsTo.password());
-
         // Lade alten nutzer
-
         Optional<UserEntity> optionalUserEntity = userRepository.findUserById(userID);
 
         if(optionalUserEntity.isEmpty()){
@@ -110,22 +108,53 @@ public class CustomUserCrudService {
         }
 
         UserEntity userEntity = optionalUserEntity.get();
-        
+
+        if(userWsTo.email().equals(userEntity.getEmail()) && userWsTo.name().equals(userEntity.getName()))
+            throw new NothingChangedException();
 
         // Setze auf alten nutzer neue felder
-
-        userEntity.setEmail(userWsTo.email());
-        userEntity.setPassword(encode);
-        userEntity.setName(userWsTo.name());
+        if(userWsTo.email() != userEntity.getEmail())
+            userEntity.setEmail(userWsTo.email());
+        if(userWsTo.name() != userEntity.getName())
+            userEntity.setName(userWsTo.name());
 
         // Speicher neuen Nutzer ab
         UserEntity save = userRepository.save(userEntity);
 
-        UserWsTo UserFeedback = new UserWsTo(save.getEmail(), save.getName());
-        UserDTO UserDTO = new UserDTO(UserFeedback.email(), userWsTo.password(), UserFeedback.name());
+        UserDTO UserDTO = new UserDTO(save.getEmail(), userWsTo.password(), save.getName());
 
         TokenDTO authenticate = authenticationService.authenticate(UserDTO);
 
         return authenticate;
+    }
+
+    @Transactional
+    public TokenDTO updateUserPassword(Long userID, RegisterWsTo userWsTo){
+
+        // Lade alten nutzer
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserById(userID);
+
+        if(optionalUserEntity.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        UserEntity userEntity = optionalUserEntity.get();
+
+        if(passwordEncoder.matches(userWsTo.password(), userEntity.getPassword()))
+            throw new SamePasswordException();
+        
+        String encode = passwordEncoder.encode(userWsTo.password());
+
+        userEntity.setPassword(encode);
+        
+        // Speicher neuen Nutzer ab
+        UserEntity save = userRepository.save(userEntity);
+
+        UserDTO UserDTO = new UserDTO(save.getEmail(), userWsTo.password(), save.getName());
+
+        TokenDTO authenticate = authenticationService.authenticate(UserDTO);
+
+        return authenticate;
+
     }
 }

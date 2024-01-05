@@ -95,6 +95,15 @@ public class AuthenticationService {
         return ! notFound(byEmail);
     }
 
+    public boolean doesUserMailExistExceptOwnMail(String email) {
+        UserEntity byEmail = userRepository.findByEmail(email);
+        if(notFound(byEmail))
+            return false;
+        if (byEmail.getId() == getCurrentUser().getId())
+            return false;
+        return ! notFound(byEmail);
+    }
+
     public UserEntity getCurrentUser(){
         String emailOfCurrentUser = SecurityContextHolder.getContext().getAuthentication().getName();
 

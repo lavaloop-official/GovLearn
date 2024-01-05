@@ -1,12 +1,15 @@
 package com.unimuenster.govlearnapi.course.service;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,7 @@ public class CourseService {
         return map;
     }
     
-    public void createCourse(CourseCreationDTO courseCreationDTO, UserEntity currentUser) {
+    public Course createCourse(CourseCreationDTO courseCreationDTO, UserEntity currentUser) {
         
         Course course = Course
                 .builder()
@@ -55,8 +58,30 @@ public class CourseService {
                 .link(courseCreationDTO.link())
                 .build();
         
-        courseRepository.save(course);
+        return courseRepository.save(course);
     }
+
+    @Transactional
+    public void changeCourse(CourseUpdateWsTo courseUpdateWsTo, UserEntity currentUser) {
+
+        Optional<Course> optionalCourseEntity = courseRepository.findById(courseUpdateWsTo.id());
+
+        if(optionalCourseEntity.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        boolean isCreator = isCreatorOfCourse(currentUser.getId(), optionalCourseEntity.get());
+        if(!isCreator){
+            throw new UnauthorizedException();
+        }
+
+       courseRepository.updateCourse(courseUpdateWsTo);
+    }
+
+    private boolean isCreatorOfCourse(Long userId, Course course) {
+        return course.getCreator().getId().equals(userId);
+    }
+
 
     public List<CourseDTO> getCourses() {
 
@@ -106,6 +131,28 @@ public class CourseService {
                 .build();
 
         return map;
+    }
+
+    @Transactional
+    public void deleteCourse(Long courseId, Long userId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
+
+        // Prüfe, ob aktueller Nutzer der Kurs-Ersteller ist
+        if (!isCreatorOfCourse(userId, course)) {
+            throw new UnauthorizedException();
+        }
+
+        // Lösche Kurs-Tags bevor Kurs gelöscht wird
+        course.getCourseTags().clear();
+
+        courseRepository.delete(course);
+    }
+
+    public List<CourseDTO> getCreatedCourses(Long userId) {
+        List<Course> courses = courseRepository.getCreatedCourses(userId);
+
+        return mapCourses(courses);
     }
 
     public List<String> getAllCourseProviders() {
