@@ -22,6 +22,7 @@ public class Group {
     protected Long id;
 
     private String name;
+    @Column(length = 4096)
     private String description;
 
     @OneToMany
