@@ -123,7 +123,7 @@ public class GroupMembersController {
             description = "Delete a member. Only allowed as an admin."
     )
     @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/members/{memberId}")
     public ResponseEntity deleteMember(
             @PathVariable Long memberId
     ) {
