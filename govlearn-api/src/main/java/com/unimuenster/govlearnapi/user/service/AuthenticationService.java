@@ -2,6 +2,8 @@ package com.unimuenster.govlearnapi.user.service;
 
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
+import com.unimuenster.govlearnapi.group.controller.wsto.InvitationWsTo;
+import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
 import com.unimuenster.govlearnapi.user.entity.Token;
 import com.unimuenster.govlearnapi.user.entity.TokenType;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -10,6 +12,10 @@ import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,6 +80,13 @@ public class AuthenticationService {
         }
 
         return byEmail;
+    }
+
+    public List<UserEntity> getListOfUsersByEmail(List<InvitationWsTo> invitationsWsTos){
+
+        List<UserEntity> userEntities = userRepository.findAllUsersByEmail(invitationsWsTos.stream().map(element -> element.getUserEmail()).toList());
+
+        return userEntities;
     }
 
     public boolean doesUserExist(String email) {

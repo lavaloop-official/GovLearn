@@ -90,6 +90,13 @@ public class CourseService {
         return mapCourses(allCourses);
     }
 
+        public List<CourseDTO> getCoursesWithoutGroupmember(Long groupmemberID) {
+
+        List<Course> allCourses = courseRepository.getCoursesWithoutGroupmember(groupmemberID);
+
+        return mapCourses(allCourses);
+    }
+
     public List<CourseDTO> getAllCoursesByTagId(Long id) {
 
         List<Course> allCourses = courseRepository.findAllCoursesByTagId(id);

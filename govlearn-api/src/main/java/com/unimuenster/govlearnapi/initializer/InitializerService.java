@@ -8,6 +8,8 @@ import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -57,6 +59,7 @@ public class InitializerService {
     private final EntityManager entityManager;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
+    private final GroupRepository groupRepository;
 
     private UserEntity user1, user2, recommendationUser;
     private TokenDTO user1Token, user2Token, recommendationUserToken;
@@ -66,6 +69,7 @@ public class InitializerService {
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
+    private Group group;
 
     public void init() {
         insertUser();
@@ -76,6 +80,15 @@ public class InitializerService {
         addTagsToUsers();
         addTagsToCourses();
         addBookmarkToUser();
+        createGroup();
+    }
+
+    protected void createGroup(){
+        group = Group
+                .builder()
+                .build();
+
+        groupRepository.save(group);
     }
 
     private TokenDTO authenticate(UserEntity user){
@@ -560,12 +573,19 @@ public class InitializerService {
         Query dropAllTables = entityManager.createNativeQuery("""
             DROP TABLE course_tag CASCADE;
             DROP TABLE course CASCADE;
+            DROP TABLE feedback_report CASCADE;
             DROP TABLE feedback CASCADE;
             DROP TABLE tag CASCADE;
+            DROP TABLE invitation CASCADE;
+            DROP TABLE member CASCADE;
+            Drop Table group_table CASCADE;
             DROP TABLE token CASCADE;
             DROP TABLE user_entity CASCADE;
             DROP TABLE user_tag CASCADE; 
             DROP TABLE category CASCADE;
+            DROP TABLE bookmark CASCADE;
+            DROP TABLE group_table_members CASCADE;
+            DROP TABLE member_courses CASCADE;
             """
         );
         try {

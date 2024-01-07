@@ -12,7 +12,9 @@ import com.unimuenster.govlearnapi.user.repository.UserRepository;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,26 @@ public class CustomUserCrudService {
         UserWsTo userWsTo = new UserWsTo(authenticationService.getCurrentUser().getEmail(),authenticationService.getCurrentUser().getName());
 
         return userWsTo;
+    }
+
+    public List<UserWsTo> getAllUser(){
+        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserWsTo> userWsTos = userEntities.stream().map(element -> {
+            UserWsTo userWsTo = new UserWsTo(element.getEmail(), element.getName());
+            return userWsTo;
+        }).collect(Collectors.toList());
+
+        return userWsTos;
+    }
+
+    public List<UserWsTo> getAllUserWithoutGroup(Long groupID){
+        List<UserEntity> userEntities = userRepository.findAllUserWithoutGroup(groupID);
+        List<UserWsTo> userWsTos = userEntities.stream().map(element -> {
+            UserWsTo userWsTo = new UserWsTo(element.getEmail(), element.getName());
+            return userWsTo;
+        }).collect(Collectors.toList());
+
+        return userWsTos;
     }
 
     public UserWsTo getUserByID(Long userID){
