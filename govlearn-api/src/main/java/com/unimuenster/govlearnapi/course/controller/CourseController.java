@@ -7,21 +7,27 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
+import com.unimuenster.govlearnapi.group.service.GroupService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,6 +39,7 @@ public class CourseController {
     private final ControllerCourseMapper controllerCourseMapper;
     private final AuthenticationService authenticationService;
     private final FeedbackService feedbackService;
+    private final GroupService groupService;
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
@@ -75,9 +82,22 @@ public class CourseController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/courses")
-    public ResponseEntity<Response> getCourses() {
+    public ResponseEntity<Response> getCourses(Optional<Long> groupmemberID, Optional<Long> groupID) {
 
-        List<CourseDTO> courses = courseService.getCourses();
+        List<CourseDTO> courses = new ArrayList<CourseDTO>();
+
+        if(groupmemberID.isPresent() && groupID.isPresent()){
+            boolean isAdmin = groupService.isUserAdmin(authenticationService.getCurrentUser(), groupID.get());
+
+            if(!isAdmin){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+            courses = courseService.getCoursesWithoutGroupmember(groupmemberID.get());
+        }
+        else{
+            courses = courseService.getCourses();
+        }
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courses);
 

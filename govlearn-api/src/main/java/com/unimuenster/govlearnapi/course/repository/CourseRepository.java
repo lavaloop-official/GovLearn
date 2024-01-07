@@ -22,6 +22,13 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findAllCourses();
 
     @Query(value = """
+        SELECT c
+        FROM Course c
+        WHERE c NOT IN (SELECT m.courses FROM Member m WHERE m.id = :groupmemberID)
+        """)
+    List<Course> getCoursesWithoutGroupmember(Long groupmemberID);
+
+    @Query(value = """
         SELECT c FROM CourseTag c JOIN c.tag t WHERE t.id = :tagId
     """)
     List<Course> findAllCoursesByTagId(Long tagId);
