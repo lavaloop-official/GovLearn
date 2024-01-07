@@ -54,7 +54,7 @@ public class UserEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "courseCompletion",
+            name = "course_completed",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> completed = new ArrayList<Course>();
