@@ -94,4 +94,20 @@ public class InvitationController {
 
         return ResponseEntity.ok(Response.of(true));
     }
+
+    @Operation(
+            security = { @SecurityRequirement(name = "Authorization") },
+            description = "Delete an Invitation."
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @DeleteMapping("/groupID/{groupID}/usermail/{usermail}")
+    public ResponseEntity deleteInvitation(@PathVariable long groupID, @PathVariable String usermail) {
+
+        if(!groupService.isUserAdmin(authenticationService.getCurrentUser(), groupID))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        invitationService.deleteInvitation(groupID, usermail);
+
+        return ResponseEntity.ok(Response.of(true));
+    }
 }

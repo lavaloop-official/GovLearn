@@ -8,6 +8,10 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Invitation;
 import com.unimuenster.govlearnapi.group.repository.InvitationRepository;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.repository.UserRepository;
+import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,7 @@ public class InvitationService {
 
     private final InvitationRepository invitationRepository;
     private final GroupService groupService;
+    private final UserRepository userRepository;
 
     public void sendInvitation(Group group, UserEntity user){
 
@@ -79,5 +84,11 @@ public class InvitationService {
         }
 
         return byId.get();
+    }
+
+    @Transactional
+    public void deleteInvitation(long groupID, String usermail){
+
+        invitationRepository.deleteInvitation(groupID, userRepository.findByEmail(usermail).getId());
     }
 }
