@@ -56,7 +56,9 @@ public class UserEntity {
     @JoinTable(
             name = "course_completed",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
+            inverseJoinColumns = @JoinColumn(name = "course_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"})
+    )
     private List<Course> completed = new ArrayList<Course>();
 
     @PrePersist

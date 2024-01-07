@@ -55,9 +55,9 @@ public class courseCompletionService {
 
     
     public Boolean isCourseCompleted(UserEntity currentUser, Long courseId) {
-        Boolean isCompleted = courseCompletionRepository.isCourseCompleted(currentUser.getId(), courseId);
+        Long count = courseCompletionRepository.countCourseCompleted(currentUser.getId(), courseId);
 
-        return isCompleted; 
+        return count > 0;
     }
 
 
