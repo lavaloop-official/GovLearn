@@ -1,7 +1,9 @@
 package com.unimuenster.govlearnapi.group.repository;
 
+import com.unimuenster.govlearnapi.group.entity.Invitation;
 import com.unimuenster.govlearnapi.group.entity.Member;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,4 +48,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         AND m.user.id = :userID
         """)
     Optional<Member> findByUserIDAndGroupID(Long userID, Long groupID);
+
+
+    @Query(value = """
+        SELECT i
+        FROM Invitation i
+        WHERE i.group.id = :groupID
+        """)
+    List<Invitation> getInvitedMembers(Long groupID);
 }

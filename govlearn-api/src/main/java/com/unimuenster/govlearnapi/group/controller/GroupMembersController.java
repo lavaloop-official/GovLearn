@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -75,6 +76,14 @@ public class GroupMembersController {
         }
 
         List<MemberDetailsWsTo> members = groupService.getMembers(groupId);
+
+        boolean userAdmin = groupService.isUserAdmin(currentUser, groupId);
+
+        if (userAdmin) {
+            List<MemberDetailsWsTo> invitedMembers = memberService.getInvitedMembers(groupId);
+
+            invitedMembers.forEach(member -> members.add(member));
+        }
 
         return ResponseEntity.ok(Response.of(members));
 

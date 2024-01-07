@@ -21,4 +21,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         SELECT u FROM UserEntity u WHERE u.email IN :email
     """)
     List<UserEntity> findAllUsersByEmail(List<String> email);
+
+    @Query(value = """
+        SELECT u 
+        FROM UserEntity u 
+        WHERE u.id NOT IN (SELECT m.user.id FROM Member m WHERE m.group.id = :groupID)
+        AND u.id NOT IN (SELECT i.user.id FROM Invitation i WHERE i.group.id = :groupID)
+    """)
+    List<UserEntity> findAllUserWithoutGroup(Long groupID);
 }

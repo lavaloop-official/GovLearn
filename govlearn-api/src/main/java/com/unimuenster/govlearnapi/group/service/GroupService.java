@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -188,7 +190,8 @@ public class GroupService {
             .groupId(groupId)
             .courseIds(element.getCourses().stream().map(course -> course.getId()).toList())
             .userId(element.getUser().getId())
-            .build()).toList();
+            .build()
+        ).collect(Collectors.toList());
 
         return groupContentWsTos;
     }
@@ -219,7 +222,7 @@ public class GroupService {
 
         List<Group> groups = groupRepository.getGroupsByAdmin(currentUser.getId());
 
-        return groups.stream().map(group -> GroupDetailsWsTo.builder().groupId(group.getId()).groupName(group.getName()).groupDescription(group.getDescription()).build()).toList();
+        return groups.stream().map(group -> GroupDetailsWsTo.builder().groupId(group.getId()).groupName(group.getName()).groupDescription(group.getDescription()).build()).collect(Collectors.toList());
     }
 
     public List<GroupDetailsWsTo> getMemberGroups(UserEntity currentUser) {
@@ -245,7 +248,7 @@ public class GroupService {
                 .build();
             return groupDetailsWsTo;
             }
-        ).toList();
+        ).collect(Collectors.toList());
     }
 
     public GroupDetailsWsTo getGroupDetails(Long groupId) {
@@ -274,7 +277,7 @@ public class GroupService {
                 .role(member.getRole())
                 .build();
             return memberDetailsWsTo;
-        }).toList();
+        }).collect(Collectors.toList());
         return memberDetailsWsTos;
     }
 
@@ -289,7 +292,7 @@ public class GroupService {
                 .role(user.getRole())
                 .build();
             return memberDetailsWsTo;
-        }).toList();
+        }).collect(Collectors.toList());
         return admins;
     }
 

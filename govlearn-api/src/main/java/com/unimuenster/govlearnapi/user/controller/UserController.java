@@ -15,6 +15,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +80,10 @@ public class UserController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/users/all")
-    public ResponseEntity<Response> getAllUser() {
+    public ResponseEntity<Response> getAllUser(Optional<Long> groupID) {
+
+        if(groupID.isPresent())
+            return ResponseEntity.ok(Response.of(customUserCrudService.getAllUserWithoutGroup(groupID.get()), new Message(Message.SUCCESS)));
 
         return ResponseEntity.ok(Response.of(customUserCrudService.getAllUser(), new Message(Message.SUCCESS)));
     }

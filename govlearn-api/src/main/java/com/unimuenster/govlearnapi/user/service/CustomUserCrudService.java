@@ -76,6 +76,16 @@ public class CustomUserCrudService {
         return userWsTos;
     }
 
+    public List<UserWsTo> getAllUserWithoutGroup(Long groupID){
+        List<UserEntity> userEntities = userRepository.findAllUserWithoutGroup(groupID);
+        List<UserWsTo> userWsTos = userEntities.stream().map(element -> {
+            UserWsTo userWsTo = new UserWsTo(element.getEmail(), element.getName());
+            return userWsTo;
+        }).collect(Collectors.toList());
+
+        return userWsTos;
+    }
+
     public UserWsTo getUserByID(Long userID){
 
         Optional<UserEntity> userEntity = userRepository.findUserById(userID);
