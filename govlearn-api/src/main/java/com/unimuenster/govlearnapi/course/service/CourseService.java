@@ -75,7 +75,7 @@ public class CourseService {
             throw new UnauthorizedException();
         }
 
-       courseRepository.updateCourse(courseUpdateWsTo);
+       courseRepository.updateCourse(serviceCourseMapper.map(courseUpdateWsTo));
     }
 
     private boolean isCreatorOfCourse(Long userId, Course course) {
