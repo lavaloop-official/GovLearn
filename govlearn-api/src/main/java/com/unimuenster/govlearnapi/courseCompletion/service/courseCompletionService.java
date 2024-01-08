@@ -35,14 +35,13 @@ public class courseCompletionService {
         if (isCourseCompleted(currentUser, courseId)) {
             throw new IllegalArgumentException();
         }
-        //currentUser.getBookmarked().add(course.get());
-        // Get Reference to the course in the list of bookmarks
-        //Course courseInList = currentUser.getBookmarked().stream().filter(course1 -> course1.getId() == course.get().getId()).findFirst().get();
-        //courseInList.getBookmarkedBy().add(currentUser);
+        currentUser.getCompleted().add(course.get());
 
-        // Save changes to both entities
-        //userRepository.save(currentUser);
-        //courseRepository.save(course.get());
+        Course courseInList = currentUser.getCompleted().stream().filter(course1 -> course1.getId() == course.get().getId()).findFirst().get();
+        courseInList.getCompletedBy().add(currentUser);
+
+        userRepository.save(currentUser);
+        courseRepository.save(course.get());
     }
 
 
@@ -56,8 +55,11 @@ public class courseCompletionService {
     
     public Boolean isCourseCompleted(UserEntity currentUser, Long courseId) {
         Long count = courseCompletionRepository.countCourseCompleted(currentUser.getId(), courseId);
-
-        return count > 0;
+        if (count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -70,14 +72,12 @@ public class courseCompletionService {
         if (!isCourseCompleted(currentUser, courseId)) {
             throw new IllegalArgumentException();
         }
-        // Get Reference to the course in the list of bookmarks
-        //??? Course courseInList = currentUser.getBookmarked().stream().filter(course1 -> course1.getId() == course.get().getId()).findFirst().get();
+        Course courseInList = currentUser.getCompleted().stream().filter(course1 -> course1.getId() == course.get().getId()).findFirst().get();
 
-        //currentUser.getBookmarked().remove(courseInList);
-        //courseInList.getBookmarkedBy().remove(currentUser);
+        currentUser.getCompleted().remove(courseInList);
+        courseInList.getCompletedBy().remove(currentUser);
 
-        // Save changes to both entities
-        //userRepository.save(currentUser);
-        //courseRepository.save(course.get());
+        userRepository.save(currentUser);
+        courseRepository.save(course.get());
     }
 }
