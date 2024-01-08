@@ -1,7 +1,10 @@
 package com.unimuenster.govlearnapi.course.service.mapper;
 
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.course.service.dto.CourseUpdateDTO;
+import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +21,7 @@ public class ServiceCourseMapper {
                 course.getInstructor(),
                 course.getCertificate(),
                 course.getSkilllevel(),
-                course.getDuration(),
+                course.getDurationInMinutes(),
                 course.getFormat(),
                 course.getStartDate(),
                 course.getCostFree(),
@@ -39,12 +42,31 @@ public class ServiceCourseMapper {
                 .instructor(courseDTO.instructor())
                 .certificate(courseDTO.certificate())
                 .skilllevel(courseDTO.skilllevel())
-                .duration(courseDTO.durationInHours())
+                .durationInMinutes(courseDTO.durationInMinutes())
                 .format(courseDTO.format())
                 .startDate(courseDTO.startDate())
                 .costFree(courseDTO.costFree())
                 .domainSpecific(courseDTO.domainSpecific())
                 .link(courseDTO.link())
                 .build();
+    }
+
+    public CourseUpdateDTO map(CourseUpdateWsTo course) {
+        return new CourseUpdateDTO(
+                course.id(),
+                course.name(),
+                course.image(),
+                course.description(),
+                course.provider(),
+                course.instructor(),
+                course.certificate(),
+                course.skilllevel(),
+                ControllerCourseMapper.convertToMinutes(course.durationInHours()),
+                course.format(),
+                course.startDate(),
+                course.costFree(),
+                course.domainSpecific(),
+                course.link()
+        );
     }
 }

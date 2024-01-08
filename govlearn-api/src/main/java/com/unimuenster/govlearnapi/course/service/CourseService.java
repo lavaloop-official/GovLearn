@@ -49,7 +49,7 @@ public class CourseService {
                 .instructor(courseCreationDTO.instructor())
                 .certificate(courseCreationDTO.certificate())
                 .skilllevel(courseCreationDTO.skilllevel())
-                .duration(courseCreationDTO.durationInHours())
+                .durationInMinutes(courseCreationDTO.durationInMinutes())
                 .format(courseCreationDTO.format())
                 .startDate(courseCreationDTO.startDate())
                 .costFree(courseCreationDTO.costFree())
@@ -75,7 +75,7 @@ public class CourseService {
             throw new UnauthorizedException();
         }
 
-       courseRepository.updateCourse(courseUpdateWsTo);
+       courseRepository.updateCourse(serviceCourseMapper.map(courseUpdateWsTo));
     }
 
     private boolean isCreatorOfCourse(Long userId, Course course) {
@@ -129,7 +129,7 @@ public class CourseService {
                 .instructor(course.get().getInstructor())
                 .certificate(course.get().getCertificate())
                 .skilllevel(course.get().getSkilllevel())
-                .duration(course.get().getDuration())
+                .durationInMinutes(course.get().getDurationInMinutes())
                 .format(course.get().getFormat())
                 .startDate(course.get().getStartDate())
                 .costFree(course.get().getCostFree())
