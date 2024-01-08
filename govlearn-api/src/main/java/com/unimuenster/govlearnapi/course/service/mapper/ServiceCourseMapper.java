@@ -18,7 +18,7 @@ public class ServiceCourseMapper {
                 course.getInstructor(),
                 course.getCertificate(),
                 course.getSkilllevel(),
-                course.getDuration(),
+                course.getDurationInMinutes(),
                 course.getFormat(),
                 course.getStartDate(),
                 course.getCostFree(),
@@ -39,7 +39,7 @@ public class ServiceCourseMapper {
                 .instructor(courseDTO.instructor())
                 .certificate(courseDTO.certificate())
                 .skilllevel(courseDTO.skilllevel())
-                .duration(courseDTO.durationInHours())
+                .durationInMinutes(courseDTO.durationInMinutes())
                 .format(courseDTO.format())
                 .startDate(courseDTO.startDate())
                 .costFree(courseDTO.costFree())

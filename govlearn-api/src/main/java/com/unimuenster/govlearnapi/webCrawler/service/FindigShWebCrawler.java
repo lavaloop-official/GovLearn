@@ -71,7 +71,7 @@ public class FindigShWebCrawler extends WebCrawler{
                         mapCompetence(competence_level)
                 )
                 .link("")
-                .duration(duration)
+                .durationInMinutes(100)
                 .creator(currentUser)
                 .build();
     }
