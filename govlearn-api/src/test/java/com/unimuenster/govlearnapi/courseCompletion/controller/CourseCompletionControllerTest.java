@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class CourseCompletionControllerTest extends AbstractIntegrationTest {
@@ -40,13 +41,13 @@ class CourseCompletionControllerTest extends AbstractIntegrationTest {
     void addCourseCompletion() {
 
 
-        ResponseEntity<Response> responseResponseEntity =
+        ResponseEntity<Response> ResponseEntity =
                 courseCompletionCotroller
                         .addCourseCompletion(
                                 initializerService.getCourse13().getId()
                         );
 
-        Message[] messages = responseResponseEntity.getBody().getMessages();
+        Message[] messages = ResponseEntity.getBody().getMessages();
 
         assertEquals(Message.SUCCESS, messages[0].getMessage());
     }
@@ -67,13 +68,15 @@ class CourseCompletionControllerTest extends AbstractIntegrationTest {
      @Test
     void getUsersCourseCompletion(){
 
-        ResponseEntity<Response> responseResponseEntity  = courseCompletionCotroller.getUsersCourseCompletion();
-        //Response completedCourseDTOs = responseResponseEntity.getBody();
-        //List<CourseDTO> ids= responseResponseEntity.getBody().getPayload().stream().map(courseDTO.getId()->.....)
-        //Wie kann ich hier testen, ob die richtige Liste zurückgegeben wird?
-        Message[] messages = responseResponseEntity.getBody().getMessages();
+        ResponseEntity<Response> ResponseEntity  = courseCompletionCotroller.getUsersCourseCompletion();
+        Long completedCourseId1 = ((List<CourseDTO>)ResponseEntity.getBody()).get(0).id();
+        Long completedCourseId2 = ((List<CourseDTO>)ResponseEntity.getBody()).get(1).id();
+      
+        Message[] messages = ResponseEntity.getBody().getMessages();
 
         assertEquals(Message.SUCCESS, messages[0].getMessage());
+        assertEquals(initializerService.getCourse1().getId(), completedCourseId1);
+        assertEquals(initializerService.getCourse2().getId(), completedCourseId2);
     }
 
     private void setCurrentUser(){
