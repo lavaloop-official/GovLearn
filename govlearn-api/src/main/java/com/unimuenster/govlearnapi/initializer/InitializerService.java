@@ -66,6 +66,7 @@ public class InitializerService {
         addTagsToUsers();
         addTagsToCourses();
         addBookmarkToUser();
+        addCourseCompletionToUser();
     }
 
     public void insertUser(){
@@ -493,6 +494,14 @@ public class InitializerService {
     private void addBookmarkToUser(){
         this.getUser1().getBookmarked().add(this.getCourse1());
         this.getCourse1().getBookmarkedBy().add(this.getUser1());
+    }
+
+    private void addCourseCompletionToUser(){
+        this.getUser1().getCompleted().add(this.getCourse1());
+        this.getCourse1().getCompletedBy().add(this.getUser1());
+        this.getUser1().getCompleted().add(this.getCourse2());
+        this.getCourse2().getCompletedBy().add(this.getUser1());
+
     }
 
     private void insertMassiveCourseList(){
