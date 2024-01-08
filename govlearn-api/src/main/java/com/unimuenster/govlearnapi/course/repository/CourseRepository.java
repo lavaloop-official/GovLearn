@@ -1,7 +1,8 @@
 package com.unimuenster.govlearnapi.course.repository;
 
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.service.dto.CourseUpdateDTO;
+
 import jakarta.persistence.TemporalType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -99,9 +100,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Modifying
     @Query(value = """
     UPDATE Course
-        SET name = :#{#courseUpdateWsTo.name}, image = :#{#courseUpdateWsTo.image}, link = :#{#courseUpdateWsTo.link}, description = :#{#courseUpdateWsTo.description}, provider = :#{#courseUpdateWsTo.provider}, instructor = :#{#courseUpdateWsTo.instructor}, certificate = :#{#courseUpdateWsTo.certificate}, skilllevel = :#{#courseUpdateWsTo.skilllevel}, durationInMinutes = :#{#courseUpdateWsTo.durationInMinutes}, format = :#{#courseUpdateWsTo.format}, startDate = :#{#courseUpdateWsTo.startDate}, costFree = :#{#courseUpdateWsTo.costFree}, domainSpecific = :#{#courseUpdateWsTo.domainSpecific}
-        WHERE id = :#{#courseUpdateWsTo.id}
+        SET name = :#{#courseUpdateDTO.name}, image = :#{#courseUpdateDTO.image}, link = :#{#courseUpdateDTO.link}, description = :#{#courseUpdateDTO.description}, provider = :#{#courseUpdateDTO.provider}, instructor = :#{#courseUpdateDTO.instructor}, certificate = :#{#courseUpdateDTO.certificate}, skilllevel = :#{#courseUpdateDTO.skilllevel}, durationInMinutes = :#{#courseUpdateDTO.durationInMinutes}, format = :#{#courseUpdateDTO.format}, startDate = :#{#courseUpdateDTO.startDate}, costFree = :#{#courseUpdateDTO.costFree}, domainSpecific = :#{#courseUpdateDTO.domainSpecific}
+        WHERE id = :#{#courseUpdateDTO.id}
 """)
-    void updateCourse(CourseUpdateWsTo courseUpdateWsTo);
+    void updateCourse(CourseUpdateDTO courseUpdateDTO);
 
 }
