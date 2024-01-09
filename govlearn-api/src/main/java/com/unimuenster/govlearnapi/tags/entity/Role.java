@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
+import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,26 +15,29 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTag {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private String description;
 
-    private int rating;
+    @ManyToMany
+    @JoinColumn(name = "role_tag_id")
+    @Builder.Default
+    private List<RoleTag> roleTags = new ArrayList<RoleTag>();
 
     protected Date createdAt;
 
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
+    }
+
+    public void addRoleTag(RoleTag roleTag) {
+        roleTags.add(roleTag);
     }
 }

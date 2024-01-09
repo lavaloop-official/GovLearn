@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
@@ -61,8 +62,10 @@ class TagsServiceTest extends AbstractIntegrationTest {
     @Transactional
     void addTagToUser(){
 
+        AddTagToUserWsTo addTagToUserWsTo = new AddTagToUserWsTo(initializer.getTag2().getId(), 1);
+
         // Add tag 2 to user 1
-        userTagService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId());
+        userTagService.addTagToUser(initializer.getUser1(), addTagToUserWsTo);
 
         List<UserTag> userTagByUserId = userTagRepository.getUserTagByUserId(initializer.getUser1().getId());
 

@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.service;
 
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
@@ -26,9 +27,9 @@ public class UserTagService {
     }
 
     @Transactional
-    public void addTagToUser(UserEntity currentUser, long tagId) {
+    public void addTagToUser(UserEntity currentUser, AddTagToUserWsTo addTagToUserWsTo) {
 
-        Optional<Tag> byId = tagRepository.findById(tagId);
+        Optional<Tag> byId = tagRepository.findById(addTagToUserWsTo.tagId());
 
         if ( byId.isEmpty() ){
             throw new NotFoundException();
@@ -36,7 +37,7 @@ public class UserTagService {
 
         UserTag userTag = new UserTag();
         userTag.setUser(currentUser);
-        userTag.setRating(1);
+        userTag.setRating(addTagToUserWsTo.rating());
         userTag.setTag(byId.get());
 
         userTagRepository.save(userTag);
