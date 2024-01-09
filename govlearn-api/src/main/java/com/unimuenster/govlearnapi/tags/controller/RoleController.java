@@ -60,7 +60,7 @@ public class RoleController {
             description = "Get all RoleTags from a Role"
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/RoleTags/{roleID}")
+    @GetMapping("/roletags/{roleID}")
     public ResponseEntity<Response> getAllRoleTags(@PathVariable Long roleID){
 
         List<RoleTagWsTo> roleTagWsTos = roleService.getAllRoleTags(roleID);
@@ -73,7 +73,7 @@ public class RoleController {
             description = "Assign a Role a RoleTag"
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/RoleTags/{roleTagID}/{roleID}")
+    @PostMapping("/roletags/{roleTagID}/{roleID}")
     public ResponseEntity<Response> asignRoleTag(@PathVariable Long roleTagID, @PathVariable Long roleID){
 
         roleService.asignRoleTag(roleTagID,roleID);
@@ -86,7 +86,7 @@ public class RoleController {
             description = "Create a RoleTag"
     )
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/RoleTags/")
+    @PostMapping("/roletags")
     public ResponseEntity<Response> createRoleTag(@RequestBody RoleTagCreationWsTo roleTagCreationWsTo){
 
         roleService.createRoleTag(roleTagCreationWsTo);
