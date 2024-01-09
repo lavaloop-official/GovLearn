@@ -3,11 +3,9 @@ package com.unimuenster.govlearnapi.tags.service.mapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.RoleCreationWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Role;
 import com.unimuenster.govlearnapi.tags.entity.RoleTag;
-import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.service.dto.RoleCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.RoleDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.RoleTagDTO;
-import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

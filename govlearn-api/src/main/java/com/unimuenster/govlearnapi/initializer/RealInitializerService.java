@@ -4,13 +4,16 @@ import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
+import com.unimuenster.govlearnapi.core.config.enums.Verantwortungsbereich;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
+import com.unimuenster.govlearnapi.tags.entity.Role;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
+import com.unimuenster.govlearnapi.tags.repository.RoleRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -34,6 +37,7 @@ public class RealInitializerService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final TagRepository tagRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
@@ -47,6 +51,7 @@ public class RealInitializerService {
     private Category businessCategory, organisatorischCategory, RechtlichCategory, softSkillsCategory, sozioTechnischCategory, technischCategory, oeffenlichPolitischCategory;
     private Tag tagChangemanagement, tagProjektmanagement, tagProjektplanung, tagProjekterfolgskontrolle, tagResourcenmanagement, tagMarketing, tagQulitaetsmanagement, tagRisikomanagement, tagVerwaltungsstruktur, tagProzessmanagement, tagOrganisationsformen, tagVerwaltungsprozesse, tagVerwaltungsrecht, tagItRecht, tageGovernmentRecht, tagSelbstorganisation, tagTeamFaehigkeit, tagFuehrungskompentenzen, tagDesignThinking, tagStressbewaeltigung, tagKonfliktmanagement, tagMedienkompetenz, tagKommunikation, tagVirtuellesArbeiten, tagPraesentationstechnicken, tagLernkompetenzen, tagKundenbeduerfnisseAnforderungsmanagement, tagStakeholderAnalyse, tagDigitaleTrends, tagProgrammieren, tagSoftwarearchitektur, tagEntwicklungvonSicherheitskonzepten, tagBetirebssymsteme, tagErpSysteme, tagDataMining, tagDatenbankmanagement, tagKI, tagGrafikdesignBilbearbeitung, tagKollaborationstools, tagOutlook, tagWord, tagExcel, tagItSicherheit, tagHardwarekompetenz, tagBuergerzentrierung, tagDatenschutz, tagCompliance, tagFremdsprache, tagInformationsicherheit;
     private UserTag userTag1, userTag2, userTag3, userTag4;
+    private Role OrganisationStratege, OrganisationEntscheidungsträger, OrganisationUmsetzer, DigitalisierungStratege, DigitalisierungEntscheidungsträger, DigitalisierungUmsetzer, InformationstechnikStratege, InformationstechnikEntscheidungsträger, InformationstechnikUmsetzer, SmartCityStratege, SmartCityEntscheidungsTräger, SmartCityUmsetzer, NichtDigitalStratege, NichtDigitalEntscheidungsträger, NichtDigitalUmsetzer, PersonalStratege, PersonalEntscheidungsträger, PersonalUmsetzer;
 
     public void init() {
         insertUser();
@@ -56,6 +61,7 @@ public class RealInitializerService {
         addTagsToUsers();
         addTagsToCourses();
         addFeedbackToCourses();
+        insertRoles();
     }
 
     public void insertUser(){
@@ -1401,5 +1407,115 @@ public class RealInitializerService {
         courseRepository.save(course15);
 
 
+    }
+
+    private void insertRoles(){
+        OrganisationStratege = new Role();
+        OrganisationStratege.setName("Organisation");
+        OrganisationStratege.setDescription("");
+        OrganisationStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(OrganisationStratege);
+
+        OrganisationEntscheidungsträger = new Role();
+        OrganisationEntscheidungsträger.setName("Organisation");
+        OrganisationEntscheidungsträger.setDescription("");
+        OrganisationEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(OrganisationEntscheidungsträger);
+
+        OrganisationUmsetzer = new Role();
+        OrganisationUmsetzer.setName("Organisation");
+        OrganisationUmsetzer.setDescription("");
+        OrganisationUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(OrganisationUmsetzer);
+
+        DigitalisierungStratege = new Role();
+        DigitalisierungStratege.setName("Digitalisierung");
+        DigitalisierungStratege.setDescription("");
+        DigitalisierungStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(DigitalisierungStratege);
+
+        DigitalisierungEntscheidungsträger = new Role();
+        DigitalisierungEntscheidungsträger.setName("Digitalisierung");
+        DigitalisierungEntscheidungsträger.setDescription("");
+        DigitalisierungEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(DigitalisierungEntscheidungsträger);
+
+        DigitalisierungUmsetzer = new Role();
+        DigitalisierungUmsetzer.setName("Digitalisierung");
+        DigitalisierungUmsetzer.setDescription("");
+        DigitalisierungUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(DigitalisierungUmsetzer);
+
+        InformationstechnikStratege = new Role();
+        InformationstechnikStratege.setName("Informationstechnik");
+        InformationstechnikStratege.setDescription("");
+        InformationstechnikStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(InformationstechnikStratege);
+
+        InformationstechnikEntscheidungsträger = new Role();
+        InformationstechnikEntscheidungsträger.setName("Informationstechnik");
+        InformationstechnikEntscheidungsträger.setDescription("");
+        InformationstechnikEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(InformationstechnikEntscheidungsträger);
+
+        InformationstechnikUmsetzer = new Role();
+        InformationstechnikUmsetzer.setName("Informationstechnik");
+        InformationstechnikUmsetzer.setDescription("");
+        DigitalisierungUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(InformationstechnikUmsetzer);
+
+        SmartCityStratege = new Role();
+        SmartCityStratege.setName("Smart City");
+        SmartCityStratege.setDescription("");
+        SmartCityStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(SmartCityStratege);
+
+        SmartCityEntscheidungsTräger = new Role();
+        SmartCityEntscheidungsTräger.setName("Smart City");
+        SmartCityEntscheidungsTräger.setDescription("");
+        SmartCityEntscheidungsTräger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(SmartCityEntscheidungsTräger);
+
+        SmartCityUmsetzer = new Role();
+        SmartCityUmsetzer.setName("Smart City");
+        SmartCityUmsetzer.setDescription("");
+        SmartCityUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(SmartCityUmsetzer);
+
+        NichtDigitalStratege = new Role();
+        NichtDigitalStratege.setName("Nicht-digital");
+        NichtDigitalStratege.setDescription("");
+        NichtDigitalStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(NichtDigitalStratege);
+
+        NichtDigitalEntscheidungsträger = new Role();
+        NichtDigitalEntscheidungsträger.setName("Nicht-digital");
+        NichtDigitalEntscheidungsträger.setDescription("");
+        NichtDigitalEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(NichtDigitalEntscheidungsträger);
+
+        NichtDigitalUmsetzer = new Role();
+        NichtDigitalUmsetzer.setName("Nicht-digital");
+        NichtDigitalUmsetzer.setDescription("");
+        NichtDigitalUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(NichtDigitalUmsetzer);
+
+        PersonalStratege = new Role();
+        PersonalStratege.setName("Personal");
+        PersonalStratege.setDescription("");
+        PersonalStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(PersonalStratege);
+
+        PersonalEntscheidungsträger = new Role();
+        PersonalEntscheidungsträger.setName("Personal");
+        PersonalEntscheidungsträger.setDescription("");
+        PersonalEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(PersonalEntscheidungsträger);
+
+        PersonalUmsetzer = new Role();
+        PersonalUmsetzer.setName("Personal");
+        PersonalUmsetzer.setDescription("");
+        PersonalUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(PersonalUmsetzer);
     }
 }
