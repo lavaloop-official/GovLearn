@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class ServiceRoleMapper {
 
     public RoleDTO map(Role role) {
-        return new RoleDTO(role.getId(), role.getName(),role.getDescription(), role.getVerantwortungsbereich());
+        return new RoleDTO(role.getId(), role.getName(),role.getDescription(), role.getVerantwortungsbereich(), mapRoleTags(role.getRoleTags()));
     }
 
     public RoleCreationDTO map(RoleCreationWsTo roleCreationWsTo) {

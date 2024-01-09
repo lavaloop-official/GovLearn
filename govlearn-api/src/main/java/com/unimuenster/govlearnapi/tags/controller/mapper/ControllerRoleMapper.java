@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ControllerRoleMapper {
 
     public RoleWsTo map(RoleDTO roleDTO){
-        return new RoleWsTo(roleDTO.id(),roleDTO.name(),roleDTO.description(), roleDTO.verantwortungsbereich());
+        return new RoleWsTo(roleDTO.id(),roleDTO.name(),roleDTO.description(), roleDTO.verantwortungsbereich(), mapRoleTagDTOs(roleDTO.roleTagDTOs()));
     }
 
     public List<RoleWsTo> map(List<RoleDTO> roleDTOs) {
