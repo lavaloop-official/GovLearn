@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ControllerRoleMapper {
 
     public RoleWsTo map(RoleDTO roleDTO){
-        return new RoleWsTo(roleDTO.id(),roleDTO.name(),roleDTO.description());
+        return new RoleWsTo(roleDTO.id(),roleDTO.name(),roleDTO.description(), roleDTO.verantwortungsbereich());
     }
 
     public List<RoleWsTo> map(List<RoleDTO> roleDTOs) {
@@ -24,7 +24,7 @@ public class ControllerRoleMapper {
     }
 
     public RoleTagWsTo map(RoleTagDTO roleTagDTO){
-        return new RoleTagWsTo(roleTagDTO.ID(),roleTagDTO.tagID(),roleTagDTO.rating());
+        return new RoleTagWsTo(roleTagDTO.ID(),roleTagDTO.tagID(),roleTagDTO.rating(), roleTagDTO.tagName());
     }
 
     public List<RoleTagWsTo> mapRoleTagDTOs(List<RoleTagDTO> roleTagDTOs) {

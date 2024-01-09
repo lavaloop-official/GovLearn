@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 public class ServiceRoleMapper {
 
     public RoleDTO map(Role role) {
-        return new RoleDTO(role.getId(), role.getName(),role.getDescription());
+        return new RoleDTO(role.getId(), role.getName(),role.getDescription(), role.getVerantwortungsbereich());
     }
 
     public RoleCreationDTO map(RoleCreationWsTo roleCreationWsTo) {
-        return new RoleCreationDTO(roleCreationWsTo.name(),roleCreationWsTo.description());
+        return new RoleCreationDTO(roleCreationWsTo.name(),roleCreationWsTo.description(), roleCreationWsTo.verantwortungsbereich());
     }
 
     public Role map(RoleCreationDTO roleCreationDTO) {
@@ -30,6 +30,7 @@ public class ServiceRoleMapper {
             .builder()
             .name(roleCreationDTO.name())
             .description(roleCreationDTO.description())
+            .verantwortungsbereich(roleCreationDTO.verantwortungsbereich())
             .build();
     }
 
@@ -41,7 +42,7 @@ public class ServiceRoleMapper {
     }
 
     public RoleTagDTO map(RoleTag roleTag) {
-        return new RoleTagDTO(roleTag.getId(), roleTag.getTag().getId(), roleTag.getRating());
+        return new RoleTagDTO(roleTag.getId(), roleTag.getTag().getId(), roleTag.getRating(), roleTag.getTag().getName());
     }
 
     public List<RoleTagDTO> mapRoleTags(List<RoleTag> roleTags) {

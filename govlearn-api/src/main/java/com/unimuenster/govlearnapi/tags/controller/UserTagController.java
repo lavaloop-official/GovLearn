@@ -49,16 +49,16 @@ public class UserTagController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Add a tag to the user."
+            description = "Add tags to the user."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/tags/users")
     public ResponseEntity<Response> addTagToUser(
-            @RequestBody AddTagToUserWsTo addTagToUserWsTo
+            @RequestBody List<AddTagToUserWsTo> addTagToUserWsTo
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        userTagService.addTagToUser(currentUser, addTagToUserWsTo);
+        userTagService.addTagsToUser(currentUser, addTagToUserWsTo);
 
         return ResponseEntity.ok( Response.of(true));
     }

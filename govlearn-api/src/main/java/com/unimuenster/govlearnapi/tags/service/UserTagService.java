@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,20 +29,21 @@ public class UserTagService {
     }
 
     @Transactional
-    public void addTagToUser(UserEntity currentUser, AddTagToUserWsTo addTagToUserWsTo) {
+    public void addTagsToUser(UserEntity currentUser, List<AddTagToUserWsTo> addTagToUserWsTo) {
 
-        Optional<Tag> byId = tagRepository.findById(addTagToUserWsTo.tagId());
+        List<Tag> existingTags = tagRepository.findAllById(addTagToUserWsTo.stream().map(addTag -> addTag.tagId()).collect(Collectors.toList()));
 
-        if ( byId.isEmpty() ){
-            throw new NotFoundException();
-        }
+        List<Long> userTagIDs = userTagRepository.getUserTagByUserId(currentUser.getId()).stream().map(element -> element.getId()).collect(Collectors.toList());
 
-        UserTag userTag = new UserTag();
-        userTag.setUser(currentUser);
-        userTag.setRating(addTagToUserWsTo.rating());
-        userTag.setTag(byId.get());
+        List<Tag> filteredTags = existingTags.stream().filter(e -> !userTagIDs.contains(e.getId())).collect(Collectors.toList());
 
-        userTagRepository.save(userTag);
+        filteredTags.stream().forEach(tag -> {
+            UserTag userTag = new UserTag();
+            userTag.setUser(currentUser);
+            userTag.setRating(addTagToUserWsTo.stream().filter(element -> element.tagId() == tag.getId()).findFirst().get().rating());
+            userTag.setTag(tag);
+            userTagRepository.save(userTag);
+        });
     }
 
     public double[] getUserTagRatingVector(List<UserTag> tags, List<TagDTO> allTags){

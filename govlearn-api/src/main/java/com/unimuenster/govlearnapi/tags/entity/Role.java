@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
+import com.unimuenster.govlearnapi.core.config.enums.Verantwortungsbereich;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -24,6 +25,8 @@ public class Role {
     private String name;
 
     private String description;
+
+    private Verantwortungsbereich verantwortungsbereich;
 
     @ManyToMany
     @JoinColumn(name = "role_tag_id")
