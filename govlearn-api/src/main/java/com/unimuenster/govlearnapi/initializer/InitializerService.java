@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
@@ -8,6 +9,8 @@ import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.feedback.entity.Feedback;
+import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -32,12 +35,17 @@ import jakarta.transaction.Transactional;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Slf4j
@@ -52,6 +60,8 @@ public class InitializerService {
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
     private final CategoryRepository categoryRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final BookmarkRepository bookmarkReposity;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
@@ -66,6 +76,7 @@ public class InitializerService {
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
+    private Feedback feedback;
 
     public void init() {
         insertUser();
@@ -75,7 +86,8 @@ public class InitializerService {
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
-        addBookmarkToUser();
+        //addBookmarkToUser();
+        addFeedbackToCourse();
     }
 
     private TokenDTO authenticate(UserEntity user){
@@ -548,8 +560,20 @@ public class InitializerService {
     }
 
     private void addBookmarkToUser(){
-        this.getUser1().getBookmarked().add(this.getCourse1());
+        //this.getUser1().getBookmarked().add(this.getCourse1());
         this.getCourse1().getBookmarkedBy().add(this.getUser1());
+        bookmarkReposity.save(this.getCourse1());
+    }
+
+    private void addFeedbackToCourse(){
+        feedback = new Feedback();
+        feedback.setUser(user2);
+        feedback.setCourse(course2);
+        feedback.setRating(5);
+        feedback.setTitle("Test Feedback");
+        feedback.setDescription("Test Feedback Description");
+
+        feedbackRepository.save(feedback);
     }
 
     private void insertMassiveCourseList(){
@@ -581,4 +605,5 @@ public class InitializerService {
         }
 
     }
+
 }
