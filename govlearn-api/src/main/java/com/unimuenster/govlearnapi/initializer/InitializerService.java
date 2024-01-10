@@ -86,7 +86,6 @@ public class InitializerService {
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
-        //addBookmarkToUser();
         addFeedbackToCourse();
     }
 
@@ -557,12 +556,6 @@ public class InitializerService {
         courseTag18.setTag(tag1);
 
         courseTagRepository.save(courseTag18);
-    }
-
-    private void addBookmarkToUser(){
-        //this.getUser1().getBookmarked().add(this.getCourse1());
-        this.getCourse1().getBookmarkedBy().add(this.getUser1());
-        bookmarkReposity.save(this.getCourse1());
     }
 
     private void addFeedbackToCourse(){
