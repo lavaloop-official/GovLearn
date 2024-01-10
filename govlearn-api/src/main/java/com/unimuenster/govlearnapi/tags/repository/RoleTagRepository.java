@@ -21,4 +21,12 @@ public interface RoleTagRepository extends JpaRepository<RoleTag, Long> {
         WHERE role_role_tags.role_id = :roleID
         """, nativeQuery = true)
     List<RoleTag> getAllRoleTagsByRole(Long roleID);
+
+    @Query(value = """
+        SELECT *
+        FROM role_tag
+        INNER JOIN tag ON role_tag.id = tag.id
+        WHERE role_tag.rating = :Rating AND tag.name = :tagName
+        """, nativeQuery = true)
+    RoleTag getRoleTagByRoleAndTag(int Rating, String tagName);
 }

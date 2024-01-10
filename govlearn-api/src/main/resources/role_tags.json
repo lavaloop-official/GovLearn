@@ -1,0 +1,95 @@
+{
+  "Digitalisierung": {
+    "normal": [
+      "Projektmanagement",
+      "Entwicklung von Sicherheitskonzepten",
+      "Compliance",
+      "Digitale Trends",
+      "Kundenbedürfnisse",
+      "Softwarearchitektur",
+      "eGovernment-Recht",
+      "(Online-)Marketing"
+    ],
+    "advanced": [
+      "Prozessmanagement",
+      "Change-Management"
+    ]
+  },
+  "Informationstechnik": {
+    "normal": [
+      "Digitale Trends",
+      "ERP-Systeme",
+      "Data Mining",
+      "Grafikdesign / Bildbearbeitung",
+      "Collaboration-Tools",
+      "Betriebssysteme",
+      "IT-Recht",
+      "eGovernment-Recht"
+    ],
+    "advanced": [
+      "Softwarearchitektur",
+      "IT-Sicherheit",
+      "Programmierung",
+      "Datenbankmanagement",
+      "KI",
+      "Hardwarekompetenz"
+    ]
+  },
+  "Organisation": {
+    "normal": [
+      "Verwaltungsrecht",
+      "Compliance",
+      "eGovernment-Recht",
+      "Qualitätsmanagement",
+      "Stakeholder-Analysen"
+    ],
+    "advanced": [
+      "Verwaltungsstruktur",
+      "Verwaltungsprozesse",
+      "Organisationsformen",
+      "Prozessmanagement",
+      "Stakeholder-Analysen",
+      "Projektmanagement"
+    ]
+  },
+  "Personal": {
+    "normal": [
+      "Verwaltungsstrukturen",
+      "Verwaltungsprozesse",
+      "Projektmanagement",
+      "(Online-)Marketing",
+      "Kundenbedürfnisse",
+      "Change-Management",
+      "Fremdsprachen"
+    ],
+    "advanced": [
+      "Ressourcenmanagement",
+      "Konfliktmanagement",
+      "Kommunikation"
+    ]
+  },
+  "Smart City": {
+    "normal": [
+      "Kundenbedürfnisse",
+      "Digitale Trends",
+      "Prozessmanagement",
+      "eGovernment-Recht",
+      "Verwaltungsrecht",
+      "Entwicklung von Sicherheitskonzepten",
+      "(Online-)Marketing"
+    ],
+    "advanced": [
+      "Stakeholder-Analysen",
+      "Verwaltungsstruktur",
+      "Projektmanagement",
+      "Qualitätsmanagement"
+    ]
+  },
+  "Nicht-digital": {
+    "normal": [
+      "ERP-Systeme",
+      "Kundenbedürfnisse"
+    ],
+    "advanced": []
+  }
+}

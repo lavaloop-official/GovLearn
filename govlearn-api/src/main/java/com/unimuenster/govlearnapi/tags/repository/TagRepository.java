@@ -18,6 +18,13 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     """)
     Optional<Tag> findById(Long tagId);
 
+    @Query(value = """
+      SELECT t 
+      FROM Tag t 
+      WHERE t.name = :tagName
+    """)
+    Optional<Tag> findByName(String tagName);
+
     @Modifying
     @Query(value = """
       DELETE 

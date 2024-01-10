@@ -575,8 +575,8 @@ public class InitializerService {
             DROP TABLE user_tag CASCADE; 
             DROP TABLE category CASCADE;
             DROP TABLE role_role_tags CASCADE;
-            DROP TABLE role_tags CASCADE;
             DROP TABLE role CASCADE;
+            DROP TABLE role_tag CASCADE;
             """
         );
         try {

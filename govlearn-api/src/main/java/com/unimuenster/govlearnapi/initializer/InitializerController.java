@@ -1,10 +1,18 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,6 +22,7 @@ public class InitializerController {
 
     private final InitializerService initializerService;
     private final RealInitializerService realInitializerService;
+    private final TagRepository tagRepository;
 
     @Operation(
             description = "Post once to initialize the application database."
@@ -52,5 +61,14 @@ public class InitializerController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    class Role {
+        String name;
+        String[] tags;
+
+        public String toString() {
+            return "\nRole: " + name + " Tags: " + Arrays.toString(tags);
+        }
     }
 }

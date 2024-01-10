@@ -1,0 +1,75 @@
+{
+  "Alle": {
+    "normal": [
+      "Datenschutz",
+      "Bürgerzentrierung",
+      "Outlook",
+      "Word",
+      "Excel",
+      "Hardwarekompetenz",
+      "Medienkompetenz",
+      "Selbstorganisation",
+      "Informationssicherheit",
+      "Teamfähigkeit",
+      "Kommunikation",
+      "Digitales Arbeiten",
+      "Lernkompetenz"
+    ],
+    "advanced": []
+  },
+  "Stratege": {
+    "normal": [
+      "Prozessmanagement",
+      "Führungskompetenz",
+      "Digitale Trends",
+      "Stakeholder-Analysen",
+      "Projektmanagement",
+      "Change-Management",
+      "Stressbewältigung"
+    ],
+    "advanced": [
+      "Verwaltungsprozesse",
+      "Organisationsformen",
+      "Verwaltungsstruktur",
+      "Kundenbedürfnisse",
+      "Verwaltungsrecht",
+      "Risikomanagement",
+      "Design Thinking"
+    ]
+  },
+  "Entscheidungsträger": {
+    "normal": [
+      "Prozessmanagement",
+      "Projektmanagement",
+      "Change-Management",
+      "Verwaltungsprozesse",
+      "Präsentationstechniken",
+      "Stressbewältigung",
+      "Projektplanung",
+      "Projekterfolgskontrolle",
+      "Ressourcenmanagement",
+      "Compliance"
+    ],
+    "advanced": [
+      "Führungskompetenz",
+      "Konfliktmanagement",
+      "Kommunikation"
+    ]
+  },
+  "Digitallotse": {
+    "normal": [
+      "Digitale Trends",
+      "Collaboration-Tools",
+      "Präsentationstechniken",
+      "Vermittlungskompetenz"
+    ],
+    "advanced": [
+      "Hardware-Kompetenz",
+      "Word",
+      "Excel",
+      "Outlook",
+      "Medienkompetenz",
+      "Informationssicherheit"
+    ]
+  }
+}
