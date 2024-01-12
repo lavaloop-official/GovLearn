@@ -55,7 +55,18 @@ public class UserEntity {
             name = "bookmark",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @Builder.Default
     private List<Course> bookmarked = new ArrayList<Course>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "course_completed",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"})
+    )
+    @Builder.Default
+    private List<Course> completed = new ArrayList<Course>();
 
     @PrePersist
     private void onCreate() {

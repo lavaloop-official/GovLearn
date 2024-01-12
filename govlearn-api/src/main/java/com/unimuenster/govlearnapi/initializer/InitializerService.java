@@ -76,6 +76,7 @@ public class InitializerService {
         addTagsToUsers();
         addTagsToCourses();
         addBookmarkToUser();
+        addCourseCompletionToUser();
     }
 
     private TokenDTO authenticate(UserEntity user){
@@ -545,6 +546,16 @@ public class InitializerService {
         courseTag18.setTag(tag1);
 
         courseTagRepository.save(courseTag18);
+    }
+
+    private void addCourseCompletionToUser(){
+        this.getUser1().getCompleted().add(this.getCourse1());
+
+        this.getCourse1().getCompletedBy().add(this.getUser1());
+
+        this.getUser1().getCompleted().add(this.getCourse2());
+
+        this.getCourse2().getCompletedBy().add(this.getUser1());
     }
 
     private void addBookmarkToUser(){
