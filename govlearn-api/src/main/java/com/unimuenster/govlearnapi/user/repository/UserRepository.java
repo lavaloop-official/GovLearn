@@ -29,4 +29,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         AND u.id NOT IN (SELECT i.user.id FROM Invitation i WHERE i.group.id = :groupID)
     """)
     List<UserEntity> findAllUserWithoutGroup(Long groupID);
+
+    Optional<UserEntity> findUserByResetToken(String token);
 }

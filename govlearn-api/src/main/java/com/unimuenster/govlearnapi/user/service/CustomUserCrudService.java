@@ -1,5 +1,10 @@
 package com.unimuenster.govlearnapi.user.service;
 
+import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
+import com.unimuenster.govlearnapi.core.config.security.JwtService;
+import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
+import com.unimuenster.govlearnapi.mail.service.EmailService;
+import com.unimuenster.govlearnapi.user.controller.wsto.ResetWsTo;
 import com.unimuenster.govlearnapi.user.exception.NothingChangedException;
 import com.unimuenster.govlearnapi.user.exception.SamePasswordException;
 import com.unimuenster.govlearnapi.user.exception.UserExistsException;
@@ -16,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CustomUserCrudService {
 
+    private final JwtService jwtService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationService authenticationService;
+    private final EmailService emailService;
 
     @Transactional
     public TokenDTO createNewUser(UserDTO userDTO){
@@ -166,5 +174,59 @@ public class CustomUserCrudService {
 
         return authenticate;
 
+    }
+
+    @Transactional
+    public void requestResetToken(String email){
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        if(userEntity == null)
+            throw new UsernameNotFoundException("Username not found!");
+
+        String token = jwtService.generateResetToken(email);
+        userEntity.setResetToken(token);
+
+        try {
+            emailService.sendResetEmail(userEntity.getEmail(), token);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        userRepository.save(userEntity);
+    }
+
+    @Transactional
+    public TokenDTO resetUserPassword(ResetWsTo resetWsTo){
+        Optional<UserEntity> userEntity = userRepository.findUserByResetToken(resetWsTo.token());
+
+        if(userEntity.isEmpty())
+            throw new UnauthorizedException();
+
+        UserEntity user = userEntity.get();
+
+        //check if token is valid
+        if(!user.getResetToken().equals(resetWsTo.token()))
+            throw new UnauthorizedException();
+
+        //check if token is expired
+        if(jwtService.isTokenExpired(resetWsTo.token()))
+            throw new UnauthorizedException();
+
+        //reset reset token
+        user.setResetToken(null);
+
+        if(passwordEncoder.matches(resetWsTo.password(), user.getPassword()))
+            throw new SamePasswordException();
+
+        String encode = passwordEncoder.encode(resetWsTo.password());
+
+        user.setPassword(encode);
+
+        // Speicher neuen Nutzer ab
+        UserEntity save = userRepository.save(user);
+
+        UserDTO UserDTO = new UserDTO(save.getEmail(), resetWsTo.password(), save.getName());
+
+        return authenticationService.authenticate(UserDTO);
     }
 }
