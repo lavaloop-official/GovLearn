@@ -2,17 +2,17 @@ package com.unimuenster.govlearnapi.user.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.mail.service.EmailService;
 import com.unimuenster.govlearnapi.user.controller.wsto.AuthenticationWsTo;
 import com.unimuenster.govlearnapi.user.controller.wsto.RegisterWsTo;
-import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import com.unimuenster.govlearnapi.user.controller.wsto.RequestResetWsTo;
+import com.unimuenster.govlearnapi.user.controller.wsto.ResetWsTo;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
 import com.unimuenster.govlearnapi.user.service.dto.TokenDTO;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +31,7 @@ public class UserController {
 
     private final AuthenticationService authenticationService;
     private final CustomUserCrudService customUserCrudService;
+    private final EmailService emailService;
 
     @Operation(
             description = "Create a persistent user and receive an auth-token."
@@ -109,6 +110,28 @@ public class UserController {
     public ResponseEntity<Response> updateUserPassword(@RequestBody RegisterWsTo user){
         
         TokenDTO tokenDTO = customUserCrudService.updateUserPassword(authenticationService.getCurrentUser().getId(), user);
+
+        return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
+    };
+
+    @Operation(
+            description= "Request a password reset token."
+    )
+    @PostMapping("/users/reset/request")
+    public ResponseEntity<Response> requestReset(@RequestBody RequestResetWsTo user){
+
+        customUserCrudService.requestResetToken(user.email());
+
+        return ResponseEntity.ok(Response.of(true));
+    };
+
+    @Operation(
+            description= "Reset the password with the given token."
+    )
+    @PutMapping("/users/reset")
+    public ResponseEntity<Response> resetPassword(@RequestBody ResetWsTo resetWsTo){
+
+        TokenDTO tokenDTO = customUserCrudService.resetUserPassword(resetWsTo);
 
         return ResponseEntity.ok(Response.of(tokenDTO, new Message(Message.SUCCESS)));
     };

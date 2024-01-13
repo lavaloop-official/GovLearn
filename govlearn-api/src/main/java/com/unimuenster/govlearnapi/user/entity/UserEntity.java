@@ -31,6 +31,10 @@ public class UserEntity {
     protected boolean activated;
     protected Date createdAt;
 
+    @Column(nullable = true)
+    @ToString.Exclude
+    private String resetToken;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")
     @ToString.Exclude
