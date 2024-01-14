@@ -5,6 +5,11 @@ import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseUpdateDTO;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +33,10 @@ public class ServiceCourseMapper {
                 course.getDomainSpecific(),
                 course.getLink()
         );
+    }
+
+    public List<CourseDTO> mapList(List<Course> courses) {
+        return courses.stream().map(course -> map(course)).collect(Collectors.toList());
     }
 
     public Course map(CourseDTO courseDTO) {

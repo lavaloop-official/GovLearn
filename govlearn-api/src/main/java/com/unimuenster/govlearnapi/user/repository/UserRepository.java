@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         SELECT u FROM UserEntity u WHERE u.id = :userID
     """)
     Optional<UserEntity> findUserById(Long userID);
+
+    Optional<UserEntity> findUserByResetToken(String token);
 }
