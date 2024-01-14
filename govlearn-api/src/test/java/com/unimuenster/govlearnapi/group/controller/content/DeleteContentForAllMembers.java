@@ -14,7 +14,7 @@ public class DeleteContentForAllMembers extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         addMember();
         addContent();
@@ -29,7 +29,8 @@ public class DeleteContentForAllMembers extends GroupTestBase {
                 .courseId(initializerService.getCourse1().getId())
                 .build();
 
-        final int deleteCount = 1;
+        // the course is deleted for both user1 (admin) and user2 (member)
+        final int deleteCount = 2;
 
 
         ResponseEntity responseEntity = groupContentController.deleteContent(deleteContentForGroupWsTo);
@@ -43,7 +44,7 @@ public class DeleteContentForAllMembers extends GroupTestBase {
     @Test
     void deleteContentFromAllMembersNotAdmin() {
 
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         DeleteContentForGroupWsTo deleteContentForGroupWsTo = DeleteContentForGroupWsTo
                 .builder()

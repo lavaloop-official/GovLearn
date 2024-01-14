@@ -51,7 +51,7 @@ public class GroupTestBase extends AbstractIntegrationTest {
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()
                 .groupId(getGroup().getId())
-                .userId(initializerService.getUser1().getId())
+                .userId(initializerService.getUser2().getId())
                 .build();
 
         ResponseEntity responseEntity = groupMembersController.addMember(addMemberWsTo);

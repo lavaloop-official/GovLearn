@@ -18,8 +18,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         AND m.member_id IN (
             SELECT m.id 
             FROM member m 
-            JOIN group_table_members mg ON m.id = mg.members_id 
-            WHERE mg.group_id = :groupId
+            WHERE m.group_id = :groupId
         )
     """, nativeQuery = true)
     int deleteCourseForAllMembers(Long groupId, Long courseId);

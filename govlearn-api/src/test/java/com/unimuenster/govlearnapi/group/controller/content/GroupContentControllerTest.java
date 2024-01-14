@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GroupContentControllerTest extends GroupTestBase {
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         addMember();
     }
@@ -36,14 +36,17 @@ public class GroupContentControllerTest extends GroupTestBase {
         Optional<Group> byId = groupRepository.findById(getGroup().getId());
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(1, byId.get().getMembers().size());
-        assertEquals(1, byId.get().getMembers().get(0).getCourses().size());
-        assertEquals(courseId, byId.get().getMembers().get(0).getCourses().get(0).getId());
+        assertEquals(2, byId.get().getMembers().size());
+        // user1(admin) has no courses
+        assertEquals(0, byId.get().getMembers().get(0).getCourses().size());
+        // user2(member) has one course
+        assertEquals(1, byId.get().getMembers().get(1).getCourses().size());
+        assertEquals(courseId, byId.get().getMembers().get(1).getCourses().get(0).getId());
     }
     @Test
     void addContentButNotAdmin() {
 
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
                 .builder()
