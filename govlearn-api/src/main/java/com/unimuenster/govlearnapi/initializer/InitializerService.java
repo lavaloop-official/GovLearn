@@ -570,11 +570,6 @@ public class InitializerService {
         this.getCourse2().getCompletedBy().add(this.getUser1());
     }
 
-    private void addBookmarkToUser(){
-        this.getUser1().getBookmarked().add(this.getCourse1());
-        this.getCourse1().getBookmarkedBy().add(this.getUser1());
-    }
-
     private void addFeedbackToCourse(){
         feedback = new Feedback();
         feedback.setUser(user2);

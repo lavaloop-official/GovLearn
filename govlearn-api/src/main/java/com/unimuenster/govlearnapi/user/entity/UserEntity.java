@@ -1,4 +1,5 @@
 package com.unimuenster.govlearnapi.user.entity;
+import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
@@ -54,13 +55,9 @@ public class UserEntity {
     @Builder.Default
     private List<Feedback_Report> feedback_report = new ArrayList<Feedback_Report>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "bookmark",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    @Builder.Default
-    private List<Course> bookmarked = new ArrayList<Course>();
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "bookmarkee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<BookmarkedBy> bookmarkedBy;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
