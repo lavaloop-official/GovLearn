@@ -18,7 +18,7 @@ class SendInvitationTest extends GroupTestBase {
     @BeforeEach
     void setUp() {
 
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
     }
 
@@ -27,7 +27,7 @@ class SendInvitationTest extends GroupTestBase {
 
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());
-        invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+        invitationWsTo.setUserEmail(initializerService.getUser2().getEmail());
         List<InvitationWsTo> invitationWsTos = new ArrayList<InvitationWsTo>();
         invitationWsTos.add(invitationWsTo);
 
@@ -37,14 +37,14 @@ class SendInvitationTest extends GroupTestBase {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(1, all.size());
-        assertEquals(initializerService.getUser1().getId(), all.get(0).getUser().getId());
+        assertEquals(initializerService.getUser2().getId(), all.get(0).getUser().getId());
         assertEquals(initializerService.getGroup().getId(), all.get(0).getGroup().getId());
     }
 
     @Test
     void sendInvitationNotAuthorized() {
 
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());

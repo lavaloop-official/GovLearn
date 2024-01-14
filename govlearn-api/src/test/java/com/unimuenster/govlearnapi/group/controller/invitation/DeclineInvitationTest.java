@@ -18,14 +18,14 @@ public class DeclineInvitationTest extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
-
+        setCurrentUser(initializerService.getUser1());
+        //only admin can send invitation
         sendInvitation();
     }
 
     @Test
     void declineInvitationTest() {
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         List<Invitation> all = invitationRepository.findAll();
 
@@ -42,7 +42,7 @@ public class DeclineInvitationTest extends GroupTestBase {
 
     @Test
     void declineInvitationTestNotAuthorized() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getRecommendationUser());
 
         List<Invitation> all = invitationRepository.findAll();
 

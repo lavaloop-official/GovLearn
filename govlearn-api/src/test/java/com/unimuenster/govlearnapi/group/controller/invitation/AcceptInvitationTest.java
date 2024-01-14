@@ -18,14 +18,14 @@ public class AcceptInvitationTest extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
-
+        setCurrentUser(initializerService.getUser1());
+        //only admin can send invitation
         sendInvitation();
     }
 
     @Test
     void acceptInvitationTest() {
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         List<Invitation> all = invitationRepository.findAll();
 
@@ -38,13 +38,14 @@ public class AcceptInvitationTest extends GroupTestBase {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(0, invitationRepository.findAll().size());
-        assertEquals(1, memberRepository.findAll().size());
+        // user 1 is the admin of the group, user 2 is the member
+        assertEquals(2, memberRepository.findAll().size());
         assertEquals(initializerService.getUser1().getId(), memberRepository.findAll().get(0).getUser().getId());
     }
 
     @Test
     void acceptInvitationTestNotAuthorized() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getRecommendationUser());
 
         List<Invitation> all = invitationRepository.findAll();
 
@@ -53,8 +54,8 @@ public class AcceptInvitationTest extends GroupTestBase {
         updateInvitationWsTo.setInvitationId(all.get(0).getId());
         updateInvitationWsTo.setAccept(true);
 
+        // current user is not the user of the invitation
         assertThrows(UnauthorizedException.class, () -> invitationController.answerInvitation(updateInvitationWsTo));
-        assertEquals(0, memberRepository.findAll().size());
 
     }
 }

@@ -15,7 +15,7 @@ public class GetUserInvitationsTest extends GroupTestBase {
 
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         sendInvitation();
     }
@@ -23,7 +23,7 @@ public class GetUserInvitationsTest extends GroupTestBase {
 
     @Test
     void getUserInvitationsTest() {
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         ResponseEntity allInvitation = invitationController.getAllInvitation();
 

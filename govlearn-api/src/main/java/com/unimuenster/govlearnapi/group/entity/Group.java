@@ -25,7 +25,7 @@ public class Group {
     @Column(length = 4096)
     private String description;
 
-    @OneToMany
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members = new ArrayList<>();
 
     protected Date createdAt;

@@ -4,6 +4,7 @@ import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
+import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
@@ -36,6 +37,10 @@ public class UserEntity {
     @Column(nullable = true)
     @ToString.Exclude
     private String resetToken;
+
+    @ToString.Exclude
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Member> members = new ArrayList<>();
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "user")

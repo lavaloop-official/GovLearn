@@ -84,7 +84,7 @@ public class GroupTestBase extends AbstractIntegrationTest {
     protected void sendInvitation() {
         InvitationWsTo invitationWsTo = new InvitationWsTo();
         invitationWsTo.setGroupId(initializerService.getGroup().getId());
-        invitationWsTo.setUserEmail(initializerService.getUser1().getEmail());
+        invitationWsTo.setUserEmail(initializerService.getUser2().getEmail());
         List<InvitationWsTo> invitationWsTos = new ArrayList<InvitationWsTo>();
         invitationWsTos.add(invitationWsTo);
 

@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
+import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
@@ -13,9 +14,11 @@ import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.entity.Member;
 import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
+import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -69,6 +72,7 @@ public class InitializerService {
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
     private final GroupRepository groupRepository;
+    private final MemberRepository memberRepository;
 
     private UserEntity user1, user2, recommendationUser;
     private TokenDTO user1Token, user2Token, recommendationUserToken;
@@ -81,6 +85,7 @@ public class InitializerService {
     private Group group;
     private Feedback feedback;
     private BookmarkedBy bookmark;
+    private Member member;
 
     public void init() {
         insertUser();
@@ -94,14 +99,28 @@ public class InitializerService {
         addCourseCompletionToUser();
         addFeedbackToCourse();
         createGroup();
+        addAdminToGroup();
     }
 
     protected void createGroup(){
         group = Group
                 .builder()
+                .name("Group-Name 1")
+                .description("Group-Description 1")
                 .build();
 
         groupRepository.save(group);
+    }
+
+    protected void addAdminToGroup(){
+        member = Member
+                .builder()
+                .user(this.getUser1())
+                .group(this.getGroup())
+                .role(Role.Admin)
+                .build();
+
+        memberRepository.save(member);
     }
 
     private TokenDTO authenticate(UserEntity user){
