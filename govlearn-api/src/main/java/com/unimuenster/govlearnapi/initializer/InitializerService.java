@@ -8,6 +8,8 @@ import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
+import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
@@ -35,17 +37,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Slf4j
@@ -62,6 +59,7 @@ public class InitializerService {
     private final CategoryRepository categoryRepository;
     private final FeedbackRepository feedbackRepository;
     private final BookmarkRepository bookmarkReposity;
+    private final CourseCompletionRepository courseCompletionRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
@@ -561,13 +559,17 @@ public class InitializerService {
     }
 
     private void addCourseCompletionToUser(){
-        this.getUser1().getCompleted().add(this.getCourse1());
+        CourseCompletion courseCompletion = new CourseCompletion();
+        courseCompletion.setCourse(this.getCourse1());
+        courseCompletion.setCompletee(this.getUser1());
 
-        this.getCourse1().getCompletedBy().add(this.getUser1());
+        courseCompletionRepository.save(courseCompletion);
 
-        this.getUser1().getCompleted().add(this.getCourse2());
+        CourseCompletion courseCompletion1 = new CourseCompletion();
+        courseCompletion1.setCourse(this.getCourse2());
+        courseCompletion1.setCompletee(this.getUser1());
 
-        this.getCourse2().getCompletedBy().add(this.getUser1());
+        courseCompletionRepository.save(courseCompletion1);
     }
 
     private void addFeedbackToCourse(){

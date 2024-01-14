@@ -63,10 +63,9 @@ public class Course {
     @ToString.Exclude
     private List<BookmarkedBy> bookmarkedBy;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "completed", cascade = CascadeType.ALL)
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    @Builder.Default
-    private List<UserEntity> completedBy = new ArrayList<UserEntity>();
+    private List<CourseCompletion> completedBy;
 
     public void addFeedback(Feedback Postfeedback) {
         feedback.add(Postfeedback);

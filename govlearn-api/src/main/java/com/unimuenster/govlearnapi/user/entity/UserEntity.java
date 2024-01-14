@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.user.entity;
 import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
@@ -59,15 +60,9 @@ public class UserEntity {
     @ToString.Exclude
     private List<BookmarkedBy> bookmarkedBy;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "course_completed",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"})
-    )
-    @Builder.Default
-    private List<Course> completed = new ArrayList<Course>();
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "completee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<CourseCompletion> completedBy;
 
     @PrePersist
     private void onCreate() {

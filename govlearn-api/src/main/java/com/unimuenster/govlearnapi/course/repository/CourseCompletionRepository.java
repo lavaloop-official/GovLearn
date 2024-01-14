@@ -1,31 +1,35 @@
 package com.unimuenster.govlearnapi.course.repository;
 
-import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CourseCompletionRepository extends JpaRepository<Course, Long> {
+public interface CourseCompletionRepository extends JpaRepository<CourseCompletion, Long> {
 
     @Query(value = """
-        SELECT c
-        FROM Course c
-        JOIN c.completedBy completedBy
-        WHERE completedBy.id = :userId
+        SELECT cc
+        FROM CourseCompletion cc
+        WHERE cc.completee.id = :userId
     """)
-    List<Course> getCourseCompletionsByUserId(Long userId);
+    List<CourseCompletion> getCourseCompletionsByUserId(Long userId);
 
     @Query("""
-        SELECT CASE WHEN EXISTS (
-            SELECT c
-            FROM Course c 
-            JOIN c.completedBy completedBy
-            WHERE completedBy.id = :userId
-            AND c.id = :courseId
-        )
-        THEN CAST(1 AS boolean)
-        ELSE CAST(0 AS boolean) END
+        select case when (count(cc) > 0)
+        then true else false end
+        from CourseCompletion cc
+        where cc.course.id = :courseId
+        and cc.completee.id = :userId
     """)
     Boolean isCourseCompleted( Long userId, Long courseId );
+
+    @Modifying
+    @Query("""
+        delete from CourseCompletion cc
+        where cc.course.id = :courseId
+        and cc.completee.id = :userId
+    """)
+    void deleteCourseCompletion(Long userId, Long courseId);
 }
