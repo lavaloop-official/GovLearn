@@ -26,7 +26,6 @@ public class BookmarkServiceTest extends AbstractIntegrationTest {
     @Test
     void getBookmarksByUser() {
         UserEntity currentUser = initializer.getUser2();
-        bookmarkService.addBookmark(currentUser, initializer.getCourse2().getId());
         List<CourseDTO> bookmarks = bookmarkService.getBookmarks(currentUser);
 
         UserEntity user = bookmarkRepository
@@ -61,14 +60,13 @@ public class BookmarkServiceTest extends AbstractIntegrationTest {
 
     @Test
     void deleteBookmark() {
-        UserEntity currentUser = initializer.getUser1();
-        bookmarkService.addBookmark(currentUser, initializer.getCourse1().getId());
-        bookmarkService.deleteBookmark(currentUser, initializer.getCourse1().getId());
+        UserEntity currentUser = initializer.getUser2();
+        bookmarkService.deleteBookmark(currentUser, initializer.getCourse2().getId());
 
         int listLength = bookmarkRepository
                 .findAll()
                 .stream()
-                .filter(bookmarkedBy -> bookmarkedBy.getCourse().getId() == initializer.getCourse10().getId())
+                .filter(bookmarkedBy -> bookmarkedBy.getCourse().getId() == initializer.getCourse2().getId())
                 .toList()
                 .size();
 

@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
@@ -75,6 +76,7 @@ public class InitializerService {
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
     private Feedback feedback;
+    private BookmarkedBy bookmark;
 
     public void init() {
         insertUser();
@@ -84,7 +86,7 @@ public class InitializerService {
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
-        //addBookmarkToUser();
+        addBookmarkToUser();
         addCourseCompletionToUser();
         addFeedbackToCourse();
     }
@@ -570,6 +572,14 @@ public class InitializerService {
         courseCompletion1.setCompletee(this.getUser1());
 
         courseCompletionRepository.save(courseCompletion1);
+    }
+
+    private void addBookmarkToUser(){
+        bookmark = new BookmarkedBy();
+
+        bookmark.setBookmarkee(user2);
+        bookmark.setCourse(course2);
+        bookmarkReposity.save(bookmark);
     }
 
     private void addFeedbackToCourse(){
