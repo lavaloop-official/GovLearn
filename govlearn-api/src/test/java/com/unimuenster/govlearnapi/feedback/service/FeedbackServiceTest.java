@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
+@Transactional
 public class FeedbackServiceTest extends AbstractIntegrationTest {
     @Autowired
     private FeedbackService feedbackService;
