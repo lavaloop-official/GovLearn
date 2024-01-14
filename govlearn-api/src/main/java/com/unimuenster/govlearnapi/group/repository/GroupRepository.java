@@ -100,12 +100,10 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Query(value = """
         DELETE FROM invitation i
         WHERE i.group_id = :groupId ;
-        DELETE FROM group_table_members gm
-        WHERE gm.group_id = :groupId ;
         DELETE FROM member m
         WHERE m.group_id = :groupId ;
         DELETE FROM group_table g
         WHERE g.id = :groupId ;
     """, nativeQuery = true)
-    void deleteCourse(Long groupId);
+    void deleteGroup(Long groupId);
 }

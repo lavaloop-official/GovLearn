@@ -6,17 +6,19 @@ import com.unimuenster.govlearnapi.group.entity.Group;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Transactional
 public class DeleteGroupTest extends GroupTestBase {
 
     @Test
     void getMemberDetails(){
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         ResponseEntity response
                 = groupController.deleteGroup(getGroup().getId());
@@ -29,7 +31,7 @@ public class DeleteGroupTest extends GroupTestBase {
 
     @Test
     void getMemberDetailsNotAuthorized(){
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         ResponseEntity memberById = groupController.deleteGroup(getGroup().getId());
 

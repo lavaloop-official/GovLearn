@@ -323,6 +323,6 @@ public class GroupService {
 
     @Transactional
     public void deleteGroup(Long groupId) {
-        groupRepository.deleteCourse(groupId);
+        groupRepository.deleteGroup(groupId);
     }
 }
