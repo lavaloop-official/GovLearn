@@ -36,33 +36,28 @@ public class FeedbackService {
     
     private final FeedbackRepository feedbackRepository;
     private final ServiceFeedbackMapper serviceFeedbackMapper;
-    private final CourseService courseService;
     private final EntityManager entityManager;
 
     @Transactional
     public void createFeedback(FeedbackCreationDTO feedbackCreationDTO, UserEntity currentUser)
     {
-        try {
-                    Feedback feedback = new Feedback();
-                    feedback.setRating(feedbackCreationDTO.rating());
-                    feedback.setDescription(feedbackCreationDTO.description());
-                    feedback.setTitle(feedbackCreationDTO.title());
-                    feedback.setUser(currentUser);
-                    
-                    Course course = entityManager.find(Course.class, feedbackCreationDTO.courseID());
-                    
-                    feedback.setCourse(course); // Set the Course in the Feedback entity
-                    
-                    feedbackRepository.save(feedback); // Persist the Feedback entity
-                    
-                    course.addFeedback(feedback);
-                    
-                    entityManager.merge(course); // Use merge instead of persist for a detached entity
-            // entityManager.persist(feedback);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        Feedback feedback = mapFeedbackDTOToFeedback(feedbackCreationDTO, currentUser);
+
+        Course course = entityManager.find(Course.class, feedbackCreationDTO.courseID());
+
+        feedback.setCourse(course);
+
+        feedbackRepository.save(feedback);
+    }
+
+    private static Feedback mapFeedbackDTOToFeedback(FeedbackCreationDTO feedbackDTO, UserEntity currentUser) {
+        Feedback feedback = new Feedback();
+        feedback.setRating(feedbackDTO.rating());
+        feedback.setDescription(feedbackDTO.description());
+        feedback.setTitle(feedbackDTO.title());
+        feedback.setUser(currentUser);
+
+        return feedback;
     }
 
     public List<FeedbackDTO> getFeedbackByCourseAndUser(Long courseId, Long userID){

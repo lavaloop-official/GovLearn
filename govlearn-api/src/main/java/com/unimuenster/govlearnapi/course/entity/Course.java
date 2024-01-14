@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.course.entity;
 
+import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
@@ -58,9 +59,13 @@ public class Course {
     @Builder.Default
     private List<Feedback> feedback = new ArrayList<Feedback>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bookmarked", cascade = CascadeType.ALL)
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<UserEntity> bookmarkedBy = new ArrayList<UserEntity>();
+    private List<BookmarkedBy> bookmarkedBy;
+
+    @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<CourseCompletion> completedBy;
 
     public void addFeedback(Feedback Postfeedback) {
         feedback.add(Postfeedback);
