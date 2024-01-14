@@ -15,12 +15,12 @@ public class UpdateGroupDetailsTest extends GroupTestBase {
 
     @Test
     void getMemberDetails(){
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         GroupDetailsUpdateWsTo groupDetailsUpdateWsTo = new GroupDetailsUpdateWsTo();
         groupDetailsUpdateWsTo.setGroupId(getGroup().getId());
-        groupDetailsUpdateWsTo.setGroupDescription("asfdadsf");
-        groupDetailsUpdateWsTo.setGroupName("kmninuhtr");
+        groupDetailsUpdateWsTo.setGroupDescription("updated description");
+        groupDetailsUpdateWsTo.setGroupName("updated name");
 
         ResponseEntity response
                 = groupController.updateGroupDetails(groupDetailsUpdateWsTo);
@@ -34,7 +34,7 @@ public class UpdateGroupDetailsTest extends GroupTestBase {
 
     @Test
     void getMemberDetailsNotAuthorized(){
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         GroupDetailsUpdateWsTo groupDetailsUpdateWsTo = new GroupDetailsUpdateWsTo();
         groupDetailsUpdateWsTo.setGroupId(getGroup().getId());
