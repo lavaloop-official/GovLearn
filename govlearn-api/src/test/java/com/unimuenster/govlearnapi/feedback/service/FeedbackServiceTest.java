@@ -28,10 +28,9 @@ public class FeedbackServiceTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Rollback
     public void getAmountOfFeedbacksByCourseId(){
         Long amountOfFeedbacks = feedbackService.getAmountFeedbackByCourseID(2L);
-        assertEquals((Object) amountOfFeedbacks, (Object) 1L);
+        assertEquals(amountOfFeedbacks, (Object) 1L);
 
         feedbackService.createFeedback(new FeedbackCreationDTO(
                 "Test Feedback",
@@ -41,14 +40,13 @@ public class FeedbackServiceTest extends AbstractIntegrationTest {
         ), initializerService.getUser1());
 
         amountOfFeedbacks = feedbackService.getAmountFeedbackByCourseID(2L);
-        assertEquals((Object) amountOfFeedbacks, (Object) 2L);
+        assertEquals(amountOfFeedbacks, (Object) 2L);
     }
 
     @Test
-    @Rollback
     public void getAverageFeedbackByCourseId(){
         Float averageFeedback = feedbackService.getAverageFeedbackByCourseID(2L);
-        assertEquals((double) averageFeedback, (double) 5.0, 0.01);
+        assertEquals((double) averageFeedback, 5.0, 0.01);
 
         feedbackService.createFeedback(new FeedbackCreationDTO(
                 "Test Feedback",
@@ -58,6 +56,6 @@ public class FeedbackServiceTest extends AbstractIntegrationTest {
         ), initializerService.getUser1());
 
         averageFeedback = feedbackService.getAverageFeedbackByCourseID(2L);
-        assertEquals((double) averageFeedback, (double) 4.5, 0.01);
+        assertEquals((double) averageFeedback, 4.5, 0.01);
     }
 }

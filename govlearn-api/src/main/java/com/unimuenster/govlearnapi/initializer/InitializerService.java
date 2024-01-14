@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
@@ -8,6 +9,8 @@ import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
+import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
@@ -35,17 +38,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Slf4j
@@ -62,6 +60,7 @@ public class InitializerService {
     private final CategoryRepository categoryRepository;
     private final FeedbackRepository feedbackRepository;
     private final BookmarkRepository bookmarkReposity;
+    private final CourseCompletionRepository courseCompletionRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
@@ -77,6 +76,7 @@ public class InitializerService {
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
     private Feedback feedback;
+    private BookmarkedBy bookmark;
 
     public void init() {
         insertUser();
@@ -86,6 +86,8 @@ public class InitializerService {
         insertTag();
         addTagsToUsers();
         addTagsToCourses();
+        addBookmarkToUser();
+        addCourseCompletionToUser();
         addFeedbackToCourse();
     }
 
@@ -556,6 +558,28 @@ public class InitializerService {
         courseTag18.setTag(tag1);
 
         courseTagRepository.save(courseTag18);
+    }
+
+    private void addCourseCompletionToUser(){
+        CourseCompletion courseCompletion = new CourseCompletion();
+        courseCompletion.setCourse(this.getCourse1());
+        courseCompletion.setCompletee(this.getUser1());
+
+        courseCompletionRepository.save(courseCompletion);
+
+        CourseCompletion courseCompletion1 = new CourseCompletion();
+        courseCompletion1.setCourse(this.getCourse2());
+        courseCompletion1.setCompletee(this.getUser1());
+
+        courseCompletionRepository.save(courseCompletion1);
+    }
+
+    private void addBookmarkToUser(){
+        bookmark = new BookmarkedBy();
+
+        bookmark.setBookmarkee(user2);
+        bookmark.setCourse(course2);
+        bookmarkReposity.save(bookmark);
     }
 
     private void addFeedbackToCourse(){
