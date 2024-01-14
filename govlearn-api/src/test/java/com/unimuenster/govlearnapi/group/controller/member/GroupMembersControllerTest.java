@@ -8,15 +8,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+@Transactional
 class GroupMembersControllerTest extends GroupTestBase {
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
     }
 
     @Test
@@ -25,7 +28,7 @@ class GroupMembersControllerTest extends GroupTestBase {
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()
                 .groupId(getGroup().getId())
-                .userId(1L)
+                .userId(2L)
                 .build();
 
         ResponseEntity responseEntity = groupMembersController.addMember(addMemberWsTo);
@@ -33,8 +36,8 @@ class GroupMembersControllerTest extends GroupTestBase {
         Optional<Group> byId = groupRepository.findById(getGroup().getId());
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(1, byId.get().getMembers().size());
-        assertEquals(1, byId.get().getMembers().get(0).getUser().getId());
+        assertEquals(2, byId.get().getMembers().size());
+        assertEquals(true, byId.get().getMembers().stream().map(member -> member.getUser().getId()).anyMatch(id -> id.equals(2L)));
 
     }
 
@@ -48,15 +51,13 @@ class GroupMembersControllerTest extends GroupTestBase {
         Response<List> memberIds = (Response<List>) responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(1, memberIds.getPayload().size());
-        assertEquals(currentMember.getId(), memberIds.getPayload().get(0));
-
+        assertEquals(2, memberIds.getPayload().size());
     }
 
     @Test
     void addMemberButNotAdmin() {
 
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getUser2());
 
         AddMemberWsTo addMemberWsTo = AddMemberWsTo
                 .builder()

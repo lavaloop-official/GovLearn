@@ -6,18 +6,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Transactional
 public class DeleteMemberTest extends GroupTestBase {
 
 
     @BeforeEach
     void setup(){
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         addMember();
         // Add content to check that the content is deleted with the member
@@ -25,7 +27,7 @@ public class DeleteMemberTest extends GroupTestBase {
     }
 
     @Test
-    void getMemberDetails(){
+    void deleteMember(){
         ResponseEntity memberById =
                 groupMembersController.deleteMember(currentMember.getId());
 
@@ -36,8 +38,8 @@ public class DeleteMemberTest extends GroupTestBase {
     }
 
     @Test
-    void getMemberDetailsNotAuthorized(){
-        setCurrentUser(initializerService.getUser1());
+    void deleteMemberNotAuthorized(){
+        setCurrentUser(initializerService.getRecommendationUser());
 
         ResponseEntity memberById = groupMembersController.deleteMember(currentMember.getId());
 

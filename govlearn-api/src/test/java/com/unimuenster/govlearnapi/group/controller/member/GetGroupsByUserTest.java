@@ -16,28 +16,9 @@ import java.util.List;
 public class GetGroupsByUserTest extends GroupTestBase {
     @BeforeEach
     void setUp() {
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         addMember();
-    }
-
-    @Override
-    protected void addMember() {
-        AddMemberWsTo addMemberWsTo = AddMemberWsTo
-                .builder()
-                .groupId(getGroup().getId())
-                .userId(initializerService.getUser1().getId())
-                .build();
-
-        groupMembersController.addMember(addMemberWsTo);
-
-        AddMemberWsTo addMemberWsTo2 = AddMemberWsTo
-                .builder()
-                .groupId(getGroup().getId())
-                .userId(initializerService.getUser2().getId())
-                .build();
-
-        groupMembersController.addMember(addMemberWsTo2);
     }
 
     @Test
@@ -49,7 +30,7 @@ public class GetGroupsByUserTest extends GroupTestBase {
 
         Response<List<GroupDetailsWsTo>> response = (Response<List<GroupDetailsWsTo>>) responseEntity.getBody();
 
-        // Current user is member and admin of group with id 1
+        // Current user is member of group with id 1
         assertEquals(getGroup().getId(), response.getPayload().get(0).getGroupId());
     }
 }

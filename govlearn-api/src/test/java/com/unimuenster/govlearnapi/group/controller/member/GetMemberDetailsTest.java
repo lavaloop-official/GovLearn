@@ -15,7 +15,7 @@ public class GetMemberDetailsTest extends GroupTestBase {
 
     @BeforeEach
     void setup(){
-        setCurrentUser(initializerService.getUser2());
+        setCurrentUser(initializerService.getUser1());
 
         addMember();
     }
@@ -37,7 +37,7 @@ public class GetMemberDetailsTest extends GroupTestBase {
 
     @Test
     void getMemberDetailsNotAuthorized(){
-        setCurrentUser(initializerService.getUser1());
+        setCurrentUser(initializerService.getRecommendationUser());
 
         ResponseEntity memberById = groupMembersController.getMemberById(currentMember.getId());
 
