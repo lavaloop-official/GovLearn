@@ -28,6 +28,8 @@ public class SecurityConfig {
 
     @Value("${frontend.url}")
     private String frontendUrl;
+    @Value("${backend.url}")
+    private String backendUrl;
     public static final long EXPIRATION_TIME = 1200000 * 120;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -64,7 +66,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedOrigins(frontendUrl)
+                        .allowedOrigins(frontendUrl, backendUrl)
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true)
