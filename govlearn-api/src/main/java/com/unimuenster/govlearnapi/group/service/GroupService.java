@@ -3,8 +3,11 @@ package com.unimuenster.govlearnapi.group.service;
 import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.core.globalExceptions.NotFoundException;
 import com.unimuenster.govlearnapi.core.globalExceptions.UnauthorizedException;
+import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.group.controller.wsto.*;
 import com.unimuenster.govlearnapi.group.entity.Group;
 import com.unimuenster.govlearnapi.group.entity.Member;
@@ -38,6 +41,8 @@ public class GroupService {
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
     private final AuthenticationService authenticationService;
+    private final ServiceCourseMapper serviceCourseMapper;
+    private final ControllerCourseMapper controllerCourseMapper;
 
     public void createGroup(UserEntity user, GroupCreationWsTo groupCreationWsTo) {
 
@@ -141,8 +146,8 @@ public class GroupService {
         return GroupContentWsTo
                 .builder()
                 .groupId(group.getId())
-                .courseIds(
-                        member.getCourses().stream().map(course -> course.getId()).toList()
+                .courses(
+                    controllerCourseMapper.mapList(serviceCourseMapper.mapList(member.getCourses()))
                 )
                 .userId(currentUser.getId())
                 .build();
@@ -166,8 +171,8 @@ public class GroupService {
         return GroupContentWsTo
                 .builder()
                 .groupId(groupId)
-                .courseIds(
-                        member.getCourses().stream().map(course -> course.getId()).toList()
+                .courses(
+                    controllerCourseMapper.mapList(serviceCourseMapper.mapList(member.getCourses()))
                 )
                 .userId(member.getUser().getId())
                 .build();
@@ -188,7 +193,7 @@ public class GroupService {
         List<GroupContentWsTo> groupContentWsTos = member.stream().map(element -> GroupContentWsTo
             .builder()
             .groupId(groupId)
-            .courseIds(element.getCourses().stream().map(course -> course.getId()).toList())
+            .courses(controllerCourseMapper.mapList(serviceCourseMapper.mapList(element.getCourses())))
             .userId(element.getUser().getId())
             .build()
         ).collect(Collectors.toList());
