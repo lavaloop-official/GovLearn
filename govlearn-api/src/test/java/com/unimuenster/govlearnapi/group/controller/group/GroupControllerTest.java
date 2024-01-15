@@ -23,14 +23,13 @@ class GroupControllerTest extends GroupTestBase {
 
     @Test
     void createGroupTest() {
-
         GroupCreationWsTo groupCreationWsTo = new GroupCreationWsTo();
         groupCreationWsTo.setGroupName("TestGroup");
         groupCreationWsTo.setGroupDescription("TestDescription");
 
         groupController.createGroup(groupCreationWsTo);
 
-        List<Group> group = groupRepository.findByAdmin(initializerService.getUser2().getId());
+        List<Group> group = groupRepository.getGroupsByAdmin(initializerService.getUser2().getId());
 
         assertEquals(1, group.size());
     }

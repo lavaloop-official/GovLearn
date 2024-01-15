@@ -13,6 +13,8 @@ import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 
+import jakarta.persistence.EntityManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,8 @@ public class GroupTestBase extends AbstractIntegrationTest {
     protected InvitationController invitationController;
     @Autowired
     protected InvitationRepository invitationRepository;
+    @Autowired
+    protected EntityManager entityManager;
     protected Member currentMember;
 
     protected void addMember() {

@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 public class DeleteMemberTest extends GroupTestBase {
 
-
     @BeforeEach
     void setup(){
         setCurrentUser(initializerService.getUser1());
@@ -31,9 +30,13 @@ public class DeleteMemberTest extends GroupTestBase {
         ResponseEntity memberById =
                 groupMembersController.deleteMember(currentMember.getId());
 
+        assertEquals(HttpStatus.OK, memberById.getStatusCode());
+
+        entityManager.flush();
+        entityManager.clear();
+
         Optional<Member> byId = memberRepository.findById(currentMember.getId());
 
-        assertEquals(HttpStatus.OK, memberById.getStatusCode());
         assertTrue(byId.isEmpty());
     }
 
