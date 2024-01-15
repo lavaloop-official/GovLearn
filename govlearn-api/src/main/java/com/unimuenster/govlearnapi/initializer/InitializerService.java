@@ -611,8 +611,12 @@ public class InitializerService {
             DROP TABLE tag CASCADE;
             DROP TABLE token CASCADE;
             DROP TABLE user_entity CASCADE;
-            DROP TABLE user_tag CASCADE; 
+            DROP TABLE user_tag CASCADE;
             DROP TABLE category CASCADE;
+            DROP TABLE bookmark CASCADE;
+            DROP TABLE bookmarked_by CASCADE;
+            DROP TABLE course_completion CASCADE;
+            DROP TABLE feedback_report CASCADE;
             """
         );
         try {
