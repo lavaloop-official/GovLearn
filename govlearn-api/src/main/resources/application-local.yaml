@@ -26,4 +26,4 @@ frontend:
   url: https://govlearn-client-production.up.railway.app
 
 backend:
-  url: https://govlearn-production.up.railway.app
+  url: http://govlearn-production.up.railway.app
