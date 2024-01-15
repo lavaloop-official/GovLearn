@@ -605,14 +605,18 @@ public class InitializerService {
     @Transactional
     public void dropAllTables() throws Exception{
         Query dropAllTables = entityManager.createNativeQuery("""
-            DROP TABLE course_tag CASCADE;
-            DROP TABLE course CASCADE;
-            DROP TABLE feedback CASCADE;
-            DROP TABLE tag CASCADE;
-            DROP TABLE token CASCADE;
-            DROP TABLE user_entity CASCADE;
-            DROP TABLE user_tag CASCADE; 
-            DROP TABLE category CASCADE;
+            DROP TABLE IF EXISTS course_tag CASCADE;
+            DROP TABLE IF EXISTS course CASCADE;
+            DROP TABLE IF EXISTS feedback CASCADE;
+            DROP TABLE IF EXISTS tag CASCADE;
+            DROP TABLE IF EXISTS token CASCADE;
+            DROP TABLE IF EXISTS user_entity CASCADE;
+            DROP TABLE IF EXISTS user_tag CASCADE;
+            DROP TABLE IF EXISTS category CASCADE;
+            DROP TABLE IF EXISTS bookmark CASCADE;
+            DROP TABLE IF EXISTS bookmarked_by CASCADE;
+            DROP TABLE IF EXISTS course_completion CASCADE;
+            DROP TABLE IF EXISTS feedback_report CASCADE;
             """
         );
         try {
