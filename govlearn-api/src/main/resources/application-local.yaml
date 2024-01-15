@@ -24,3 +24,6 @@ server:
 
 frontend:
   url: https://govlearn-client-production.up.railway.app
+
+backend:
+  url: http://govlearn-production.up.railway.app

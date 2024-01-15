@@ -26,3 +26,6 @@ server:
 
 frontend:
   url: http://localhost:5173
+
+backend:
+  url: http://localhost:8080
