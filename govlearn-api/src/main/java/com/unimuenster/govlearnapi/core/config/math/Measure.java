@@ -18,4 +18,17 @@ public class Measure {
         }
         return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
     }
+
+    public static double euclidianDistance(double[] vectorA, double[] vectorB) {
+        double toRet = 0;
+        if (vectorA.length != vectorB.length) {
+            toRet = -1;
+        } else {
+            for (int i = 0; i < vectorA.length; ++i) {
+                toRet += (vectorA[i] - vectorB[i]) * (vectorA[i] - vectorB[i]);
+            }
+            toRet = Math.sqrt(toRet);
+        }
+        return toRet;
+    }
 }
