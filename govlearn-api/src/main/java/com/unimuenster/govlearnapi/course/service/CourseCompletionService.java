@@ -46,7 +46,7 @@ public class CourseCompletionService {
 
         List<CourseCompletion> completions = courseCompletionRepository.getCourseCompletionsByUserId(currentUser.getId());
 
-        return controllerCourseMapper.mapList(serviceCourseMapper.mapList(completions.stream().map(CourseCompletion::getCourse).toList()));
+        return controllerCourseMapper.mapList(serviceCourseMapper.mapListCourse(completions.stream().map(CourseCompletion::getCourse).toList()));
     }
 
 

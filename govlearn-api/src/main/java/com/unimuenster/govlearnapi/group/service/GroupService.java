@@ -147,7 +147,7 @@ public class GroupService {
                 .builder()
                 .groupId(group.getId())
                 .courses(
-                    controllerCourseMapper.mapList(serviceCourseMapper.mapList(member.getCourses()))
+                    controllerCourseMapper.mapList(serviceCourseMapper.mapListCourse(member.getCourses()))
                 )
                 .userId(currentUser.getId())
                 .build();
@@ -172,7 +172,7 @@ public class GroupService {
                 .builder()
                 .groupId(groupId)
                 .courses(
-                    controllerCourseMapper.mapList(serviceCourseMapper.mapList(member.getCourses()))
+                    controllerCourseMapper.mapList(serviceCourseMapper.mapListCourse(member.getCourses()))
                 )
                 .userId(member.getUser().getId())
                 .build();
@@ -193,7 +193,7 @@ public class GroupService {
         List<GroupContentWsTo> groupContentWsTos = member.stream().map(element -> GroupContentWsTo
             .builder()
             .groupId(groupId)
-            .courses(controllerCourseMapper.mapList(serviceCourseMapper.mapList(element.getCourses())))
+            .courses(controllerCourseMapper.mapList(serviceCourseMapper.mapListCourse(element.getCourses())))
             .userId(element.getUser().getId())
             .build()
         ).collect(Collectors.toList());
