@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.course.service.mapper;
 
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseUpdateDTO;
@@ -35,7 +36,31 @@ public class ServiceCourseMapper {
         );
     }
 
-    public List<CourseDTO> mapList(List<Course> courses) {
+    public CourseDTO map(CourseWsTo course) {
+        return new CourseDTO(
+                course.getId(),
+                course.getName(),
+                course.getImage(),
+                course.getDescription(),
+                course.getCreatedAt(),
+                course.getProvider(),
+                course.getInstructor(),
+                course.getCertificate(),
+                course.getSkilllevel(),
+                ControllerCourseMapper.convertToMinutes(course.getDurationInHours()),
+                course.getFormat(),
+                course.getStartDate(),
+                course.getCostFree(),
+                course.getDomainSpecific(),
+                course.getLink()
+        );
+    }
+
+    public List<CourseDTO> mapListCourse(List<Course> courses) {
+        return courses.stream().map(course -> map(course)).collect(Collectors.toList());
+    }
+
+    public List<CourseDTO> mapListCourseWsTo(List<CourseWsTo> courses) {
         return courses.stream().map(course -> map(course)).collect(Collectors.toList());
     }
 

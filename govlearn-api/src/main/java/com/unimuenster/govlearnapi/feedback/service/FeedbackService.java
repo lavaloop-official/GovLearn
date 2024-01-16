@@ -21,6 +21,7 @@ import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackCreationDTO;
 import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackDTO;
 import com.unimuenster.govlearnapi.feedback.service.mapper.ServiceFeedbackMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
+import java.lang.NullPointerException;
 
 import jakarta.persistence.EntityManager;
 
