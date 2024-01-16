@@ -15,6 +15,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +73,20 @@ public class UserController {
     public ResponseEntity<Response> getUser() {
 
         return ResponseEntity.ok(Response.of(customUserCrudService.UserProfil(), new Message(Message.SUCCESS)));
+    }
+
+    @Operation(
+        security = { @SecurityRequirement(name = "Authorization") },
+        description = "Returns all users"
+    )
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/users/all")
+    public ResponseEntity<Response> getAllUser(Optional<Long> groupID) {
+
+        if(groupID.isPresent())
+            return ResponseEntity.ok(Response.of(customUserCrudService.getAllUserWithoutGroup(groupID.get()), new Message(Message.SUCCESS)));
+
+        return ResponseEntity.ok(Response.of(customUserCrudService.getAllUser(), new Message(Message.SUCCESS)));
     }
 
     @Operation(

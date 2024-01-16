@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
+import com.unimuenster.govlearnapi.core.config.enums.Role;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
 import com.unimuenster.govlearnapi.core.config.security.CustomUserDetails;
 import com.unimuenster.govlearnapi.core.config.security.JwtService;
@@ -12,8 +13,12 @@ import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.group.entity.Group;
+import com.unimuenster.govlearnapi.group.entity.Member;
+import com.unimuenster.govlearnapi.group.repository.GroupRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
+import com.unimuenster.govlearnapi.group.repository.MemberRepository;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
@@ -66,6 +71,8 @@ public class InitializerService {
     private final EntityManager entityManager;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
+    private final GroupRepository groupRepository;
+    private final MemberRepository memberRepository;
 
     private UserEntity user1, user2, recommendationUser;
     private TokenDTO user1Token, user2Token, recommendationUserToken;
@@ -75,8 +82,10 @@ public class InitializerService {
     private UserTag userTag1, userTag2, userTag3, userTag4, userTag5;
     private CourseTag courseTag1, courseTag2, courseTag3, courseTag4, courseTag5, courseTag6, courseTag7, courseTag8, courseTag9, courseTag10, courseTag11, courseTag12, courseTag13, courseTag14, courseTag15, courseTag16, courseTag17, courseTag18;
     private Category category1, category2, category3, category4, category5;
+    private Group group;
     private Feedback feedback;
     private BookmarkedBy bookmark;
+    private Member member;
 
     public void init() {
         insertUser();
@@ -89,6 +98,29 @@ public class InitializerService {
         addBookmarkToUser();
         addCourseCompletionToUser();
         addFeedbackToCourse();
+        createGroup();
+        addAdminToGroup();
+    }
+
+    protected void createGroup(){
+        group = Group
+                .builder()
+                .name("Group-Name 1")
+                .description("Group-Description 1")
+                .build();
+
+        groupRepository.save(group);
+    }
+
+    protected void addAdminToGroup(){
+        member = Member
+                .builder()
+                .user(this.getUser1())
+                .group(this.getGroup())
+                .role(Role.Admin)
+                .build();
+
+        memberRepository.save(member);
     }
 
     private TokenDTO authenticate(UserEntity user){
@@ -452,110 +484,126 @@ public class InitializerService {
         courseTag1 = new CourseTag();
         courseTag1.setCourse(course1);
         courseTag1.setTag(tag1);
+        courseTag1.setRating(1);
 
         courseTagRepository.save(courseTag1);
 
         courseTag2 = new CourseTag();
         courseTag2.setCourse(course2);
         courseTag2.setTag(tag2);
+        courseTag2.setRating(1);
 
         courseTagRepository.save(courseTag2);
 
         courseTag3 = new CourseTag();
         courseTag3.setCourse(course3);
         courseTag3.setTag(tag3);
+        courseTag3.setRating(1);
 
         courseTagRepository.save(courseTag3);
 
         courseTag4 = new CourseTag();
         courseTag4.setCourse(course4);
         courseTag4.setTag(tag3);
+        courseTag4.setRating(1);
 
         courseTagRepository.save(courseTag4);
 
         courseTag5 = new CourseTag();
         courseTag5.setCourse(course5);
         courseTag5.setTag(tag5);
+        courseTag5.setRating(1);
 
         courseTagRepository.save(courseTag5);
 
         courseTag6 = new CourseTag();
         courseTag6.setCourse(course6);
         courseTag6.setTag(tag1);
+        courseTag6.setRating(1);
 
         courseTagRepository.save(courseTag6);
 
         courseTag7 = new CourseTag();
         courseTag7.setCourse(course7);
         courseTag7.setTag(tag2);
+        courseTag7.setRating(1);
 
         courseTagRepository.save(courseTag7);
 
         courseTag8 = new CourseTag();
         courseTag8.setCourse(course8);
         courseTag8.setTag(tag3);
+        courseTag8.setRating(1);
 
         courseTagRepository.save(courseTag8);
 
         courseTag9 = new CourseTag();
         courseTag9.setCourse(course9);
-        courseTag9.setTag(tag4);
-        courseTag9.setTag(tag5);
         courseTag9.setTag(tag6);
+        courseTag9.setRating(1);
 
         courseTagRepository.save(courseTag9);
 
         courseTag10 = new CourseTag();
         courseTag10.setCourse(course10);
         courseTag10.setTag(tag5);
+        courseTag10.setRating(1);
 
         courseTagRepository.save(courseTag10);
 
         courseTag11 = new CourseTag();
         courseTag11.setCourse(course11);
         courseTag11.setTag(tag1);
+        courseTag11.setRating(1);
 
         courseTagRepository.save(courseTag11);
 
         courseTag12 = new CourseTag();
         courseTag12.setCourse(course12);
         courseTag12.setTag(tag2);
+        courseTag12.setRating(1);
 
         courseTagRepository.save(courseTag12);
 
         courseTag13 = new CourseTag();
         courseTag13.setCourse(course13);
         courseTag13.setTag(tag3);
+        courseTag13.setRating(1);
 
         courseTagRepository.save(courseTag13);
 
         courseTag14 = new CourseTag();
         courseTag14.setCourse(course14);
         courseTag14.setTag(tag4);
+        courseTag14.setRating(1);
 
         courseTagRepository.save(courseTag14);
 
         courseTag15 = new CourseTag();
         courseTag15.setCourse(course15);
         courseTag15.setTag(tag5);
+        courseTag15.setRating(1);
 
         courseTagRepository.save(courseTag15);
 
         courseTag16 = new CourseTag();
         courseTag16.setCourse(course6);
         courseTag16.setTag(tag2);
+        courseTag16.setRating(1);
 
         courseTagRepository.save(courseTag16);
 
         courseTag17 = new CourseTag();
         courseTag17.setCourse(course11);
         courseTag17.setTag(tag2);
+        courseTag17.setRating(1);
 
         courseTagRepository.save(courseTag17);
 
         courseTag18 = new CourseTag();
         courseTag18.setCourse(course3);
         courseTag18.setTag(tag1);
+        courseTag18.setRating(1);
 
         courseTagRepository.save(courseTag18);
     }
@@ -610,16 +658,21 @@ public class InitializerService {
             DROP TABLE IF EXISTS role_tag CASCADE;
             DROP TABLE IF EXISTS course_tag CASCADE;
             DROP TABLE IF EXISTS course CASCADE;
+            DROP TABLE IF EXISTS feedback_report CASCADE;
             DROP TABLE IF EXISTS feedback CASCADE;
             DROP TABLE IF EXISTS tag CASCADE;
+            DROP TABLE IF EXISTS invitation CASCADE;
+            DROP TABLE IF EXISTS member CASCADE;
+            Drop Table IF EXISTS group_table CASCADE;
             DROP TABLE IF EXISTS token CASCADE;
             DROP TABLE IF EXISTS user_entity CASCADE;
             DROP TABLE IF EXISTS user_tag CASCADE;
             DROP TABLE IF EXISTS category CASCADE;
+            DROP TABLE IF EXISTS group_table_members CASCADE;
+            DROP TABLE IF EXISTS member_courses CASCADE;
             DROP TABLE IF EXISTS bookmark CASCADE;
             DROP TABLE IF EXISTS bookmarked_by CASCADE;
             DROP TABLE IF EXISTS course_completion CASCADE;
-            DROP TABLE IF EXISTS feedback_report CASCADE;
             """
         );
         try {

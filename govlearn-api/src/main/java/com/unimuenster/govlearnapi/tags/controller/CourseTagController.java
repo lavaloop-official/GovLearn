@@ -77,10 +77,7 @@ public class CourseTagController {
     public ResponseEntity<Response> addTagToCourse(
             @RequestBody AddTagToCourseWsTo addTagToCourseWsTo
     ){
-        CourseDTO courseDTO = courseService.getCourseById(addTagToCourseWsTo.courseId());
-        CourseWsTo course = controllerCourseMapper.map(courseDTO);
-
-        courseTagService.addTagToCourse(course.getId(), addTagToCourseWsTo.tagId() );
+        courseTagService.addTagToCourse(addTagToCourseWsTo);
         return ResponseEntity.ok( Response.of(true));
     }
 

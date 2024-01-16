@@ -1,8 +1,8 @@
 package com.unimuenster.govlearnapi.course.controllerAdvice;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
+import com.unimuenster.govlearnapi.core.globalExceptions.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.exception.NotFoundException;
-import com.unimuenster.govlearnapi.course.exception.UnauthorizedException;
 import com.unimuenster.govlearnapi.course.exception.IllegalArgumentException;
 
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class CourseControllerAdvice {
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<Response> handleUnauthorizedExeption(UnauthorizedException e) {
+    public ResponseEntity<Response> handleUnauthorizedException(UnauthorizedException e) {
         return new ResponseEntity<Response>(Response.of(e.getMessage(), false), HttpStatus.UNAUTHORIZED);
     }
 
@@ -31,4 +31,5 @@ public class CourseControllerAdvice {
     public ResponseEntity<Response> handleIllegalArgumentException(IllegalArgumentException e) {
         return new ResponseEntity<Response>(Response.of(e.getMessage(), false), HttpStatus.BAD_REQUEST);
     }
+
 }
