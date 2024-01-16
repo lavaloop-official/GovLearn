@@ -132,7 +132,7 @@ public class RecommendationService {
 
     private Optional<Object[]> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){
 
-        double similarity = Measure.cosineSimilarity(vectorA, vectorB);
+        double similarity = Measure.euclidianDistance(vectorA, vectorB);
 
         return getSimilarityAndCourse(similarity, course);
     }
@@ -152,7 +152,7 @@ public class RecommendationService {
 
     private void sortSimilarityList(List<Object[]> courseSimilarityList) {
         courseSimilarityList.sort(Comparator.comparing(o ->  (Comparable)o[1]));
-        Collections.reverse(courseSimilarityList);
+        //Collections.reverse(courseSimilarityList);
     }
 
 }
