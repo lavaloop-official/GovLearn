@@ -36,7 +36,7 @@ public class CourseCompletionService {
             throw new IllegalArgumentException();
         }
 
-        userTagService.adjustUserTags(currentUser, courseId);
+        userTagService.adjustUserTags(currentUser, courseId, true);
 
         CourseCompletion courseCompletion = new CourseCompletion();
         courseCompletion.setCourse(course);
@@ -62,5 +62,6 @@ public class CourseCompletionService {
     @Transactional
     public void deleteCourseCompletion(UserEntity currentUser, Long courseId) {
         courseCompletionRepository.deleteCourseCompletion(currentUser.getId(), courseId);
+        userTagService.adjustUserTags(currentUser, courseId, false);
     }
 }

@@ -78,12 +78,16 @@ public class UserTagService {
                 .findFirst();
     }
 
-    public void adjustUserTags(UserEntity user, Long courseId){
+    public void adjustUserTags(UserEntity user, Long courseId, boolean isAdd){
         List<CourseTag> courseTags = courseTagRepository.getCourseTagsByCourseId(courseId);
 
         for ( CourseTag courseTag : courseTags ){
-            updateUserTag(courseTag.getTag().getId(), user, courseTag.getRating());
+            if(isAdd) {
+                updateUserTag(courseTag.getTag().getId(), user, courseTag.getRating());
+            }
+            else updateUserTag(courseTag.getTag().getId(), user, -1 * courseTag.getRating());
         }
+
     }
 
     @Transactional
@@ -102,8 +106,12 @@ public class UserTagService {
         if (userTag.isEmpty()) {
             addTagToUser(user, tagId, improvement);
         } else {
-            userTag.get().setRating(userTag.get().getRating() + improvement);
-            userTagRepository.save(userTag.get());
+            if (userTag.get().getRating() + improvement <= 0) {
+                userTagRepository.delete(userTag.get());
+            } else {
+                userTag.get().setRating(userTag.get().getRating() + improvement);
+                userTagRepository.save(userTag.get());
+            }
         }
     }
 
