@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.course.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.group.controller.GroupTestBase;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CourseSimilarityServiceTest extends AbstractIntegrationTest {
+public class CourseSimilarityServiceTest extends GroupTestBase {
     @Autowired
     private CourseSimilarityService courseSimilarityService;
     @Autowired
@@ -22,6 +23,7 @@ public class CourseSimilarityServiceTest extends AbstractIntegrationTest {
 
     @Test
     void getMostSimilarCourses(){
+        setCurrentUser(initializer.getUser1());
         List<TagDTO> tags = tagService.getTags();
         List<CourseDTO> courseDTOs = courseSimilarityService.getMostSimilarCourses(initializer.getCourse6().getId(), tags);
         // Kurs mit welchem verglichen wird, sollte nicht in der Liste sein
