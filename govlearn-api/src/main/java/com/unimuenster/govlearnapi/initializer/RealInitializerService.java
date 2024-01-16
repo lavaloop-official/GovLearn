@@ -22,6 +22,7 @@ import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -682,8 +684,8 @@ public class RealInitializerService {
     public void parseTags(){
         JsonObject jsonObject = new JsonObject();
         try {
-            File file = ResourceUtils.getFile("classpath:tags.json");
-            String content = new String(Files.readAllBytes(file.toPath()));
+            InputStream file = new ClassPathResource("tags.json").getInputStream();
+            String content = new String(file.readAllBytes());
             jsonObject = new Gson().fromJson(content, JsonObject.class);
         } catch(Exception e){
             e.printStackTrace();
@@ -1463,16 +1465,16 @@ public class RealInitializerService {
         JsonObject vbTags = new JsonObject();
 
         try {
-            File roleJsonFile = ResourceUtils.getFile("classpath:roles.json");
-            String content = new String(Files.readAllBytes(roleJsonFile.toPath()));
+            InputStream roleJsonFile = new ClassPathResource("roles.json").getInputStream();
+            String content = new String(roleJsonFile.readAllBytes());
             roleJson = new Gson().fromJson(content, JsonArray.class);
 
-            File roleTagsFile = ResourceUtils.getFile("classpath:role_tags.json");
-            String roleTagsContent = new String(Files.readAllBytes(roleTagsFile.toPath()));
+            InputStream roleTagsFile = new ClassPathResource("role_tags.json").getInputStream();
+            String roleTagsContent = new String(roleTagsFile.readAllBytes());
             roleTags = new Gson().fromJson(roleTagsContent, JsonObject.class);
 
-            File vbTagsFile = ResourceUtils.getFile("classpath:vb_tags.json");
-            String vbTagsContent = new String(Files.readAllBytes(vbTagsFile.toPath()));
+            InputStream vbTagsFile = new ClassPathResource("vb_tags.json").getInputStream();
+            String vbTagsContent = new String(vbTagsFile.readAllBytes());
             vbTags = new Gson().fromJson(vbTagsContent, JsonObject.class);
         } catch(Exception e){
             e.printStackTrace();
