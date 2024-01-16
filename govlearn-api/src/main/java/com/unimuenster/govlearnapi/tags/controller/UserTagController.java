@@ -58,7 +58,7 @@ public class UserTagController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        userTagService.addTagToUser(currentUser, addTagToUserWsTo.tagId());
+        userTagService.addTagToUser(currentUser, addTagToUserWsTo.tagId(), addTagToUserWsTo.rating());
 
         return ResponseEntity.ok( Response.of(true));
     }

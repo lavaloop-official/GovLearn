@@ -26,6 +26,7 @@ public class CourseTag {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    private int rating;
 
     protected Date createdAt;
 

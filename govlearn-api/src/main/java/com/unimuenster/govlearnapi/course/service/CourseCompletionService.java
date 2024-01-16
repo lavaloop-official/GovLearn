@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
+import com.unimuenster.govlearnapi.tags.service.UserTagService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
@@ -25,6 +26,7 @@ public class CourseCompletionService {
     private final CourseCompletionRepository courseCompletionRepository;
     private final ServiceCourseMapper serviceCourseMapper;
     private final ControllerCourseMapper controllerCourseMapper;
+    private final UserTagService userTagService;
 
     @Transactional
     public void addCourseCompletion(UserEntity currentUser, Long courseId) {
@@ -33,6 +35,8 @@ public class CourseCompletionService {
         if ( isCourseCompleted(currentUser, courseId) ) {
             throw new IllegalArgumentException();
         }
+
+        userTagService.adjustUserTags(currentUser, courseId);
 
         CourseCompletion courseCompletion = new CourseCompletion();
         courseCompletion.setCourse(course);

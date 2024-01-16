@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
@@ -62,7 +63,7 @@ class TagsServiceTest extends AbstractIntegrationTest {
     void addTagToUser(){
 
         // Add tag 2 to user 1
-        userTagService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId());
+        userTagService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId(), 1);
 
         List<UserTag> userTagByUserId = userTagRepository.getUserTagByUserId(initializer.getUser1().getId());
 
@@ -75,7 +76,11 @@ class TagsServiceTest extends AbstractIntegrationTest {
         CourseDTO courseDTO = courseService.getCourseById(initializer.getCourse1().getId());
 
         // Add tag 2 to course 1
-        courseTagService.addTagToCourse(courseDTO.id(),initializer.getTag2().getId());
+        AddTagToCourseWsTo addTagToCourseWsTo = new AddTagToCourseWsTo(
+                courseDTO.id(), initializer.getTag2().getId(), 1
+        );
+
+        courseTagService.addTagToCourse(addTagToCourseWsTo);
 
         Course course = serviceCourseMapper.map(courseDTO);
         List<CourseTag> courseTags = courseTagService.getCourseTags(course);

@@ -2,6 +2,7 @@ package com.unimuenster.govlearnapi.tags.service;
 
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
@@ -29,10 +30,10 @@ public class CourseTagService {
     }
 
     @Transactional
-    public void addTagToCourse(long courseId, long tagId) {
+    public void addTagToCourse(AddTagToCourseWsTo addTagToCourseWsTo) {
 
-        Optional<Tag> tag = tagRepository.findById(tagId);
-        Optional<Course> course = courseRepository.findById(courseId);
+        Optional<Tag> tag = tagRepository.findById(addTagToCourseWsTo.tagId());
+        Optional<Course> course = courseRepository.findById(addTagToCourseWsTo.courseId());
         if ( tag.isEmpty() || course.isEmpty() ){
             throw new NotFoundException();
         }
@@ -40,6 +41,7 @@ public class CourseTagService {
         CourseTag courseTag = new CourseTag();
         courseTag.setCourse(course.get());
         courseTag.setTag(tag.get());
+        courseTag.setRating(addTagToCourseWsTo.rating());
         courseTag.setCreatedAt(new Date());
 
         courseTagRepository.save(courseTag);
@@ -51,9 +53,9 @@ public class CourseTagService {
         for ( int i = 0; i < allTags.size(); i++ ){
             TagDTO currentTagDTO = allTags.get(i);
 
-            boolean containsTag = isTagInCourseTags(courseTags, currentTagDTO);
+            Optional<CourseTag> courseTag = isTagInCourseTags(courseTags, currentTagDTO);
 
-            courseTagVector[i] = getTagValue(containsTag);
+            courseTagVector[i] = getTagValue(courseTag);
         }
 
         return courseTagVector;
@@ -66,15 +68,23 @@ public class CourseTagService {
         return computeCourseTagVector(courseTags, allTags);
     }
 
-    public boolean isTagInCourseTags(List<CourseTag> courseTags, TagDTO currentTagDTO){
-        return courseTags.stream().anyMatch(courseTag -> courseTag.getTag().getId() == currentTagDTO.id());
+    public Optional<CourseTag> isTagInCourseTags(List<CourseTag> courseTags, TagDTO currentTagDTO){
+        Optional<CourseTag> optTag = Optional.empty();
+        for ( CourseTag courseTag : courseTags ){
+            if ( courseTag.getTag().getId().equals(currentTagDTO.id()) ){
+                optTag = Optional.of(courseTag);
+                break;
+            }
+        }
+
+        return optTag;
     }
 
-    private int getTagValue (boolean containsTag){
-        if ( containsTag ) {
-            return 1;
-        }else {
+    private double getTagValue (Optional<CourseTag> courseTag){
+        if ( courseTag.isEmpty() ) {
             return 0;
+        }else {
+            return courseTag.get().getRating();
         }
     }
 }

@@ -484,110 +484,126 @@ public class InitializerService {
         courseTag1 = new CourseTag();
         courseTag1.setCourse(course1);
         courseTag1.setTag(tag1);
+        courseTag1.setRating(1);
 
         courseTagRepository.save(courseTag1);
 
         courseTag2 = new CourseTag();
         courseTag2.setCourse(course2);
         courseTag2.setTag(tag2);
+        courseTag2.setRating(1);
 
         courseTagRepository.save(courseTag2);
 
         courseTag3 = new CourseTag();
         courseTag3.setCourse(course3);
         courseTag3.setTag(tag3);
+        courseTag3.setRating(1);
 
         courseTagRepository.save(courseTag3);
 
         courseTag4 = new CourseTag();
         courseTag4.setCourse(course4);
         courseTag4.setTag(tag3);
+        courseTag4.setRating(1);
 
         courseTagRepository.save(courseTag4);
 
         courseTag5 = new CourseTag();
         courseTag5.setCourse(course5);
         courseTag5.setTag(tag5);
+        courseTag5.setRating(1);
 
         courseTagRepository.save(courseTag5);
 
         courseTag6 = new CourseTag();
         courseTag6.setCourse(course6);
         courseTag6.setTag(tag1);
+        courseTag6.setRating(1);
 
         courseTagRepository.save(courseTag6);
 
         courseTag7 = new CourseTag();
         courseTag7.setCourse(course7);
         courseTag7.setTag(tag2);
+        courseTag7.setRating(1);
 
         courseTagRepository.save(courseTag7);
 
         courseTag8 = new CourseTag();
         courseTag8.setCourse(course8);
         courseTag8.setTag(tag3);
+        courseTag8.setRating(1);
 
         courseTagRepository.save(courseTag8);
 
         courseTag9 = new CourseTag();
         courseTag9.setCourse(course9);
-        courseTag9.setTag(tag4);
-        courseTag9.setTag(tag5);
         courseTag9.setTag(tag6);
+        courseTag9.setRating(1);
 
         courseTagRepository.save(courseTag9);
 
         courseTag10 = new CourseTag();
         courseTag10.setCourse(course10);
         courseTag10.setTag(tag5);
+        courseTag10.setRating(1);
 
         courseTagRepository.save(courseTag10);
 
         courseTag11 = new CourseTag();
         courseTag11.setCourse(course11);
         courseTag11.setTag(tag1);
+        courseTag11.setRating(1);
 
         courseTagRepository.save(courseTag11);
 
         courseTag12 = new CourseTag();
         courseTag12.setCourse(course12);
         courseTag12.setTag(tag2);
+        courseTag12.setRating(1);
 
         courseTagRepository.save(courseTag12);
 
         courseTag13 = new CourseTag();
         courseTag13.setCourse(course13);
         courseTag13.setTag(tag3);
+        courseTag13.setRating(1);
 
         courseTagRepository.save(courseTag13);
 
         courseTag14 = new CourseTag();
         courseTag14.setCourse(course14);
         courseTag14.setTag(tag4);
+        courseTag14.setRating(1);
 
         courseTagRepository.save(courseTag14);
 
         courseTag15 = new CourseTag();
         courseTag15.setCourse(course15);
         courseTag15.setTag(tag5);
+        courseTag15.setRating(1);
 
         courseTagRepository.save(courseTag15);
 
         courseTag16 = new CourseTag();
         courseTag16.setCourse(course6);
         courseTag16.setTag(tag2);
+        courseTag16.setRating(1);
 
         courseTagRepository.save(courseTag16);
 
         courseTag17 = new CourseTag();
         courseTag17.setCourse(course11);
         courseTag17.setTag(tag2);
+        courseTag17.setRating(1);
 
         courseTagRepository.save(courseTag17);
 
         courseTag18 = new CourseTag();
         courseTag18.setCourse(course3);
         courseTag18.setTag(tag1);
+        courseTag18.setRating(1);
 
         courseTagRepository.save(courseTag18);
     }
