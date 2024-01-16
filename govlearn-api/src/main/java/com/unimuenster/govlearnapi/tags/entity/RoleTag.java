@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTag {
+public class RoleTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,6 @@ public class UserTag {
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 
     private int rating;
 

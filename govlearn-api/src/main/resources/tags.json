@@ -1,0 +1,80 @@
+{
+  "Business": [
+    "Change-Management",
+    "Projekt Management",
+    "Projektplanung",
+    "Projekterfolgskontrolle",
+    "Resourcenmanagement",
+    "(Online-)Marketing",
+    "Qulitätsmanagement",
+    "Risikomanagement",
+    "Kundenbedürfnisse"
+  ],
+  "Organisatorisch": [
+    "Verwaltungsstruktur",
+    "Prozessmanagement",
+    "Organisationsformen",
+    "Verwaltungsprozesse",
+    "Projektmanagement",
+    "Change-Management",
+    "Ressourcenmanagement",
+    "Qualitätsmanagement",
+    "Verwaltungsstrukturen"
+  ],
+  "Rechtlich": [
+    "Verwaltungsrecht",
+    "IT-Recht",
+    "eGovernment-Recht"
+  ],
+  "Soft Skills": [
+    "Selbstorganisation",
+    "Teamfähigkeit",
+    "Führungskompetenz",
+    "Design Thinking",
+    "Stressbewältigung",
+    "Konfliktmanagement",
+    "Medienkompetenz",
+    "Kommunikation",
+    "Virtuelles Arbeiten",
+    "Präsentationstechnicken",
+    "Lernkompetenz",
+    "Vermittlungskompetenz",
+    "Präsentationstechniken",
+    "Fremdsprachen"
+  ],
+  "Sozio-technisch": [
+    "Kundenbedürfnisse/ Anforderungsmanagement",
+    "Stakeholder-Analysen",
+    "Digitale Trends",
+    "Digitales Arbeiten"
+  ],
+  "Technisch": [
+    "Programmierung",
+    "Softwarearchitektur",
+    "Entwicklungs von Sicherheitskonzepten",
+    "Betriebssysteme",
+    "ERP-Systeme",
+    "Data Mining",
+    "Datenbankmanagement",
+    "KI",
+    "Grafikdesign & Bildbearbeitung",
+    "Kollaborations-Tools",
+    "Outlook",
+    "Word",
+    "Excel",
+    "It-Sicherheit",
+    "Hardwarekompetenz",
+    "Collaboration-Tools",
+    "Hardware-Kompetenz",
+    "Entwicklung von Sicherheitskonzepten",
+    "IT-Sicherheit",
+    "Grafikdesign / Bildbearbeitung"
+  ],
+  "Öffentlich/Politisch": [
+    "Bürgerzentrierung",
+    "Datenschutz",
+    "Compliance",
+    "Fremdsprache",
+    "Informationssicherheit"
+  ]
+}
