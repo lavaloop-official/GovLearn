@@ -46,7 +46,7 @@ public class CourseSimilarityService {
 
     private List<CourseDTO> mapSimilarityToCoursesAndLimit(List<Object[]> coursesWithSimilarity, int maxReturnedCourses) {
         coursesWithSimilarity.sort(Comparator.comparing(o ->  (Comparable)o[1]));
-        Collections.reverse(coursesWithSimilarity);
+        //Collections.reverse(coursesWithSimilarity);
 
         return coursesWithSimilarity
                 .stream()

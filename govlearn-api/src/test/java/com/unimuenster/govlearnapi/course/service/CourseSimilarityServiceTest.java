@@ -28,7 +28,7 @@ public class CourseSimilarityServiceTest extends GroupTestBase {
         List<CourseDTO> courseDTOs = courseSimilarityService.getMostSimilarCourses(initializer.getCourse6().getId(), tags);
         // Kurs mit welchem verglichen wird, sollte nicht in der Liste sein
         assertTrue(courseDTOs.stream().noneMatch(courseDTO -> courseDTO.id().equals(initializer.getCourse6().getId())));
-        // Kurs 11 sollte in der Liste sein (besitzt gleiche Tags wie User)
+        // Kurs 11 sollte die gleichen Tags wie Kurs 6 besitzen und dem entsprechend angezeigt werden
         assertTrue(courseDTOs.stream().anyMatch(courseDTO -> courseDTO.id().equals(initializer.getCourse11().getId())));
     }
 }
