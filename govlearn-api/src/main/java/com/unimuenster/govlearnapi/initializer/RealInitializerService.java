@@ -1,20 +1,23 @@
 package com.unimuenster.govlearnapi.initializer;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.unimuenster.govlearnapi.category.entity.Category;
 import com.unimuenster.govlearnapi.category.repository.CategoryRepository;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;
+import com.unimuenster.govlearnapi.core.config.enums.Verantwortungsbereich;
 import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
-import com.unimuenster.govlearnapi.tags.entity.CourseTag;
-import com.unimuenster.govlearnapi.tags.entity.Tag;
-import com.unimuenster.govlearnapi.tags.entity.UserTag;
-import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
-import com.unimuenster.govlearnapi.tags.repository.TagRepository;
-import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
+import com.unimuenster.govlearnapi.tags.entity.*;
+import com.unimuenster.govlearnapi.tags.repository.*;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.repository.UserRepository;
+import io.swagger.v3.core.util.Json;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
-import java.util.Date;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.*;
 
 @Getter
 @Slf4j
@@ -34,10 +40,12 @@ public class RealInitializerService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final TagRepository tagRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserTagRepository userTagRepository;
     private final CourseTagRepository courseTagRepository;
     private final CategoryRepository categoryRepository;
+    private final RoleTagRepository roleTagRepository;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final EntityManager entityManager;
@@ -47,15 +55,22 @@ public class RealInitializerService {
     private Category businessCategory, organisatorischCategory, RechtlichCategory, softSkillsCategory, sozioTechnischCategory, technischCategory, oeffenlichPolitischCategory;
     private Tag tagChangemanagement, tagProjektmanagement, tagProjektplanung, tagProjekterfolgskontrolle, tagResourcenmanagement, tagMarketing, tagQulitaetsmanagement, tagRisikomanagement, tagVerwaltungsstruktur, tagProzessmanagement, tagOrganisationsformen, tagVerwaltungsprozesse, tagVerwaltungsrecht, tagItRecht, tageGovernmentRecht, tagSelbstorganisation, tagTeamFaehigkeit, tagFuehrungskompentenzen, tagDesignThinking, tagStressbewaeltigung, tagKonfliktmanagement, tagMedienkompetenz, tagKommunikation, tagVirtuellesArbeiten, tagPraesentationstechnicken, tagLernkompetenzen, tagKundenbeduerfnisseAnforderungsmanagement, tagStakeholderAnalyse, tagDigitaleTrends, tagProgrammieren, tagSoftwarearchitektur, tagEntwicklungvonSicherheitskonzepten, tagBetirebssymsteme, tagErpSysteme, tagDataMining, tagDatenbankmanagement, tagKI, tagGrafikdesignBilbearbeitung, tagKollaborationstools, tagOutlook, tagWord, tagExcel, tagItSicherheit, tagHardwarekompetenz, tagBuergerzentrierung, tagDatenschutz, tagCompliance, tagFremdsprache, tagInformationsicherheit;
     private UserTag userTag1, userTag2, userTag3, userTag4;
+    private Role OrganisationStratege, OrganisationEntscheidungsträger, OrganisationUmsetzer, DigitalisierungStratege, DigitalisierungEntscheidungsträger, DigitalisierungUmsetzer, InformationstechnikStratege, InformationstechnikEntscheidungsträger, InformationstechnikUmsetzer, SmartCityStratege, SmartCityEntscheidungsTräger, SmartCityUmsetzer, NichtDigitalStratege, NichtDigitalEntscheidungsträger, NichtDigitalUmsetzer, PersonalStratege, PersonalEntscheidungsträger, PersonalUmsetzer;
+
+    private List<Category> categories;
+    private List<Tag> tags;
+
 
     public void init() {
         insertUser();
-        insertCategories();
+        //insertCategories();
         insertCourse();
-        insertTag();
+        //insertTag();
+        parseTags();
         addTagsToUsers();
         addTagsToCourses();
         addFeedbackToCourses();
+        insertRoles();
     }
 
     public void insertUser(){
@@ -150,6 +165,8 @@ public class RealInitializerService {
 
     }
 
+
+    //feddig
     private void insertCategories() {
 
 // Business Category
@@ -661,6 +678,38 @@ public class RealInitializerService {
 
     }
 
+    //neu
+    public void parseTags(){
+        JsonObject jsonObject = new JsonObject();
+        try {
+            File file = ResourceUtils.getFile("classpath:tags.json");
+            String content = new String(Files.readAllBytes(file.toPath()));
+            jsonObject = new Gson().fromJson(content, JsonObject.class);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        //System.out.println(jsonObject);
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+        for(Map.Entry<String, JsonElement> entry : entrySet){
+            String key = entry.getKey();
+            List<JsonElement> tags = entry.getValue().getAsJsonArray().asList();
+
+            Category category = new Category();
+            category.setName(key);
+            categoryRepository.save(category);
+
+            for(JsonElement tagStr : tags){
+                Tag tag = new Tag();
+                tag.setName(tagStr.getAsString());
+                tag.setCategory(category);
+                tagRepository.save(tag);
+            }
+        }
+
+    }
+
+    //feddig
     public void insertTag(){
 
 // Business Category
@@ -922,33 +971,34 @@ public class RealInitializerService {
         tagRepository.save(tagInformationsicherheit);
     }
 
+    //neu
     private void addTagsToUsers() {
 
         userTag1 = new UserTag();
         userTag1.setUser(user11);
         userTag1.setRating(1);
-        userTag1.setTag(tagDesignThinking);
+        userTag1.setTag(tagRepository.findByName("Design Thinking").orElse(null));
 
         userTagRepository.save(userTag1);
 
         userTag2 = new UserTag();
         userTag2.setUser(user11);
         userTag2.setRating(1);
-        userTag2.setTag(tagProjektmanagement);
+        userTag2.setTag(tagRepository.findByName("Projektmanagement").orElse(null));
 
         userTagRepository.save(userTag2);
 
         userTag3 = new UserTag();
         userTag3.setUser(user11);
         userTag3.setRating(1);
-        userTag3.setTag(tagProjektplanung);
+        userTag3.setTag(tagRepository.findByName("Projektplanung").orElse(null));
 
         userTagRepository.save(userTag3);
 
         userTag4 = new UserTag();
         userTag4.setUser(user11);
         userTag4.setRating(1);
-        userTag4.setTag(tagTeamFaehigkeit);
+        userTag4.setTag(tagRepository.findByName("Teamfähigkeit").orElse(null));
 
         userTagRepository.save(userTag4);
 
@@ -959,278 +1009,278 @@ public class RealInitializerService {
 // Associate tags with Course 1
         CourseTag courseTagProjektPlanung1 = new CourseTag();
         courseTagProjektPlanung1.setCourse(course1);
-        courseTagProjektPlanung1.setTag(tagProjektplanung);
+        courseTagProjektPlanung1.setTag(tagRepository.findByName("Projektplanung").orElse(null));
         courseTagRepository.save(courseTagProjektPlanung1);
 
         CourseTag courseTagOrganisationsformen1 = new CourseTag();
         courseTagOrganisationsformen1.setCourse(course1);
-        courseTagOrganisationsformen1.setTag(tagOrganisationsformen);
+        courseTagOrganisationsformen1.setTag(tagRepository.findByName("Organisationsformen").orElse(null));
         courseTagRepository.save(courseTagOrganisationsformen1);
 
         CourseTag courseTagFuehrungskompetenz = new CourseTag();
         courseTagFuehrungskompetenz.setCourse(course1);
-        courseTagFuehrungskompetenz.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskompetenz.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskompetenz);
 
 // Associate tags with Course 2
         CourseTag courseTagProjectManagement2 = new CourseTag();
         courseTagProjectManagement2.setCourse(course2);
-        courseTagProjectManagement2.setTag(tagProjektmanagement);
+        courseTagProjectManagement2.setTag(tagRepository.findByName("Projektmanagement").orElse(null));
         courseTagRepository.save(courseTagProjectManagement2);
 
         CourseTag courseTagFuehrungskompetenz2 = new CourseTag();
         courseTagFuehrungskompetenz2.setCourse(course2);
-        courseTagFuehrungskompetenz2.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskompetenz2.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskompetenz2);
 
 // Associate tags with Course 3
         CourseTag courseTagItSicherheit3 = new CourseTag();
         courseTagItSicherheit3.setCourse(course3);
-        courseTagItSicherheit3.setTag(tagItSicherheit);
+        courseTagItSicherheit3.setTag(tagRepository.findByName("It-Sicherheit").orElse(null));
         courseTagRepository.save(courseTagItSicherheit3);
 
         CourseTag courseTagDatenschutz3 = new CourseTag();
         courseTagDatenschutz3.setCourse(course3);
-        courseTagDatenschutz3.setTag(tagDatenschutz);
+        courseTagDatenschutz3.setTag(tagRepository.findByName("Datenschutz").orElse(null));
         courseTagRepository.save(courseTagDatenschutz3);
 
 // Associate tags with Course 4
         CourseTag courseTagOrganisationsformen4 = new CourseTag();
         courseTagOrganisationsformen4.setCourse(course4);
-        courseTagOrganisationsformen4.setTag(tagOrganisationsformen);
+        courseTagOrganisationsformen4.setTag(tagRepository.findByName("Organisationsformen").orElse(null));
         courseTagRepository.save(courseTagOrganisationsformen4);
 
         CourseTag courseTagProzessmanagement4 = new CourseTag();
         courseTagProzessmanagement4.setCourse(course4);
-        courseTagProzessmanagement4.setTag(tagProzessmanagement);
+        courseTagProzessmanagement4.setTag(tagRepository.findByName("Prozessmanagement").orElse(null));
         courseTagRepository.save(courseTagProzessmanagement4);
 
         CourseTag courseTagFuehrungskompetenz4 = new CourseTag();
         courseTagFuehrungskompetenz4.setCourse(course4);
-        courseTagFuehrungskompetenz4.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskompetenz4.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskompetenz4);
 
 // Associate tags with Course 5
         CourseTag courseTagFuehrungskompetenz5 = new CourseTag();
         courseTagFuehrungskompetenz5.setCourse(course5);
-        courseTagFuehrungskompetenz5.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskompetenz5.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskompetenz5);
 
         CourseTag courseTagKonfliktmanagement5 = new CourseTag();
         courseTagKonfliktmanagement5.setCourse(course5);
-        courseTagKonfliktmanagement5.setTag(tagKonfliktmanagement);
+        courseTagKonfliktmanagement5.setTag(tagRepository.findByName("Konfliktmanagement").orElse(null));
         courseTagRepository.save(courseTagKonfliktmanagement5);
 
         CourseTag courseTagKommunikation5 = new CourseTag();
         courseTagKommunikation5.setCourse(course5);
-        courseTagKommunikation5.setTag(tagKommunikation);
+        courseTagKommunikation5.setTag(tagRepository.findByName("Kommunikation").orElse(null));
         courseTagRepository.save(courseTagKommunikation5);
 
 // Associate tags with Course 6
         CourseTag courseTagVerwaltungsrecht6 = new CourseTag();
         courseTagVerwaltungsrecht6.setCourse(course6);
-        courseTagVerwaltungsrecht6.setTag(tagVerwaltungsrecht);
+        courseTagVerwaltungsrecht6.setTag(tagRepository.findByName("Verwaltungsrecht").orElse(null));
         courseTagRepository.save(courseTagVerwaltungsrecht6);
 
 
 // Associate tags with Course 7
         CourseTag courseTagKonfliktmanagement7 = new CourseTag();
         courseTagKonfliktmanagement7.setCourse(course7);
-        courseTagKonfliktmanagement7.setTag(tagKonfliktmanagement);
+        courseTagKonfliktmanagement7.setTag(tagRepository.findByName("Konfliktmanagement").orElse(null));
         courseTagRepository.save(courseTagKonfliktmanagement7);
 
         CourseTag coursetagVerwaltungsstruktur7 = new CourseTag();
         coursetagVerwaltungsstruktur7.setCourse(course7);
-        coursetagVerwaltungsstruktur7.setTag(tagVerwaltungsstruktur);
+        coursetagVerwaltungsstruktur7.setTag(tagRepository.findByName("Verwaltungsstruktur").orElse(null));
         courseTagRepository.save(coursetagVerwaltungsstruktur7);
 
 // Associate tags with Course 8
         CourseTag courseTagKundenbeduerfnisse8 = new CourseTag();
         courseTagKundenbeduerfnisse8.setCourse(course8);
-        courseTagKundenbeduerfnisse8.setTag(tagKundenbeduerfnisseAnforderungsmanagement);
+        courseTagKundenbeduerfnisse8.setTag(tagRepository.findByName("Kundenbedürfnisse/ Anforderungsmanagement").orElse(null));
         courseTagRepository.save(courseTagKundenbeduerfnisse8);
 
         CourseTag courseTagKommunikation8 = new CourseTag();
         courseTagKommunikation8.setCourse(course8);
-        courseTagKommunikation8.setTag(tagKommunikation);
+        courseTagKommunikation8.setTag(tagRepository.findByName("Kommunikation").orElse(null));
         courseTagRepository.save(courseTagKommunikation8);
 
 // Associate tags with Course 9
         CourseTag courseTagKonfliktmanagement9 = new CourseTag();
         courseTagKonfliktmanagement9.setCourse(course9);
-        courseTagKonfliktmanagement9.setTag(tagKonfliktmanagement);
+        courseTagKonfliktmanagement9.setTag(tagRepository.findByName("Konfliktmanagement").orElse(null));
         courseTagRepository.save(courseTagKonfliktmanagement9);
 
 // Associate tags with Course 10
         CourseTag courseTagSelbstorganisation10 = new CourseTag();
         courseTagSelbstorganisation10.setCourse(course10);
-        courseTagSelbstorganisation10.setTag(tagSelbstorganisation);
+        courseTagSelbstorganisation10.setTag(tagRepository.findByName("Selbstorganisation").orElse(null));
         courseTagRepository.save(courseTagSelbstorganisation10);
 
         CourseTag courseTagStessbewaeltigung10 = new CourseTag();
         courseTagStessbewaeltigung10.setCourse(course10);
-        courseTagStessbewaeltigung10.setTag(tagStressbewaeltigung);
+        courseTagStessbewaeltigung10.setTag(tagRepository.findByName("Stressbewältigung").orElse(null));
         courseTagRepository.save(courseTagStessbewaeltigung10);
 
 // Associate tags with Course 11
         CourseTag courseTagRessourcenmanagement11 = new CourseTag();
         courseTagRessourcenmanagement11.setCourse(course11);
-        courseTagRessourcenmanagement11.setTag(tagResourcenmanagement);
+        courseTagRessourcenmanagement11.setTag(tagRepository.findByName("Resourcenmanagement").orElse(null));
         courseTagRepository.save(courseTagRessourcenmanagement11);
 
         CourseTag courseTagVerwaltungsstruktur11 = new CourseTag();
         courseTagVerwaltungsstruktur11.setCourse(course11);
-        courseTagVerwaltungsstruktur11.setTag(tagVerwaltungsstruktur);
+        courseTagVerwaltungsstruktur11.setTag(tagRepository.findByName("Verwaltungsstruktur").orElse(null));
         courseTagRepository.save(courseTagVerwaltungsstruktur11);
 
 // Associate tags with Course 12
         CourseTag courseTagSoftwarearchitektur12 = new CourseTag();
         courseTagSoftwarearchitektur12.setCourse(course12);
-        courseTagSoftwarearchitektur12.setTag(tagSoftwarearchitektur);
+        courseTagSoftwarearchitektur12.setTag(tagRepository.findByName("Softwarearchitektur").orElse(null));
         courseTagRepository.save(courseTagSoftwarearchitektur12);
 
         CourseTag courseTagDatenbankmanagement12 = new CourseTag();
         courseTagDatenbankmanagement12.setCourse(course12);
-        courseTagDatenbankmanagement12.setTag(tagDatenbankmanagement);
+        courseTagDatenbankmanagement12.setTag(tagRepository.findByName("Datenbankmanagement").orElse(null));
         courseTagRepository.save(courseTagDatenbankmanagement12);
 
 // Associate tags with Course 13
         CourseTag courseTagBuergerzentrierung = new CourseTag();
         courseTagBuergerzentrierung.setCourse(course13);
-        courseTagBuergerzentrierung.setTag(tagBuergerzentrierung);
+        courseTagBuergerzentrierung.setTag(tagRepository.findByName("Bürgerzentrierung").orElse(null));
         courseTagRepository.save(courseTagBuergerzentrierung);
 
         CourseTag courseTagVerwaltungsprozesse = new CourseTag();
         courseTagVerwaltungsprozesse.setCourse(course13);
-        courseTagVerwaltungsprozesse.setTag(tagVerwaltungsprozesse);
+        courseTagVerwaltungsprozesse.setTag(tagRepository.findByName("Verwaltungsprozesse").orElse(null));
         courseTagRepository.save(courseTagVerwaltungsprozesse);
 
 // Associate tags with Course 14
         CourseTag courseTagLernkompetenzen14 = new CourseTag();
         courseTagLernkompetenzen14.setCourse(course14);
-        courseTagLernkompetenzen14.setTag(tagLernkompetenzen);
+        courseTagLernkompetenzen14.setTag(tagRepository.findByName("Lernkompetenz").orElse(null));
         courseTagRepository.save(courseTagLernkompetenzen14);
 
         CourseTag courseTagInformationssicherheit14 = new CourseTag();
         courseTagInformationssicherheit14.setCourse(course14);
-        courseTagInformationssicherheit14.setTag(tagInformationsicherheit);
+        courseTagInformationssicherheit14.setTag(tagRepository.findByName("Informationssicherheit").orElse(null));
         courseTagRepository.save(courseTagInformationssicherheit14);
 
 // Associate tags with Course 15
         CourseTag courseTagfuehrungskompentenze15 = new CourseTag();
         courseTagfuehrungskompentenze15.setCourse(course15);
-        courseTagfuehrungskompentenze15.setTag(tagFuehrungskompentenzen);
+        courseTagfuehrungskompentenze15.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagfuehrungskompentenze15);
 
         CourseTag coursetagVerwaltungsstruktur15 = new CourseTag();
         coursetagVerwaltungsstruktur15.setCourse(course15);
-        coursetagVerwaltungsstruktur15.setTag(tagVerwaltungsstruktur);
+        coursetagVerwaltungsstruktur15.setTag(tagRepository.findByName("Verwaltungsstruktur").orElse(null));
         courseTagRepository.save(coursetagVerwaltungsstruktur15);
 
 // Associate tags with Course 16
         CourseTag courseTageGovernmentRecht = new CourseTag();
         courseTageGovernmentRecht.setCourse(course16);
-        courseTageGovernmentRecht.setTag(tageGovernmentRecht);
+        courseTageGovernmentRecht.setTag(tagRepository.findByName("eGovernment-Recht").orElse(null));
         courseTagRepository.save(courseTageGovernmentRecht);
 
 // Associate tags with Course 17
         CourseTag courseTagProgrammieren17 = new CourseTag();
         courseTagProgrammieren17.setCourse(course17);
-        courseTagProgrammieren17.setTag(tagProgrammieren);
+        courseTagProgrammieren17.setTag(tagRepository.findByName("Programmierung").orElse(null));
         courseTagRepository.save(courseTagProgrammieren17);
 
 // Associate tags with Course 18
         CourseTag courseTagSelbstorganisation18 = new CourseTag();
         courseTagSelbstorganisation18.setCourse(course18);
-        courseTagSelbstorganisation18.setTag(tagSelbstorganisation);
+        courseTagSelbstorganisation18.setTag(tagRepository.findByName("Selbstorganisation").orElse(null));
         courseTagRepository.save(courseTagSelbstorganisation18);
 
         CourseTag courseTagOutlook18 = new CourseTag();
         courseTagOutlook18.setCourse(course18);
-        courseTagOutlook18.setTag(tagOutlook);
+        courseTagOutlook18.setTag(tagRepository.findByName("Outlook").orElse(null));
         courseTagRepository.save(courseTagOutlook18);
 
 // Associate tags with Course 19
         CourseTag courseTagQualitaetsmanagement19 = new CourseTag();
         courseTagQualitaetsmanagement19.setCourse(course19);
-        courseTagQualitaetsmanagement19.setTag(tagQulitaetsmanagement);
+        courseTagQualitaetsmanagement19.setTag(tagRepository.findByName("Qualitätsmanagement").orElse(null));
         courseTagRepository.save(courseTagQualitaetsmanagement19);
 
         CourseTag courseTagKundenbeduerfnisse19 = new CourseTag();
         courseTagKundenbeduerfnisse19.setCourse(course19);
-        courseTagKundenbeduerfnisse19.setTag(tagKundenbeduerfnisseAnforderungsmanagement);
+        courseTagKundenbeduerfnisse19.setTag(tagRepository.findByName("Kundenbedürfnisse/ Anforderungsmanagement").orElse(null));
         courseTagRepository.save(courseTagKundenbeduerfnisse19);
 
 // Associate tags with Course 20
         CourseTag courseTagRisikomanagement20 = new CourseTag();
         courseTagRisikomanagement20.setCourse(course20);
-        courseTagRisikomanagement20.setTag(tagQulitaetsmanagement);
+        courseTagRisikomanagement20.setTag(tagRepository.findByName("Qualitätsmanagement").orElse(null));
         courseTagRepository.save(courseTagRisikomanagement20);
 
         CourseTag courseTagFuehrungskompetenz20 = new CourseTag();
         courseTagFuehrungskompetenz20.setCourse(course20);
-        courseTagFuehrungskompetenz20.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskompetenz20.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskompetenz20);
 
 // Associate tags with Course 21
         CourseTag courseTagKonfliktmanagement21 = new CourseTag();
         courseTagKonfliktmanagement21.setCourse(course21);
-        courseTagKonfliktmanagement21.setTag(tagKonfliktmanagement);
+        courseTagKonfliktmanagement21.setTag(tagRepository.findByName("Konfliktmanagement").orElse(null));
         courseTagRepository.save(courseTagKonfliktmanagement21);
 
         CourseTag courseTagKommunikation21 = new CourseTag();
         courseTagKommunikation21.setCourse(course21);
-        courseTagKommunikation21.setTag(tagKommunikation);
+        courseTagKommunikation21.setTag(tagRepository.findByName("Kommunikation").orElse(null));
         courseTagRepository.save(courseTagKommunikation21);
 
         CourseTag courseTagFuehrungskometenz21 = new CourseTag();
         courseTagFuehrungskometenz21.setCourse(course21);
-        courseTagFuehrungskometenz21.setTag(tagFuehrungskompentenzen);
+        courseTagFuehrungskometenz21.setTag(tagRepository.findByName("Führungskompetenz").orElse(null));
         courseTagRepository.save(courseTagFuehrungskometenz21);
 
 // Associate tags with Course 22
         CourseTag courseTagFremdsprachen22 = new CourseTag();
         courseTagFremdsprachen22.setCourse(course22);
-        courseTagFremdsprachen22.setTag(tagFremdsprache);
+        courseTagFremdsprachen22.setTag(tagRepository.findByName("Fremdsprache").orElse(null));
         courseTagRepository.save(courseTagFremdsprachen22);
 
 // Associate tags with Course 23
         CourseTag courseTagCompliance23 = new CourseTag();
         courseTagCompliance23.setCourse(course23);
-        courseTagCompliance23.setTag(tagCompliance);
+        courseTagCompliance23.setTag(tagRepository.findByName("Compliance").orElse(null));
         courseTagRepository.save(courseTagCompliance23);
 
 // Associate tags with Course 24
         CourseTag courseTagDigitaleTrends24 = new CourseTag();
         courseTagDigitaleTrends24.setCourse(course24);
-        courseTagDigitaleTrends24.setTag(tagDigitaleTrends);
+        courseTagDigitaleTrends24.setTag(tagRepository.findByName("Digitales Arbeiten").orElse(null));
         courseTagRepository.save(courseTagDigitaleTrends24);
 
         CourseTag courseTagVirtuellesArbeiten = new CourseTag();
         courseTagVirtuellesArbeiten.setCourse(course24);
-        courseTagVirtuellesArbeiten.setTag(tagVirtuellesArbeiten);
+        courseTagVirtuellesArbeiten.setTag(tagRepository.findByName("Virtuelles Arbeiten").orElse(null));
         courseTagRepository.save(courseTagVirtuellesArbeiten);
 
 // Associate tags with Course 25
         CourseTag courseTagPraesentationstechnicken25 = new CourseTag();
         courseTagPraesentationstechnicken25.setCourse(course25);
-        courseTagPraesentationstechnicken25.setTag(tagPraesentationstechnicken);
+        courseTagPraesentationstechnicken25.setTag(tagRepository.findByName("Präsentationstechniken").orElse(null));
         courseTagRepository.save(courseTagPraesentationstechnicken25);
 
         CourseTag courseTagMedienkompetent25 = new CourseTag();
         courseTagMedienkompetent25.setCourse(course25);
-        courseTagMedienkompetent25.setTag(tagMedienkompetenz);
+        courseTagMedienkompetent25.setTag(tagRepository.findByName("Medienkompetenz").orElse(null));
         courseTagRepository.save(courseTagMedienkompetent25);
 
 // Associate tags with Course 26
         CourseTag courseTagDatenschutz26 = new CourseTag();
         courseTagDatenschutz26.setCourse(course26);
-        courseTagDatenschutz26.setTag(tagDatenschutz);
+        courseTagDatenschutz26.setTag(tagRepository.findByName("Datenschutz").orElse(null));
         courseTagRepository.save(courseTagDatenschutz26);
 
         CourseTag courseTagKI26 = new CourseTag();
         courseTagKI26.setCourse(course26);
-        courseTagKI26.setTag(tagKI);
+        courseTagKI26.setTag(tagRepository.findByName("KI").orElse(null));
         courseTagRepository.save(courseTagKI26);
     }
 
@@ -1401,5 +1451,244 @@ public class RealInitializerService {
         courseRepository.save(course15);
 
 
+    }
+
+    //neu
+    public void insertRoles(){
+        List<Tag> alltags = tagRepository.findAllTags();
+        //System.out.println(alltags);
+
+        JsonArray roleJson = new JsonArray();
+        JsonObject roleTags = new JsonObject();
+        JsonObject vbTags = new JsonObject();
+
+        try {
+            File roleJsonFile = ResourceUtils.getFile("classpath:roles.json");
+            String content = new String(Files.readAllBytes(roleJsonFile.toPath()));
+            roleJson = new Gson().fromJson(content, JsonArray.class);
+
+            File roleTagsFile = ResourceUtils.getFile("classpath:role_tags.json");
+            String roleTagsContent = new String(Files.readAllBytes(roleTagsFile.toPath()));
+            roleTags = new Gson().fromJson(roleTagsContent, JsonObject.class);
+
+            File vbTagsFile = ResourceUtils.getFile("classpath:vb_tags.json");
+            String vbTagsContent = new String(Files.readAllBytes(vbTagsFile.toPath()));
+            vbTags = new Gson().fromJson(vbTagsContent, JsonObject.class);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        for (JsonElement jsonElement : roleJson) {
+            for(Verantwortungsbereich vb: Verantwortungsbereich.values()) {
+                //create roles
+                String roleName = jsonElement.getAsString();
+                Role role = new Role();
+                role.setName(roleName);
+                role.setDescription("");
+                role.setVerantwortungsbereich(vb);
+
+                //add tags to roles according to role_tags.json
+                JsonObject roleTagsObject = roleTags.getAsJsonObject(roleName);
+                String [] advanced = {"normal", "advanced"};
+
+                for(String level: advanced){
+                    //System.out.println("level: " + level);
+                    JsonArray roleTagsArray = roleTagsObject.getAsJsonArray(level);
+                    //System.out.println("role: " + roleName + "roleTagsArray: " +roleTagsArray);
+                    for (JsonElement roleTagElement : roleTagsArray) {
+                        String tagName = roleTagElement.getAsString();
+                        Tag tag = alltags.stream().filter(t -> t.getName().replace("\"", "").equals(tagName)).findFirst().orElse(null);
+                        if(tag != null) {
+                            RoleTag roleTag = new RoleTag();
+                            roleTag.setTag(tag);
+                            if(level.equals("advanced"))
+                                roleTag.setRating(2);
+                            else
+                                roleTag.setRating(1);
+                            roleTagRepository.save(roleTag);
+                            role.addRoleTag(roleTag);
+                        }
+                        else {
+                            System.out.println("tag not found: " + tagName);
+                        }
+                    }
+                }
+
+                //add tags to roles according to vb_tags.json
+                JsonObject vbTagsObject = vbTags.getAsJsonObject(vb.toString());
+
+                if(vbTagsObject != null)
+                {
+                    for(String level : advanced)
+                    {
+                        int levelInt = level.equals("normal") ? 1 : 2;
+                        JsonArray vbTagsArray = vbTagsObject.getAsJsonArray(level);
+
+                        for(JsonElement vbTagElement : vbTagsArray)
+                        {
+                            String tagName = vbTagElement.getAsString();
+                            Tag tag = alltags.stream().filter(t -> t.getName().replace("\"", "").equals(tagName)).findFirst().orElse(null);
+                            if(tag != null)
+                            {
+                                RoleTag roleTag = new RoleTag();
+                                roleTag.setTag(tag);
+                                roleTag.setRating(1);
+
+                                RoleTag existing = roleTagRepository.getAllRoleTags().stream().filter(rt -> rt.getTag().getName().equals(tagName) && rt.getRating() == levelInt).findFirst().orElse(null);
+                                if(existing == null)
+                                    roleTagRepository.save(roleTag);
+                                else
+                                    roleTag = existing;
+
+                                //if roletag already exists in role, don't add it again
+                                if(role.getRoleTags().stream().filter(rt -> rt.getTag().getName().equals(tagName)).findFirst().orElse(null) == null)
+                                    role.addRoleTag(roleTag);
+                            } else
+                            {
+                                System.out.println("tag not found: " + tagName);
+                            }
+                        }
+                    }
+                }
+
+                //add tags that should be added to all roles
+                JsonArray vbTagsArray = vbTags.getAsJsonObject("Alle").getAsJsonArray("normal");
+                for (JsonElement vbTagElement : vbTagsArray) {
+                    String tagName = vbTagElement.getAsString();
+                    Tag tag = alltags.stream().filter(t -> t.getName().replace("\"", "").equals(tagName)).findFirst().orElse(null);
+                    if(tag != null) {
+                        RoleTag roleTag = new RoleTag();
+                        roleTag.setTag(tag);
+                        roleTag.setRating(1);
+
+                        RoleTag existing = roleTagRepository.getAllRoleTags().stream().filter(rt -> rt.getTag().getName().equals(tagName) && rt.getRating() == 1).findFirst().orElse(null);
+                        if(existing == null)
+                            roleTagRepository.save(roleTag);
+                        else
+                            roleTag = existing;
+
+                        //if roletag already exists in role, don't add it again
+                        if(role.getRoleTags().stream().filter(rt -> rt.getTag().getName().equals(tagName)).findFirst().orElse(null) == null)
+                            role.addRoleTag(roleTag);
+                    }
+                    else {
+                        System.out.println("tag not found: " + tagName);
+                    }
+                }
+
+                roleRepository.save(role);
+            }
+        }
+
+        /*
+        OrganisationStratege = new Role();
+        OrganisationStratege.setName("Organisation");
+        OrganisationStratege.setDescription("");
+        OrganisationStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(OrganisationStratege);
+
+        OrganisationEntscheidungsträger = new Role();
+        OrganisationEntscheidungsträger.setName("Organisation");
+        OrganisationEntscheidungsträger.setDescription("");
+        OrganisationEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(OrganisationEntscheidungsträger);
+
+        OrganisationUmsetzer = new Role();
+        OrganisationUmsetzer.setName("Organisation");
+        OrganisationUmsetzer.setDescription("");
+        OrganisationUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(OrganisationUmsetzer);
+
+        DigitalisierungStratege = new Role();
+        DigitalisierungStratege.setName("Digitalisierung");
+        DigitalisierungStratege.setDescription("");
+        DigitalisierungStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(DigitalisierungStratege);
+
+        DigitalisierungEntscheidungsträger = new Role();
+        DigitalisierungEntscheidungsträger.setName("Digitalisierung");
+        DigitalisierungEntscheidungsträger.setDescription("");
+        DigitalisierungEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(DigitalisierungEntscheidungsträger);
+
+        DigitalisierungUmsetzer = new Role();
+        DigitalisierungUmsetzer.setName("Digitalisierung");
+        DigitalisierungUmsetzer.setDescription("");
+        DigitalisierungUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(DigitalisierungUmsetzer);
+
+        InformationstechnikStratege = new Role();
+        InformationstechnikStratege.setName("Informationstechnik");
+        InformationstechnikStratege.setDescription("");
+        InformationstechnikStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(InformationstechnikStratege);
+
+        InformationstechnikEntscheidungsträger = new Role();
+        InformationstechnikEntscheidungsträger.setName("Informationstechnik");
+        InformationstechnikEntscheidungsträger.setDescription("");
+        InformationstechnikEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(InformationstechnikEntscheidungsträger);
+
+        InformationstechnikUmsetzer = new Role();
+        InformationstechnikUmsetzer.setName("Informationstechnik");
+        InformationstechnikUmsetzer.setDescription("");
+        DigitalisierungUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(InformationstechnikUmsetzer);
+
+        SmartCityStratege = new Role();
+        SmartCityStratege.setName("Smart City");
+        SmartCityStratege.setDescription("");
+        SmartCityStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(SmartCityStratege);
+
+        SmartCityEntscheidungsTräger = new Role();
+        SmartCityEntscheidungsTräger.setName("Smart City");
+        SmartCityEntscheidungsTräger.setDescription("");
+        SmartCityEntscheidungsTräger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(SmartCityEntscheidungsTräger);
+
+        SmartCityUmsetzer = new Role();
+        SmartCityUmsetzer.setName("Smart City");
+        SmartCityUmsetzer.setDescription("");
+        SmartCityUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(SmartCityUmsetzer);
+
+        NichtDigitalStratege = new Role();
+        NichtDigitalStratege.setName("Nicht-digital");
+        NichtDigitalStratege.setDescription("");
+        NichtDigitalStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(NichtDigitalStratege);
+
+        NichtDigitalEntscheidungsträger = new Role();
+        NichtDigitalEntscheidungsträger.setName("Nicht-digital");
+        NichtDigitalEntscheidungsträger.setDescription("");
+        NichtDigitalEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(NichtDigitalEntscheidungsträger);
+
+        NichtDigitalUmsetzer = new Role();
+        NichtDigitalUmsetzer.setName("Nicht-digital");
+        NichtDigitalUmsetzer.setDescription("");
+        NichtDigitalUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(NichtDigitalUmsetzer);
+
+        PersonalStratege = new Role();
+        PersonalStratege.setName("Personal");
+        PersonalStratege.setDescription("");
+        PersonalStratege.setVerantwortungsbereich(Verantwortungsbereich.Stratege);
+        roleRepository.save(PersonalStratege);
+
+        PersonalEntscheidungsträger = new Role();
+        PersonalEntscheidungsträger.setName("Personal");
+        PersonalEntscheidungsträger.setDescription("");
+        PersonalEntscheidungsträger.setVerantwortungsbereich(Verantwortungsbereich.Entscheidungsträger);
+        roleRepository.save(PersonalEntscheidungsträger);
+
+        PersonalUmsetzer = new Role();
+        PersonalUmsetzer.setName("Personal");
+        PersonalUmsetzer.setDescription("");
+        PersonalUmsetzer.setVerantwortungsbereich(Verantwortungsbereich.Umsetzer);
+        roleRepository.save(PersonalUmsetzer);
+
+ */
     }
 }

@@ -1,0 +1,136 @@
+### Alle
+%
+- Datenschutz
+- Bürgerzentrierung
+- Outlook
+- Word
+- Excel
+- Hardwarekompetenz
+- Medienkompetenz
+- Selbstorganisation
+- Informationssicherheit
+- Teamfähigkeit
+- Kommunikation
+- Digitales Arbeiten
+- Lernkompetenz
+
+### Strategen
+%
+- Verwaltungsstruktur +
+- Organisationsformen +
+- Verwaltungsprozesse +
+- Prozessmanagement
+- Führungskompetenz
+- Digitale Trends
+- Kundenbedürfnisse +
+- Verwaltungsrecht +
+- Stakeholder-Analysen
+- Risikomanagement +
+- Projektmanagement
+- Change-Management
+- Stressbewältigung
+- Design Thinking +
+
+### Entscheidungsträger
+%
+- Führungskompetenz +
+- Prozessmanagement
+- Projektmanagement
+- Change-Management
+- Verwaltungsprozesse
+- Präsentationstechniken
+- Stressbewältigung
+- Compliance
+- Projektplanung
+- Projekterfolgskontrolle
+- Konfliktmanagement +
+- Kommunikation +
+- Ressourcenmanagement
+
+### Digitallotse
+%
+- Digitale Trends
+- Collaboration-Tools
+- Präsentationstechniken
+- Vermittlungskompetenz
+- Hardware-Kompetenz +
+- Word +
+- Excel +
+- Outlook +
+- Medienkompetenz +
+- Informationssicherheit +
+
+### Digitalisierung
+%
+- Prozessmanagement +
+- Projektmanagement
+- Change-Management +
+- Entwicklung von Sicherheitskonzepten
+- Compliance
+- Digitale Trends
+- Kundenbedürfnisse
+- Softwarearchitektur
+- eGovernment-Recht
+- (Online-)Marketing
+
+### Informationstechnik
+%
+- Digitale Trends
+- Softwarearchitektur +
+- IT-Sicherheit +
+- Programmierung +
+- Betriebssysteme
+- ERP-Systeme
+- Data Mining
+- Datenbankmanagement +
+- KI +
+- Grafikdesign / Bildbearbeitung
+- Collaboration-Tools
+- Hardwarekompetenz +
+- IT-Recht
+- eGovernment-Recht
+
+### Organisation
+%
+- Verwaltungsstruktur +
+- Verwaltungsprozesse +
+- Organisationsformen +
+- Prozessmanagement +
+- Verwaltungsrecht
+- Compliance
+- Projektmanagement +
+- eGovernment-Recht
+- Stakeholder-Analysen
+- Qualitätsmanagement
+
+### Personal
+%
+- Ressourcenmanagement +
+- Verwaltungsstrukturen
+- Verwaltungsprozesse
+- Konfliktmanagement +
+- Projektmanagement
+- (Online-)Marketing
+- Kundenbedürfnisse
+- Change-Management
+- Kommunikation +
+- Fremdsprachen
+
+### Smart City
+%
+- Kundenbedürfnisse
+- Stakeholder-Analysen +
+- Digitale Trends
+- Verwaltungsstruktur +
+- Prozessmanagement
+- Projektmanagement +
+- eGovernment-Recht
+- Verwaltungsrecht
+- Qualitätsmanagement +
+- Entwicklung von Sicherheitskonzepten
+- (Online-)Marketing
+
+### Nicht-digital
+%
+- ERP-Systeme
+- Kundenbedürfnisse

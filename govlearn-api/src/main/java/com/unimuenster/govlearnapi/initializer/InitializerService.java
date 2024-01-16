@@ -605,6 +605,9 @@ public class InitializerService {
     @Transactional
     public void dropAllTables() throws Exception{
         Query dropAllTables = entityManager.createNativeQuery("""
+            DROP TABLE IF EXISTS role_role_tags CASCADE;
+            DROP TABLE IF EXISTS role CASCADE;
+            DROP TABLE IF EXISTS role_tag CASCADE;
             DROP TABLE IF EXISTS course_tag CASCADE;
             DROP TABLE IF EXISTS course CASCADE;
             DROP TABLE IF EXISTS feedback CASCADE;

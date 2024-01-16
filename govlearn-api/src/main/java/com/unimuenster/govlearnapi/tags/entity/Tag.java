@@ -1,12 +1,10 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
 import com.unimuenster.govlearnapi.category.entity.Category;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Data

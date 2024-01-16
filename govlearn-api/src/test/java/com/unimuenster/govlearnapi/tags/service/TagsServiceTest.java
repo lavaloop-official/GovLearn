@@ -6,6 +6,7 @@ import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
+import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,9 +62,12 @@ class TagsServiceTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     void addTagToUser(){
+        List<AddTagToUserWsTo> addTagToUserWsTos = new ArrayList<AddTagToUserWsTo>();
+
+        addTagToUserWsTos.add(new AddTagToUserWsTo(initializer.getTag2().getId(), 1));
 
         // Add tag 2 to user 1
-        userTagService.addTagToUser(initializer.getUser1(), initializer.getTag2().getId());
+        userTagService.addTagsToUser(initializer.getUser1(), addTagToUserWsTos);
 
         List<UserTag> userTagByUserId = userTagRepository.getUserTagByUserId(initializer.getUser1().getId());
 
