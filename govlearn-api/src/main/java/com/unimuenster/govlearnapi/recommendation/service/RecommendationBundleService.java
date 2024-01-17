@@ -48,19 +48,27 @@ public class RecommendationBundleService {
 
             CategorizedWsTo categorizedWsTo = new CategorizedWsTo();
             categorizedWsTo.setCategory(category.getName());
-            categorizedWsTo.getItems().addAll(
-                    recommendedCourses
+            List<CourseWsTo> categoryRecommendations = recommendedCourses
+                    .stream()
+                    .map(course -> controllerCourseMapper.map(course))
+                    // to prevent duplicates in different categories
+                    .filter(courseWsTo -> bundle.getCategorized()
                             .stream()
-                            .map(course -> controllerCourseMapper.map(course))
-                            .toList()
-            );
+                            .flatMap(categorizedWsTo1 -> categorizedWsTo1.getItems().stream())
+                            .noneMatch(courseWsTo1 -> courseWsTo1.getId().equals(courseWsTo.getId())))
+                    .toList();
 
-            for (int i = 0; i < categorizedWsTo.getItems().size(); i++) {
-                categorizedWsTo.getItems().get(i).setRatingAverage(feedbackService.getAverageFeedbackByCourseID(categorizedWsTo.getItems().get(i).getId()));
-                categorizedWsTo.getItems().get(i).setRatingAmount(feedbackService.getAmountFeedbackByCourseID(categorizedWsTo.getItems().get(i).getId()));
+            if(!categoryRecommendations.isEmpty()) {
+                categorizedWsTo.getItems().addAll(categoryRecommendations);
+
+                for (int i = 0; i < categorizedWsTo.getItems().size(); i++) {
+                    categorizedWsTo.getItems().get(i).setRatingAverage(feedbackService.getAverageFeedbackByCourseID(categorizedWsTo.getItems().get(i).getId()));
+                    categorizedWsTo.getItems().get(i).setRatingAmount(feedbackService.getAmountFeedbackByCourseID(categorizedWsTo.getItems().get(i).getId()));
+                }
+
+                bundle.getCategorized().add(categorizedWsTo);
             }
 
-            bundle.getCategorized().add(categorizedWsTo);
         }
 
         return bundle;
