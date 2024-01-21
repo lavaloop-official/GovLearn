@@ -1,5 +1,6 @@
 package com.unimuenster.govlearnapi.tags.entity;
 
+import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTag {
+public class UserTag extends VectorTag{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,5 +36,19 @@ public class UserTag {
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
+    }
+
+    public boolean equals(TagDTO tagDTO){
+        return this
+            .getTag()
+            .getName()
+            .equals(tagDTO.name());
+    }
+
+    public boolean equals(Tag tag){
+        return this
+                .getTag()
+                .getName()
+                .equals(tag.getName());
     }
 }

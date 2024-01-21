@@ -9,6 +9,7 @@ import com.unimuenster.govlearnapi.recommendation.dto.CourseSimilarityHolder;
 import com.unimuenster.govlearnapi.recommendation.service.RecommendationService;
 import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagRatingVector;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class CourseSimilarityService {
             throw new NotFoundException();
         }
 
-        double[] courseTagVector = courseTagService.getCourseTagBinaryVector(courseById.get(), allTags);
+        TagRatingVector courseTagVector = courseTagService.getCourseTagBinaryVector(courseById.get(), allTags);
         List<CourseSimilarityHolder> coursesWithSimilarity = recommendationService.compareToCourseSet(courseTagVector, allTags, allCoursesExceptSelf, authenticationService.getCurrentUser());
 
         return filterBySimilarity(coursesWithSimilarity);

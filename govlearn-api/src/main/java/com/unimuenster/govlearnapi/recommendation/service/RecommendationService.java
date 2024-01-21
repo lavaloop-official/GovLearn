@@ -14,6 +14,7 @@ import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.UserTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.TagRatingVector;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,7 @@ public class RecommendationService {
         List<UserTag> userTags = userTagService.getUserTags(user);
         List<TagDTO> allTags = tagService.getTags();
 
-        double[] userTagRatingVector = userTagService.getUserTagRatingVector(userTags, allTags);
+        TagRatingVector userTagRatingVector = userTagService.computeUserTagVector(userTags, allTags);
 
         List<CourseSimilarityHolder> courseSimilarityList = compareToCourseSet(userTagRatingVector, allTags, courses, user);
 
@@ -55,7 +56,7 @@ public class RecommendationService {
         // Tags could be cached in the future, but we do not have that kind of infrastructure yet
         List<TagDTO> allTags = tagService.getTags();
 
-        double[] userTagRatingVector = userTagService.getUserTagRatingVector(userTags, allTags);
+        TagRatingVector userTagRatingVector = userTagService.computeUserTagVector(userTags, allTags);
 
         List<CourseSimilarityHolder> courseSimilarityList = compareToCourses(userTagRatingVector, allTags, user);
 
@@ -79,7 +80,7 @@ public class RecommendationService {
                 .collect(Collectors.toList());
     }
 
-    private List<CourseSimilarityHolder> compareToCourses(double[] tagVector, List<TagDTO> allTags, UserEntity user) {
+    private List<CourseSimilarityHolder> compareToCourses(TagRatingVector tagVector, List<TagDTO> allTags, UserEntity user) {
 
         List<CourseDTO> completedCourses = serviceCourseMapper
                 .mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
@@ -92,13 +93,13 @@ public class RecommendationService {
         return calculateCourseUserSimilarity(courses, tagVector, allTags);
     }
 
-    private List<CourseSimilarityHolder> calculateCourseUserSimilarity (List<Course> courses, double[] tagVector, List<TagDTO> allTags) {
+    private List<CourseSimilarityHolder> calculateCourseUserSimilarity (List<Course> courses, TagRatingVector tagVector, List<TagDTO> allTags) {
         List<CourseSimilarityHolder> courseSimilarityList = new ArrayList<>();
 
         for( int i = 0; i< courses.size(); i++) {
             Course course = courses.get(i);
 
-            double[] courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
+            TagRatingVector courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
 
             Optional<CourseSimilarityHolder> similarityAndCourse
                     = computeSimilarityForCourse(tagVector, courseTagBinaryVector, course);
@@ -115,7 +116,7 @@ public class RecommendationService {
         return courseDTOs.stream().filter(course -> filter.stream().noneMatch(b -> b.id() == course.id())).collect(Collectors.toList());
     }
 
-    public List<CourseSimilarityHolder> compareToCourseSet(double[] tagVector, List<TagDTO> allTags, List<Course> courses, UserEntity user) {
+    public List<CourseSimilarityHolder> compareToCourseSet(TagRatingVector tagVector, List<TagDTO> allTags, List<Course> courses, UserEntity user) {
 
         List<CourseDTO> completedCourses = serviceCourseMapper.mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
 
@@ -132,9 +133,9 @@ public class RecommendationService {
         return calculateCourseUserSimilarity(notCompletedCourses, tagVector, allTags);
     }
 
-    private Optional<CourseSimilarityHolder> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){
+    private Optional<CourseSimilarityHolder> computeSimilarityForCourse(TagRatingVector vectorA, TagRatingVector vectorB, Course course){
 
-        double similarity = Measure.euclidianDistance(vectorA, vectorB);
+        double similarity = Measure.euclidianDistance(vectorA.getVector(), vectorB.getVector());
 
         return getSimilarityAndCourse(similarity, course);
     }
