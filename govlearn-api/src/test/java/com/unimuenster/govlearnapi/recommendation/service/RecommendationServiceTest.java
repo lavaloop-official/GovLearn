@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.recommendation.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
+import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,9 @@ class RecommendationServiceTest extends AbstractIntegrationTest {
     @Test
     void getRecommendations(){
 
-        List<CourseDTO> recommendation
+        List<CourseWsTo> recommendation
                 = recommendationService.getRecommendation(initializer.getRecommendationUser(), 10);
 
-        assertEquals(recommendation.get(0).id(), initializer.getCourse3().getId());
+        assertEquals(recommendation.get(0).getId(), initializer.getCourse3().getId());
     }
 }
