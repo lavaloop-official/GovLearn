@@ -1,9 +1,7 @@
 package com.unimuenster.govlearnapi.recommendation.controller;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
 import com.unimuenster.govlearnapi.recommendation.controller.wsto.RecommendationBundleWsTo;
 import com.unimuenster.govlearnapi.recommendation.service.RecommendationBundleService;
@@ -29,7 +27,6 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
     private final RecommendationBundleService recommendationBundleService;
     private final AuthenticationService authenticationService;
-    private final ControllerCourseMapper controllerCourseMapper;
     private final FeedbackService feedbackService;
 
     @Operation(
@@ -43,14 +40,15 @@ public class RecommendationController {
     ){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        List<CourseDTO> recommendations = recommendationService.getRecommendation(currentUser, length);
+        List<CourseWsTo> courseWsTos = recommendationService.getRecommendation(currentUser, length);
 
-        List<CourseWsTo> courseWsTos = recommendations.stream().map(course -> controllerCourseMapper.map(course)).toList();
-
-        for (CourseWsTo courseWsTo : courseWsTos) {
-            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
-            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
-        }
+        courseWsTos
+                .stream()
+                .forEach(
+                        courseWsTo -> {
+                    courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+                    courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+                });
 
         return ResponseEntity.ok(Response.of(courseWsTos, true));
     }

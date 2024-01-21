@@ -30,15 +30,14 @@ public class RecommendationBundleService {
 
         RecommendationBundleWsTo bundle = new RecommendationBundleWsTo();
 
-        List<CourseDTO> recommendations = recommendationService.getRecommendation(currentUser, 5);
-        List<CourseWsTo> list = recommendations.stream().map(course -> controllerCourseMapper.map(course)).toList();
+        List<CourseWsTo> recommendations = recommendationService.getRecommendation(currentUser, 5);
 
-        for (CourseWsTo courseWsTo : list) {
+        for (CourseWsTo courseWsTo : recommendations) {
             courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
             courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
         }
 
-        bundle.setFeatured(list);
+        bundle.setFeatured(recommendations);
 
         List<Category> recommendedCategories = getRecommendedCategories(currentUser, 6);
 

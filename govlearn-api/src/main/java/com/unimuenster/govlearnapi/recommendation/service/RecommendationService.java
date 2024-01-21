@@ -16,11 +16,9 @@ import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ public class RecommendationService {
     private final CourseTagService courseTagService;
     private final ServiceCourseMapper serviceCourseMapper;
     private final CourseCompletionService courseCompletionService;
+    private final ControllerCourseMapper controllerCourseMapper;
 
     public List<CourseDTO> getRecommendationBasedOnCourseSet(UserEntity user, List<Course> courses){
         List<UserTag> userTags = userTagService.getUserTags(user);
@@ -50,7 +49,7 @@ public class RecommendationService {
         return selectedCourses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
     }
 
-    public List<CourseDTO> getRecommendation(UserEntity user, int maxReturnedCourses){
+    public List<CourseWsTo> getRecommendation(UserEntity user, int maxReturnedCourses){
 
         List<UserTag> userTags = userTagService.getUserTags(user);
         // TODO declare allTags globally
@@ -64,8 +63,13 @@ public class RecommendationService {
 
         List<Course> courses = mapAndLimitCourses(courseSimilarityList, maxReturnedCourses);
 
-        return courses.stream().map(course -> serviceCourseMapper.map(course)).collect(Collectors.toList());
+        return courses
+                .stream()
+                .map(course -> serviceCourseMapper.map(course))
+                .map(course -> controllerCourseMapper.map(course))
+                .collect(Collectors.toList());
     }
+
 
     private List<Course> mapAndLimitCourses(List<Object[]> courseSimilarityList, int maxReturnedCourses) {
         return courseSimilarityList
