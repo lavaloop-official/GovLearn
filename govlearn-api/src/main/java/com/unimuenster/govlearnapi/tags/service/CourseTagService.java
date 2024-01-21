@@ -28,8 +28,8 @@ public class CourseTagService {
     private  final CourseRepository courseRepository;
     private final TagRepository tagRepository;
 
-    public List<CourseTag> getCourseTags(Course course) {
-        return courseTagRepository.getCourseTagsByCourseId(course.getId());
+    public List<VectorTag> getCourseTags(Course course) {
+        return courseTagRepository.getCourseTagsByCourseId(course.getId()).stream().map(courseTag -> (VectorTag) courseTag).collect(Collectors.toList());
     }
 
     @Transactional
@@ -50,21 +50,10 @@ public class CourseTagService {
         courseTagRepository.save(courseTag);
     }
 
-    public TagRatingVector computeCourseTagVector(List<CourseTag> courseTags, List<TagDTO> allTags){
-
-        TagRatingVector courseTagVector = new TagRatingVector(allTags.size());
-        courseTagVector.computeUserTagVector(
-                courseTags.stream().map(tag -> (VectorTag) tag).collect(Collectors.toList()),
-                allTags
-        );
-
-        return courseTagVector;
-    }
-
     public TagRatingVector getCourseTagBinaryVector(Course course, List<TagDTO> allTags){
 
-        List<CourseTag> courseTags = getCourseTags(course);
+        List<VectorTag> courseTags = getCourseTags(course);
 
-        return computeCourseTagVector(courseTags, allTags);
+        return TagRatingVector.computeUserTagVector(courseTags, allTags);
     }
 }

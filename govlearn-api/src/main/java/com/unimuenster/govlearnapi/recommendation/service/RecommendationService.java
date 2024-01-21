@@ -10,6 +10,7 @@ import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.core.config.math.Measure;
 import com.unimuenster.govlearnapi.recommendation.dto.CourseSimilarityHolder;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.entity.VectorTag;
 import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.UserTagService;
@@ -36,10 +37,10 @@ public class RecommendationService {
     private final ControllerCourseMapper controllerCourseMapper;
 
     public List<CourseDTO> getRecommendationBasedOnCourseSet(UserEntity user, List<Course> courses){
-        List<UserTag> userTags = userTagService.getUserTags(user);
+        List<VectorTag> userTags = userTagService.getUserTags(user);
         List<TagDTO> allTags = tagService.getTags();
 
-        TagRatingVector userTagRatingVector = userTagService.computeUserTagVector(userTags, allTags);
+        TagRatingVector userTagRatingVector = TagRatingVector.computeUserTagVector(userTags, allTags);
 
         List<CourseSimilarityHolder> courseSimilarityList = compareToCourseSet(userTagRatingVector, allTags, courses, user);
 
@@ -52,11 +53,11 @@ public class RecommendationService {
 
     public List<CourseWsTo> getRecommendation(UserEntity user, int maxReturnedCourses){
 
-        List<UserTag> userTags = userTagService.getUserTags(user);
+        List<VectorTag> userTags = userTagService.getUserTags(user);
         // Tags could be cached in the future, but we do not have that kind of infrastructure yet
         List<TagDTO> allTags = tagService.getTags();
 
-        TagRatingVector userTagRatingVector = userTagService.computeUserTagVector(userTags, allTags);
+        TagRatingVector userTagRatingVector = TagRatingVector.computeUserTagVector(userTags, allTags);
 
         List<CourseSimilarityHolder> courseSimilarityList = compareToCourses(userTagRatingVector, allTags, user);
 

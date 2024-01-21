@@ -24,8 +24,8 @@ public class TagRatingVector {
     }
 
 
-    public void computeUserTagVector(List<VectorTag> vectorTags, List<TagDTO> allTags){
-        vector = new double[allTags.size()];
+    public static TagRatingVector computeUserTagVector(List<VectorTag> vectorTags, List<TagDTO> allTags){
+        TagRatingVector tagRatingVector = new TagRatingVector(allTags.size());
 
         for (int i = 0; i < allTags.size(); i++) {
 
@@ -38,8 +38,10 @@ public class TagRatingVector {
                     .findFirst()
                     .orElse(0);
 
-            setRating(i, rating);
+            tagRatingVector.setRating(i, rating);
 
         }
+
+        return tagRatingVector;
     }
 }

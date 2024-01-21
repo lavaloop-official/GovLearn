@@ -8,9 +8,6 @@ import com.unimuenster.govlearnapi.tags.entity.VectorTag;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
-import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
-import com.unimuenster.govlearnapi.tags.service.dto.TagRatingVector;
-import com.unimuenster.govlearnapi.tags.service.mapper.ServiceTagMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +23,9 @@ public class UserTagService {
 
     private final UserTagRepository userTagRepository;
     private final TagRepository tagRepository;
-    private final ServiceTagMapper serviceTagMapper;
     private final CourseTagRepository courseTagRepository;
-    public List<UserTag> getUserTags(UserEntity user) {
-        return userTagRepository.getUserTagByUserId(user.getId());
+    public List<VectorTag> getUserTags(UserEntity user) {
+        return userTagRepository.getUserTagByUserId(user.getId()).stream().map(userTag -> (VectorTag) userTag).collect(Collectors.toList());
     }
 
     @Transactional
@@ -59,16 +55,6 @@ public class UserTagService {
             userTag.setTag(tag);
             userTagRepository.save(userTag);
         });
-    }
-
-    public TagRatingVector computeUserTagVector(List<UserTag> userTags, List<TagDTO> allTags){
-        TagRatingVector courseTagVector = new TagRatingVector(allTags.size());
-        courseTagVector.computeUserTagVector(
-                userTags.stream().map(tag -> (VectorTag) tag).collect(Collectors.toList()),
-                allTags
-        );
-
-        return courseTagVector;
     }
 
     public void adjustUserTags(UserEntity user, Long courseId, boolean isAdd){
