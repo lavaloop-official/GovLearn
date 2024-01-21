@@ -2,9 +2,12 @@ package com.unimuenster.govlearnapi.tags.controller.mapper;
 
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagCreationWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.UserTagWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
+import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.UserTagDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +45,24 @@ public class ControllerTagMapper {
         return tags
                 .stream()
                 .map(tag -> map(tag))
+                .collect(Collectors.toList());
+    }
+
+    public UserTagWsTo mapUserTag(UserTagDTO userTagDTO) {
+        return UserTagWsTo
+                .builder()
+                .id(userTagDTO.id())
+                .name(userTagDTO.name())
+                .rating(userTagDTO.rating())
+                .categoryID(userTagDTO.categoryID())
+                .category(userTagDTO.category())
+                .build();
+    }
+
+    public List<UserTagWsTo> mapListOfUserTags(List<UserTagDTO> userTags) {
+        return userTags
+                .stream()
+                .map(userTagDTO -> mapUserTag(userTagDTO))
                 .collect(Collectors.toList());
     }
 }
