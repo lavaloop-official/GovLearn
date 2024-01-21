@@ -137,21 +137,9 @@ public class RecommendationService {
 
         double similarity = Measure.euclidianDistance(vectorA.getVector(), vectorB.getVector());
 
-        return getSimilarityAndCourse(similarity, course);
+        return CourseSimilarityHolder.build(similarity, course);
     }
 
-
-    private Optional<CourseSimilarityHolder> getSimilarityAndCourse(double similarity, Course course){
-        if ( ! Double.isNaN(similarity)){
-            CourseSimilarityHolder courseSimilarityHolder = new CourseSimilarityHolder();
-            courseSimilarityHolder.setCourse(course);
-            courseSimilarityHolder.setSimilarity(similarity);
-
-            return Optional.of(courseSimilarityHolder);
-        }
-
-        return Optional.empty();
-    }
 
     private void sortList(List<CourseSimilarityHolder> courseSimilarityList) {
         courseSimilarityList.sort(Comparator.comparing(holder ->  holder.getSimilarity()));
