@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseTag {
+public class CourseTag extends VectorTag{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
