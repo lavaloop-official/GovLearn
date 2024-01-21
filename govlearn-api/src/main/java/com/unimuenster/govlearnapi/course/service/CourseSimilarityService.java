@@ -5,6 +5,7 @@ import com.unimuenster.govlearnapi.course.exception.NotFoundException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
+import com.unimuenster.govlearnapi.recommendation.dto.CourseSimilarityHolder;
 import com.unimuenster.govlearnapi.recommendation.service.RecommendationService;
 import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
@@ -34,23 +35,22 @@ public class CourseSimilarityService {
         }
 
         double[] courseTagVector = courseTagService.getCourseTagBinaryVector(courseById.get(), allTags);
-        List<Object[]> coursesWithSimilarity = recommendationService.compareToCourseSet(courseTagVector, allTags, allCoursesExceptSelf, authenticationService.getCurrentUser());
+        List<CourseSimilarityHolder> coursesWithSimilarity = recommendationService.compareToCourseSet(courseTagVector, allTags, allCoursesExceptSelf, authenticationService.getCurrentUser());
 
         return filterBySimilarity(coursesWithSimilarity);
     }
 
-    private List<CourseDTO> filterBySimilarity(List<Object[]> coursesWithSimilarity) {
+    private List<CourseDTO> filterBySimilarity(List<CourseSimilarityHolder> coursesWithSimilarity) {
         return mapSimilarityToCoursesAndLimit(coursesWithSimilarity, 5);
     }
 
 
-    private List<CourseDTO> mapSimilarityToCoursesAndLimit(List<Object[]> coursesWithSimilarity, int maxReturnedCourses) {
-        coursesWithSimilarity.sort(Comparator.comparing(o ->  (Comparable)o[1]));
-        //Collections.reverse(coursesWithSimilarity);
+    private List<CourseDTO> mapSimilarityToCoursesAndLimit(List<CourseSimilarityHolder> coursesWithSimilarity, int maxReturnedCourses) {
+        coursesWithSimilarity.sort(Comparator.comparing(holder ->  holder.getSimilarity()));
 
         return coursesWithSimilarity
                 .stream()
-                .map(object -> serviceCourseMapper.map((Course) object[0]))
+                .map(holder -> serviceCourseMapper.map( holder.getCourse()))
                 .limit(maxReturnedCourses)
                 .collect(Collectors.toList());
     }

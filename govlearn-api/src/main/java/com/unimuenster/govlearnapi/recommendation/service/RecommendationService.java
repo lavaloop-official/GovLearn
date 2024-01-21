@@ -8,6 +8,7 @@ import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.core.config.math.Measure;
+import com.unimuenster.govlearnapi.recommendation.dto.CourseSimilarityHolder;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
 import com.unimuenster.govlearnapi.tags.service.CourseTagService;
 import com.unimuenster.govlearnapi.tags.service.TagService;
@@ -35,14 +36,13 @@ public class RecommendationService {
 
     public List<CourseDTO> getRecommendationBasedOnCourseSet(UserEntity user, List<Course> courses){
         List<UserTag> userTags = userTagService.getUserTags(user);
-        // TODO declare allTags globally
         List<TagDTO> allTags = tagService.getTags();
 
         double[] userTagRatingVector = userTagService.getUserTagRatingVector(userTags, allTags);
 
-        List<Object[]> courseSimilarityList = compareToCourseSet(userTagRatingVector, allTags, courses, user);
+        List<CourseSimilarityHolder> courseSimilarityList = compareToCourseSet(userTagRatingVector, allTags, courses, user);
 
-        sortSimilarityList(courseSimilarityList);
+        sortList(courseSimilarityList);
 
         List<Course> selectedCourses = mapAndLimitCourses(courseSimilarityList, 10000);
 
@@ -52,14 +52,14 @@ public class RecommendationService {
     public List<CourseWsTo> getRecommendation(UserEntity user, int maxReturnedCourses){
 
         List<UserTag> userTags = userTagService.getUserTags(user);
-        // TODO declare allTags globally
+        // Tags could be cached in the future, but we do not have that kind of infrastructure yet
         List<TagDTO> allTags = tagService.getTags();
 
         double[] userTagRatingVector = userTagService.getUserTagRatingVector(userTags, allTags);
 
-        List<Object[]> courseSimilarityList = compareToCourses(userTagRatingVector, allTags, user);
+        List<CourseSimilarityHolder> courseSimilarityList = compareToCourses(userTagRatingVector, allTags, user);
 
-        sortSimilarityList(courseSimilarityList);
+        sortList(courseSimilarityList);
 
         List<Course> courses = mapAndLimitCourses(courseSimilarityList, maxReturnedCourses);
 
@@ -71,16 +71,16 @@ public class RecommendationService {
     }
 
 
-    private List<Course> mapAndLimitCourses(List<Object[]> courseSimilarityList, int maxReturnedCourses) {
+    private List<Course> mapAndLimitCourses(List<CourseSimilarityHolder> courseSimilarityList, int maxReturnedCourses) {
         return courseSimilarityList
                 .stream()
-                .map(object -> (Course)object[0])
+                .map(holder -> holder.getCourse())
                 .limit(maxReturnedCourses)
                 .collect(Collectors.toList());
     }
 
-    private List<Object[]> compareToCourses(double[] tagVector, List<TagDTO> allTags, UserEntity user) {
-        List<Object[]> courseSimilarityList = new ArrayList<>();
+    private List<CourseSimilarityHolder> compareToCourses(double[] tagVector, List<TagDTO> allTags, UserEntity user) {
+        List<CourseSimilarityHolder> courseSimilarityList = new ArrayList<>();
 
         List<CourseDTO> completedCourses = serviceCourseMapper.mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
 
@@ -91,7 +91,7 @@ public class RecommendationService {
 
             double[] courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
 
-            Optional<Object[]> similarityAndCourse
+            Optional<CourseSimilarityHolder> similarityAndCourse
                     = computeSimilarityForCourse(tagVector, courseTagBinaryVector, course);
 
             similarityAndCourse.ifPresent(
@@ -106,8 +106,8 @@ public class RecommendationService {
         return courseDTOs.stream().filter(course -> filter.stream().noneMatch(b -> b.id() == course.id())).collect(Collectors.toList());
     }
 
-    public List<Object[]> compareToCourseSet(double[] tagVector, List<TagDTO> allTags, List<Course> courses, UserEntity user) {
-        List<Object[]> courseSimilarityList = new ArrayList<>();
+    public List<CourseSimilarityHolder> compareToCourseSet(double[] tagVector, List<TagDTO> allTags, List<Course> courses, UserEntity user) {
+        List<CourseSimilarityHolder> courseSimilarityList = new ArrayList<>();
 
         List<CourseDTO> completedCourses = serviceCourseMapper.mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
 
@@ -123,7 +123,7 @@ public class RecommendationService {
 
             double[] courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
 
-            Optional<Object[]> similarityAndCourse
+            Optional<CourseSimilarityHolder> similarityAndCourse
                     = computeSimilarityForCourse(tagVector, courseTagBinaryVector, course);
 
             similarityAndCourse.ifPresent(
@@ -134,7 +134,7 @@ public class RecommendationService {
         return courseSimilarityList;
     }
 
-    private Optional<Object[]> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){
+    private Optional<CourseSimilarityHolder> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){
 
         double similarity = Measure.euclidianDistance(vectorA, vectorB);
 
@@ -142,21 +142,20 @@ public class RecommendationService {
     }
 
 
-    private Optional<Object[]> getSimilarityAndCourse(double similarity, Course course){
+    private Optional<CourseSimilarityHolder> getSimilarityAndCourse(double similarity, Course course){
         if ( ! Double.isNaN(similarity)){
-            Object[] courseSimilarity = new Object[2];
-            courseSimilarity[0] = course;
-            courseSimilarity[1] = similarity;
+            CourseSimilarityHolder courseSimilarityHolder = new CourseSimilarityHolder();
+            courseSimilarityHolder.setCourse(course);
+            courseSimilarityHolder.setSimilarity(similarity);
 
-            return Optional.of(courseSimilarity);
+            return Optional.of(courseSimilarityHolder);
         }
 
         return Optional.empty();
     }
 
-    private void sortSimilarityList(List<Object[]> courseSimilarityList) {
-        courseSimilarityList.sort(Comparator.comparing(o ->  (Comparable)o[1]));
-        //Collections.reverse(courseSimilarityList);
+    private void sortList(List<CourseSimilarityHolder> courseSimilarityList) {
+        courseSimilarityList.sort(Comparator.comparing(holder ->  holder.getSimilarity()));
     }
 
 }

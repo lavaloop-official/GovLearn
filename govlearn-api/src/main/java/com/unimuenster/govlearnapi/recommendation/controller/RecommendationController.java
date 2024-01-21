@@ -46,8 +46,8 @@ public class RecommendationController {
                 .stream()
                 .forEach(
                         courseWsTo -> {
-                    courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
-                    courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+                            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+                            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
                 });
 
         return ResponseEntity.ok(Response.of(courseWsTos, true));
