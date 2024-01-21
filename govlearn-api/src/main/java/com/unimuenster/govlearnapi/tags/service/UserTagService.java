@@ -4,16 +4,14 @@ import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.entity.Tag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.entity.VectorTag;
 import com.unimuenster.govlearnapi.tags.repository.CourseTagRepository;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
-import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
-import com.unimuenster.govlearnapi.tags.service.mapper.ServiceTagMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,25 +23,18 @@ public class UserTagService {
 
     private final UserTagRepository userTagRepository;
     private final TagRepository tagRepository;
-    private final ServiceTagMapper serviceTagMapper;
     private final CourseTagRepository courseTagRepository;
-    public List<UserTag> getUserTags(UserEntity user) {
-        return userTagRepository.getUserTagByUserId(user.getId());
+    public List<VectorTag> getUserTags(UserEntity user) {
+        return userTagRepository.getUserTagByUserId(user.getId()).stream().map(userTag -> (VectorTag) userTag).collect(Collectors.toList());
     }
 
     @Transactional
-    public void addTagToUser(UserEntity currentUser, long tagId, int rating) {
-
-        Optional<Tag> byId = tagRepository.findById(tagId);
-
-        if ( byId.isEmpty() ){
-            throw new NotFoundException();
-        }
+    public void addTagToUser(UserEntity currentUser, Tag tag, int rating) {
 
         UserTag userTag = new UserTag();
         userTag.setUser(currentUser);
         userTag.setRating(rating);
-        userTag.setTag(byId.get());
+        userTag.setTag(tag);
 
         userTagRepository.save(userTag);
     }
@@ -66,72 +57,48 @@ public class UserTagService {
         });
     }
 
-    public double[] getUserTagRatingVector(List<UserTag> tags, List<TagDTO> allTags){
-        double[] userTagRatingVector = new double[allTags.size()];
-
-        for (int i = 0; i < allTags.size(); i++) {
-            TagDTO currentTag = allTags.get(i);
-
-            Optional<UserTag> userTag = findCurrentTagInUserTags(currentTag, tags);
-
-            userTagRatingVector[i] = getUserTagRating(userTag);
-        }
-
-        return userTagRatingVector;
-    }
-
-    private int getUserTagRating(Optional<UserTag> foundUserTag){
-        if ( foundUserTag.isPresent() ) {
-            return foundUserTag.get().getRating();
-        }
-
-        return  0;
-    }
-
-    private Optional<UserTag> findCurrentTagInUserTags(TagDTO currentTag, List<UserTag> tags){
-        return tags
-                .stream()
-                .filter(userTag ->
-                        userTag.getTag().getName().equals(currentTag.name())
-                )
-                .findFirst();
-    }
-
     public void adjustUserTags(UserEntity user, Long courseId, boolean isAdd){
         List<CourseTag> courseTags = courseTagRepository.getCourseTagsByCourseId(courseId);
 
         for ( CourseTag courseTag : courseTags ){
-            if(isAdd) {
-                updateUserTag(courseTag.getTag().getId(), user, courseTag.getRating());
+            if (isAdd) {
+                updateUserTag(courseTag.getTag(), user, courseTag.getRating());
+            } else{
+                updateUserTag(courseTag.getTag(), user, -1 * courseTag.getRating());
             }
-            else updateUserTag(courseTag.getTag().getId(), user, -1 * courseTag.getRating());
         }
 
     }
 
     @Transactional
-    protected void updateUserTag(Long tagId, UserEntity user, int improvement) {
-        Optional<Tag> byId = tagRepository.findById(tagId);
+    protected void updateUserTag(Tag tag, UserEntity user, int ratingChange) {
 
-        if (byId.isEmpty()) {
-            throw new NotFoundException();
+        Optional<UserTag> optionalUserTag = userTagRepository.findByUserAndTag(user.getId(), tag.getId());
+
+        if (doesNotExist(optionalUserTag)) {
+            addTagToUser(user, tag, ratingChange);
+
+            return;
         }
 
-        List<UserTag> userTags = userTagRepository.getUserTagByUserId(user.getId());
+        UserTag userTag = optionalUserTag.get();
 
-        TagDTO tagDTO = serviceTagMapper.map(byId.get());
-        Optional<UserTag> userTag = findCurrentTagInUserTags(tagDTO, userTags);
+        if ( isFutureRatingInvalid(ratingChange, userTag) ) {
 
-        if (userTag.isEmpty()) {
-            addTagToUser(user, tagId, improvement);
+            userTagRepository.delete(userTag);
         } else {
-            if (userTag.get().getRating() + improvement <= 0) {
-                userTagRepository.delete(userTag.get());
-            } else {
-                userTag.get().setRating(userTag.get().getRating() + improvement);
-                userTagRepository.save(userTag.get());
-            }
+
+            userTag.setRating(userTag.getRating() + ratingChange);
+            userTagRepository.save(userTag);
         }
+    }
+
+    private static boolean doesNotExist(Optional<UserTag> userTag) {
+        return userTag.isEmpty();
+    }
+
+    private static boolean isFutureRatingInvalid(int ratingChange, UserTag userTag) {
+        return userTag.getRating() + ratingChange <= 0;
     }
 
 }

@@ -10,6 +10,7 @@ import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToCourseWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.entity.CourseTag;
 import com.unimuenster.govlearnapi.tags.entity.UserTag;
+import com.unimuenster.govlearnapi.tags.entity.VectorTag;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.repository.UserTagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
@@ -88,7 +89,7 @@ class TagsServiceTest extends AbstractIntegrationTest {
         courseTagService.addTagToCourse(addTagToCourseWsTo);
 
         Course course = serviceCourseMapper.map(courseDTO);
-        List<CourseTag> courseTags = courseTagService.getCourseTags(course);
+        List<VectorTag> courseTags = courseTagService.getCourseTags(course);
 
         assertTrue(courseTags.stream().anyMatch(courseTag -> Objects.equals(courseTag.getTag().getId(), initializer.getTag2().getId())));
     }
