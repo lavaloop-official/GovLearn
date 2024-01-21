@@ -80,14 +80,23 @@ public class RecommendationService {
     }
 
     private List<CourseSimilarityHolder> compareToCourses(double[] tagVector, List<TagDTO> allTags, UserEntity user) {
+
+        List<CourseDTO> completedCourses = serviceCourseMapper
+                .mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
+
+        List<Course> courses = filterCourseList(courseService.getCourses(), completedCourses)
+                .stream()
+                .map(course -> serviceCourseMapper.map(course))
+                .collect(Collectors.toList());
+
+        return calculateCourseUserSimilarity(courses, tagVector, allTags);
+    }
+
+    private List<CourseSimilarityHolder> calculateCourseUserSimilarity (List<Course> courses, double[] tagVector, List<TagDTO> allTags) {
         List<CourseSimilarityHolder> courseSimilarityList = new ArrayList<>();
 
-        List<CourseDTO> completedCourses = serviceCourseMapper.mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
-
-        List<CourseDTO> courses = filterCourseList(courseService.getCourses(), completedCourses);
-
         for( int i = 0; i< courses.size(); i++) {
-            Course course = serviceCourseMapper.map(courses.get(i));
+            Course course = courses.get(i);
 
             double[] courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
 
@@ -107,7 +116,6 @@ public class RecommendationService {
     }
 
     public List<CourseSimilarityHolder> compareToCourseSet(double[] tagVector, List<TagDTO> allTags, List<Course> courses, UserEntity user) {
-        List<CourseSimilarityHolder> courseSimilarityList = new ArrayList<>();
 
         List<CourseDTO> completedCourses = serviceCourseMapper.mapListCourseWsTo(courseCompletionService.getUsersCourseCompletion(user));
 
@@ -116,22 +124,12 @@ public class RecommendationService {
                 .map(course -> serviceCourseMapper.map(course))
                 .collect(Collectors.toList());
 
-        List<CourseDTO> notCompletedCourses = filterCourseList(courseDTOS, completedCourses);
+        List<Course> notCompletedCourses = filterCourseList(courseDTOS, completedCourses)
+                .stream()
+                .map(course -> serviceCourseMapper.map(course))
+                .collect(Collectors.toList());
 
-        for( int i = 0; i< notCompletedCourses.size(); i++) {
-            Course course = serviceCourseMapper.map(notCompletedCourses.get(i));
-
-            double[] courseTagBinaryVector = courseTagService.getCourseTagBinaryVector(course, allTags);
-
-            Optional<CourseSimilarityHolder> similarityAndCourse
-                    = computeSimilarityForCourse(tagVector, courseTagBinaryVector, course);
-
-            similarityAndCourse.ifPresent(
-                    sc -> courseSimilarityList.add(sc)
-            );
-        }
-
-        return courseSimilarityList;
+        return calculateCourseUserSimilarity(notCompletedCourses, tagVector, allTags);
     }
 
     private Optional<CourseSimilarityHolder> computeSimilarityForCourse(double[] vectorA, double[] vectorB, Course course){

@@ -66,21 +66,22 @@ public class UserTagService {
         });
     }
 
-    public double[] getUserTagRatingVector(List<UserTag> tags, List<TagDTO> allTags){
+    public double[] getUserTagRatingVector(List<UserTag> userTags, List<TagDTO> allTags){
+        // Create own object for userTagRatingVector
         double[] userTagRatingVector = new double[allTags.size()];
 
         for (int i = 0; i < allTags.size(); i++) {
             TagDTO currentTag = allTags.get(i);
 
-            Optional<UserTag> userTag = findCurrentTagInUserTags(currentTag, tags);
+            Optional<UserTag> userTag = findCurrentTagInUserTags(currentTag, userTags);
 
-            userTagRatingVector[i] = getUserTagRating(userTag);
+            userTagRatingVector[i] = hasUserTag(userTag);
         }
 
         return userTagRatingVector;
     }
 
-    private int getUserTagRating(Optional<UserTag> foundUserTag){
+    private int hasUserTag(Optional<UserTag> foundUserTag){
         if ( foundUserTag.isPresent() ) {
             return foundUserTag.get().getRating();
         }
@@ -92,7 +93,10 @@ public class UserTagService {
         return tags
                 .stream()
                 .filter(userTag ->
-                        userTag.getTag().getName().equals(currentTag.name())
+                        userTag
+                                .getTag()
+                                .getName()
+                                .equals(currentTag.name())
                 )
                 .findFirst();
     }
