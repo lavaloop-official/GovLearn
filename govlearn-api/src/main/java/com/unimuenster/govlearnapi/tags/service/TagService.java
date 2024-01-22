@@ -9,6 +9,7 @@ import com.unimuenster.govlearnapi.tags.exception.NotFoundException;
 import com.unimuenster.govlearnapi.tags.repository.TagRepository;
 import com.unimuenster.govlearnapi.tags.service.dto.TagCreationDTO;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.UserTagDTO;
 import com.unimuenster.govlearnapi.tags.service.mapper.ServiceTagMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,22 @@ public class TagService {
                 .collect(Collectors.toList());
 
         return mapTags(collect);
+    }
+
+    public List<UserTagDTO> getUserTags(Long userId) {
+        List<UserTag> allTagsByUserId = tagRepository.findAllTagsByUserId(userId);
+
+        return allTagsByUserId
+                .stream()
+                .map(userTag -> UserTagDTO
+                        .builder()
+                        .id(userTag.getId())
+                        .name(userTag.getTag().getName())
+                        .rating(userTag.getRating())
+                        .categoryID(userTag.getTag().getCategory().getId())
+                        .category(userTag.getTag().getCategory().getName())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public List<TagDTO> getTagsByCourse(Long courseId) {

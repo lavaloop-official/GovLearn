@@ -6,9 +6,12 @@ import com.unimuenster.govlearnapi.tags.controller.mapper.ControllerTagMapper;
 import com.unimuenster.govlearnapi.tags.controller.wsto.AddTagToUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.DeleteTagFromUserWsTo;
 import com.unimuenster.govlearnapi.tags.controller.wsto.TagWsTo;
+import com.unimuenster.govlearnapi.tags.controller.wsto.UserTagWsTo;
+import com.unimuenster.govlearnapi.tags.entity.VectorTag;
 import com.unimuenster.govlearnapi.tags.service.TagService;
 import com.unimuenster.govlearnapi.tags.service.UserTagService;
 import com.unimuenster.govlearnapi.tags.service.dto.TagDTO;
+import com.unimuenster.govlearnapi.tags.service.dto.UserTagDTO;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,14 +40,14 @@ public class UserTagController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/tags/users")
-    public ResponseEntity<Response> getAllTagsByUserId(){
+    public ResponseEntity<Response> getAllUserTags(){
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        List<TagDTO> tagsByUser = tagService.getTagsByUser(currentUser.getId());
+        List<UserTagDTO> tagsByUser = tagService.getUserTags(currentUser.getId());
 
-        List<TagWsTo> tagWsTos = controllerTagMapper.mapList(tagsByUser);
+        List<UserTagWsTo> userTagWsTos = controllerTagMapper.mapListOfUserTags(tagsByUser);
 
-        return ResponseEntity.ok( Response.of(tagWsTos, new Message(Message.SUCCESS)));
+        return ResponseEntity.ok( Response.of(userTagWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
