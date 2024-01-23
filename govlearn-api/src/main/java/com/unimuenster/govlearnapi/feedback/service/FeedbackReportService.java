@@ -25,7 +25,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FeedbackReportService {
-    
     private final FeedbackReportRepository feedbackReportRepository;
     private final ServiceFeedbackReportMapper serviceFeedbackReportMapper;
     private final ControllerFeedbackReportMapper controllerFeedbackReportMapper;
