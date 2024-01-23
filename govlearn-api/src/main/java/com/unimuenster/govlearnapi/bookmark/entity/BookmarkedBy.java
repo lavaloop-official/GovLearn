@@ -11,8 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = { "bookmarkee_id", "course_id" })
-}
-)
+})
 public class BookmarkedBy {
 
     @Id
