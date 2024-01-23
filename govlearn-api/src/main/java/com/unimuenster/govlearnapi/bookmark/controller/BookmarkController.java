@@ -30,42 +30,51 @@ public class BookmarkController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Get bookmarked courses."
+            description = "Get bookmarked courses of authenticated user."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<Response> getBookmarks(){
         UserEntity currentUser = authenticationService.getCurrentUser();
+
         List<CourseDTO> bookmarksDTOs = bookmarkService.getBookmarks(currentUser);
+
         List<CourseWsTo> bookmarksWsTos = controllerCourseMapper.mapList(bookmarksDTOs);
-        for (CourseWsTo courseWsTo : bookmarksWsTos) {
+
+        bookmarksWsTos.stream().forEach(courseWsTo -> {
             courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
             courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
-        }
+        });
+
         return ResponseEntity.ok(Response.of(bookmarksWsTos, true));
     }
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "bookmark course"
+            description = "Create bookmark for course for authenticated user."
     )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/{courseId}")
     public ResponseEntity<Response> addBookmark(@PathVariable Long courseId){
         UserEntity currentUser = authenticationService.getCurrentUser();
+
         bookmarkService.addBookmark(currentUser, courseId);
+
         return ResponseEntity.ok(Response.of(true));
     }
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "delete course from bookmarks"
+            description = "Delete bookmark from authenticated user."
     )
     @PreAuthorize("hasAuthority('user')")
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Response> deleteBookmark(@PathVariable Long courseId){
+
         UserEntity currentUser = authenticationService.getCurrentUser();
+
         bookmarkService.deleteBookmark(currentUser, courseId);
+
         return ResponseEntity.ok(Response.of(true));
     }
 }
