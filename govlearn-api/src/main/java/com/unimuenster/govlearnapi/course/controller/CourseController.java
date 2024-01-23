@@ -94,7 +94,7 @@ public class CourseController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            courses = courseService.getCoursesWithoutGroupmember(groupmemberID.get());
+            courses = courseService.getCoursesWithoutGroupMember(groupmemberID.get());
         }
         else{
 
@@ -139,7 +139,7 @@ public class CourseController {
     public ResponseEntity<Response> deleteCourse(@PathVariable Long id) {
         // Übergebe User um Berechtigung des Löschens zu prüfen
         UserEntity currentUser = authenticationService.getCurrentUser();
-        courseService.deleteCourse(id, currentUser.getId());
+        courseService.deleteCourse(id, currentUser);
 
         return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
     }

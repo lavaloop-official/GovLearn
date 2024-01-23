@@ -39,24 +39,7 @@ public class CourseService {
     
     public Course createCourse(CourseCreationDTO courseCreationDTO, UserEntity currentUser) {
         
-        Course course = Course
-                .builder()
-                .name(courseCreationDTO.name())
-                .image(courseCreationDTO.image())
-                .description(courseCreationDTO.description())
-                .createdAt(courseCreationDTO.createdAt())
-                .provider(courseCreationDTO.provider())
-                .instructor(courseCreationDTO.instructor())
-                .certificate(courseCreationDTO.certificate())
-                .skilllevel(courseCreationDTO.skilllevel())
-                .durationInMinutes(courseCreationDTO.durationInMinutes())
-                .format(courseCreationDTO.format())
-                .startDate(courseCreationDTO.startDate())
-                .costFree(courseCreationDTO.costFree())
-                .domainSpecific(courseCreationDTO.domainSpecific())
-                .creator(currentUser)
-                .link(courseCreationDTO.link())
-                .build();
+        Course course = serviceCourseMapper.mapToCourse(courseCreationDTO, currentUser);
         
         return courseRepository.save(course);
     }
@@ -70,7 +53,7 @@ public class CourseService {
             throw new NotFoundException();
         }
 
-        boolean isCreator = isCreatorOfCourse(currentUser.getId(), optionalCourseEntity.get());
+        boolean isCreator = isCreatorOfCourse(currentUser, optionalCourseEntity.get());
         if(!isCreator){
             throw new UnauthorizedException();
         }
@@ -78,8 +61,8 @@ public class CourseService {
        courseRepository.updateCourse(serviceCourseMapper.map(courseUpdateWsTo));
     }
 
-    private boolean isCreatorOfCourse(Long userId, Course course) {
-        return course.getCreator().getId().equals(userId);
+    private boolean isCreatorOfCourse(UserEntity user, Course course) {
+        return course.getCreator().getId().equals(user.getId());
     }
 
 
@@ -90,7 +73,7 @@ public class CourseService {
         return mapCourses(allCourses);
     }
 
-        public List<CourseDTO> getCoursesWithoutGroupmember(Long groupmemberID) {
+    public List<CourseDTO> getCoursesWithoutGroupMember(Long groupmemberID) {
 
         List<Course> allCourses = courseRepository.getCoursesWithoutGroupmember(groupmemberID);
 
@@ -111,47 +94,15 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    public Course getCourseEntityById(Long courseId){
-        Optional<Course> course = courseRepository.findById(courseId);
-
-        if ( course.isEmpty() ) {
-            throw new NotFoundException();
-        }
-
-        Course map = Course
-                .builder()
-                .name(course.get().getName())
-                .description(course.get().getDescription())
-                .creator(course.get().getCreator())
-                .createdAt(course.get().getCreatedAt())
-                .image(course.get().getImage())
-                .provider(course.get().getProvider())
-                .instructor(course.get().getInstructor())
-                .certificate(course.get().getCertificate())
-                .skilllevel(course.get().getSkilllevel())
-                .durationInMinutes(course.get().getDurationInMinutes())
-                .format(course.get().getFormat())
-                .startDate(course.get().getStartDate())
-                .costFree(course.get().getCostFree())
-                .domainSpecific(course.get().getDomainSpecific())
-                .link(course.get().getLink())
-                .build();
-
-        return map;
-    }
-
     @Transactional
-    public void deleteCourse(Long courseId, Long userId) {
+    public void deleteCourse(Long courseId, UserEntity user) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Kurs nicht gefunden"));
 
         // Prüfe, ob aktueller Nutzer der Kurs-Ersteller ist
-        if (!isCreatorOfCourse(userId, course)) {
+        if (!isCreatorOfCourse(user, course)) {
             throw new UnauthorizedException();
         }
-
-        // Lösche Kurs-Tags bevor Kurs gelöscht wird
-        course.getCourseTags().clear();
 
         courseRepository.delete(course);
     }
