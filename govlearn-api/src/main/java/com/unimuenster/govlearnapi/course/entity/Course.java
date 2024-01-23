@@ -1,6 +1,7 @@
 package com.unimuenster.govlearnapi.course.entity;
 
 import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
+import com.unimuenster.govlearnapi.courseCompletion.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.core.config.enums.Format;
 import com.unimuenster.govlearnapi.core.config.enums.Skilllevel;

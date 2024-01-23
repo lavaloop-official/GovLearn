@@ -1,6 +1,6 @@
-package com.unimuenster.govlearnapi.course.repository;
+package com.unimuenster.govlearnapi.courseCompletion.repository;
 
-import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
+import com.unimuenster.govlearnapi.courseCompletion.entity.CourseCompletion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +14,7 @@ public interface CourseCompletionRepository extends JpaRepository<CourseCompleti
         FROM CourseCompletion cc
         WHERE cc.completee.id = :userId
     """)
-    List<CourseCompletion> getCourseCompletionsByUserId(Long userId);
+    List<CourseCompletion> getCompletedCoursesByUserId(Long userId);
 
     @Query("""
         select case when (count(cc) > 0)

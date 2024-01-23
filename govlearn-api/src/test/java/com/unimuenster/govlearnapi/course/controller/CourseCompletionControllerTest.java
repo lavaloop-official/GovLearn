@@ -1,8 +1,8 @@
 package com.unimuenster.govlearnapi.course.controller;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
-import com.unimuenster.govlearnapi.course.repository.CourseCompletionRepository;
-import com.unimuenster.govlearnapi.course.service.CourseCompletionService;
+import com.unimuenster.govlearnapi.courseCompletion.repository.CourseCompletionRepository;
+import com.unimuenster.govlearnapi.courseCompletion.service.CourseCompletionService;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 
