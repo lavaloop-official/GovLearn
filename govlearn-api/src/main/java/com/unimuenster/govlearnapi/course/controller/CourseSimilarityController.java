@@ -36,10 +36,10 @@ public class CourseSimilarityController {
             description = "Get similar courses."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{id}/")
-    public ResponseEntity<Response> getSimilarCourses(@PathVariable Long id) {
+    @GetMapping("/{courseId}/")
+    public ResponseEntity<Response> getSimilarCourses(@PathVariable Long courseId) {
         List<TagDTO> allTags = tagService.getTags();
-        List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(id,allTags);
+        List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(courseId,allTags);
 
         List<CourseWsTo> courseWsTos = controllerCourseMapper.mapToCourseWsToWithRating(similarCourses);
 

@@ -26,6 +26,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findAllCourses();
 
     @Query(value = """
+      SELECT c FROM Course c
+      WHERE c.id <> :courseId
+      """)
+    List<Course> findAllCoursesUnequal(Long courseId);
+
+    @Query(value = """
         SELECT c
         FROM Course c
         WHERE c NOT IN (SELECT m.courses FROM Member m WHERE m.id = :groupmemberID)
