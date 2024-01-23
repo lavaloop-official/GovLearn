@@ -3,6 +3,7 @@ package com.unimuenster.govlearnapi.course.service.mapper;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseUpdateWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.entity.Course;
+import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseUpdateDTO;
 import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -102,5 +104,26 @@ public class ServiceCourseMapper {
                 course.domainSpecific(),
                 course.link()
         );
+    }
+
+    public Course mapToCourse(CourseCreationDTO courseCreationDTO, UserEntity user) {
+        return Course
+                .builder()
+                .name(courseCreationDTO.name())
+                .image(courseCreationDTO.image())
+                .description(courseCreationDTO.description())
+                .createdAt(courseCreationDTO.createdAt())
+                .provider(courseCreationDTO.provider())
+                .instructor(courseCreationDTO.instructor())
+                .certificate(courseCreationDTO.certificate())
+                .skilllevel(courseCreationDTO.skilllevel())
+                .durationInMinutes(courseCreationDTO.durationInMinutes())
+                .format(courseCreationDTO.format())
+                .startDate(courseCreationDTO.startDate())
+                .costFree(courseCreationDTO.costFree())
+                .domainSpecific(courseCreationDTO.domainSpecific())
+                .creator(user)
+                .link(courseCreationDTO.link())
+                .build();
     }
 }

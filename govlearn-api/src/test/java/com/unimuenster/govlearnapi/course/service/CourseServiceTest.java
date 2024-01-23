@@ -32,7 +32,7 @@ public class CourseServiceTest extends AbstractIntegrationTest{
     @Test
     void deleteCourse() {
         UserEntity creator = initializer.getCourse1().getCreator();
-        courseService.deleteCourse(initializer.getCourse1().getId(), creator.getId() );
+        courseService.deleteCourse(initializer.getCourse1().getId(), creator );
         List<Course> courses = initializer.getCourseRepository().findAllCourses();
         assertTrue(courses.stream().noneMatch(course -> course.getId().equals(initializer.getCourse1().getId())));
     }
@@ -42,7 +42,7 @@ public class CourseServiceTest extends AbstractIntegrationTest{
     void deleteCourse_2() {
         UserEntity notCreator = initializer.getUser2();
         Assertions.assertThatExceptionOfType(UnauthorizedException.class).isThrownBy(() -> {
-            courseService.deleteCourse(initializer.getCourse1().getId(), notCreator.getId() );
+            courseService.deleteCourse(initializer.getCourse1().getId(), notCreator );
         });
     }
 
