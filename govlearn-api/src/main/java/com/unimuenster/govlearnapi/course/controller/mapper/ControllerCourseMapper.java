@@ -4,6 +4,8 @@ import com.unimuenster.govlearnapi.course.controller.wsto.CourseCreationWsTo;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
 import com.unimuenster.govlearnapi.course.service.dto.CourseCreationDTO;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
+import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +14,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ControllerCourseMapper {
+
+    private final FeedbackService feedbackService;
 
     public CourseCreationDTO map(CourseCreationWsTo courseCreationWsTo){
         return new CourseCreationDTO(
@@ -52,6 +57,18 @@ public class ControllerCourseMapper {
                 .domainSpecific(courseDTO.domainSpecific())
                 .link(courseDTO.link())
                 .build();
+    }
+
+    public List<CourseWsTo> mapToCourseWsToWithRating(List<CourseDTO> courseDTOS) {
+        List<CourseWsTo> courseWsTos = mapList(courseDTOS);
+
+        courseWsTos.stream()
+                .forEach(courseWsTo -> {
+                    courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
+                    courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
+                });
+
+        return courseWsTos;
     }
 
     public static int convertToMinutes(String input) {
