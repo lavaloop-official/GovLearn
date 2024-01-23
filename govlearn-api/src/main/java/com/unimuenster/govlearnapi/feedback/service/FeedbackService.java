@@ -2,19 +2,15 @@ package com.unimuenster.govlearnapi.feedback.service;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-
-import org.hibernate.LockMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unimuenster.govlearnapi.course.controller.mapper.ControllerCourseMapper;
 import com.unimuenster.govlearnapi.course.entity.Course;
-import com.unimuenster.govlearnapi.course.exception.NotFoundException;
-import com.unimuenster.govlearnapi.course.service.CourseService;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
-import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
+import com.unimuenster.govlearnapi.feedback.exception.NotFoundException;
+import com.unimuenster.govlearnapi.feedback.controller.mapper.ControllerFeedbackMapper;
+import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackCreationWsTo;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackUpdateWsTo;
+import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackWsTo;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.repository.FeedbackRepository;
 import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackCreationDTO;
@@ -27,9 +23,6 @@ import jakarta.persistence.EntityManager;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.swing.text.html.Option;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +30,15 @@ public class FeedbackService {
     
     private final FeedbackRepository feedbackRepository;
     private final ServiceFeedbackMapper serviceFeedbackMapper;
+    private final ControllerFeedbackMapper controllerFeedbackMapper;
     private final EntityManager entityManager;
 
     @Transactional
-    public void createFeedback(FeedbackCreationDTO feedbackCreationDTO, UserEntity currentUser)
+    public void createFeedback(FeedbackCreationWsTo feedbackCreationWsTo, UserEntity currentUser)
     {
-        Feedback feedback = mapFeedbackDTOToFeedback(feedbackCreationDTO, currentUser);
+        FeedbackCreationDTO feedbackCreationDTO = controllerFeedbackMapper.map(feedbackCreationWsTo);
+
+        Feedback feedback = serviceFeedbackMapper.mapFeedbackCreationDTOToFeedback(feedbackCreationDTO, currentUser);
 
         Course course = entityManager.find(Course.class, feedbackCreationDTO.courseID());
 
@@ -51,31 +47,18 @@ public class FeedbackService {
         feedbackRepository.save(feedback);
     }
 
-    private static Feedback mapFeedbackDTOToFeedback(FeedbackCreationDTO feedbackDTO, UserEntity currentUser) {
-        Feedback feedback = new Feedback();
-        feedback.setRating(feedbackDTO.rating());
-        feedback.setDescription(feedbackDTO.description());
-        feedback.setTitle(feedbackDTO.title());
-        feedback.setUser(currentUser);
-
-        return feedback;
-    }
-
-    public List<FeedbackDTO> getFeedbackByCourseAndUser(Long courseId, Long userID){
+    public List<FeedbackWsTo> getFeedbackByCourseAndUser(Long courseId, Long userID){
 
         List<Feedback> feedbacks = feedbackRepository.findFeedbackByCourseAndUser(courseId, userID);
 
-        return mapFeedback(feedbacks);
+        List<FeedbackDTO> feedbackDTOs = serviceFeedbackMapper.mapFeedback(feedbacks);
+
+        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
+
+        return feedbackWsTos;
     }
 
-    private List<FeedbackDTO> mapFeedback(List<Feedback> feedbacks) {
-        return feedbacks
-                .stream()
-                .map(feedback -> serviceFeedbackMapper.map(feedback))
-                .collect(Collectors.toList());
-    }
-
-    public List<FeedbackDTO> getFeedbackByCourseWithLimitAndOffset(Long courseId, Optional<Long> limit, Optional<Long> offset){
+    public List<FeedbackWsTo> getFeedbackByCourseWithLimitAndOffset(Long courseId, Optional<Long> limit, Optional<Long> offset){
 
         Long limitQuery = 100L;
 
@@ -93,31 +76,35 @@ public class FeedbackService {
 
         List<Feedback> feedbacks = feedbackRepository.findAllFeedbackByCourseIdWithLimitAndOffset(courseId, limitQuery, offsetQuery);
 
-        return mapFeedback(feedbacks);
+        List<FeedbackDTO> feedbackDTOs = serviceFeedbackMapper.mapFeedback(feedbacks);
+
+        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
+
+        return feedbackWsTos;
     }
 
 
     public Feedback getFeedbackEntityById(Long feedbackID){
-        Optional<Feedback> feedback = feedbackRepository.findById(feedbackID);
+        Optional<Feedback> optionalFeedback = feedbackRepository.findById(feedbackID);
 
-        if ( feedback.isEmpty() ) {
+        if ( optionalFeedback.isEmpty() ) {
             throw new NotFoundException();
         }
 
-        Feedback map = Feedback
+        Feedback feedback = Feedback
                 .builder()
-                .id(feedback.get().getId())
-                .title(feedback.get().getTitle())
-                .description(feedback.get().getDescription())
-                .course(feedback.get().getCourse())
-                .user(feedback.get().getUser())
-                .createdAt(feedback.get().getCreatedAt())
+                .id(optionalFeedback.get().getId())
+                .title(optionalFeedback.get().getTitle())
+                .description(optionalFeedback.get().getDescription())
+                .course(optionalFeedback.get().getCourse())
+                .user(optionalFeedback.get().getUser())
+                .createdAt(optionalFeedback.get().getCreatedAt())
                 .build();
 
-        return map;
+        return feedback;
     }
 
-    public FeedbackDTO getFeedbackDTOById(Long feedbackID){
+    public FeedbackWsTo getFeedbackWsToById(Long feedbackID){
         Optional<Feedback> feedback = feedbackRepository.findById(feedbackID);
 
         if ( feedback.isEmpty() ) {
@@ -133,7 +120,9 @@ public class FeedbackService {
                 feedback.get().getUser().getId()
             );
 
-        return map;
+        FeedbackWsTo feedbackWsTo = controllerFeedbackMapper.map(map);
+
+        return feedbackWsTo;
     }
 
     @Transactional

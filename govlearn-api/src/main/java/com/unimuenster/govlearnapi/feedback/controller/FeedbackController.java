@@ -1,6 +1,5 @@
 package com.unimuenster.govlearnapi.feedback.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,20 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Message;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
-import com.unimuenster.govlearnapi.feedback.controller.mapper.ControllerFeedbackMapper;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackCreationWsTo;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackUpdateWsTo;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackWsTo;
 import com.unimuenster.govlearnapi.feedback.service.FeedbackService;
-import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackCreationDTO;
-import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackDTO;
-import com.unimuenster.govlearnapi.user.controller.wsto.UserWsTo;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
-import com.unimuenster.govlearnapi.user.service.CustomUserCrudService;
-import com.unimuenster.govlearnapi.user.service.dto.UserDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -43,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FeedbackController {
     private final FeedbackService feedbackService;
-    private final ControllerFeedbackMapper controllerFeedbackMapper;
     private final AuthenticationService authenticationService;
 
     @Operation(
@@ -55,11 +44,8 @@ public class FeedbackController {
     public ResponseEntity<Response> createFeedback(
             @RequestBody FeedbackCreationWsTo feedbackCreationWsTo
     ){
-        UserEntity currentUser = authenticationService.getCurrentUser();
 
-        FeedbackCreationDTO feedbackCreationDTO = controllerFeedbackMapper.map(feedbackCreationWsTo);
-
-        feedbackService.createFeedback(feedbackCreationDTO, currentUser);
+        feedbackService.createFeedback(feedbackCreationWsTo, authenticationService.getCurrentUser());
 
         return ResponseEntity.ok(Response.of(true));
     }
@@ -72,13 +58,9 @@ public class FeedbackController {
     @GetMapping("/feedback/user/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDAndFeedbackID(@PathVariable Long courseID) {
 
-        UserEntity currentUser = authenticationService.getCurrentUser();
+        List<FeedbackWsTo> feedbackWsTos = feedbackService.getFeedbackByCourseAndUser(courseID, authenticationService.getCurrentUser().getId());
 
-        List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseAndUser(courseID, currentUser.getId());
-
-        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
-
-        return ResponseEntity.ok( Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
+        return ResponseEntity.ok(Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
@@ -89,11 +71,9 @@ public class FeedbackController {
     @GetMapping("/feedback/course/{courseID}")
     public ResponseEntity<Response> getFeedbackByCourseIDWithLimitAndOffset(@PathVariable Long courseID, Optional<Long> limit, Optional<Long> offset) {
 
-        List<FeedbackDTO> feedbackDTOs = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
+        List<FeedbackWsTo> feedbackWsTos = feedbackService.getFeedbackByCourseWithLimitAndOffset(courseID, limit, offset);
 
-        List<FeedbackWsTo> feedbackWsTos = controllerFeedbackMapper.mapList(feedbackDTOs);
-
-        return ResponseEntity.ok( Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
+        return ResponseEntity.ok(Response.of(feedbackWsTos, new Message(Message.SUCCESS)));
     }
 
     @Operation(
@@ -103,8 +83,10 @@ public class FeedbackController {
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/feedback/average/course/{courseID}")
     public ResponseEntity<Response> getAverageFeedbackByCourseID(@PathVariable Long courseID) {
+
         float averageFeedback = feedbackService.getAverageFeedbackByCourseID(courseID);
-        return ResponseEntity.ok( Response.of(averageFeedback, new Message(Message.SUCCESS)));
+        
+        return ResponseEntity.ok(Response.of(averageFeedback, new Message(Message.SUCCESS)));
     }
 
     @Operation(
@@ -117,7 +99,7 @@ public class FeedbackController {
 
         feedbackService.deleteFeedbackFromCourse(feedbackID);
 
-        return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
+        return ResponseEntity.ok(Response.of(new Message(Message.SUCCESS)));
     }
 
     @Operation(
@@ -132,10 +114,8 @@ public class FeedbackController {
 
         feedbackService.updateFeedbackFromCourse(feedbackUpdateWsTo);
 
-        FeedbackDTO feedbackDTO = feedbackService.getFeedbackDTOById(feedbackUpdateWsTo.feedbackID());
+        FeedbackWsTo feedbackWsTo = feedbackService.getFeedbackWsToById(feedbackUpdateWsTo.feedbackID());
 
-        FeedbackWsTo feedbackWsTo = controllerFeedbackMapper.map(feedbackDTO);
-
-        return ResponseEntity.ok( Response.of(feedbackWsTo,new Message(Message.SUCCESS)));
+        return ResponseEntity.ok(Response.of(feedbackWsTo,new Message(Message.SUCCESS)));
     }
 }

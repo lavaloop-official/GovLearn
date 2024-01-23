@@ -2,16 +2,12 @@ package com.unimuenster.govlearnapi.feedback.controller;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.feedback.controller.FeedbackController;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackCreationWsTo;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackUpdateWsTo;
 import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackWsTo;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
-import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @Transactional
 public class FeedbackControllerTest extends AbstractIntegrationTest {
