@@ -3,8 +3,8 @@ package com.unimuenster.govlearnapi.bookmark.service;
 import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
 import com.unimuenster.govlearnapi.bookmark.repository.BookmarkRepository;
 import com.unimuenster.govlearnapi.course.entity.Course;
-import com.unimuenster.govlearnapi.course.exception.NotFoundException;
 import com.unimuenster.govlearnapi.course.repository.CourseRepository;
+import com.unimuenster.govlearnapi.course.service.CourseService;
 import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.service.mapper.ServiceCourseMapper;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final ServiceCourseMapper serviceCourseMapper;
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
     public List<CourseDTO> getBookmarks(UserEntity currentUser) {
         List<BookmarkedBy> bookmarks = bookmarkRepository.getBookmarksByUser(currentUser.getId());
@@ -28,25 +28,20 @@ public class BookmarkService {
 
     @Transactional
     public void addBookmark(UserEntity currentUser, Long courseId) {
-        Course course = courseRepository
-                .findById(courseId)
-                .orElseThrow(NotFoundException::new);
+        CourseDTO courseById = courseService.getCourseById(courseId);
 
-        isCourseBookmarked(course, currentUser);
+        isCourseBookmarked(courseById, currentUser);
 
         BookmarkedBy bookmarkedBy = new BookmarkedBy();
         bookmarkedBy.setBookmarkee(currentUser);
-        bookmarkedBy.setCourse(course);
+        bookmarkedBy.setCourse(Course.builder().id(courseById.id()).build());
 
         bookmarkRepository.save(bookmarkedBy);
     }
 
 
-    private void isCourseBookmarked(Course course, UserEntity currentUser){
-        if (course
-                .getBookmarkedBy()
-                .stream()
-                .anyMatch(bookmarkedBy -> bookmarkedBy.getBookmarkee().getEmail().equals(currentUser))) {
+    private void isCourseBookmarked(CourseDTO course, UserEntity currentUser){
+        if ( bookmarkRepository.isCourseBookmarked(course.id(), currentUser.getId()) ) {
             throw new IllegalArgumentException();
         }
     }

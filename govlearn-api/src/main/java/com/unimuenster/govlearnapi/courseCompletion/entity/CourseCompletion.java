@@ -1,5 +1,6 @@
-package com.unimuenster.govlearnapi.course.entity;
+package com.unimuenster.govlearnapi.courseCompletion.entity;
 
+import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,12 @@ public class CourseCompletion {
     @ManyToOne(optional = false)
     @ToString.Exclude
     private Course course;
+
+    public static CourseCompletion build(UserEntity user, Course course) {
+        CourseCompletion courseCompletion = new CourseCompletion();
+        courseCompletion.setCourse(course);
+        courseCompletion.setCompletee(user);
+
+        return courseCompletion;
+    }
 }

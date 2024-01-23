@@ -1,7 +1,6 @@
 package com.unimuenster.govlearnapi.user.entity;
 import com.unimuenster.govlearnapi.bookmark.entity.BookmarkedBy;
-import com.unimuenster.govlearnapi.course.entity.Course;
-import com.unimuenster.govlearnapi.course.entity.CourseCompletion;
+import com.unimuenster.govlearnapi.courseCompletion.entity.CourseCompletion;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.group.entity.Member;

@@ -1,4 +1,4 @@
-package com.unimuenster.govlearnapi.course.controller;
+package com.unimuenster.govlearnapi.courseCompletion.controller;
 
 import java.util.List;
 
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unimuenster.govlearnapi.common.responsewrapper.Response;
-import com.unimuenster.govlearnapi.course.service.dto.CourseDTO;
 import com.unimuenster.govlearnapi.course.controller.wsto.CourseWsTo;
-import com.unimuenster.govlearnapi.course.service.CourseCompletionService;
+import com.unimuenster.govlearnapi.courseCompletion.service.CourseCompletionService;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 import com.unimuenster.govlearnapi.user.service.AuthenticationService;
 
@@ -37,18 +36,18 @@ public class CourseCompletionController {
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/completions")
-    public ResponseEntity<Response> getUsersCourseCompletion(){
+    public ResponseEntity<Response> getCourseCompletion(){
 
         UserEntity currentUser = authenticationService.getCurrentUser();
         List<CourseWsTo> completionList = courseCompletionService.getUsersCourseCompletion(currentUser); 
 
-        return ResponseEntity.ok(Response.of(completionList,true));
+        return ResponseEntity.ok(Response.of(completionList, true));
     }
 
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Return if course has been completed."
+            description = "Return whether course has been completed."
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/completions/course/{courseId}")
@@ -63,7 +62,7 @@ public class CourseCompletionController {
 
     @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
-        description = "Set a course as completed"
+        description = "Mark a course as completed."
         )
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/completions/course/{courseId}")
@@ -78,7 +77,7 @@ public class CourseCompletionController {
 
     @Operation(
     security = { @SecurityRequirement(name = "Authorization") },
-    description = "Remove a course completion."
+    description = "Remove a completed course."
     )
     @PreAuthorize("hasAuthority('user')")
     @DeleteMapping("/completions/course/{courseId}")

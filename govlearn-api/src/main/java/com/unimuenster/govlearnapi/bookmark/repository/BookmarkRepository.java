@@ -11,14 +11,23 @@ public interface BookmarkRepository extends JpaRepository<BookmarkedBy, Long> {
 
     @Query(value = """
         SELECT bookmarkedBy from BookmarkedBy bookmarkedBy
-        WHERE bookmarkedBy.bookmarkee.id = :currentUserId      
+        WHERE bookmarkedBy.bookmarkee.id = :currentUserId
     """)
     List<BookmarkedBy> getBookmarksByUser(Long currentUserId);
+
+    @Query(value = """
+        select case when (count(bookmarkedBy) > 0)
+        then true else false end
+        FROM BookmarkedBy bookmarkedBy
+        WHERE bookmarkedBy.bookmarkee.id = :currentUserId
+        AND bookmarkedBy.course.id = :courseId
+    """)
+    boolean isCourseBookmarked(Long courseId, Long currentUserId);
 
     @Modifying
     @Query(value = """
         DELETE from BookmarkedBy bookmarkedBy
-        WHERE bookmarkedBy.course.id = :courseId 
+        WHERE bookmarkedBy.course.id = :courseId
         AND bookmarkedBy.bookmarkee.id = :currentUserId
     """)
     void deleteBookmark(Long courseId, Long currentUserId);
