@@ -1,12 +1,9 @@
 package com.unimuenster.govlearnapi.feedback.entity;
 
 import com.unimuenster.govlearnapi.core.config.enums.ReportReason;
-import com.unimuenster.govlearnapi.course.entity.Course;
 import com.unimuenster.govlearnapi.user.entity.UserEntity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.util.*;

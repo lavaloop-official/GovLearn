@@ -44,10 +44,6 @@ public class Feedback {
         createdAt = new Date();
     }
 
-    public String toString(){
-        return "";
-    }
-
     public void addFeedbackReport(Feedback_Report PostfeedbackReport) {
         feedback_report.add(PostfeedbackReport);
         PostfeedbackReport.setFeedback(this);
