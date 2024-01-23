@@ -1,15 +1,12 @@
 package com.unimuenster.govlearnapi.feedback.service;
 
 import com.unimuenster.govlearnapi.AbstractIntegrationTest;
+import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackCreationWsTo;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback;
-import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackCreationDTO;
 import com.unimuenster.govlearnapi.initializer.InitializerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +29,7 @@ public class FeedbackServiceTest extends AbstractIntegrationTest {
         Long amountOfFeedbacks = feedbackService.getAmountFeedbackByCourseID(2L);
         assertEquals(amountOfFeedbacks, (Object) 1L);
 
-        feedbackService.createFeedback(new FeedbackCreationDTO(
+        feedbackService.createFeedback(new FeedbackCreationWsTo(
                 "Test Feedback",
                 "Test Feedback Description",
                 4,
@@ -48,7 +45,7 @@ public class FeedbackServiceTest extends AbstractIntegrationTest {
         Float averageFeedback = feedbackService.getAverageFeedbackByCourseID(2L);
         assertEquals((double) averageFeedback, 5.0, 0.01);
 
-        feedbackService.createFeedback(new FeedbackCreationDTO(
+        feedbackService.createFeedback(new FeedbackCreationWsTo(
                 "Test Feedback",
                 "Test Feedback Description",
                 4,

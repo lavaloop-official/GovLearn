@@ -1,6 +1,5 @@
 package com.unimuenster.govlearnapi.feedback.service.mapper;
 
-import com.unimuenster.govlearnapi.feedback.controller.wsto.FeedbackReportWsTo;
 import com.unimuenster.govlearnapi.feedback.entity.Feedback_Report;
 import com.unimuenster.govlearnapi.feedback.service.dto.FeedbackReportDTO;
 
