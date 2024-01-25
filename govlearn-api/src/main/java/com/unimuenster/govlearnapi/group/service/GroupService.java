@@ -103,14 +103,28 @@ public class GroupService {
         }
     }
 
+    public void addContentToMember(Long memberId, List<Long> courseIds) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        checkIfNull(member);
+
+        for(Long courseId : courseIds) {
+            Course course = courseRepository.findById(courseId).orElseThrow();
+            member.getCourses().add(course);
+        }
+
+        memberRepository.save(member);
+    }
+
     public void addContentToMember(Long memberId, Long courseId) {
 
         Member member = memberRepository.findById(memberId).orElseThrow();
 
-        Course course = courseRepository.findById(courseId).orElseThrow();
-
         checkIfNull(member);
-        member.getCourses().add(course);
+
+            Course course = courseRepository.findById(courseId).orElseThrow();
+            member.getCourses().add(course);
 
         memberRepository.save(member);
     }

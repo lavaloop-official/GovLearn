@@ -53,7 +53,7 @@ public class GroupContentController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        groupService.addContentToMember(addContentToMemberWsTo.getMemberId(), addContentToMemberWsTo.getCourseId());
+        groupService.addContentToMember(addContentToMemberWsTo.getMemberId(), addContentToMemberWsTo.getCourseIds());
 
         return ResponseEntity.ok(Response.of(true));
 
