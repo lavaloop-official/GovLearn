@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ public class GroupContentControllerTest extends GroupTestBase {
         AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
                 .builder()
                 .memberId(currentMember.getId())
-                .courseId(courseId)
+                .courseIds(List.of(courseId))
                 .build();
 
 
@@ -51,7 +52,7 @@ public class GroupContentControllerTest extends GroupTestBase {
         AddContentToMemberWsTo addMemberWsTo = AddContentToMemberWsTo
                 .builder()
                 .memberId(currentMember.getId())
-                .courseId(1L)
+                .courseIds(List.of(1L))
                 .build();
 
         ResponseEntity responseEntity = groupContentController.addContent(addMemberWsTo);
