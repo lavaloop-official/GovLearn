@@ -56,11 +56,12 @@ public class CourseController {
 
         Course createdCourse = courseService.createCourse(courseCreationDTO, currentUser);
         CourseDTO courseDTO = courseService.getCourseById(createdCourse.getId());
-        return ResponseEntity.ok(Response.of(controllerCourseMapper.map(courseDTO), new Message(Message.SUCCESS)));
+
+        return ResponseEntity.ok(Response.of(controllerCourseMapper.map(courseDTO), true));
     }
 
 
-     @Operation(
+    @Operation(
         security = { @SecurityRequirement(name = "Authorization") },
         description = "Update a course."
     )
@@ -84,29 +85,31 @@ public class CourseController {
     @GetMapping("/courses")
     public ResponseEntity<Response> getCourses(Optional<Long> groupmemberID, Optional<Long> groupID) {
 
-        List<CourseDTO> courses = new ArrayList<CourseDTO>();
+        List<CourseDTO> courses;
 
-        if(groupmemberID.isPresent() && groupID.isPresent()){
+        if( allParamsPresent(groupmemberID, groupID) ){
             boolean isAdmin = groupService.isUserAdmin(authenticationService.getCurrentUser(), groupID.get());
 
-            if(!isAdmin){
+            if( ! isAdmin ){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            courses = courseService.getCoursesWithoutGroupmember(groupmemberID.get());
+            courses = courseService.getCoursesWithoutGroupMember(groupmemberID.get());
         }
         else{
+
             courses = courseService.getCourses();
         }
 
-        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courses);
-
-        for (CourseWsTo courseWsTo : courseWsTos) {
-            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
-            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
-        }
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapToCourseWsToWithRating(courses);
 
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
+    }
+
+
+
+    private static boolean allParamsPresent(Optional<Long> groupmemberID, Optional<Long> groupID){
+        return groupmemberID.isPresent() && groupID.isPresent();
     }
 
     @Operation(
@@ -129,21 +132,21 @@ public class CourseController {
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Delete a course"
+            description = "Delete a course."
     )
     @PreAuthorize("hasAuthority('user')")
     @DeleteMapping("/courses/{id}")
     public ResponseEntity<Response> deleteCourse(@PathVariable Long id) {
         // Übergebe User um Berechtigung des Löschens zu prüfen
         UserEntity currentUser = authenticationService.getCurrentUser();
-        courseService.deleteCourse(id, currentUser.getId());
+        courseService.deleteCourse(id, currentUser);
 
         return ResponseEntity.ok( Response.of(new Message(Message.SUCCESS)));
     }
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
-            description = "Get courses the user created"
+            description = "Get courses the user has created."
     )
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("/creators/courses")
@@ -152,12 +155,8 @@ public class CourseController {
         UserEntity currentUser = authenticationService.getCurrentUser();
         List<CourseDTO> courseDTOs = courseService.getCreatedCourses(currentUser.getId());
 
-        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(courseDTOs);
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapToCourseWsToWithRating(courseDTOs);
 
-        for (CourseWsTo courseWsTo : courseWsTos) {
-            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
-            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
-        }
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }
   

@@ -30,24 +30,18 @@ public class CourseSimilarityController {
     private final TagService tagService;
     private final CourseSimilarityService courseSimilarityService;
     private final ControllerCourseMapper controllerCourseMapper;
-    private final FeedbackService feedbackService;
 
     @Operation(
             security = { @SecurityRequirement(name = "Authorization") },
             description = "Get similar courses."
     )
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{id}/")
-    public ResponseEntity<Response> getSimilarCourses(@PathVariable Long id) {
+    @GetMapping("/{courseId}/")
+    public ResponseEntity<Response> getSimilarCourses(@PathVariable Long courseId) {
         List<TagDTO> allTags = tagService.getTags();
-        List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(id,allTags);
+        List<CourseDTO> similarCourses = courseSimilarityService.getMostSimilarCourses(courseId,allTags);
 
-        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapList(similarCourses);
-
-        for (CourseWsTo courseWsTo : courseWsTos) {
-            courseWsTo.setRatingAverage(feedbackService.getAverageFeedbackByCourseID(courseWsTo.getId()));
-            courseWsTo.setRatingAmount(feedbackService.getAmountFeedbackByCourseID(courseWsTo.getId()));
-        }
+        List<CourseWsTo> courseWsTos = controllerCourseMapper.mapToCourseWsToWithRating(similarCourses);
 
         return ResponseEntity.ok( Response.of(courseWsTos, new Message(Message.SUCCESS)));
     }

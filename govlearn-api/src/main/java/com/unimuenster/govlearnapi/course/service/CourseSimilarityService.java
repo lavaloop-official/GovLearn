@@ -27,16 +27,26 @@ public class CourseSimilarityService {
     private final CourseTagService courseTagService;
     private final AuthenticationService authenticationService;
 
-    public List<CourseDTO> getMostSimilarCourses(Long id, List<TagDTO> allTags) {
-        List<Course> allCoursesExceptSelf = courseRepository.findAllCourses().stream().filter(course -> !Objects.equals(course.getId(), id)).collect(Collectors.toList());
-        Optional<Course> courseById = courseRepository.findById(id);
+    public List<CourseDTO> getMostSimilarCourses(Long courseId, List<TagDTO> allTags) {
+        List<Course> allCoursesExceptSelf
+                = courseRepository.findAllCoursesUnequal(courseId);
+
+        Optional<Course> courseById = courseRepository.findById(courseId);
 
         if ( courseById.isEmpty() ) {
             throw new NotFoundException();
         }
 
         TagRatingVector courseTagVector = courseTagService.getCourseTagBinaryVector(courseById.get(), allTags);
-        List<CourseSimilarityHolder> coursesWithSimilarity = recommendationService.compareToCourseSet(courseTagVector, allTags, allCoursesExceptSelf, authenticationService.getCurrentUser());
+
+        List<CourseSimilarityHolder> coursesWithSimilarity
+                = recommendationService
+                .compareToCourseSet(
+                        courseTagVector,
+                        allTags,
+                        allCoursesExceptSelf,
+                        authenticationService.getCurrentUser()
+                );
 
         return filterBySimilarity(coursesWithSimilarity);
     }
@@ -47,12 +57,23 @@ public class CourseSimilarityService {
 
 
     private List<CourseDTO> mapSimilarityToCoursesAndLimit(List<CourseSimilarityHolder> coursesWithSimilarity, int maxReturnedCourses) {
-        coursesWithSimilarity.sort(Comparator.comparing(holder ->  holder.getSimilarity()));
 
-        return coursesWithSimilarity
-                .stream()
-                .map(holder -> serviceCourseMapper.map( holder.getCourse()))
-                .limit(maxReturnedCourses)
-                .collect(Collectors.toList());
+        sortBySimilarity(coursesWithSimilarity);
+
+        List<CourseDTO> courseList = getCourseList(coursesWithSimilarity);
+
+        return limitBy(courseList, maxReturnedCourses);
+    }
+
+    private List<CourseDTO> limitBy(List<CourseDTO> courseList, int maxReturnedCourses) {
+        return courseList.stream().limit(maxReturnedCourses).collect(Collectors.toList());
+    }
+
+    private List<CourseDTO> getCourseList(List<CourseSimilarityHolder> coursesWithSimilarity) {
+        return coursesWithSimilarity.stream().map(holder -> serviceCourseMapper.map(holder.getCourse())).collect(Collectors.toList());
+    }
+
+    private void sortBySimilarity(List<CourseSimilarityHolder> coursesWithSimilarity) {
+        coursesWithSimilarity.sort(Comparator.comparing(holder ->  holder.getSimilarity()));
     }
 }

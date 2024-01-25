@@ -58,7 +58,7 @@ public class Course {
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @Builder.Default
-    private List<Feedback> feedback = new ArrayList<Feedback>();
+    private List<Feedback> feedback = new ArrayList<>();
 
     @OneToMany( fetch = FetchType.LAZY , mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
@@ -73,16 +73,9 @@ public class Course {
         Postfeedback.setCourse(this);
     }
 
-    public List<Tag> getTags(){
-        return courseTags
-                .stream()
-                .map(courseTag -> courseTag.getTag())
-                .collect(Collectors.toList());
-    }
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
     }
-
 }
 
