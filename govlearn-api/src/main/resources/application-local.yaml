@@ -23,7 +23,7 @@ server:
   address: 0.0.0.0
 
 frontend:
-  url: https://govlearn-client-production.up.railway.app
+  url: https://govlearn-client-production-ae2f.up.railway.app/
 
 backend:
-  url: https://govlearn-production.up.railway.app
+  url: https://govlearn-production-825c.up.railway.app/
