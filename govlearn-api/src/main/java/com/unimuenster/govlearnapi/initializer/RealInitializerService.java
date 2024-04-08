@@ -217,7 +217,7 @@ public class RealInitializerService {
         course1.setName("Scrum für den öffentlichen Dienst");
         course1.setDescription("Ein Kurs, der grundlegende Prinzipien von Scrum für Mitarbeiter im öffentlichen Dienst vermittelt.");
         course1.setProvider("Digitale Bildungsinstitute GmbH");
-        course1.setImage("https://t3.ftcdn.net/jpg/03/01/70/16/360_F_301701619_I7tuZjCIeb5erP72AJgY7Up29h8fHLLP.jpg");
+        course1.setImage("https://www.ntaskmanager.com/wp-content/uploads/2019/08/Scrum-process-featured-image.jpg"); //erl
         course1.setDurationInMinutes(120);
         course1.setSkilllevel(Skilllevel.Anfaenger);
         course1.setFormat(Format.Hybrid);
@@ -235,7 +235,7 @@ public class RealInitializerService {
         course2.setName("Einführung in Projektmanagement");
         course2.setDescription("Grundlegende Einführung in die Prinzipien und Methoden des Projektmanagements.");
         course2.setProvider("Projektakademie GmbH");
-        course2.setImage("https://static.vecteezy.com/ti/gratis-vektor/p1/13166712-projektmanagement-wortkonzepte-blaue-fahne-strategie-infografiken-mit-bearbeitbaren-symbolen-auf-farbigem-hintergrund-isolierte-typografieillustration-mit-text-vektor.jpg");
+        course2.setImage("https://static.vecteezy.com/ti/gratis-vektor/p1/13166712-projektmanagement-wortkonzepte-blaue-fahne-strategie-infografiken-mit-bearbeitbaren-symbolen-auf-farbigem-hintergrund-isolierte-typografieillustration-mit-text-vektor.jpg"); //passt
         course2.setDurationInMinutes(180);
         course2.setSkilllevel(Skilllevel.Anfaenger);
         course2.setFormat(Format.OnlineSelbstorganisiert);
@@ -253,7 +253,7 @@ public class RealInitializerService {
         course3.setName("IT-Sicherheit fuer Einsteiger");
         course3.setDescription("Grundlagen der IT-Sicherheit fuer Anfänger, um sich vor Cyberbedrohungen zu schützen.");
         course3.setProvider("IT Security Academy");
-        course3.setImage("https://www.netaachen.de/cms/api/fileadmin/_processed_/2/4/csm_Cyber_Security_AdobeStock_493619792_f222ca18f8.jpg");
+        course3.setImage("https://www.netaachen.de/cms/api/fileadmin/_processed_/2/4/csm_Cyber_Security_AdobeStock_493619792_f222ca18f8.jpg"); //passt
         course3.setDurationInMinutes(150);
         course3.setSkilllevel(Skilllevel.Anfaenger);
         course3.setFormat(Format.Hybrid);
@@ -271,7 +271,7 @@ public class RealInitializerService {
         course4.setName("Effektive Organisationsgestaltung");
         course4.setDescription("Strategien zur effektiven Gestaltung von Organisationen und administrativen Prozessen.");
         course4.setProvider("Organisationsberatung & Co.");
-        course4.setImage("https://leanbase.de/autoimg/uploads/w3200/k4nu575r33k8sg6e2z8q29dhxnrubmrspaxn2f77.jpg");
+        course4.setImage("https://i.imgur.com/GIXX7m9.jpeg"); //gpt
         course4.setDurationInMinutes(240);
         course4.setSkilllevel(Skilllevel.Fortgeschritten);
         course4.setFormat(Format.OnlineLive);
@@ -289,7 +289,7 @@ public class RealInitializerService {
         course5.setName("Psychologie fuer Führungskraefte");
         course5.setDescription("Um erfolgreich zu führen, ist es wichtig, menschliche Verhaltensmuster zu verstehen. Denn diese spiegeln sich im unterschiedlichen Agieren und Reagieren Ihrer Mitarbeitenden wider. Sobald Sie diese Muster erkennen, koennen Sie einfacher damit umgehen.");
         course5.setProvider("Führungsinstitut GmbH");
-        course5.setImage("https://w2.forschung-und-lehre.de/fileadmin/user_upload/Rubriken/Management/2021/4-21/Humble_Leadership_mauritius_images_11538516.jpg");
+        course5.setImage("https://w2.forschung-und-lehre.de/fileadmin/user_upload/Rubriken/Management/2021/4-21/Humble_Leadership_mauritius_images_11538516.jpg"); //passt
         course5.setDurationInMinutes(180);
         course5.setSkilllevel(Skilllevel.Fortgeschritten);
         course5.setFormat(Format.Hybrid);
@@ -487,7 +487,7 @@ public class RealInitializerService {
         course16.setName("eGovernment-Recht");
         course16.setDescription("Einfuehrung in die Rechte und Pflichten bei eGovernment.");
         course16.setProvider("Institut für Politikwissenschaft");
-        course16.setImage("https://www.chieflearningofficer.com/wp-content/uploads/2023/05/AdobeStock_509757335.jpeg");
+        course16.setImage("https://cdn.thehagueacademy.com/2022/09/1079-2.jpg"); //erl
         course16.setDurationInMinutes(600);
         course16.setSkilllevel(Skilllevel.Anfaenger);
         course16.setFormat(Format.Hybrid);
@@ -505,7 +505,7 @@ public class RealInitializerService {
         course17.setName("Java: Grundlagen der Programmierung");
         course17.setDescription("Eine Einfuehrung in die Grundlagen und Anwendungen von Java.");
         course17.setProvider("IT-Architektur Institut");
-        course17.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course17.setImage("https://i.computer-bild.de/imgs/1/4/1/1/8/4/8/5/Programmieren-lernen-d3ce4a72fd4ddbf6.jpg"); //neu
         course17.setDurationInMinutes(420);
         course17.setSkilllevel(Skilllevel.Anfaenger);
         course17.setFormat(Format.OnlineLive);
@@ -523,7 +523,7 @@ public class RealInitializerService {
         course18.setName("Selbstorganisation mit Hilfe von Outlook");
         course18.setDescription("Hilfe bei der Selbstorganisation mit Outlook.");
         course18.setProvider("Outlook Institut");
-        course18.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course18.setImage("https://www.lernen.net/wp-content/uploads/2021/03/selbstorganisation-feature-shutterstock.jpg"); //neu
         course18.setDurationInMinutes(300);
         course18.setSkilllevel(Skilllevel.Anfaenger);
         course18.setFormat(Format.OnlineSelbstorganisiert);
@@ -541,7 +541,7 @@ public class RealInitializerService {
         course19.setName("Qualitätsmanagement");
         course19.setDescription("Sicherung der Kundenbedürfnise durch Qualitätssicherung.");
         course19.setProvider("Qualitäts GmbH");
-        course19.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course19.setImage("https://www.e-kern.com/fileadmin/user_upload/Images_Allgemein/Slider/Qualitaetsmanagement.jpg"); //neu
         course19.setDurationInMinutes(300);
         course19.setSkilllevel(Skilllevel.Fortgeschritten);
         course19.setFormat(Format.OnlineSelbstorganisiert);
@@ -559,7 +559,7 @@ public class RealInitializerService {
         course20.setName("Risikomanagement");
         course20.setDescription("Wie plant man mit Risikofaktoren?");
         course20.setProvider("Institut fuer Risikoforschung");
-        course20.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course20.setImage("https://moodalis.oncampus.de/files/moduledescriptions/ac909ca83bfdc7b369bb8a1bbd1012de/risikomanagement_info_des_gra_de.png");
         course20.setDurationInMinutes(300);
         course20.setSkilllevel(Skilllevel.Fortgeschritten);
         course20.setFormat(Format.OnlineSelbstorganisiert);
@@ -577,7 +577,7 @@ public class RealInitializerService {
         course21.setName("Teamführung");
         course21.setDescription("Der richtige Umgang mit Streit im Arbeitsteam");
         course21.setProvider("Streitschlichter GmbH");
-        course21.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course21.setImage("https://www.kegon.de/fileadmin/_processed_/d/f/csm_Bild_Teil_4_-_Teamfuehrung_150d37a841.jpeg");
         course21.setDurationInMinutes(600);
         course21.setSkilllevel(Skilllevel.Fortgeschritten);
         course21.setFormat(Format.OnlineSelbstorganisiert);
@@ -595,7 +595,7 @@ public class RealInitializerService {
         course22.setName("Business Englisch");
         course22.setDescription("Englisch für Fortgeschrittene.");
         course22.setProvider("Streitschlichter GmbH");
-        course22.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course22.setImage("https://nzlc.ac.nz/wp-content/uploads/2020/05/business-english-course-1.jpg"); //erl
         course22.setDurationInMinutes(600);
         course22.setSkilllevel(Skilllevel.Fortgeschritten);
         course22.setFormat(Format.OnlineSelbstorganisiert);
@@ -613,7 +613,7 @@ public class RealInitializerService {
         course23.setName("Compliance in der oeffentlichen Verwaltung");
         course23.setDescription("Compliance ist die betriebswirtschaftliche und rechtswissenschaftliche Umschreibung für die Regeltreue von Unternehmen.");
         course23.setProvider("Institut für Compliance");
-        course23.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course23.setImage("https://pisutandpartners.com/wp-content/uploads/2020/06/AdobeStock_230858386.jpeg");
         course23.setDurationInMinutes(600);
         course23.setSkilllevel(Skilllevel.Anfaenger);
         course23.setFormat(Format.Praesenz);
@@ -631,7 +631,7 @@ public class RealInitializerService {
         course24.setName("Digitale Trends in der Arbeitswelt");
         course24.setDescription("Die digitalen Trends, wie Homeoffice für Einsteiger.");
         course24.setProvider("Institut für Compliance");
-        course24.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course24.setImage("https://www.processmaker.com/wp-content/uploads/2020/12/23324.jpg");
         course24.setDurationInMinutes(600);
         course24.setSkilllevel(Skilllevel.Anfaenger);
         course24.setFormat(Format.OnlineLive);
@@ -649,7 +649,7 @@ public class RealInitializerService {
         course25.setName("Präsentationen richtig halten");
         course25.setDescription("Die besten Präsentationstechnicken, um Arbeitsergebnisse zu präsentieren.");
         course25.setProvider("Institut für Compliance");
-        course25.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course25.setImage("https://image.capital.de/31040666/t/sf/v1/w1440/r0/-/praesentation-dpa-123905030-1-jpg.jpg");
         course25.setDurationInMinutes(600);
         course25.setSkilllevel(Skilllevel.Anfaenger);
         course25.setFormat(Format.OnlineLive);
@@ -667,7 +667,7 @@ public class RealInitializerService {
         course26.setName("Datenschutz im Umgang mit KI");
         course26.setDescription("Wie dürfen KIs eigesetzt werden und wie können Daten dabei geschützt werden.");
         course26.setProvider("Uni Münster");
-        course26.setImage("https://nolijconsulting.com/wp-content/uploads/2022/04/blogimg-nolij-insight-1.jpg");
+        course26.setImage("https://balthasar-legal.ch/wp-content/uploads/2021/09/KI-scaled.jpg");
         course26.setDurationInMinutes(600);
         course26.setSkilllevel(Skilllevel.Experte);
         course26.setFormat(Format.Praesenz);
